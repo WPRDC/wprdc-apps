@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="⚙️ config" pattern="file[wprdc]:packages/eslint-config-custom//*||file[wprdc]:packages/tailwind-config//*||file[wprdc]:packages/tsconfig//*" />
+</component>
