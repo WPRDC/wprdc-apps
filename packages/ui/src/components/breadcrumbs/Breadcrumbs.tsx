@@ -19,7 +19,7 @@ export function Breadcrumbs(props: BreadcrumbsProps): React.ReactElement {
   return (
     <nav {...navProps} className="">
       {showCurrent || children.length > 1 ? (
-        <ol className="flex h-4 font-mono text-xs uppercase">
+        <ol className="ui-flex ui-h-4 ui-font-mono ui-text-xs ui-uppercase">
           {children.map((child, i) => {
             if (i < children.length - 1) {
               return React.cloneElement(child as React.ReactElement, {

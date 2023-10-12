@@ -8,6 +8,7 @@
 import * as React from "react";
 import classNames from "classnames";
 import { useTab, useTabList, useTabPanel } from "react-aria";
+import type { TabListState, Node } from "react-stately";
 import { useTabListState } from "react-stately";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import type { ReactNode } from "react";
@@ -83,14 +84,16 @@ export function Tabs<T extends Resource>(
     } else setShowButons(false);
   }, [width]);
 
+  console.log(state.selectedItem);
+
   return (
-    <div className="flex h-full w-full flex-col">
-      <div className="flex flex-row">
+    <div className="ui-flex ui-h-full ui-w-full ui-flex-col">
+      <div className="ui-flex ui-flex-row">
         {showButtons ? (
           <button
             aria-hidden // not necessary with screen readers
             className={classNames({
-              "cursor-default text-gray-300": disabledButton === "left",
+              "ui-cursor-default ui-text-gray-300": disabledButton === "left",
             })}
             disabled={disabledButton === "left"}
             onClick={handleScroll("left")}
@@ -102,10 +105,10 @@ export function Tabs<T extends Resource>(
         ) : null}
         <div
           {...tabListProps}
-          className="flex flex-grow overflow-x-hidden border-b border-black pt-1"
+          className="ui-flex ui-flex-grow ui-overflow-x-hidden ui-border-b-2 ui-border-black ui-pt-1"
           ref={ref}
         >
-          {Array.from(state.collection).map((item) => (
+          {[...state.collection].map((item) => (
             <Tab<T> item={item} key={item.key} state={state} />
           ))}
         </div>
@@ -113,7 +116,7 @@ export function Tabs<T extends Resource>(
           <button
             aria-hidden // not necessary with screen readers
             className={classNames({
-              "cursor-default text-gray-300": disabledButton === "right",
+              "ui-cursor-default ui-text-gray-300": disabledButton === "right",
             })}
             disabled={disabledButton === "right"}
             onClick={handleScroll("right")}
@@ -124,7 +127,8 @@ export function Tabs<T extends Resource>(
           </button>
         ) : null}
       </div>
-      <TabPanel key={state.selectedItem.key} state={state} />
+      {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- it actually can be nullish */}
+      <TabPanel key={state.selectedItem?.key} state={state} />
     </div>
   );
 }
@@ -139,20 +143,18 @@ export function Tab<T extends Resource>({
   const isSelected = state.selectedKey === key;
   const isDisabled = state.disabledKeys.has(key);
   return (
-    <div className={classNames("ml-3 pb-0.5 first:ml-1")}>
+    <div
+      className={classNames(
+        "ui-b ui-mb-2 ui-cursor-pointer ui-border-r ui-border-black ui-px-2 ui-pb-0.5 ui-leading-none first:ui-ml-1 first:ui-border-l hover:ui-bg-primary",
+      )}
+    >
       <div
         {...tabProps}
-        className={classNames(
-          "py-1.5cursor-pointer whitespace-nowrap px-1.5 text-center font-mono text-sm font-medium uppercase",
-          "border-2 border-transparent outline-none focus:outline-none focus-visible:outline-none",
-          "focus-visible:border-primary-400 focus-visible:border-primary-400",
-          "hover:border-primary-400 hover:border-2 hover:bg-slate-50",
-          {
-            "font-bold": isSelected,
-            "cursor-not-allowed opacity-50 hover:border-transparent":
-              isDisabled,
-          },
-        )}
+        className={classNames("ui-font-mono ui-uppercase", {
+          "ui-font-bold": isSelected,
+          "opacity-50 hover:border-transparent ui-cursor-not-allowed":
+            isDisabled,
+        })}
         ref={ref}
         title={`${rendered as string}`}
       >
@@ -168,10 +170,24 @@ export function TabPanel<T extends Resource>({
 }: TabPanelProps<T>): React.ReactElement {
   const ref = React.useRef<HTMLDivElement>(null);
   const { tabPanelProps } = useTabPanel(props, state, ref);
-  const { children } = state.selectedItem.props as { children: ReactNode };
+  const { children } = getSelectedItemProps(state);
   return (
-    <div {...tabPanelProps} className="flex-grow overflow-y-auto" ref={ref}>
+    <div
+      {...tabPanelProps}
+      className="ui-flex-grow ui-overflow-y-auto"
+      ref={ref}
+    >
       {children}
     </div>
   );
+}
+
+interface SelectedItemProps {
+  children: ReactNode;
+}
+
+/**  */
+function getSelectedItemProps<T>(state: TabListState<T>): SelectedItemProps {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- it actually can be undefined
+  return (state.selectedItem?.props ?? {}) as SelectedItemProps;
 }

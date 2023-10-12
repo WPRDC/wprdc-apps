@@ -6,14 +6,16 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-public-sans)", "Arial", "sans-serif"],
-        mono: ["var(--font-jetbrains-mono)", "monospace"],
+        sans: ["Public Sans", "Arial", "sans-serif"],
+        mono: ["JetBrains Mono", "monospace"],
       },
       colors: {
         primary: "#FCEC52",
         secondary: colors.cyan,
         background: colors.neutral["100"],
+        backgroundSecondary: colors.white,
         backgroundDark: colors.stone[900],
+        backgroundSecondaryDark: colors.black,
         focused: colors.cyan,
         error: colors.red,
         warning: colors.orange,
@@ -21,6 +23,8 @@ const config: Config = {
         textDark: colors.slate["200"],
         textSecondary: "#404040",
         textSecondaryDark: "#a3a3a3",
+        border: colors.stone["700"],
+        borderDark: colors.stone["300"],
       },
       maxHeight: {
         "1/4": "25%",
@@ -46,5 +50,6 @@ const config: Config = {
     },
   },
   plugins: [],
+  darkMode: "class",
 };
 export default config;

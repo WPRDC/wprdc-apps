@@ -27,12 +27,12 @@ export function RadioGroup(props: RadioGroupProps): React.ReactElement {
     <div {...radioGroupProps}>
       <span
         {...labelProps}
-        className="block cursor-default text-left font-mono text-xs font-semibold uppercase text-gray-500"
+        className="ui-block ui-cursor-default ui-text-left ui-font-mono ui-text-xs ui-font-semibold ui-uppercase ui-text-gray-500"
       >
         {label}
       </span>
       <RadioContext.Provider value={state}>
-        <div className="pl-2">{children}</div>
+        <div className="ui-pl-2">{children}</div>
       </RadioContext.Provider>
     </div>
   );
@@ -48,7 +48,7 @@ export function Radio(props: RadioProps): React.ReactElement {
     <label className="ui-cursor-pointer" style={{ display: "block" }}>
       <input
         {...inputProps}
-        className="focus:border-focused-400 focus:ring-focused-400 mr-1 cursor-pointer border border-transparent outline-none focus:ring"
+        className="ui-mr-1 ui-cursor-pointer ui-border ui-border-transparent ui-outline-none focus:ui-border-focused-400 focus:ui-ring focus:ui-ring-focused-400"
         ref={ref}
       />
       {children}

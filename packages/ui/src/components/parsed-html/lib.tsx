@@ -35,11 +35,14 @@ export const makeReplacer = (replacers: ReplacerRecord) =>
         replacers[domNode.name as keyof IntrinsicElements];
       if (ReplacedElement) {
         return (
-          <ReplacedElement {...domNode}>{domNode.children}</ReplacedElement>
+          <ReplacedElement {...domNode} replacer={makeReplacer(replacers)}>
+            {domNode.children}
+          </ReplacedElement>
         );
       }
       const Tag = domNode.name as keyof IntrinsicElements;
       const { style: _, ...props } = attributesToProps(domNode.attribs);
+
       return (
         <Tag {...props}>
           {domToReact(domNode.children, { replace: makeReplacer(replacers) })}

@@ -1,3 +1,232 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* Public Sans*/
+@font-face {
+  font-family: "Public Sans";
+  font-weight: 100;
+  font-style: normal;
+  src: url("./fonts/PublicSans/PublicSans-Thin.woff2");
+}
+
+@font-face {
+  font-family: "Public Sans";
+  font-weight: 200;
+  font-style: normal;
+  src: url("./fonts/PublicSans/PublicSans-ExtraLight.woff2");
+}
+
+@font-face {
+  font-family: "Public Sans";
+  font-weight: 300;
+  font-style: normal;
+  src: url("./fonts/PublicSans/PublicSans-Light.woff2");
+}
+
+@font-face {
+  font-family: "Public Sans";
+  font-weight: 400;
+  font-style: normal;
+  src: url("./fonts/PublicSans/PublicSans-Regular.woff2");
+}
+
+@font-face {
+  font-family: "Public Sans";
+  font-weight: 500;
+  font-style: normal;
+  src: url("./fonts/PublicSans/PublicSans-Medium.woff2");
+}
+
+@font-face {
+  font-family: "Public Sans";
+  font-weight: 600;
+  font-style: normal;
+  src: url("./fonts/PublicSans/PublicSans-SemiBold.woff2");
+}
+
+@font-face {
+  font-family: "Public Sans";
+  font-weight: 700;
+  font-style: normal;
+  src: url("./fonts/PublicSans/PublicSans-Bold.woff2");
+}
+
+@font-face {
+  font-family: "Public Sans";
+  font-weight: 800;
+  font-style: normal;
+  src: url("./fonts/PublicSans/PublicSans-ExtraBold.woff2");
+}
+
+/*italic*/
+@font-face {
+  font-family: "Public Sans";
+  font-weight: 100;
+  font-style: italic;
+  src: url("./fonts/PublicSans/PublicSans-ThinItalic.woff2");
+}
+
+@font-face {
+  font-family: "Public Sans";
+  font-weight: 200;
+  font-style: italic;
+  src: url("./fonts/PublicSans/PublicSans-ExtraLightItalic.woff2");
+}
+
+@font-face {
+  font-family: "Public Sans";
+  font-weight: 300;
+  font-style: italic;
+  src: url("./fonts/PublicSans/PublicSans-LightItalic.woff2");
+}
+
+@font-face {
+  font-family: "Public Sans";
+  font-weight: 400;
+  font-style: italic;
+  src: url("./fonts/PublicSans/PublicSans-Italic.woff2");
+}
+
+@font-face {
+  font-family: "Public Sans";
+  font-weight: 500;
+  font-style: italic;
+  src: url("./fonts/PublicSans/PublicSans-MediumItalic.woff2");
+}
+
+@font-face {
+  font-family: "Public Sans";
+  font-weight: 600;
+  font-style: italic;
+  src: url("./fonts/PublicSans/PublicSans-SemiBoldItalic.woff2");
+}
+
+@font-face {
+  font-family: "Public Sans";
+  font-weight: 700;
+  font-style: italic;
+  src: url("./fonts/PublicSans/PublicSans-BoldItalic.woff2");
+}
+
+@font-face {
+  font-family: "Public Sans";
+  font-weight: 800;
+  font-style: italic;
+  src: url("./fonts/PublicSans/PublicSans-ExtraBoldItalic.woff2");
+}
+
+/* Jetbrains Mono */
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 100;
+  font-style: normal;
+  src: url("./fonts/JetBrainsMono/JetBrainsMono-Thin.woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 200;
+  font-style: normal;
+  src: url("./fonts/JetBrainsMono/JetBrainsMono-ExtraLight.woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 300;
+  font-style: normal;
+  src: url("./fonts/JetBrainsMono/JetBrainsMono-Light.woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 400;
+  font-style: normal;
+  src: url("./fonts/JetBrainsMono/JetBrainsMono-Regular.woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 500;
+  font-style: normal;
+  src: url("./fonts/JetBrainsMono/JetBrainsMono-Medium.woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 600;
+  font-style: normal;
+  src: url("./fonts/JetBrainsMono/JetBrainsMono-SemiBold.woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 700;
+  font-style: normal;
+  src: url("./fonts/JetBrainsMono/JetBrainsMono-Bold.woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 800;
+  font-style: normal;
+  src: url("./fonts/JetBrainsMono/JetBrainsMono-ExtraBold.woff2");
+}
+
+/*italic*/
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 100;
+  font-style: italic;
+  src: url("./fonts/JetBrainsMono/JetBrainsMono-ThinItalic.woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 200;
+  font-style: italic;
+  src: url("./fonts/JetBrainsMono/JetBrainsMono-ExtraLightItalic.woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 300;
+  font-style: italic;
+  src: url("./fonts/JetBrainsMono/JetBrainsMono-LightItalic.woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 400;
+  font-style: italic;
+  src: url("./fonts/JetBrainsMono/JetBrainsMono-Italic.woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 500;
+  font-style: italic;
+  src: url("./fonts/JetBrainsMono/JetBrainsMono-MediumItalic.woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 600;
+  font-style: italic;
+  src: url("./fonts/JetBrainsMono/JetBrainsMono-SemiBoldItalic.woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 700;
+  font-style: italic;
+  src: url("./fonts/JetBrainsMono/JetBrainsMono-BoldItalic.woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 800;
+  font-style: italic;
+  src: url("./fonts/JetBrainsMono/JetBrainsMono-ExtraBoldItalic.woff2");
+}

@@ -14,7 +14,7 @@ export interface ParsedHTMLProps {
   id?: string;
   children?: string | null;
   className?: string;
-  replacer?: HTMLReactParserOptions["replace"];
+  replacer: HTMLReactParserOptions["replace"];
 }
 
 export type ReplaceFn = (node: DOMNode) => React.JSX.Element | undefined;

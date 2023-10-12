@@ -6,5 +6,8 @@
 export interface PaginationControlProps {
   currentPage: number;
   pageCount: number;
-  path: string;
+  makeHref: (
+    currentPage: number,
+    mode: "back" | "forward" | "direct",
+  ) => string;
 }

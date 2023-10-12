@@ -29,9 +29,10 @@ export function Modal(props: ModalProps): React.ReactElement | null {
       <CSSTransition
         appear
         classNames={{
-          enter: "opacity-0",
-          enterDone: "opacity-1 backdrop-blur-sm transition ease-linear",
-          exit: "opacity-0 backdrop-blur-none transition ease-out",
+          enter: "ui-opacity-0",
+          enterDone:
+            "ui-opacity-1 ui-backdrop-blur-sm ui-transition ui-ease-linear",
+          exit: "ui-opacity-0 ui-backdrop-blur-none ui-transition ui-ease-out",
         }}
         in={state.isOpen}
         onEntered={() => {
@@ -43,17 +44,17 @@ export function Modal(props: ModalProps): React.ReactElement | null {
         timeout={{ enter: 0, exit: 0 }}
       >
         <div
-          className="z-100 fixed inset-0 flex justify-center bg-slate-400/20"
+          className="ui-z-100 ui-fixed ui-inset-0 ui-flex ui-justify-center ui-bg-slate-400/20"
           {...underlayProps}
         >
           <div
             {...modalProps}
-            className="z-1 dark:border-textSecondaryDark border-textSecondary relative top-[10%] h-fit border-2 shadow-2xl focus:outline-none"
+            className="ui-z-1 ui-relative ui-top-[10%] ui-h-fit ui-border-2 ui-border-textSecondary ui-shadow-2xl focus:ui-outline-none dark:ui-border-textSecondaryDark"
             ref={ref}
           >
             <button
-              aria-label="close"
-              className="border-textSecondary dark:border-textSecondaryDark bg-background dark:bg-backgroundDark absolute right-4 top-4 border shadow-lg hover:bg-red-500 hover:shadow-2xl"
+              aria-label="ui-close"
+              className="ui-absolute ui-right-4 ui-top-4 ui-border ui-border-textSecondary ui-bg-background ui-shadow-lg hover:ui-bg-red-500 hover:ui-shadow-2xl dark:ui-border-textSecondaryDark dark:ui-bg-backgroundDark"
               onClick={state.close}
               type="button"
             >

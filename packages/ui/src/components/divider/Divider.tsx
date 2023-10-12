@@ -16,21 +16,24 @@ export function Diver({
   if (vertical) {
     return (
       <div
-        className={classNames("mx-1 my-0.5 inline w-0 border-black", {
-          "border-r": weight === "thin",
-          "border-r-2": weight === "thick",
-          "border-r-4": weight === "thicker",
-        })}
+        className={classNames(
+          "ui-mx-1 ui-my-0.5 ui-inline ui-w-0 ui-border-black",
+          {
+            "ui-border-r": weight === "thin",
+            "ui-border-r-2": weight === "thick",
+            "ui-border-r-4": weight === "thicker",
+          },
+        )}
       />
     );
   }
 
   return (
     <hr
-      className={classNames("border-black", {
-        "border-t": weight === "thin",
-        "border-t-2": weight === "thick",
-        "border-t-4": weight === "thicker",
+      className={classNames("ui-border-black", {
+        "ui-border-t": weight === "thin",
+        "ui-border-t-2": weight === "thick",
+        "ui-border-t-4": weight === "thicker",
       })}
     />
   );

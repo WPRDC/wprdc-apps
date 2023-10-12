@@ -9,41 +9,41 @@ import * as React from "react";
 import Link from "next/link";
 import type { PaginationControlProps } from "./PaginationControls.types.ts";
 
-export function PaginationControl({
+export function PaginationControls({
   currentPage,
   pageCount,
-  path,
+  makeHref,
 }: PaginationControlProps): React.ReactElement {
   const pages = Array.from(Array(pageCount + 1).keys()).filter((n) => n !== 0);
 
   if (pageCount < 2) return <div className="py-4" />;
 
   return (
-    <nav className="my-4 text-2xl">
+    <nav className="ui-my-4 ui-font-mono ui-text-2xl">
       {currentPage > 1 ? (
         <Link
-          className="inline-block decoration-2 hover:underline"
-          href={`${path}/${currentPage - 1}`}
+          className="ui-inline-block ui-decoration-2 hover:ui-underline"
+          href={makeHref(currentPage, "back")}
         >
           {"<<"}
         </Link>
       ) : (
-        <div className="text-textSecondary dark:text-textSecondaryDark inline-block">
+        <div className="ui-inline-block ui-text-textSecondary dark:ui-text-textSecondaryDark">
           {"<<"}
         </div>
       )}
-      <ol className="inline-block">
+      <ol className="ui-inline-block">
         {pages.map((page) => (
-          <li className="mx-2 inline-block" key={page}>
+          <li className="ui-mx-2 ui-inline-block" key={page}>
             {page !== currentPage ? (
               <Link
-                className=" decoration-2 hover:underline"
-                href={`${path}/${page}`}
+                className="ui-decoration-2 hover:ui-underline"
+                href={makeHref(currentPage, "direct")}
               >
                 {page}
               </Link>
             ) : (
-              <div className="text-textSecondary dark:text-textSecondaryDark">
+              <div className="ui-text-textSecondary dark:ui-text-textSecondaryDark">
                 {page}
               </div>
             )}
@@ -52,13 +52,13 @@ export function PaginationControl({
       </ol>
       {currentPage < pageCount ? (
         <Link
-          className="inline-block decoration-2 hover:underline"
-          href={`${path}/${currentPage + 1}`}
+          className="ui-inline-block ui-decoration-2 hover:ui-underline"
+          href={makeHref(currentPage, "forward")}
         >
           {">>"}
         </Link>
       ) : (
-        <div className="text-textSecondary dark:text-textSecondaryDark inline-block">
+        <div className="ui-inline-block ui-text-textSecondary dark:ui-text-textSecondaryDark">
           {">>"}
         </div>
       )}

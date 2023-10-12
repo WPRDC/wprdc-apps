@@ -10,5 +10,5 @@ import type { SubtitleProps } from "./Subtitle.types.ts";
 
 export function Subtitle(props: SubtitleProps): React.ReactElement | null {
   if (!props.children) return null;
-  return <div className="mb-4 mt-8 text-2xl">{props.children}</div>;
+  return <div className="ui-mb-4 ui-mt-8 ui-text-2xl">{props.children}</div>;
 }

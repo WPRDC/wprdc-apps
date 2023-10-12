@@ -1,11 +1,11 @@
 import * as React from "react";
 import { useBreadcrumbItem } from "react-aria";
 import classNames from "classnames";
+import { A } from "../a";
 import type { BreadcrumbItemProps } from "./Breadcrumbs.types.ts";
 
 export function BreadcrumbItem(props: BreadcrumbItemProps): React.ReactElement {
   const {
-    LinkComponent,
     TitleComponent,
     divider,
     hideDivider,
@@ -18,11 +18,10 @@ export function BreadcrumbItem(props: BreadcrumbItemProps): React.ReactElement {
   const { itemProps } = useBreadcrumbItem(props, ref);
 
   const Title = TitleComponent || "h3";
-  const Link = LinkComponent || "a";
   const dividerContent = divider || (
     <span
       aria-hidden="true"
-      className="mx-1.5 flex flex-col justify-center font-bold text-gray-400"
+      className="ui-mx-1.5 ui-justify-center ui-font-bold ui-text-gray-400"
     >
       /
     </span>
@@ -33,8 +32,9 @@ export function BreadcrumbItem(props: BreadcrumbItemProps): React.ReactElement {
     breadcrumbContent = (
       <Title
         {...itemProps}
-        className={classNames("font-medium", {
-          "text-2xl font-semibold no-underline": bigTitle,
+        className={classNames("ui-font-medium", {
+          "ui-text-4xl ui-font-semibold ui-leading-loose ui-no-underline":
+            bigTitle,
         })}
         ref={ref}
       >
@@ -47,14 +47,14 @@ export function BreadcrumbItem(props: BreadcrumbItemProps): React.ReactElement {
         {isDisabled ? (
           <span ref={ref}>{props.children}</span>
         ) : (
-          <Link
+          <A
             {...itemProps}
             href={props.href || "#"}
             ref={ref}
             shallow={shallow}
           >
             {props.children}
-          </Link>
+          </A>
         )}
         {!hideDivider && dividerContent}
       </>

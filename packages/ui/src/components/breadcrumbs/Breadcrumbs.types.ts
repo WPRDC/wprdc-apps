@@ -3,6 +3,7 @@
  * Breadcrumbs types
  *
  **/
+import type * as React from "react";
 import type { FC, HTMLAttributes, Key, ReactNode, Ref } from "react";
 import type {
   AriaBreadcrumbItemProps,
@@ -12,7 +13,7 @@ import type {
 export interface BreadcrumbsProps extends AriaBreadcrumbsProps {
   showCurrent?: boolean;
   bigTitle?: boolean;
-  titleElement?: keyof JSX.IntrinsicElements;
+  titleElement?: keyof React.JSX.IntrinsicElements;
   shallow?: boolean;
   children: React.ReactElement<BreadcrumbItemProps>[];
 }

@@ -7,7 +7,8 @@ import type { AriaButtonProps } from "@react-types/button";
 import type { RefObject } from "react";
 
 export interface ButtonProps extends AriaButtonProps {
-  variant?: "default" | "primary" | "borderless" | "success";
+  dense?: boolean;
+  variant?: "default" | "primary" | "secondary" | "borderless" | "success";
   buttonRef?: RefObject<HTMLButtonElement>;
   className?: string;
 }

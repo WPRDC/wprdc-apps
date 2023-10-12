@@ -8,7 +8,7 @@ export function ParsedA(props: ParserProps): React.ReactElement {
   const { style: _, ...attribs } = props.attribs;
 
   return (
-    <A {...attribs} className={classNames("font-sans", props.className)}>
+    <A {...attribs} className={classNames("", props.className)}>
       {domToReact(props.children, { replace: props.replacer })}
     </A>
   );

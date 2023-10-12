@@ -18,7 +18,7 @@ export function ParsedHTML({
   id,
 }: ParsedHTMLProps): React.ReactElement {
   return (
-    <div className={classNames("font-sans text-lg", className)} id={id}>
+    <div className={classNames("ui-font-sans ui-text-lg", className)} id={id}>
       {parse(children ?? "", {
         replace: replacer ?? defaultReplace,
       })}

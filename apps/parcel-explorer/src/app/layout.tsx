@@ -2,6 +2,8 @@ import "./globals.css";
 import "ui/styles.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import type { ButtonProps } from "../components/button.ts";
+import { Button } from "../components/button.ts";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,9 +17,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }): React.JSX.Element {
+  const props: ButtonProps = {};
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children} <Button {...props}>Hello</Button>
+      </body>
     </html>
   );
 }

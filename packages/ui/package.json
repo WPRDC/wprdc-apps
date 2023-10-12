@@ -6,8 +6,14 @@
   ],
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./dist",
-    "./styles.css": "./dist/index.css"
+    ".": {
+      "import": "./dist",
+      "require": "./dist"
+    },
+    "./styles.css": {
+      "import": "./dist/index.css",
+      "require": "./dist/index.css"
+    }
   },
   "license": "MIT",
   "scripts": {
@@ -40,6 +46,7 @@
     "@types/react-dom": "^18.2.0",
     "classnames": "^2.3.2",
     "domhandler": "^5.0.3",
+    "file-loader": "^6.2.0",
     "html-react-parser": "^4.2.2",
     "next": "^13.5.4",
     "react-aria": "^3.29.0",
@@ -48,7 +55,8 @@
     "react-spinners": "^0.13.8",
     "react-stately": "^3.27.0",
     "react-transition-group": "^4.4.5",
-    "slugify": "^1.6.6"
+    "slugify": "^1.6.6",
+    "tailwind-merge": "^1.14.0"
   },
   "devDependencies": {
     "@types/react-transition-group": "^4.4.7",

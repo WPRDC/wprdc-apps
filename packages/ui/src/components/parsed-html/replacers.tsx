@@ -75,12 +75,12 @@ export function tocReplacer(domNode: DOMNode): React.ReactElement | null {
       const idSlug = makeHeadingID(domNode.children);
       return (
         <li
-          className={classNames("mb-2", {
+          className={classNames("ui-mb-2", {
             "": tagName === "h2",
-            "ml-2": tagName === "h3",
-            "ml-3": tagName === "h4",
-            "ml-4": tagName === "h5",
-            "ml-5": tagName === "h6",
+            "ui-ml-2": tagName === "h3",
+            "ui-ml-3": tagName === "h4",
+            "ui-ml-4": tagName === "h5",
+            "ui-ml-5": tagName === "h6",
           })}
         >
           <A href={`#${idSlug}`} replace shallow>

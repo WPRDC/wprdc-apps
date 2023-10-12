@@ -39,9 +39,9 @@ export function NumberField(props: NumberFieldProps): React.ReactElement {
   );
 
   return (
-    <div className="relative inline-flex w-full flex-col">
+    <div className="ui-relative ui-inline-flex ui-w-full ui-flex-col">
       <label
-        className="block cursor-default text-left font-mono text-xs font-semibold uppercase text-gray-500"
+        className="ui-block ui-cursor-default ui-text-left ui-font-mono ui-text-xs ui-font-semibold ui-uppercase ui-text-gray-500"
         {...labelProps}
       >
         {props.label}
@@ -49,22 +49,22 @@ export function NumberField(props: NumberFieldProps): React.ReactElement {
       <div
         {...groupProps}
         className={classNames(
-          "hover:border-focused-600 bg-background flex w-full flex-row items-center border border-black pr-1 transition duration-150 ease-in-out",
+          "ui-flex ui-w-full ui-flex-row ui-items-center ui-border ui-border-black ui-bg-background ui-pr-1 ui-transition ui-duration-150 ui-ease-in-out hover:ui-border-focused-600",
           {
-            "ring-focused-400 border-focused-400 outline-none ring-1":
+            "ui-border-focused-400 ui-outline-none ui-ring-1 ui-ring-focused-400":
               isFocusVisible || isFocused,
           },
         )}
       >
         <input
-          className="flex-grow bg-transparent px-2 py-1 text-sm placeholder:italic placeholder:text-gray-400 focus:outline-none"
+          className="ui-flex-grow ui-bg-transparent ui-px-2 ui-py-1 ui-text-sm placeholder:ui-italic placeholder:ui-text-gray-400 focus:ui-outline-none"
           {...inputProps}
           {...focusProps}
           ref={inputRef}
         />
-        <div className="ml-1.5 flex h-full flex-col justify-center">
+        <div className="ui-ml-1.5 ui-flex ui-h-full ui-flex-col ui-justify-center">
           <button
-            className="text-xs"
+            className="ui-text-xs"
             type="button"
             {...incrementProps}
             ref={decRef}
@@ -72,7 +72,7 @@ export function NumberField(props: NumberFieldProps): React.ReactElement {
             <RiArrowUpSFill />
           </button>
           <button
-            className="text-xs"
+            className="ui-text-xs"
             type="button"
             {...decrementProps}
             ref={incrRef}

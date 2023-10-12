@@ -13,7 +13,10 @@ export function Title(props: TitleProps): React.ReactElement {
   const Heading = props.headingTag ?? "h1";
   return (
     <Heading
-      className={classNames("mb-4 mt-8 text-5xl font-bold", props.className)}
+      className={classNames(
+        "ui-mb-4 ui-mt-8 ui-text-5xl ui-font-bold",
+        props.className,
+      )}
     >
       {props.children}
     </Heading>

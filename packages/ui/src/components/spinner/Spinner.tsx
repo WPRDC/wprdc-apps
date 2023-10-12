@@ -28,11 +28,24 @@ export function Spinner({ size = "M" }: SpinnerProps): React.ReactElement {
     default:
   }
   return (
-    <ScaleLoader
-      height={height}
-      margin={margin}
-      radius={radius}
-      width={width}
-    />
+    <>
+      <div className="ui-block dark:ui-hidden">
+        <ScaleLoader
+          height={height}
+          margin={margin}
+          radius={radius}
+          width={width}
+        />
+      </div>
+      <div className="ui-hidden dark:ui-block">
+        <ScaleLoader
+          color="white"
+          height={height}
+          margin={margin}
+          radius={radius}
+          width={width}
+        />
+      </div>
+    </>
   );
 }

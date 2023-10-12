@@ -15,15 +15,20 @@ export function ErrorMessage({
 }: ErrorMessageProps): React.ReactElement {
   if (variant === "centered")
     return (
-      <div className="w-full border border-red-600 bg-none text-center text-red-600 shadow-md shadow-red-700">
-        <p className="font-mono font-bold uppercase">{title}</p>
-        <p className="font-medium">{message}</p>
+      <div className="ui-mx-auto ui-max-w-lg ui-border ui-border-red-600 ui-bg-red-50 ui-p-2 ui-text-center ui-shadow-md ui-shadow-red-800 dark:ui-bg-red-950">
+        <div className="ui-font-mono ui-text-lg ui-font-bold ui-uppercase">
+          {title}
+        </div>
+        <div className="ui-font-medium">{message}</div>
       </div>
     );
   return (
-    <div className="flex w-max border border-red-600 shadow-md shadow-red-700">
-      <div className="bg-none px-1 py-0.5 text-red-600">{title}</div>{" "}
-      <div className="font-mono font-semibold uppercase">{message}</div>
+    <div className="ui-flex ui-w-max ui-items-center ui-border ui-border-red-600 ui-bg-red-50 ui-px-2 ui-shadow-md ui-shadow-red-700 dark:ui-bg-red-950">
+      <div className="ui-font-mono ui-text-lg ui-font-bold ui-uppercase">
+        {title}
+      </div>
+      <div className="ui-px-2">-</div>
+      <div className="text-sm ui-font-semibold">{message}</div>
     </div>
   );
 }

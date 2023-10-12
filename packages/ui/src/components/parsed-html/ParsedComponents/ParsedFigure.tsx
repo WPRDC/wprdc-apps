@@ -3,8 +3,6 @@ import { attributesToProps, domToReact } from "html-react-parser";
 import classNames from "classnames";
 import type { ParserProps } from "../ParsedHTML.types";
 
-export type ParsedFigureProps = ParserProps;
-
 export function ParsedFigure(props: ParserProps): React.ReactElement {
   const { style: _, ...attribs } = props.attribs;
 

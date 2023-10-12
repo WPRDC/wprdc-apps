@@ -10,16 +10,22 @@ import type { LoadingMessageProps } from "./LoadingMessage.types.ts";
 export function LoadingMessage({
   name,
   message,
+  size = "M",
 }: LoadingMessageProps): React.ReactElement {
   const displayName = name ? ` ${name}` : "";
-  const msg = message || `Loading ${displayName}...`;
+  let msg = "Loading...";
+  if (message) msg = message;
+  else if (displayName) `Loading ${displayName}...`;
+
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center">
+    <div className="ui-flex ui-h-full ui-w-full ui-flex-col ui-items-center ui-justify-center">
       <div>
-        <div className="flex flex-col items-center p-1">
-          <Spinner />
+        <div className="ui-flex ui-flex-col ui-items-center ui-p-1 ">
+          <Spinner className="" size={size} />
         </div>
-        <div className="p-1 font-semibold italic">{msg}</div>
+        <div className="ui-p-1 ui-font-mono ui-font-semibold ui-uppercase">
+          {msg}
+        </div>
       </div>
     </div>
   );

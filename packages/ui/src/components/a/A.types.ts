@@ -5,7 +5,7 @@
  **/
 import type { UrlObject } from "node:url";
 import type { LinkProps } from "next/link";
-import type { PropsWithChildren } from "react";
+import type { PropsWithChildren, RefObject } from "react";
 import type { SizeCategory } from "../../types";
 
 export interface AProps extends PropsWithChildren<Omit<LinkProps, "href">> {
@@ -16,4 +16,5 @@ export interface AProps extends PropsWithChildren<Omit<LinkProps, "href">> {
   external?: boolean;
   newTab?: boolean;
   className?: string;
+  ref?: RefObject<HTMLAnchorElement>;
 }

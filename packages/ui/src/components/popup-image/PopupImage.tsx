@@ -21,16 +21,16 @@ export function PopupImage({
 
   /* eslint-disable @typescript-eslint/unbound-method -- offending functions come from react-aria */
   return (
-    <div className={classNames("h-full w-fit max-w-full", className)}>
+    <div className={classNames("ui-h-full ui-w-fit ui-max-w-full", className)}>
       <button
-        className="border-textSecondary dark:border-textSecondaryDark relative h-fit w-fit border shadow-lg hover:shadow-2xl active:shadow-sm"
+        className="ui-relative ui-h-fit ui-w-fit ui-border ui-border-textSecondary ui-shadow-lg hover:ui-shadow-2xl active:ui-shadow-sm dark:ui-border-textSecondaryDark"
         onClick={state.open}
         type="button"
       >
-        <Image {...thumbnailProps} />
+        <img {...thumbnailProps} />
       </button>
       <Modal isDismissable state={state}>
-        <Image {...detailProps} height={600} width={1200} />
+        <img {...detailProps} height={600} width={1200} />
       </Modal>
     </div>
   );

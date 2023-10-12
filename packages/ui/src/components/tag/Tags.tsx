@@ -17,13 +17,17 @@ export function Tags({
 }: TagsProps): React.ReactElement {
   return (
     <ul
-      className={classNames("space-x-2", {
-        "px-1.5 py-1 ": size === "S",
-        "px-2.5 py-2": ["M", "L"].includes(size),
+      className={classNames("ui-space-x-2", {
+        "ui-px-1.5 ui-py-1": ["S", "M"].includes(size),
+        "ui-px-2.5 ui-py-2": size === "L",
       })}
     >
       {!!tags &&
-        tags.map((tag) => <Tag key={tag.id} label={tag.label} size={size} />)}
+        tags.map((tag) => (
+          <Tag key={tag.id} size={size}>
+            {tag.label}
+          </Tag>
+        ))}
 
       {!tags && children}
     </ul>
