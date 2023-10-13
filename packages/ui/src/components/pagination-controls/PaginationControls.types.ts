@@ -3,7 +3,7 @@
  * PaginationControls types
  *
  **/
-export interface PaginationControlProps {
+export interface PaginationControlsProps {
   currentPage: number;
   pageCount: number;
   makeHref: (

@@ -7,13 +7,13 @@
  **/
 import * as React from "react";
 import Link from "next/link";
-import type { PaginationControlProps } from "./PaginationControls.types.ts";
+import type { PaginationControlsProps } from "./PaginationControls.types.ts";
 
 export function PaginationControls({
   currentPage,
   pageCount,
   makeHref,
-}: PaginationControlProps): React.ReactElement {
+}: PaginationControlsProps): React.ReactElement {
   const pages = Array.from(Array(pageCount + 1).keys()).filter((n) => n !== 0);
 
   if (pageCount < 2) return <div className="py-4" />;

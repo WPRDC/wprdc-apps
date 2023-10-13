@@ -17,16 +17,14 @@ export * from "./components/tabs";
 export * from "./components/tag";
 export * from "./components/text-field";
 export * from "./components/util";
-
 export * from "./components/a";
 export * from "./components/card";
 export * from "./components/parsed-html";
 export * from "./components/popup-image";
 export * from "./components/modal";
-
 export * from "./components/navbar";
-
 export * from "./components/pagination-controls";
 export * from "./components/search-bar";
 export * from "./components/subtitle";
 export * from "./components/title";
+export * from "./components/provider";

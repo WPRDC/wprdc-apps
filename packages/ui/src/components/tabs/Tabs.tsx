@@ -8,7 +8,7 @@
 import * as React from "react";
 import classNames from "classnames";
 import { useTab, useTabList, useTabPanel } from "react-aria";
-import type { TabListState, Node } from "react-stately";
+import type { TabListState } from "react-stately";
 import { useTabListState } from "react-stately";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import type { ReactNode } from "react";
@@ -83,8 +83,6 @@ export function Tabs<T extends Resource>(
       setShowButons(isOverflowing(ref.current));
     } else setShowButons(false);
   }, [width]);
-
-  console.log(state.selectedItem);
 
   return (
     <div className="ui-flex ui-h-full ui-w-full ui-flex-col">

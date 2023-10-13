@@ -11,7 +11,7 @@ export default meta;
 
 type Story = StoryObj<typeof Modal>;
 
-function Demo() {
+function Demo(): React.ReactElement {
   const state = useOverlayTriggerState({});
   const { triggerProps, overlayProps } = useOverlayTrigger(
     { type: "dialog" },

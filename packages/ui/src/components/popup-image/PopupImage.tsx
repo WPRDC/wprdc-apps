@@ -8,8 +8,8 @@
 import * as React from "react";
 import { useOverlayTriggerState } from "react-stately";
 import classNames from "classnames";
-import Image from "next/image";
 import { Modal } from "../modal";
+import { Image } from "../image";
 import type { PopupImageProps } from "./PopupImage.types.ts";
 
 export function PopupImage({
@@ -27,10 +27,10 @@ export function PopupImage({
         onClick={state.open}
         type="button"
       >
-        <img {...thumbnailProps} />
+        <Image {...thumbnailProps} alt={thumbnailProps.alt} />
       </button>
       <Modal isDismissable state={state}>
-        <img {...detailProps} height={600} width={1200} />
+        <Image {...detailProps} height={600} width={1200} />
       </Modal>
     </div>
   );

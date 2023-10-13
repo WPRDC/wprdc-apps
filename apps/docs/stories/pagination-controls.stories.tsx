@@ -16,6 +16,6 @@ export const Primary: Story = {
   args: {
     pageCount: 4,
     currentPage: 1,
-    makeHref: (page, mode) => "#",
+    makeHref: () => "#",
   },
 };

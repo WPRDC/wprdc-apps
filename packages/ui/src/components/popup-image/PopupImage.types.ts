@@ -3,6 +3,6 @@
  * PopupImage types
  *
  **/
-import type { ImageProps } from "next/image";
+import type { ImageProps } from "../image";
 
 export type PopupImageProps = ImageProps;

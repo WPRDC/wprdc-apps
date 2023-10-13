@@ -5,166 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="63bab411-264a-465b-8191-eb8cd76fab4a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/docs/.storybook/preview.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/assets/Portrait-of-tabby-cat-.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/stories/anchor.stories.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/stories/breadcrumbs.stories.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/stories/card.stories.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/stories/error-message.stories.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/stories/heading.stories.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/stories/loading-message.stories.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/stories/menu.stories.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/stories/modal.stories.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/stories/navbar.stories.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/stories/number-field.stories.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/stories/pagination-controls.stories.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/stories/parsed-html.stories.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/stories/popup-image.stories.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/stories/radio-group.stories.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/stories/tabs.stories.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/stories/tags.stories.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/stories/text-field.stories.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/tailwind.config.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/turbo/generators/config.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/turbo/generators/templates/story.hbs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/docs/typings.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/parcel-explorer/src/components/button.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/parcel-explorer/src/components/navbar.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/.prettierrc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/assets/wprdc-icon-black.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/assets/wprdc-icon-dark.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/assets/wprdc-icon-white.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/assets/wprdc-icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/assets/wprdc-mark-dark.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/assets/wprdc-mark-light.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/components/menu/MenuButton.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/components/menu/MenuItem.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/components/menu/MenuSection.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/AUTHORS.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/JetBrainsMono-Bold.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/JetBrainsMono-BoldItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/JetBrainsMono-ExtraBold.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/JetBrainsMono-ExtraBoldItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/JetBrainsMono-ExtraLight.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/JetBrainsMono-ExtraLightItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/JetBrainsMono-Italic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/JetBrainsMono-Light.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/JetBrainsMono-LightItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/JetBrainsMono-Medium.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/JetBrainsMono-MediumItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/JetBrainsMono-Regular.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/JetBrainsMono-SemiBold.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/JetBrainsMono-SemiBoldItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/JetBrainsMono-Thin.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/JetBrainsMono-ThinItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/JetBrainsMono/OFL.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/AUTHORS.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/CONTRIBUTING.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/CONTRIBUTORS.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/DESCRIPTION.en_us.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/FONTLOG.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/LICENSE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/OFL.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-Black.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-Black.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-BlackItalic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-BlackItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-Bold.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-Bold.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-BoldItalic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-BoldItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-ExtraBold.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-ExtraBold.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-ExtraBoldItalic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-ExtraBoldItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-ExtraLight.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-ExtraLight.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-ExtraLightItalic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-ExtraLightItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-Italic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-Italic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-Light.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-Light.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-LightItalic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-LightItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-Medium.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-Medium.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-MediumItalic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-MediumItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-Regular.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-Regular.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-SemiBold.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-SemiBold.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-SemiBoldItalic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-SemiBoldItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-Thin.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-Thin.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-ThinItalic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/PublicSans-ThinItalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/fonts/PublicSans/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/types/typings.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/ui/src/components/image/Image.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/ui/src/components/image/Image.types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/ui/src/components/image/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/ui/src/components/provider/Provider.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/ui/src/components/provider/Provider.types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/ui/src/components/provider/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.yarn/releases/yarn-3.6.4.cjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/docs/.storybook/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/.storybook/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/docs/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/docs/stories/button.stories.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/stories/button.stories.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/parcel-explorer/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/parcel-explorer/src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/tailwind-config/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/tailwind-config/tailwind.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/tsconfig/react-app.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/tsconfig/react-app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/tsconfig/react-library.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/tsconfig/react-library.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/docs/stories/modal.stories.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/stories/modal.stories.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/docs/stories/number-field.stories.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/stories/number-field.stories.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/docs/stories/pagination-controls.stories.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/stories/pagination-controls.stories.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/ui/src/components/a/A.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/a/A.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/ui/src/components/a/A.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/a/A.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/breadcrumbs/BreadcrumbItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/breadcrumbs/BreadcrumbItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/breadcrumbs/Breadcrumbs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/breadcrumbs/Breadcrumbs.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/ui/src/components/breadcrumbs/Breadcrumbs.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/breadcrumbs/Breadcrumbs.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/breadcrumbs/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/breadcrumbs/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/button/Button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/button/Button.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/button/Button.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/button/Button.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/card/Card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/card/Card.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/card/Card.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/card/Card.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/divider/Divider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/divider/Divider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/error-message/ErrorMessage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/error-message/ErrorMessage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/error-message/ErrorMessage.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/error-message/ErrorMessage.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/heading/Heading.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/heading/Heading.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/heading/Heading.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/heading/Heading.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/loading-message/LoadingMessage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/loading-message/LoadingMessage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/loading-message/LoadingMessage.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/loading-message/LoadingMessage.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/menu/Menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/menu/Menu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/menu/Menu.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/menu/Menu.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/menu/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/menu/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/modal/Modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/modal/Modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/navbar/Logo.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/navbar/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/navbar/Navbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/navbar/Navbar.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/navbar/Navbar.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/number-field/NumberField.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/number-field/NumberField.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/ui/src/components/pagination-controls/PaginationControls.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/pagination-controls/PaginationControls.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/ui/src/components/pagination-controls/PaginationControls.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/pagination-controls/PaginationControls.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/ParsedComponents/ParsedA.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/ParsedComponents/ParsedA.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/ParsedComponents/ParsedFigcaption.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/ParsedComponents/ParsedFigcaption.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/ParsedComponents/ParsedFigure.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/ParsedComponents/ParsedFigure.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/ParsedComponents/ParsedImg.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/ParsedComponents/ParsedImg.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/ParsedHTML.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/ParsedHTML.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/ParsedHTML.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/ParsedHTML.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/lib.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/lib.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/replacers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/replacers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/parsed-html/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/ui/src/components/popup-image/PopupImage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/popup-image/PopupImage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/radio-group/RadioGroup.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/radio-group/RadioGroup.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/radio-group/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/radio-group/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/spinner/Spinner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/spinner/Spinner.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/subtitle/Subtitle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/subtitle/Subtitle.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/popup-image/PopupImage.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/popup-image/PopupImage.types.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/ui/src/components/tabs/Tabs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/tabs/Tabs.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/tag/Tag.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/tag/Tag.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/tag/Tag.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/tag/Tag.types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/tag/Tags.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/tag/Tags.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/text-field/TextField.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/text-field/TextField.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/title/Title.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/title/Title.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/components/util/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/components/util/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/tsup.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/tsup.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,35 +59,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/steve/projects/wprdc/apps/docs",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "/Users/steve/.nvm/versions/node/v18.1.0/bin/node",
-    "nodejs_package_manager_path": "yarn",
-    "npm.build.executor": "Run",
-    "npm.clean.executor": "Run",
-    "npm.dev.executor": "Run",
-    "npm.docs dev.executor": "Run",
-    "npm.lint (1).executor": "Run",
-    "npm.lint.executor": "Run",
-    "npm.parcel-explorer dev.executor": "Run",
-    "npm.ui dev.executor": "Run",
-    "prettierjs.PrettierConfiguration.Package": "/Users/steve/projects/wprdc/node_modules/prettier",
-    "settings.editor.selected.configurable": "project.propVCSSupport.Mappings",
-    "ts.external.directory.path": "/Users/steve/projects/wprdc/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/steve/projects/wprdc/apps/docs&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;/Users/steve/.nvm/versions/node/v18.1.0/bin/node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;npm.build.executor&quot;: &quot;Run&quot;,
+    &quot;npm.clean.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.docs dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.lint (1).executor&quot;: &quot;Run&quot;,
+    &quot;npm.lint.executor&quot;: &quot;Run&quot;,
+    &quot;npm.parcel-explorer dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.ui dev.executor&quot;: &quot;Run&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/steve/projects/wprdc/node_modules/prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.Mappings&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/steve/projects/wprdc/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/apps/docs" />
@@ -244,7 +104,7 @@
       <recent name="$PROJECT_DIR$/packages/ui/src/breadcrumbs" />
     </key>
   </component>
-  <component name="RunManager" selected="Compound.UI Dev">
+  <component name="RunManager" selected="npm.ui dev">
     <configuration name="UI Dev" type="CompoundRunConfigurationType">
       <toRun name="docs dev" type="js.build_tools.npm" />
       <toRun name="ui dev" type="js.build_tools.npm" />
@@ -340,7 +200,8 @@
       <workItem from="1696639203103" duration="44581000" />
       <workItem from="1696861756630" duration="1192000" />
       <workItem from="1696863718958" duration="624000" />
-      <workItem from="1696876405930" duration="40692000" />
+      <workItem from="1696876405930" duration="40722000" />
+      <workItem from="1697127318785" duration="14795000" />
     </task>
     <servers />
   </component>
@@ -368,8 +229,13 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/packages/ui/src/components/card/Card.tsx</url>
           <line>41</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/packages/ui/src/components/parsed-html/index.ts</url>
+          <line>3</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

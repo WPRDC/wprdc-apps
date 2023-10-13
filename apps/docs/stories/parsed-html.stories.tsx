@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import type { ParsedHTMLProps } from "ui";
-import { defaultReplacers, ParsedHTML } from "ui";
-import { makeReplacer } from "ui/dist/components/parsed-html/lib";
+import { defaultReplacers, ParsedHTML, makeReplacer } from "ui";
 
 const meta: Meta<typeof ParsedHTML> = {
   component: ParsedHTML,

@@ -3,7 +3,6 @@
  * Breadcrumbs types
  *
  **/
-import type * as React from "react";
 import type { FC, HTMLAttributes, Key, ReactNode, Ref } from "react";
 import type {
   AriaBreadcrumbItemProps,

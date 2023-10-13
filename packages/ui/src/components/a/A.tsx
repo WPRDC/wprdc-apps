@@ -10,22 +10,24 @@ import Link from "next/link";
 import classNames from "classnames";
 import { HiExternalLink } from "react-icons/hi";
 import { twMerge } from "tailwind-merge";
+import { useProvider } from "../provider";
 import type { AProps } from "./A.types.ts";
 
-export function A(props: AProps): React.ReactElement {
-  const {
-    href = "",
-    children,
-    variant,
-    newTab = false,
-    external = false,
-    className,
-    shallow,
-    replace,
-    ref,
-  } = props;
+export function A({
+  href = "",
+  children,
+  variant,
+  external = false,
+  className,
+  shallow,
+  replace,
+  ref,
+  ...props
+}: AProps): React.ReactElement {
+  const { usingNextJS = false } = useProvider();
 
-  const Component: "a" | typeof Link = external ? "a" : Link;
+  const Component: "a" | typeof Link = usingNextJS ? Link : "a";
+
   return (
     <Component
       className={twMerge(
@@ -38,10 +40,9 @@ export function A(props: AProps): React.ReactElement {
       )}
       href={href}
       ref={ref}
-      rel="noreferrer"
       replace={replace}
       shallow={shallow}
-      target={newTab ? "_blank" : ""}
+      {...props}
     >
       {children}
       {external ? (

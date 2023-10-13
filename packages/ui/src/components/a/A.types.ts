@@ -14,7 +14,6 @@ export interface AProps extends PropsWithChildren<Omit<LinkProps, "href">> {
   buttonStyle?: "default" | "primary" | "borderless" | "success";
   buttonSize?: SizeCategory;
   external?: boolean;
-  newTab?: boolean;
   className?: string;
   ref?: RefObject<HTMLAnchorElement>;
 }

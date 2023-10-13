@@ -11,7 +11,7 @@ export default meta;
 type Story = StoryObj<typeof TextField>;
 
 export const Primary: Story = {
-  render: (props: TextFieldProps) => <TextField {...props}></TextField>,
+  render: (props: TextFieldProps) => <TextField {...props} />,
   name: "Text Field",
   args: {},
 };

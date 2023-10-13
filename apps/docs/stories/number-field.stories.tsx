@@ -11,7 +11,7 @@ export default meta;
 type Story = StoryObj<typeof NumberField>;
 
 export const Primary: Story = {
-  render: (props: NumberFieldProps) => <NumberField {...props}></NumberField>,
+  render: (props: NumberFieldProps) => <NumberField {...props} />,
   name: "Number Field",
   args: {},
 };
