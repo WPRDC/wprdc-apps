@@ -1,2 +1,2 @@
-export * from  "./TextField.tsx";
-export * from  "./TextField.types.ts";
+export * from  "./TextField";
+export * from  "./TextField.types";

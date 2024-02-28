@@ -1,3 +1,3 @@
-export * from "./Tag.tsx";
-export * from "./Tags.tsx";
-export * from "./Tag.types.ts";
+export * from "./Tag";
+export * from "./Tags";
+export * from "./Tag.types";

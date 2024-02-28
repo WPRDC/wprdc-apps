@@ -1,4 +1,5 @@
-import type { AriaTextFieldOptions } from "react-aria";
+import type { TextFieldProps as RATextFieldProps } from "react-aria-components";
 
-export type TextFieldProps<T extends "input" | "textarea" = "input"> =
-  AriaTextFieldOptions<T>;
+export interface TextFieldProps extends RATextFieldProps {
+  label: string;
+}

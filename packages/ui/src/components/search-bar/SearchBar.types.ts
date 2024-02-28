@@ -1,10 +1,7 @@
-/**
- *
- * SearchBar types
- *
- **/
-import type { AriaSearchFieldProps } from "react-aria";
+import type { SearchFieldProps } from "react-aria-components";
 
-export interface SearchBarProps extends AriaSearchFieldProps {
+export interface SearchBarProps extends SearchFieldProps {
+  label?: string;
+  submitLabel?: string;
   searchURL: string;
 }

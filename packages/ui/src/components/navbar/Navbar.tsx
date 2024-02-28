@@ -5,13 +5,13 @@
  * Header with navigation menu
  *
  **/
-import * as React from "react";
+
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaChevronUp } from "react-icons/fa6";
 import classNames from "classnames";
-import { twMerge } from "tailwind-merge";
-import { A } from "../a/A.tsx";
-import type { LogoProps, NavbarProps } from "./Navbar.types.ts";
+import { useEffect, useRef, useState } from "react";
+import type { NavbarProps } from "./Navbar.types";
+import { Logo } from "./Logo";
 
 export function Navbar({
   logoSrc,
@@ -19,15 +19,15 @@ export function Navbar({
   logoProps,
   logoComponent,
 }: NavbarProps): React.ReactElement {
-  const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const ref = React.useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   function closeMenu(): void {
     setIsOpen(false);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     function handleEscapeKey(event: KeyboardEvent): void {
       if (event.code === "Escape") {
         closeMenu();
@@ -49,15 +49,15 @@ export function Navbar({
   }, []);
 
   return (
-    <div className="ui-top-0 ui-z-50 ui-w-full dark:ui-text-gray-100" ref={ref}>
+    <div className="top-0 z-50 w-full dark:text-gray-100" ref={ref}>
       {/* Navbar */}
-      <div className="ui-w-full ui-border-b-2 ui-border-black ui-bg-white dark:ui-border-slate-800 dark:ui-bg-black lg:ui-flex ">
+      <div className="w-full border-b-2 border-black bg-white dark:border-slate-800 dark:bg-black lg:flex ">
         <div
           className={classNames(
-            "ui-mx-auto ui-w-full ui-max-w-7xl lg:ui-flex lg:ui-items-center lg:ui-justify-between",
+            "mx-auto w-full max-w-7xl lg:flex lg:items-center lg:justify-between",
           )}
         >
-          <div className="ui-flex ui-w-full ui-justify-between ui-p-4 lg:ui-w-fit">
+          <div className="flex w-full justify-between p-4 lg:w-fit">
             <Logo
               component={logoComponent}
               darkSrc={darkLogoSrc}
@@ -66,7 +66,7 @@ export function Navbar({
             />
             <button
               aria-hidden
-              className={classNames("ui-p-2 lg:ui-hidden")}
+              className={classNames("p-2 lg:hidden")}
               onClick={() => {
                 setIsOpen(!isOpen);
               }}
@@ -84,35 +84,5 @@ export function Navbar({
         </div>
       </div>
     </div>
-  );
-}
-
-function Logo({
-  src,
-  darkSrc,
-  component: Component = "img",
-  imageProps,
-}: LogoProps): React.ReactElement {
-  const width = imageProps?.width ?? 384;
-  const height = imageProps?.height ?? 46;
-
-  const _darkSrc = darkSrc ?? src;
-  return (
-    <A href="/">
-      <Component
-        alt={imageProps?.alt ?? "Site Logo"}
-        className={twMerge(imageProps?.className, "ui-block dark:ui-hidden")}
-        height={height}
-        src={src}
-        width={width}
-      />
-      <Component
-        alt={imageProps?.alt ?? "Site Logo"}
-        className={twMerge(imageProps?.className, "ui-hidden dark:ui-block")}
-        height={height}
-        src={_darkSrc}
-        width={width}
-      />
-    </A>
   );
 }

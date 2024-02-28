@@ -1,2 +1,2 @@
-export * from "./Popover.tsx";
-export * from "./Popover.types.ts";
+export * from "./Popover";
+export * from "./Popover.types";

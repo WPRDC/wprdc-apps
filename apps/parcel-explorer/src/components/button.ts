@@ -1,3 +1,3 @@
 "use client";
 
-export { Button, type ButtonProps } from "ui";
+export { Button, type ButtonProps } from "@wprdc/ui";

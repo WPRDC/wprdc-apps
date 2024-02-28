@@ -1,8 +1,8 @@
 import type { Config } from "tailwindcss";
 import colors from "tailwindcss/colors";
 
-const config: Config = {
-  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
+const config: Omit<Config, "content"> = {
+  // content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       fontFamily: {

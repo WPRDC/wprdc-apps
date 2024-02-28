@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import type { AProps } from "ui";
-import { A } from "ui";
+import type { AProps } from "@wprdc/ui";
+import { A } from "@wprdc/ui";
 
 const meta: Meta<typeof A> = {
   component: A,
@@ -12,7 +12,7 @@ type Story = StoryObj<typeof A>;
 
 export const Primary: Story = {
   render: (props: AProps) => (
-    <div className="ui-text-text dark:ui-text-textDark">
+    <div>
       Links might ask you to &quot;
       <A {...props} />
       .&quot;

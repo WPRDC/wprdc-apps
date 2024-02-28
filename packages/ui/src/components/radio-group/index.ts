@@ -1,2 +1,3 @@
-export * from "./RadioGroup.tsx";
-export * from "./RadioGroup.types.ts";
+export * from "./RadioGroup";
+export * from "./Radio";
+export * from "./RadioGroup.types";

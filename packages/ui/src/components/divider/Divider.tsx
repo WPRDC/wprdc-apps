@@ -5,24 +5,24 @@
  * One section, divisible....
  *
  */
-import * as React from "react";
-import classNames from "classnames";
-import type { DividerProps } from "./Divider.types.ts";
 
-export function Diver({
+import { twMerge } from "tailwind-merge";
+import type { DividerProps } from "./Divider.types";
+
+export function Divider({
   vertical,
   weight = "thin",
+  className,
 }: DividerProps): React.ReactElement {
   if (vertical) {
     return (
       <div
-        className={classNames(
-          "ui-mx-1 ui-my-0.5 ui-inline ui-w-0 ui-border-black",
-          {
-            "ui-border-r": weight === "thin",
-            "ui-border-r-2": weight === "thick",
-            "ui-border-r-4": weight === "thicker",
-          },
+        className={twMerge(
+          "mx-1 my-0.5 inline w-0 border-black",
+          weight === "thin" && "border-r",
+          weight === "thick" && "border-r-2",
+          weight === "thicker" && "border-r-4",
+          className,
         )}
       />
     );
@@ -30,11 +30,13 @@ export function Diver({
 
   return (
     <hr
-      className={classNames("ui-border-black", {
-        "ui-border-t": weight === "thin",
-        "ui-border-t-2": weight === "thick",
-        "ui-border-t-4": weight === "thicker",
-      })}
+      className={twMerge(
+        "border-black",
+        weight === "thin" && "border-t",
+        weight === "thick" && "border-t-2",
+        weight === "thicker" && "border-t-4",
+        className,
+      )}
     />
   );
 }

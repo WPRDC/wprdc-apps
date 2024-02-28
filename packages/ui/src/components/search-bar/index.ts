@@ -1,2 +1,2 @@
-export * from "./SearchBar.tsx";
-export * from "./SearchBar.types.ts";
+export * from "./SearchBar";
+export * from "./SearchBar.types";

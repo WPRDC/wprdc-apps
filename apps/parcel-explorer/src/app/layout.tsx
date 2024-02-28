@@ -1,9 +1,9 @@
 import "./globals.css";
-import "ui/styles.css";
+import "@wprdc/ui/dist/index.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import type { ButtonProps } from "../components/button.ts";
-import { Button } from "../components/button.ts";
+import type { ButtonProps } from "../components/button";
+import { Button } from "../components/button";
 
 const inter = Inter({ subsets: ["latin"] });
 

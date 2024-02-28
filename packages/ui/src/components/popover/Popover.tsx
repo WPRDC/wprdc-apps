@@ -1,32 +1,24 @@
-import * as React from "react";
-import { DismissButton, Overlay, usePopover } from "react-aria";
-import type { PopoverProps } from "./Popover.types.ts";
+import { OverlayArrow, Popover as RAPopover } from "react-aria-components";
+import type { PopoverProps } from "./Popover.types";
 
 export function Popover({
+  withArrow,
   children,
-  state,
-  offset = 22,
   ...props
 }: PopoverProps): React.ReactElement {
-  const popoverRef = React.useRef<HTMLDivElement>(null);
-  const { popoverProps, underlayProps } = usePopover(
-    {
-      ...props,
-      offset,
-      popoverRef,
-    },
-    state,
-  );
-
-  /* eslint-disable @typescript-eslint/unbound-method -- offending functions come from react-aria */
   return (
-    <Overlay>
-      <div {...underlayProps} className="fixed inset-0" />
-      <div {...popoverProps} className="w-full" ref={popoverRef}>
-        <DismissButton onDismiss={state.close} />
+    <RAPopover {...props}>
+      <>
+        {withArrow ? (
+          <OverlayArrow>
+            <svg height={12} viewBox="0 0 12 12" width={12}>
+              <path d="M0 0 L6 6 L12 0" />
+            </svg>
+          </OverlayArrow>
+        ) : null}
+
         {children}
-        <DismissButton onDismiss={state.close} />
-      </div>
-    </Overlay>
+      </>
+    </RAPopover>
   );
 }

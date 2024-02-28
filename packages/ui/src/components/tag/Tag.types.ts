@@ -3,11 +3,11 @@
  * Tag types
  *
  **/
-import type { SizeCategory } from "../../types";
+import type { Size } from "@wprdc/types";
 
 export interface TagProps {
   children?: string;
-  size?: SizeCategory;
+  size?: Size;
   variant?: "default" | "primary" | "secondary";
   className?: string;
 }
@@ -18,5 +18,7 @@ export interface TagsProps {
     id: string | number;
     label: string;
   })[];
-  size?: SizeCategory;
+  size?: Size;
+  className?: string;
+  tagClassName?: string;
 }

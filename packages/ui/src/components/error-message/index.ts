@@ -1,2 +1,2 @@
-export * from  "./ErrorMessage.tsx";
-export * from  "./ErrorMessage.types.ts";
+export * from  "./ErrorMessage";
+export * from  "./ErrorMessage.types";

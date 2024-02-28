@@ -1,3 +1,5 @@
-import type { AriaNumberFieldProps } from "@react-types/numberfield";
+import type { NumberFieldProps as RANumberFieldProps } from "react-aria-components";
 
-export type NumberFieldProps = AriaNumberFieldProps;
+export interface NumberFieldProps extends RANumberFieldProps {
+  label?: string;
+}

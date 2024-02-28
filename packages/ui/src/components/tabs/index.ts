@@ -1,2 +1,2 @@
-export * from  "./Tabs.tsx";
-export * from  "./Tabs.types.ts";
+export * from  "./Tabs";
+export * from  "./Tabs.types";

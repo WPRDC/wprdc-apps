@@ -1,2 +1,2 @@
-export * from "./Navbar.tsx";
-export * from "./Navbar.types.ts";
+export * from "./Navbar";
+export * from "./Navbar.types";

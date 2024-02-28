@@ -5,35 +5,30 @@
  * Section heading
  *
  */
-import * as React from "react";
+
 import { twMerge } from "tailwind-merge";
-import classNames from "classnames";
-import type { HeadingProps } from "./Heading.types.ts";
-import { HEADING_LEVELS } from "./Heading.types.ts";
+import { Heading as RAHeading } from "react-aria-components";
+import type { HeadingProps } from "./Heading.types";
 
 export function Heading({
   level,
   className,
   ...props
 }: HeadingProps): React.ReactElement {
-  const HeadingElem: keyof React.JSX.IntrinsicElements =
-    !!level && HEADING_LEVELS.includes(level)
-      ? (`h${level}` as keyof React.JSX.IntrinsicElements)
-      : "div";
   return (
-    <HeadingElem
+    <RAHeading
       className={twMerge(
-        classNames("ui-font-mono ui-font-bold", {
-          "ui-mb-2 ui-text-5xl": level === 1,
-          "ui-mb-2 ui-mt-3 ui-border-t ui-border-textSecondary ui-pt-1 ui-text-4xl dark:ui-border-textSecondaryDark":
-            level === 2,
-          "ui-mb-2 ui-mt-3 ui-text-3xl": level === 3,
-          "ui-mb-2 ui-mt-3 ui-text-2xl": level === 4,
-          "ui-mb-2 ui-mt-3 ui-text-xl": level === 5,
-          "ui-mb-2 ui-mt-3 ui-text-lg": level === 6,
-        }),
+        "font-mono font-bold",
+        level === 1 && "mb-2 text-5xl",
+        level === 2 &&
+          "mb-2 mt-3 border-t border-textSecondary pt-1 text-4xl dark:border-textSecondaryDark",
+        level === 3 && "mb-2 mt-3 text-3xl",
+        level === 4 && "mb-2 mt-3 text-2xl",
+        level === 5 && "mb-2 mt-3 text-xl",
+        level === 6 && "mb-2 mt-3 text-lg",
         className,
       )}
+      level={level}
       {...props}
     />
   );

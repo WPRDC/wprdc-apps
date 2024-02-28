@@ -1,3 +1,4 @@
-export * from "./Menu.tsx";
-export * from "./MenuButton.tsx";
-export * from "./Menu.types.ts";
+export * from "./Menu";
+export * from "./MenuItem";
+export * from "./MenuSection";
+export * from "./Menu.types";

@@ -1,2 +1,2 @@
-export * from  "./NumberField.tsx";
-export * from  "./NumberField.types.ts";
+export * from  "./NumberField";
+export * from  "./NumberField.types";

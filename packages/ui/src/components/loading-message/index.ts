@@ -1,2 +1,2 @@
-export * from  "./LoadingMessage.tsx";
-export * from  "./LoadingMessage.types.ts";
+export * from  "./LoadingMessage";
+export * from  "./LoadingMessage.types";

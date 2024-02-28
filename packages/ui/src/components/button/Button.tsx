@@ -5,40 +5,32 @@
  * Press it
  *
  */
-import * as React from "react";
-import { useRef } from "react";
-import { useButton } from "react-aria";
-import classNames from "classnames";
+
 import { twMerge } from "tailwind-merge";
+import { Button as RAButton } from "react-aria-components";
 import type { ButtonProps } from "./Button.types.ts";
 
-export function Button(props: ButtonProps): React.ReactElement {
-  const ref = useRef<HTMLButtonElement>(null);
-  const { buttonProps } = useButton(props, props.buttonRef ?? ref);
-  const { children, variant = "default", dense = false } = props;
-
-  /* eslint-disable react/button-has-type -- default type of 'button' is provided */
+export function Button({
+  dense,
+  variant,
+  className,
+  children,
+  ...buttonProps
+}: ButtonProps): React.ReactElement {
   return (
-    <button
-      type={props.type ?? "button"}
+    <RAButton
       {...buttonProps}
       className={twMerge(
-        classNames(
-          "ui-m1 ui-border-border ui-rounded ui-border",
-          "ui-font-mono ui-uppercase ui-leading-tight",
-          "ui-shadow-md hover:ui-shadow-lg active:ui-shadow-sm",
-          dense ? "ui-px-1 ui-py-0.5 ui-text-sm" : "ui-px-2 ui-py-1.5",
-          {
-            "ui-bg-backgroundSecondary dark:ui-bg-backgroundSecondaryDark dark:ui-border-borderDark ui-text-black dark:ui-text-white":
-              variant === "default",
-          },
-        ),
-
-        props.className,
+        "m1 rounded border-2",
+        "font-mono uppercase leading-tight",
+        "shadow-md hover:shadow-lg active:shadow-sm",
+        dense ? "px-1 py-0.5 text-sm" : "px-2 py-1.5",
+        variant === "default" &&
+          "bg-backgroundSecondary  dark:border-borderDark dark:bg-backgroundSecondaryDark dark:text-white",
+        className,
       )}
-      ref={props.buttonRef}
     >
       {children}
-    </button>
+    </RAButton>
   );
 }

@@ -3,21 +3,12 @@
  * Menu types
  *
  **/
-import type { AriaMenuProps } from "@react-types/menu";
-import type { MenuTriggerProps, TreeState } from "react-stately";
-import type { Node } from "../../types";
+import type {
+  MenuProps as RAMenuProps,
+  MenuItemProps as RAMenuItemProps,
+  SectionProps as RASectionProps,
+} from "react-aria-components";
 
-export type MenuProps<T extends object> = AriaMenuProps<T>;
-export interface MenuButtonProps<T> extends AriaMenuProps<T>, MenuTriggerProps {
-  label?: string;
-}
-
-export interface MenuSectionProps<T> {
-  section: Node<T>;
-  state: TreeState<T>;
-}
-
-export interface MenuItemProps<T> {
-  item: Node<T>;
-  state: TreeState<T>;
-}
+export type MenuProps<T extends object> = RAMenuProps<T>;
+export type MenuItemProps<T extends object = object> = RAMenuItemProps<T>;
+export type MenuSectionProps<T extends object> = RASectionProps<T>;

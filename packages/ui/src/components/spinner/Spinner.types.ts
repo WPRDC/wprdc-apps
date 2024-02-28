@@ -4,8 +4,8 @@
  *
  **/
 import type { LoaderHeightWidthRadiusProps } from "react-spinners/helpers/props";
-import type { SizeCategory } from "../../types";
+import type { Size } from "@wprdc/types";
 
 export interface SpinnerProps extends LoaderHeightWidthRadiusProps {
-  size?: SizeCategory;
+  size?: Size;
 }

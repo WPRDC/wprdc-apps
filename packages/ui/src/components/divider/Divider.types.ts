@@ -6,5 +6,6 @@
 
 export interface DividerProps {
   vertical?: boolean;
-  weight?: 'thin' | 'thick' | 'thicker';
+  weight?: "thin" | "thick" | "thicker";
+  className?: string;
 }

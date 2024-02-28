@@ -5,26 +5,30 @@
  * Collection of Tags
  *
  */
-import * as React from "react";
-import classNames from "classnames";
+
+import { twMerge } from "tailwind-merge";
 import { Tag } from "./Tag";
-import type { TagsProps } from "./Tag.types.ts";
+import type { TagsProps } from "./Tag.types";
 
 export function Tags({
   tags,
   size = "M",
+  className,
+  tagClassName,
   children,
 }: TagsProps): React.ReactElement {
   return (
     <ul
-      className={classNames("ui-space-x-2", {
-        "ui-px-1.5 ui-py-1": ["S", "M"].includes(size),
-        "ui-px-2.5 ui-py-2": size === "L",
-      })}
+      className={twMerge(
+        "space-x-2",
+        ["S", "M"].includes(size) && "px-1.5 py-1",
+        size === "L" && "px-2.5 py-2",
+        className,
+      )}
     >
       {!!tags &&
         tags.map((tag) => (
-          <Tag key={tag.id} size={size}>
+          <Tag className={tagClassName} key={tag.id} size={size}>
             {tag.label}
           </Tag>
         ))}

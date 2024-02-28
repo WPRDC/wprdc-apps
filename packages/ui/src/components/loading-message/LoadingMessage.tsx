@@ -5,7 +5,7 @@
  */
 import React from "react";
 import { Spinner } from "../spinner";
-import type { LoadingMessageProps } from "./LoadingMessage.types.ts";
+import type { LoadingMessageProps } from "./LoadingMessage.types";
 
 export function LoadingMessage({
   name,
@@ -18,14 +18,12 @@ export function LoadingMessage({
   else if (displayName) `Loading ${displayName}...`;
 
   return (
-    <div className="ui-flex ui-h-full ui-w-full ui-flex-col ui-items-center ui-justify-center">
+    <div className="flex h-full w-full flex-col items-center justify-center">
       <div>
-        <div className="ui-flex ui-flex-col ui-items-center ui-p-1 ">
+        <div className="flex flex-col items-center p-1 ">
           <Spinner className="" size={size} />
         </div>
-        <div className="ui-p-1 ui-font-mono ui-font-semibold ui-uppercase">
-          {msg}
-        </div>
+        <div className="p-1 font-mono font-semibold uppercase">{msg}</div>
       </div>
     </div>
   );

@@ -1,2 +1,2 @@
-export * from  "./Spinner.tsx";
-export * from  "./Spinner.types.ts";
+export * from  "./Spinner";
+export * from  "./Spinner.types";

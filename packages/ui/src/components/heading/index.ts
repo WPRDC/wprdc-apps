@@ -1,2 +1,2 @@
-export * from  "./Heading.tsx";
-export * from  "./Heading.types.ts";
+export * from  "./Heading";
+export * from  "./Heading.types";

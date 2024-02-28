@@ -1,2 +1,2 @@
-export * from "./Image.tsx";
-export * from "./Image.types.ts";
+export * from "./Image";
+export * from "./Image.types";

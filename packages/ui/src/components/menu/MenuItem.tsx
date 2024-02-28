@@ -1,26 +1,22 @@
-import * as React from "react";
-import { useMenuItem } from "react-aria";
-import type { MenuItemProps } from "./Menu.types.ts";
+/**
+ *
+ * MenuItem
+ *
+ * Item within a menu
+ *
+ */
+import { MenuItem as RAMenuItem } from "react-aria-components";
+import type { MenuItemProps } from "./Menu.types";
 
-export function MenuItem<T>({
-  item,
-  state,
-}: MenuItemProps<T>): React.ReactElement {
-  const ref = React.useRef<HTMLLIElement>(null);
-  const { menuItemProps, isSelected } = useMenuItem<T>(
-    { key: item.key },
-    state,
-    ref,
-  );
-
+export function MenuItem<T extends object>(
+  props: MenuItemProps<T>,
+): React.ReactElement {
   return (
-    <li
-      {...menuItemProps}
-      className="ui-cursor-pointer ui-px-2 ui-py-1 ui-outline-0 focus:ui-bg-primary focus:ui-font-medium focus:ui-text-text"
-      ref={ref}
+    <RAMenuItem
+      {...props}
+      className="cursor-pointer px-2 py-1 outline-0 focus:bg-primary focus:font-medium focus:text-text"
     >
-      {item.rendered}
-      {isSelected ? <span aria-hidden="true">✅</span> : null}
-    </li>
+      {props.children}
+    </RAMenuItem>
   );
 }

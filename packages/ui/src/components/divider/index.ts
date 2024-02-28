@@ -1,2 +1,2 @@
-export * from "./Divider.tsx";
-export * from "./Divider.types.ts";
+export * from "./Divider";
+export * from "./Divider.types";

@@ -5,10 +5,10 @@
  * Renders pictorial media
  *
  **/
-import * as React from "react";
+
 import NextImage from "next/image";
 import { useProvider } from "../provider";
-import type { ImageProps } from "./Image.types.ts";
+import type { ImageProps } from "./Image.types";
 
 export function Image({
   alt,

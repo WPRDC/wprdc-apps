@@ -3,12 +3,11 @@
  * Button types
  *
  **/
-import type { AriaButtonProps } from "@react-types/button";
-import type { RefObject } from "react";
 
-export interface ButtonProps extends AriaButtonProps {
+import type {ButtonProps as RAButtonProps} from "react-aria-components"
+
+export interface ButtonProps extends RAButtonProps {
   dense?: boolean;
   variant?: "default" | "primary" | "secondary" | "borderless" | "success";
-  buttonRef?: RefObject<HTMLButtonElement>;
   className?: string;
 }

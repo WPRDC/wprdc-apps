@@ -3,11 +3,8 @@
  * Popover types
  *
  **/
-import type * as React from "react";
-import type { AriaPopoverProps } from "react-aria";
-import type { OverlayTriggerState } from "react-stately";
+import type { PopoverProps as RAPopoverProps } from "react-aria-components";
 
-export interface PopoverProps extends Omit<AriaPopoverProps, "popoverRef"> {
-  children: React.ReactNode;
-  state: OverlayTriggerState;
+export interface PopoverProps extends RAPopoverProps {
+  withArrow?: boolean;
 }

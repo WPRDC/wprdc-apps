@@ -3,11 +3,8 @@
  * Modal types
  *
  **/
-import type * as React from "react";
-import type { AriaModalOverlayProps } from "react-aria";
-import type { OverlayTriggerState } from "react-stately";
+import type { ModalOverlayProps as RAModalOverlayProps } from "react-aria-components";
 
-export interface ModalProps extends AriaModalOverlayProps {
-  children: React.ReactNode;
-  state: OverlayTriggerState;
-}
+export type ModalProps = ModalOverlayProps;
+
+export type ModalOverlayProps = RAModalOverlayProps;

@@ -5,9 +5,9 @@
  * Indeterminate loading spinner
  *
  */
-import * as React from "react";
+
 import ScaleLoader from "react-spinners/ScaleLoader";
-import type { SpinnerProps } from "./Spinner.types.ts";
+import type { SpinnerProps } from "./Spinner.types";
 
 export function Spinner({ size = "M" }: SpinnerProps): React.ReactElement {
   let height = 35;
@@ -29,7 +29,7 @@ export function Spinner({ size = "M" }: SpinnerProps): React.ReactElement {
   }
   return (
     <>
-      <div className="ui-block dark:ui-hidden">
+      <div className="block dark:hidden">
         <ScaleLoader
           height={height}
           margin={margin}
@@ -37,7 +37,7 @@ export function Spinner({ size = "M" }: SpinnerProps): React.ReactElement {
           width={width}
         />
       </div>
-      <div className="ui-hidden dark:ui-block">
+      <div className="hidden dark:block">
         <ScaleLoader
           color="white"
           height={height}
