@@ -13,11 +13,10 @@
     "./styles.css": "./dist/index.css"
   },
   "scripts": {
-    "build": "tsup",
-    "clean": "rm -rf dist",
-    "dev": "tsup --watch",
-    "typecheck": "tsc --noEmit",
-    "lint": "eslint src/"
+    "build": "tsup src/index.tsx --format esm,cjs --dts --external react",
+    "dev": "tsup src/index.tsx --format esm,cjs --watch --dts --external react",
+    "lint": "eslint . --max-warnings 0",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "peerDependencies": {
     "react": "^18.2.0"
