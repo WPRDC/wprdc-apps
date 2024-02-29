@@ -1,6 +1,6 @@
 import React from "react";
 import { Preview } from "@storybook/react";
-import "@wprdc/ui/styles.css";
+import "@wprdc/ui/index.css";
 
 // create a component that listens for the DARK_MODE event
 function ThemeWrapper(props) {

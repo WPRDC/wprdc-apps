@@ -31,7 +31,14 @@ const config: StorybookConfig = {
       resolve: {
         alias: [
           {
-            find: "ui",
+            find: "@wprdc/ui/index.css",
+            replacement: resolve(
+              __dirname,
+              "../../../packages/ui/dist/index.css",
+            ),
+          },
+          {
+            find: "@wprdc/ui",
             replacement: resolve(__dirname, "../../../packages/ui/"),
           },
         ],

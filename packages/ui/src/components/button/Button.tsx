@@ -21,7 +21,7 @@ export function Button({
     <RAButton
       {...buttonProps}
       className={twMerge(
-        "m1 rounded border-2",
+        "m-1 rounded border-2",
         "font-mono uppercase leading-tight",
         "shadow-md hover:shadow-lg active:shadow-sm",
         dense ? "px-1 py-0.5 text-sm" : "px-2 py-1.5",

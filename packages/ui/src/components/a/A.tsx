@@ -5,13 +5,23 @@
  * Anchor element for links
  *
  **/
-
+import { Link } from "react-aria-components";
+import { twMerge } from "tailwind-merge";
 import type { AProps } from "./A.types";
 
-export function A({ href = "", children }: AProps): React.ReactElement {
+export function A({
+  href = "",
+  children,
+  className,
+  ...props
+}: AProps): React.ReactElement {
   return (
-    <a className="font-semibold underline hover:bg-primary" href={href}>
+    <Link
+      className={twMerge("font-semibold underline hover:bg-primary", className)}
+      href={href}
+      {...props}
+    >
       {children}
-    </a>
+    </Link>
   );
 }

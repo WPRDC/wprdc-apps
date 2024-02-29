@@ -3,8 +3,7 @@
  * Button types
  *
  **/
-
-import type {ButtonProps as RAButtonProps} from "react-aria-components"
+import type { ButtonProps as RAButtonProps } from "react-aria-components";
 
 export interface ButtonProps extends RAButtonProps {
   dense?: boolean;
