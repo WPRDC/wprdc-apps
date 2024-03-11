@@ -1,11 +1,24 @@
 import {
+  ArchiveAssessmentAppeal,
+  CityViolation,
+  ConservatorshipRecord,
   DatastoreRecord,
+  FiledAssessmentAppeal,
+  ForeclosureFiling,
   ParcelBoundary,
+  PLIPermit,
   PropertyAssessment,
+  PropertySaleTransaction,
   QueryResult,
+  TaxLienWithCurrentStatus,
 } from "@wprdc/types";
-import { fetchDatastoreSearch, toFieldLookup } from "../fetch-util";
-import { APIMultiResult, APISingleResult } from "../types";
+import {
+  fetchDatastoreSearch,
+  fetchSQLSearch,
+  toFieldLookup,
+} from "../fetch-util";
+import { APIResult } from "../types";
+import { RankedParcelIndex } from "@wprdc/types/src";
 
 export enum ParcelTable {
   Assessment = "property_assessments",
@@ -33,7 +46,7 @@ export const parcelIDFields: Record<ParcelTable, string> = {
   [ParcelTable.ConservatorshipRecord]: "pin",
 };
 
-export function fetchParcelRecords<T extends DatastoreRecord>(
+function _fetchParcelRecords<T extends DatastoreRecord>(
   parcelID: string,
   table: ParcelTable,
   queryParams?: Record<string, string>,
@@ -46,62 +59,113 @@ export function fetchParcelRecords<T extends DatastoreRecord>(
   );
 }
 
-export async function fetchSingleParcelRecord<T extends DatastoreRecord>(
+export async function fetchParcelRecords<T extends DatastoreRecord>(
   parcelID: string,
   table: ParcelTable,
   queryParams?: Record<string, string>,
-): Promise<APISingleResult<T> | undefined> {
-  const { fields, records } = await fetchParcelRecords<T>(
+): Promise<APIResult<T>> {
+  const { fields, records } = await _fetchParcelRecords<T>(
     parcelID,
     table,
     queryParams,
   );
   if (!records || !fields) {
     console.warn(`Nothing found for ${parcelID} on table ${table}.`);
-    return undefined;
-  }
-  if (records.length > 1)
-    console.warn(
-      `More than one record found for ${parcelID} on table ${table}.`,
-    );
-  return { fields: toFieldLookup(fields), record: records[0] };
-}
-
-export async function fetchMultipleParcelRecords<T extends DatastoreRecord>(
-  parcelID: string,
-  table: ParcelTable,
-  queryParams?: Record<string, string>,
-): Promise<APIMultiResult<T> | undefined> {
-  const { fields, records } = await fetchParcelRecords<T>(
-    parcelID,
-    table,
-    queryParams,
-  );
-  if (!records || !fields) {
-    console.warn(`Nothing found for ${parcelID} on table ${table}.`);
-    return undefined;
+    return { fields: undefined, records: undefined };
   }
   return { fields: toFieldLookup(fields), records: records };
 }
 
+// Individual resource fetchers
 export const fetchAssessmentRecord = (parcelID: string) =>
-  fetchSingleParcelRecord(parcelID, ParcelTable.Assessment);
+  fetchParcelRecords<PropertyAssessment>(parcelID, ParcelTable.Assessment);
 export const fetchParcelBoundariesRecord = (parcelID: string) =>
-  fetchSingleParcelRecord(parcelID, ParcelTable.ParcelBoundaries);
+  fetchParcelRecords<ParcelBoundary>(parcelID, ParcelTable.ParcelBoundaries);
 export const fetchFiledAssessmentAppealsRecord = (parcelID: string) =>
-  fetchSingleParcelRecord(parcelID, ParcelTable.FiledAssessmentAppeals);
-
+  fetchParcelRecords<FiledAssessmentAppeal>(
+    parcelID,
+    ParcelTable.FiledAssessmentAppeals,
+  );
 export const fetchPropertySaleTransactionsRecords = (parcelID: string) =>
-  fetchMultipleParcelRecords(parcelID, ParcelTable.PropertySaleTransactions);
+  fetchParcelRecords<PropertySaleTransaction>(
+    parcelID,
+    ParcelTable.PropertySaleTransactions,
+  );
 export const fetchAssessmentAppealsRecords = (parcelID: string) =>
-  fetchSingleParcelRecord(parcelID, ParcelTable.AssessmentAppeals);
+  fetchParcelRecords<ArchiveAssessmentAppeal>(
+    parcelID,
+    ParcelTable.AssessmentAppeals,
+  );
 export const fetchPLIPermitRecords = (parcelID: string) =>
-  fetchSingleParcelRecord(parcelID, ParcelTable.PLIPermit);
+  fetchParcelRecords<PLIPermit>(parcelID, ParcelTable.PLIPermit);
 export const fetchCityViolationsRecords = (parcelID: string) =>
-  fetchSingleParcelRecord(parcelID, ParcelTable.CityViolations);
+  fetchParcelRecords<CityViolation>(parcelID, ParcelTable.CityViolations);
 export const fetchForeclosureFilingsRecords = (parcelID: string) =>
-  fetchSingleParcelRecord(parcelID, ParcelTable.ForeclosureFilings);
+  fetchParcelRecords<ForeclosureFiling>(
+    parcelID,
+    ParcelTable.ForeclosureFilings,
+  );
 export const fetchTaxLiensWithCurrentStatusRecords = (parcelID: string) =>
-  fetchSingleParcelRecord(parcelID, ParcelTable.TaxLiensWithCurrentStatus);
+  fetchParcelRecords<TaxLienWithCurrentStatus>(
+    parcelID,
+    ParcelTable.TaxLiensWithCurrentStatus,
+  );
 export const fetchConservatorshipRecordRecords = (parcelID: string) =>
-  fetchSingleParcelRecord(parcelID, ParcelTable.ConservatorshipRecord);
+  fetchParcelRecords<ConservatorshipRecord>(
+    parcelID,
+    ParcelTable.ConservatorshipRecord,
+  );
+
+export async function fetchOwnerName(parcelID: string): Promise<string> {
+  try {
+    const requestURL = `https://tools.wprdc.org/property-whois/whois/${parcelID}/`;
+
+    const response = await fetch(requestURL);
+    const { name, success } = (await response.json()) as {
+      name: string;
+      success: boolean;
+    };
+    if (name) return name;
+    else {
+      throw new Error(`Owner not found for ${parcelID}`);
+    }
+  } catch (error) {
+    console.error(`Owner not found for ${parcelID}`);
+    throw new Error(`Owner not found for ${parcelID}`);
+  }
+}
+
+export async function autocompleteParcelSearch(
+  searchTerm: string,
+  limit: number = 10,
+  init?: RequestInit,
+): Promise<RankedParcelIndex[]> {
+  const sql: string = `
+      SELECT parcel_id,
+             class,
+             housenum,
+             fraction,
+             unit,
+             street,
+             city,
+             state,
+             zip,
+             address,
+             geom,
+             centroid,
+             geom_geojson,
+             centroid_geojson,
+             parcel_index._full_text <-> '${searchTerm}' AS dist
+      FROM parcel_index
+      ORDER BY dist
+      LIMIT ${limit}
+      `.replace(/\s+/g, " ");
+
+  const { records } = await fetchSQLSearch<RankedParcelIndex>(
+    sql,
+    undefined,
+    init,
+  );
+
+  return records ?? [];
+}

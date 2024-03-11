@@ -22,7 +22,7 @@ export function ErrorMessage({
     );
   return (
     <div className="flex w-max items-center border border-red-600 bg-red-50 px-2 shadow-md shadow-red-700 dark:bg-red-950">
-      <div className="font-mono text-lg font-bold uppercase">{title}</div>
+      <div className="font-mono text-sm font-bold uppercase">{title}</div>
       <div className="px-2">-</div>
       <div className="text-sm font-semibold">{message}</div>
     </div>

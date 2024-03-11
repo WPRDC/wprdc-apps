@@ -11,7 +11,7 @@
     "build": "tsup",
     "lint": "eslint src/",
     "dev": "tsup --watch",
-    "check-types": "tsc --noEmit"
+    "type-check": "tsc --noEmit"
   },
   "peerDependencies": {
     "react": "^18.2.0"
@@ -19,13 +19,14 @@
   "dependencies": {
     "maplibre-gl": "^4.0.2",
     "@maplibre/maplibre-gl-style-spec": "^20.1.1",
+    "@react-types/shared": "^3.22.1",
     "react-map-gl": "^7.1.7"
   },
   "devDependencies": {
     "@wprdc/eslint-config": "workspace:*",
     "@types/geojson": "^7946.0.14",
-    "@types/react": "^18.2.57",
-    "@types/react-dom": "^18.2.19",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.20",
     "@wprdc/tailwind-config": "workspace:*",
     "@wprdc/typescript-config": "workspace:*",
     "react": "^18.2.0",

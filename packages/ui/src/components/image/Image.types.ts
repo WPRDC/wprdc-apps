@@ -14,4 +14,5 @@ type ImgProps = DetailedHTMLProps<
 export type ImageProps = (ImgProps & NextImageProps) & {
   alt: string;
   ref?: Ref<HTMLImageElement>;
+  next?: boolean;
 };

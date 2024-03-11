@@ -78,3 +78,8 @@ export interface DatastoreSearchResponse<T extends DatastoreRecord> {
   /** True if the total number of rows was estimated */
   total_was_estimated: boolean;
 }
+
+export type FieldRecord<T extends DatastoreRecord> = Record<
+  keyof T,
+  DatastoreField<T>
+>;

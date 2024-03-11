@@ -5,6 +5,7 @@
  * Header with navigation menu
  *
  **/
+"use client";
 
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaChevronUp } from "react-icons/fa6";
@@ -18,6 +19,8 @@ export function Navbar({
   darkLogoSrc,
   logoProps,
   logoComponent,
+  projectTitle,
+  children,
 }: NavbarProps): React.ReactElement {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -58,12 +61,15 @@ export function Navbar({
           )}
         >
           <div className="flex w-full justify-between p-4 lg:w-fit">
-            <Logo
-              component={logoComponent}
-              darkSrc={darkLogoSrc}
-              imageProps={logoProps}
-              src={logoSrc}
-            />
+            <div>
+              <Logo
+                component={logoComponent}
+                darkSrc={darkLogoSrc}
+                imageProps={logoProps}
+                src={logoSrc}
+              />
+              <div className="mt-2">{projectTitle}</div>
+            </div>
             <button
               aria-hidden
               className={classNames("p-2 lg:hidden")}
@@ -80,7 +86,7 @@ export function Navbar({
               />
             </button>
           </div>
-          <nav>{/*  todo: implement nav menu props*/}</nav>
+          <nav>{children}</nav>
         </div>
       </div>
     </div>

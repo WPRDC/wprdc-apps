@@ -5,6 +5,8 @@
  * Form field for text input.
  *
  */
+"use client";
+
 import { Input, Label, TextField as RATextField } from "react-aria-components";
 import type { TextFieldProps } from "./TextField.types";
 

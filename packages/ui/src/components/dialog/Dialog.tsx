@@ -5,6 +5,8 @@
  * Overlayed content that takes focus and hides content below
  *
  **/
+"use client";
+
 import {
   Dialog as RADialog,
   Heading as RAHeading,

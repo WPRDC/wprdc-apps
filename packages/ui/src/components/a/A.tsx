@@ -5,6 +5,7 @@
  * Anchor element for links
  *
  **/
+"use client";
 import { Link } from "react-aria-components";
 import { twMerge } from "tailwind-merge";
 import type { AProps } from "./A.types";

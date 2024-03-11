@@ -16,7 +16,7 @@ export function Spinner({ size = "M" }: SpinnerProps): React.ReactElement {
   let width = 2;
   switch (size) {
     case "S":
-      height = 24;
+      height = 12;
       break;
     case "L":
       height = 48;

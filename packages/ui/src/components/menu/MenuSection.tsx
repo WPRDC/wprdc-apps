@@ -5,6 +5,7 @@
  * Divides menu items into sections.
  *
  */
+"use client";
 
 import { Section } from "react-aria-components";
 import type { MenuSectionProps } from "./Menu.types";

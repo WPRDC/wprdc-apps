@@ -3,13 +3,16 @@
   "display": "TypeScript types-only library",
   "extends": "./base.json",
   "compilerOptions": {
-    "lib": ["dom", "esnext"],
+    "lib": ["esnext", "DOM"],
+    "module": "ESNext",
+    "target": "ES6",
     "importHelpers": true,
     "sourceMap": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "jsx": "react",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "noEmit": true
   }
 }

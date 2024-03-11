@@ -5,6 +5,8 @@
  * Item within a menu
  *
  */
+"use client";
+
 import { MenuItem as RAMenuItem } from "react-aria-components";
 import type { MenuItemProps } from "./Menu.types";
 

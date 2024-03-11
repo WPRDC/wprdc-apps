@@ -5,14 +5,15 @@
  * Form field for handling numeric data.
  *
  */
+"use client";
 
 import {
   NumberField as RANumberField,
   Label,
   Group,
   Input,
+  Button,
 } from "react-aria-components";
-import { Button } from "../button";
 import type { NumberFieldProps } from "./NumberField.types";
 
 export function NumberField({
@@ -22,10 +23,14 @@ export function NumberField({
   return (
     <RANumberField {...props}>
       {!!label && <Label>{label}</Label>}
-      <Group>
-        <Button slot="decrement">-</Button>
+      <Group className="flex">
+        <Button className="m-0 p-0" slot="decrement">
+          -
+        </Button>
         <Input />
-        <Button slot="increment">+</Button>
+        <Button className="m-0 p-0" slot="increment">
+          +
+        </Button>
       </Group>
     </RANumberField>
   );

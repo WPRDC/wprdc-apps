@@ -5,6 +5,7 @@
  * A group of radio buttons
  *
  */
+"use client";
 
 import { RadioGroup as RARadioGroup } from "react-aria-components";
 import type { RadioGroupProps } from "./RadioGroup.types";

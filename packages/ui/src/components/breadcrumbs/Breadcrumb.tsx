@@ -1,3 +1,10 @@
+/**
+ * Breadcrumb
+ *
+ * A single item in a trail of breadcrumbs
+ */
+"use client";
+
 import { Breadcrumb as RABreadcrumb } from "react-aria-components";
 import { twMerge } from "tailwind-merge";
 import type { BreadCrumbProps } from "./Breadcrumbs.types";

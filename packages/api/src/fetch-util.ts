@@ -1,26 +1,11 @@
-import { DatastoreField, DatastoreRecord, QueryResult } from "@wprdc/types";
-import { FieldRecord } from "./types";
+import {
+  DatastoreField,
+  DatastoreRecord,
+  FieldRecord,
+  QueryResult,
+} from "@wprdc/types";
 
 const HOST = process.env.NEXT_PUBLIC_API_HOST ?? "https://data.wprdc.org";
-
-export async function fetchOwnerName(parcelID: string): Promise<string> {
-  try {
-    const requestURL = `https://tools.wprdc.org/property-whois/whois/${parcelID}/`;
-
-    const response = await fetch(requestURL);
-    const { name, success } = (await response.json()) as {
-      name: string;
-      success: boolean;
-    };
-    if (name) return name;
-    else {
-      throw new Error(`Owner not found for ${parcelID}`);
-    }
-  } catch (error) {
-    console.error(`Owner not found for ${parcelID}`);
-    throw new Error(`Owner not found for ${parcelID}`);
-  }
-}
 
 export async function fetchSQLSearch<T extends DatastoreRecord>(
   sql: string,

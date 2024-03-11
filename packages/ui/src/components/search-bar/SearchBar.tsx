@@ -5,6 +5,8 @@
  * Search input with controls and label
  *
  **/
+"use client";
+
 import {
   Form,
   SearchField,

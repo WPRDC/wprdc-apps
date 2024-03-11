@@ -3,7 +3,7 @@
 import { ReactElement, ReactNode } from "react";
 
 /** Possible value from datastore query */
-export type Value = string | number | boolean | undefined;
+export type Value = string | number | boolean | undefined | null;
 
 export type Size = "S" | "M" | "L" | "XL";
 
@@ -30,14 +30,6 @@ export interface IDed {
   slug: string;
   /** Human-friendly name */
   title: string;
-}
-
-export interface FieldValue {
-  id: number | string;
-  label: ReactNode;
-  value?: Value | ReactElement;
-  format?: (value: Value) => ReactNode;
-  info?: string;
 }
 
 export type Formatter<T extends Value = Value> = (value?: T) => ReactNode;

@@ -1,3 +1,5 @@
+"use client";
+
 import { TabList as RATabList } from "react-aria-components";
 import type { TabListProps } from "./Tabs.types";
 

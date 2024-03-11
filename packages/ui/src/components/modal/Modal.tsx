@@ -5,10 +5,12 @@
  * Overlayed content that takes focus and hides content below
  *
  **/
+"use client";
+
 import { Modal as RAModal } from "react-aria-components";
 import type { ModalProps } from "./Modal.types";
 
-export function Modal(props: ModalProps): React.ReactElement {
+export function Modal({ children, ...props }: ModalProps): React.ReactElement {
   return (
     <RAModal
       {...props}
@@ -17,6 +19,8 @@ export function Modal(props: ModalProps): React.ReactElement {
             ${isEntering ? "animate-in zoom-in-95 duration-300 ease-out" : ""}
             ${isExiting ? "animate-out zoom-out-95 duration-200 ease-in" : ""}
           `}
-    />
+    >
+      {children}
+    </RAModal>
   );
 }

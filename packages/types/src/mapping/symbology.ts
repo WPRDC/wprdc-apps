@@ -7,7 +7,7 @@ import {
   FillLayerSpecification,
   LineLayerSpecification,
 } from "maplibre-gl";
-import { MapContext } from "./shared";
+import { LayerContext } from "./shared";
 
 export type CirclePaintSpec = NonNullable<CircleLayerSpecification["paint"]>;
 export type CircleLayoutSpec = NonNullable<CircleLayerSpecification["layout"]>;
@@ -25,9 +25,7 @@ export enum StyleMode {
 
 export type StyleProp<T> =
   | DataDrivenPropertyValueSpecification<T>
-  | ((
-      context: MapContext & Record<string, any>,
-    ) => DataDrivenPropertyValueSpecification<T>);
+  | ((context: LayerContext) => DataDrivenPropertyValueSpecification<T>);
 
 /** Symbology props common across all layers */
 interface BaseSymbologyProps {
@@ -52,7 +50,7 @@ export interface SolidSymbologyProps extends BaseSymbologyProps {
 
 /** Props for layers with features styled based on categorization using underlying data */
 export interface QualitativeSymbologyProps extends BaseSymbologyProps {
-  visualMode: StyleMode.Qualitative;
+  styleMode: StyleMode.Qualitative;
   /** Maps categories to their colors */
   colors: {
     /** Field to check categories against from */

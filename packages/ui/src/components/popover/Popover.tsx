@@ -1,3 +1,5 @@
+"use client";
+
 import { OverlayArrow, Popover as RAPopover } from "react-aria-components";
 import type { PopoverProps } from "./Popover.types";
 

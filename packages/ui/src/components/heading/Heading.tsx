@@ -5,6 +5,7 @@
  * Section heading
  *
  */
+"use client";
 
 import { twMerge } from "tailwind-merge";
 import { Heading as RAHeading } from "react-aria-components";
@@ -18,10 +19,10 @@ export function Heading({
   return (
     <RAHeading
       className={twMerge(
-        "font-mono font-bold",
+        "font-bold",
         level === 1 && "mb-2 text-5xl",
         level === 2 &&
-          "mb-2 mt-3 border-t border-textSecondary pt-1 text-4xl dark:border-textSecondaryDark",
+          "mb-4 mt-2 border-t border-textSecondary pt-2 text-4xl dark:border-textSecondaryDark",
         level === 3 && "mb-2 mt-3 text-3xl",
         level === 4 && "mb-2 mt-3 text-2xl",
         level === 5 && "mb-2 mt-3 text-xl",
