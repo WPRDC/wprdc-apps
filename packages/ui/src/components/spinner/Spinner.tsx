@@ -9,7 +9,10 @@
 import ScaleLoader from "react-spinners/ScaleLoader";
 import type { SpinnerProps } from "./Spinner.types";
 
-export function Spinner({ size = "M" }: SpinnerProps): React.ReactElement {
+export function Spinner({
+  size = "M",
+  ...props
+}: SpinnerProps): React.ReactElement {
   let height = 35;
   let margin = 2;
   let radius = 2;
@@ -35,6 +38,7 @@ export function Spinner({ size = "M" }: SpinnerProps): React.ReactElement {
           margin={margin}
           radius={radius}
           width={width}
+          {...props}
         />
       </div>
       <div className="hidden dark:block">
@@ -44,6 +48,7 @@ export function Spinner({ size = "M" }: SpinnerProps): React.ReactElement {
           margin={margin}
           radius={radius}
           width={width}
+          {...props}
         />
       </div>
     </>

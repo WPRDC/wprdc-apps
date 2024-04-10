@@ -5,6 +5,7 @@ import {
   DatastoreRecord,
   FiledAssessmentAppeal,
   ForeclosureFiling,
+  GeoJSONFeature,
   ParcelBoundary,
   PLIPermit,
   PropertyAssessment,
@@ -49,7 +50,7 @@ export const parcelIDFields: Record<ParcelTable, string> = {
 function _fetchParcelRecords<T extends DatastoreRecord>(
   parcelID: string,
   table: ParcelTable,
-  queryParams?: Record<string, string>,
+  queryParams?: Record<string, string | number>,
 ): Promise<Partial<QueryResult<T>>> {
   const parcelIDField = parcelIDFields[table];
   return fetchDatastoreSearch<T>(
@@ -62,7 +63,7 @@ function _fetchParcelRecords<T extends DatastoreRecord>(
 export async function fetchParcelRecords<T extends DatastoreRecord>(
   parcelID: string,
   table: ParcelTable,
-  queryParams?: Record<string, string>,
+  queryParams?: Record<string, string | number>,
 ): Promise<APIResult<T>> {
   const { fields, records } = await _fetchParcelRecords<T>(
     parcelID,

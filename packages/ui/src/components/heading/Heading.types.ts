@@ -5,7 +5,8 @@
  **/
 import type * as React from "react";
 
-export interface HeadingProps extends React.JSX.IntrinsicAttributes {
+export interface HeadingProps
+  extends React.BaseHTMLAttributes<HTMLHeadingElement> {
   level?: HeadingLevel;
   className?: string;
   children?: React.ReactNode;

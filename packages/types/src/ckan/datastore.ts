@@ -6,9 +6,14 @@ export type DatastoreRecord = Record<string, Value>;
 /** Possible data types for CKAN datastore fields */
 export enum DataType {
   Text = "text",
-  Number = "number",
+  Float = "float8",
+  Int = "int",
+  BigInt = "int",
   DateTime = "datetime",
+  Date = "date",
+  Time = "time",
   Boolean = "boolean",
+  Geometry = "geometry",
 }
 
 /**
@@ -16,7 +21,7 @@ export enum DataType {
  *
  * returned from CKAN datastore_search
  * */
-export interface DatastoreField<T extends DatastoreRecord> {
+export interface DatastoreField<T extends DatastoreRecord = DatastoreRecord> {
   /** The column name */
   id: keyof T;
   /** The data type of the field */
@@ -51,8 +56,9 @@ export interface QueryResult<T extends DatastoreRecord> {
   include_total: true;
   /** limit of number of results returned */
   limit: number;
+
   /** Format that rows take in response */
-  records_format: "objects";
+  records_format?: "objects";
 
   /** Pagination links */
   _links: {

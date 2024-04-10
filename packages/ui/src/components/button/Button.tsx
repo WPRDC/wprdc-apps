@@ -8,11 +8,10 @@
 "use client";
 import { twMerge } from "tailwind-merge";
 import { Button as RAButton } from "react-aria-components";
-import type { ButtonProps } from "./Button.types.ts";
+import type { ButtonProps } from "./Button.types";
 
 export function Button({
   dense,
-  variant,
   className,
   children,
   ...buttonProps
@@ -22,12 +21,13 @@ export function Button({
     <RAButton
       {...buttonProps}
       className={twMerge(
-        "m-1 rounded border border-stone-800",
+        "m-1 rounded border border-stone-800 bg-background",
         "font-mono font-semibold uppercase",
-        "shadow-md hover:shadow-lg active:shadow-sm",
-        dense ? "rounded-sm px-0.5 py-0 text-xs" : "px-1 py-0.5 text-sm",
-        variant === "default" &&
-          "bg-backgroundSecondary dark:border-borderDark dark:bg-backgroundSecondaryDark dark:text-white",
+        "shadow-md active:shadow-sm hover:bg-primary/60 hover:shadow-lg",
+        "transition delay-75 ",
+        dense
+          ? "rounded-sm px-0.5 py-0 text-xs shadow-none hover:shadow-sm"
+          : "px-1 py-0.5 text-sm",
         className,
       )}
     >

@@ -1,18 +1,26 @@
 import { PiLineSegmentsFill } from "react-icons/pi";
-import { GeoType, StyleMode } from "@wprdc/types";
+import type { CategoryOptions } from "@wprdc/types";
+import { GeoType, SymbologyMode } from "@wprdc/types";
 import { darken } from "./util";
 import type { LegendItemProps, LegendProps, LegendRowProps } from "./Map.types";
 
-export function Legend({ layers }: LegendProps): React.ReactElement {
+export function Legend({ layers }: LegendProps): React.ReactElement | null {
+  const filteredLayers = layers?.filter((l) => !l.noLegend);
+
+  // hide layer when empty
+  if (!filteredLayers?.length) {
+    return null;
+  }
+
   return (
     <div className="z-100 flex flex-col rounded-sm border bg-white/65 p-2 backdrop-blur-md">
       <div className="text-leafgreen text-xs font-semibold uppercase">
         Legend
       </div>
 
-      {layers
-        ?.filter((l) => !l.noLegend)
-        .map((item) => <LegendItem key={item.slug} layer={item} />)}
+      {filteredLayers.map((item) => (
+        <LegendItem key={item.slug} layer={item} />
+      ))}
     </div>
   );
 }
@@ -23,7 +31,7 @@ export function LegendItem({ layer }: LegendItemProps): React.ReactElement {
       <div className="pb-1 text-sm font-semibold text-gray-700">
         {layer.title}
       </div>
-      {layer.styleMode === StyleMode.Solid && (
+      {layer.symbologyMode === SymbologyMode.Solid && (
         <LegendRow
           borderColor={layer.borderColor}
           color={layer.color}
@@ -31,10 +39,10 @@ export function LegendItem({ layer }: LegendItemProps): React.ReactElement {
           type={layer.type}
         />
       )}
-      {layer.styleMode === StyleMode.Qualitative &&
-        Object.entries(layer.colors.categories).map(([k, record]) => (
-          <LegendRow key={k} {...record} type={layer.type} />
-        ))}
+      {layer.symbologyMode === SymbologyMode.Qualitative &&
+        Object.entries<CategoryOptions>(layer.colors.categories).map(
+          ([k, record]) => <LegendRow key={k} {...record} type={layer.type} />,
+        )}
     </div>
   );
 }

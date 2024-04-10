@@ -21,11 +21,11 @@ export function GridMenuItem({
   return (
     <MenuItem
       {...props}
-      className="selected:ring-stone-800 group relative m-1 rounded-sm outline-0 ring-1 ring-transparent focus:shadow-sm focus:ring-stone-400 active:shadow-none"
+      className="group relative m-1 rounded-sm outline-0 ring-1 ring-transparent active:shadow-none focus:shadow-sm focus:ring-stone-400 selected:ring-stone-800"
     >
       <div
         className={classNames(
-          "group-selected:border-stone-800 group-selected:bg-blue-50 cursor-pointer rounded-sm border-2 border-stone-400 group-focus:bg-stone-200",
+          "cursor-pointer rounded-sm border-2 border-stone-400 bg-background group-focus:bg-stone-200 group-selected:border-stone-800 group-selected:bg-blue-50",
           {
             "w-12": size === "S",
             "w-20": size === "M",
@@ -59,7 +59,7 @@ export function GridMenuItem({
         >
           <Text
             className={classNames(
-              "group-selected:font-stone-800 text-center text-xs font-medium uppercase",
+              "group-selected:font-stone-800 text-center font-mono text-xs font-semibold uppercase",
               {
                 "text-sm": size === "L",
               },
@@ -68,7 +68,7 @@ export function GridMenuItem({
           >
             {children}
           </Text>
-          <TbCircleCheckFilled className="group-selected:block absolute right-2 top-2 z-10 hidden h-5 w-5 rounded-xl bg-white text-blue-600" />
+          <TbCircleCheckFilled className="absolute right-2 top-2 z-10 hidden h-5 w-5 rounded-xl bg-white text-blue-600 group-selected:block" />
         </div>
       </div>
     </MenuItem>

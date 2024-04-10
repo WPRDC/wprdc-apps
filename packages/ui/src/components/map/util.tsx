@@ -1,49 +1,14 @@
-import { StyleMode } from "@wprdc/types";
 import type {
-  LayerOptions,
-  QualitativeSymbologyProps,
-  SolidSymbologyProps,
-} from "@wprdc/types";
-import type { SourceFunctionSpecification } from "@maplibre/maplibre-gl-style-spec";
+  DataDrivenPropertyValueSpecification,
+  ExpressionSpecification,
+} from "@maplibre/maplibre-gl-style-spec";
 import tinycolor from "tinycolor2";
 import type {
   MapGeoJSONFeature,
   MapLayerMouseEvent,
 } from "react-map-gl/maplibre";
-
-export function generateSolidColorExpression(
-  layer: LayerOptions<SolidSymbologyProps>,
-  styler?: (color: string) => string,
-): string {
-  if (styler) return styler(layer.color);
-  return layer.color;
-}
-
-export function generateQualitativeColorExpression(
-  layer: LayerOptions<QualitativeSymbologyProps>,
-  styler: (color: string) => string = (c) => c,
-): SourceFunctionSpecification<string> {
-  return {
-    property: layer.colors.field,
-    type: "categorical",
-    stops: Object.entries(layer.colors.categories).map(([k, v]) => [
-      k,
-      styler(v.color),
-    ]),
-  };
-}
-
-export function generateColorExpression(
-  layer:
-    | LayerOptions<SolidSymbologyProps>
-    | LayerOptions<QualitativeSymbologyProps>,
-  styler?: (color: string) => string,
-) {
-  if (layer.styleMode === StyleMode.Solid)
-    return generateSolidColorExpression(layer, styler);
-  if (layer.styleMode === StyleMode.Qualitative)
-    return generateQualitativeColorExpression(layer, styler);
-}
+import type { LayerConfig } from "@wprdc/types";
+import { GeoType } from "@wprdc/types";
 
 export const darken =
   (amount?: number) =>
@@ -62,7 +27,7 @@ export function extractFeatures(
     return null;
   }
   const features = e.features.filter(
-    (f) => f.properties.PIN != "COMMON GROUND",
+    (f) => f.properties.parcel_id !== "COMMON GROUND",
   );
 
   // if nothing found in list of features, they must all be COMMON GROUND
@@ -71,4 +36,36 @@ export function extractFeatures(
   if (features.length === 1) return [features[0]];
   // otherwise return the list of non common ground parcels
   return features;
+}
+
+export const DEFAULT_LINE_OPACITY = 0.9;
+export const DEFAULT_FILL_OPACITY = 0.7;
+export const DEFAULT_BORDER_WIDTH: DataDrivenPropertyValueSpecification<number> =
+  ["interpolate", ["linear"], ["zoom"], 5, 1, 15, 1, 17, 4];
+export const DEFAULT_LINE_WIDTH: DataDrivenPropertyValueSpecification<number> =
+  ["interpolate", ["linear"], ["zoom"], 5, 0.5, 12, 1, 14, 7];
+export const DEFAULT_SELECTED_COLOR = "cyan";
+export const DEFAULT_COLOR = "#000";
+
+const thing: ExpressionSpecification = [
+  "case",
+  ["!=", ["get", "parcel_id"], "COMMON GROUND"],
+  "#000",
+  [
+    "case",
+    ["==", ["get", "parcel_id"], ""],
+    "red",
+    ["case", ["==", ["get", "parcel_id"], "0125M00143000000"], "blue", "#000"],
+  ],
+];
+
+export function getInteractiveLayerID(layer: LayerConfig): string {
+  switch (layer.type) {
+    case GeoType.Point:
+      return `${layer.slug}-circle`;
+    case GeoType.Line:
+      return `${layer.slug}-line`;
+    case GeoType.Polygon:
+      return `${layer.slug}-fill`;
+  }
 }

@@ -1,7 +1,10 @@
+"use client";
+
 import type { Selection } from "react-aria-components";
 import { MenuTrigger } from "react-aria-components";
 import { GridMenu, GridMenuItem } from "../grid-menu";
 import { Button } from "../button";
+import { Popover } from "../popover";
 import { basemaps } from "./basemaps";
 
 export interface BasemapMenuProps {
@@ -22,24 +25,25 @@ export function BasemapMenu({
 
   return (
     <MenuTrigger>
-      <Button>Basemaps</Button>
-      <GridMenu
-        columns={3}
-        onSelectionChange={handleSelection}
-        orientation="grid"
-        selectedKeys={[selectedBasemap]}
-        size="L"
+      <Button style={{ background: "white" }}>Basemaps</Button>
+      <Popover
+        className="rounded-sm bg-white p-2 shadow"
+        placement="bottom right"
       >
-        {Object.entries(basemaps).map(([name, { label }]) => (
-          <GridMenuItem
-            id={name}
-            image={`/greenprint/basemaps/${name}-close.png`}
-            key={name}
-          >
-            {label}
-          </GridMenuItem>
-        ))}
-      </GridMenu>
+        <GridMenu
+          columns={3}
+          onSelectionChange={handleSelection}
+          orientation="grid"
+          selectedKeys={[selectedBasemap]}
+          size="L"
+        >
+          {Object.entries(basemaps).map(([name, { label, image }]) => (
+            <GridMenuItem id={name} image={image} key={name}>
+              {label}
+            </GridMenuItem>
+          ))}
+        </GridMenu>
+      </Popover>
     </MenuTrigger>
   );
 }

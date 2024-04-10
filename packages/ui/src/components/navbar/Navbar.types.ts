@@ -20,6 +20,7 @@ export interface NavbarProps {
   logoComponent?: ImageComponent;
   menuItems?: object[];
   projectTitle?: ReactNode;
+  fullWidth?: boolean;
   children?: ReactNode;
 }
 

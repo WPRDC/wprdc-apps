@@ -1,4 +1,12 @@
 import { twMerge } from "tailwind-merge";
+import { TbAlertTriangleFilled } from "react-icons/tb";
+import {
+  PiCheckFatFill,
+  PiSealWarningBold,
+  PiWarningCircleDuotone,
+  PiWarningDuotone,
+  PiWarningOctagonDuotone,
+} from "react-icons/pi";
 import { InfoTooltip } from "../tooltip";
 import type { ChipProps } from "./Chip.types";
 
@@ -15,7 +23,7 @@ export function Chip({
   return (
     <div
       className={twMerge(
-        "flex items-start font-mono text-sm font-semibold uppercase",
+        "flex items-start font-mono text-xs font-semibold uppercase",
         className,
       )}
     >
@@ -23,9 +31,10 @@ export function Chip({
         className={twMerge(
           "flex w-fit items-center space-x-1 rounded-md border-2 px-1",
           variant === "default" && "",
-          variant === "active" && "border-leafgreen bg-lightgreen/70",
-          variant === "disabled" && "text-stone-200",
-          variant === "error" && "",
+          variant === "success" && "border-green-900 bg-green-400/70",
+          variant === "warning" && "border-orange-900 bg-orange-400/70",
+          variant === "danger" && "border-red-900 bg-red-400/70",
+          variant === "info" && "border-blue-900 bg-blue-400/70",
         )}
         style={{ background: color, color: textColor, borderColor: textColor }}
       >
@@ -34,6 +43,10 @@ export function Chip({
             <Icon />
           </div>
         )}
+        {!Icon && variant === "success" && <PiCheckFatFill />}
+        {!Icon && variant === "info" && <PiWarningCircleDuotone />}
+        {!Icon && variant === "warning" && <PiWarningDuotone />}
+        {!Icon && variant === "danger" && <PiWarningOctagonDuotone />}
         <div>{label}</div>
       </div>
       {!!info && <InfoTooltip info={info} />}

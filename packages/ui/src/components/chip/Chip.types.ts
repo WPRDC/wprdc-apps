@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 export interface ChipProps {
   label: string;
   icon?: IconType;
-  variant?: "default" | "active" | "disabled" | "error";
+  variant?: "default" | "info" | "success" | "warning" | "danger";
   info?: ReactNode;
   color?: string;
   textColor?: string;

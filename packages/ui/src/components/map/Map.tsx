@@ -7,85 +7,112 @@
  **/
 "use client";
 
-import { useCallback, useContext, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type {
   MapGeoJSONFeature,
   MapLayerMouseEvent,
+  MapRef,
   Point,
 } from "react-map-gl/maplibre";
 import ReactMapGL, { NavigationControl } from "react-map-gl/maplibre";
-import { Button } from "react-aria-components";
-import { TbX } from "react-icons/tb";
-import { FaChevronCircleDown } from "react-icons/fa";
+import type { LayerConfig, MapState } from "@wprdc/types";
+import { SymbologyMode } from "@wprdc/types";
 import { BasemapMenu } from "./BasemapMenu";
 import { LayerGroup } from "./LayerGroup";
 import { extractFeatures } from "./util";
 import { Legend } from "./Legend";
 import { basemaps } from "./basemaps";
 import type { MapProps } from "./Map.types";
-import { MapContext } from "./MapProvider";
+import DrawControl from "./DrawControl";
+
+const DEFAULT_MIN_ZOOM = 9;
+const DEFAULT_MAX_ZOOM = 22;
 
 export function Map({
   children,
   onClick,
   onHover,
   mapTilerAPIKey,
+  selectedIDs,
+  layers,
+  initialViewState,
+  minZoom,
+  maxZoom,
+  useDrawControls = false,
+  drawControlProps = {},
 }: MapProps): React.ReactElement {
-  const { selectedLayers } = useContext(MapContext);
+  const mapRef = useRef<MapRef>(null);
 
   const [basemap, setBasemap] = useState<keyof typeof basemaps>("basic");
   const [zoom, setZoom] = useState<string>();
 
-  const [hoverPoint, setHoverPoint] = useState<Point | null>(null);
+  const [hoveredPoint, setHoveredPoint] = useState<Point | null>(null);
   const [hoveredFeatures, setHoveredFeatures] = useState<
     MapGeoJSONFeature[] | null
   >(null);
 
-  const [clickPoint, setClickPoint] = useState<Point | null>(null);
+  const [clickedPoint, setClickedPoint] = useState<Point | null>(null);
   const [clickedFeatures, setClickedFeatures] = useState<
     MapGeoJSONFeature[] | null
   >(null);
 
-  const interactiveLayerIDs = useMemo(() => {
-    if (
-      !!selectedLayers &&
-      selectedLayers.map((l) => l.slug).includes("parcel-boundaries")
-    ) {
-      return ["parcel-boundaries-fill"];
-    }
-    return [];
-  }, [selectedLayers]);
+  const [drawingMode, setDrawingMode] = useState<string>("simple_select");
+
+  const mapState: MapState = {
+    selectedIDs,
+    hoveredFeatures,
+    clickedFeatures,
+    hoveredPoint,
+    clickedPoint,
+  };
 
   const handleHover = useCallback(
     (e: MapLayerMouseEvent) => {
       const features = extractFeatures(e);
       setHoveredFeatures(features);
-      if (!!features && !!features.length) setHoverPoint(e.point);
-      else setHoverPoint(null);
+      if (!!features && !!features.length) setHoveredPoint(e.point);
+      else setHoveredPoint(null);
       if (onHover) {
-        onHover(e);
+        onHover(features ?? [], mapState, e);
       }
     },
-    [onHover],
+    [mapState, onHover],
   );
 
   const handleClick = useCallback(
     (e: MapLayerMouseEvent): void => {
       const features = extractFeatures(e);
       setClickedFeatures(features);
-      if (!!features && features.length > 1) setClickPoint(e.point);
-      else setClickPoint(null);
+      if (!!features && features.length > 1) setClickedPoint(e.point);
+      else setClickedPoint(null);
       if (onClick) {
-        onClick(e);
+        onClick(features ?? [], mapState, e);
       }
     },
-    [onClick],
+    [mapState, onClick],
   );
 
   function getCursor(features?: MapGeoJSONFeature[] | null): string {
     if (!features?.length) return "grab";
     return "pointer";
   }
+
+  useEffect(() => {
+    if (mapRef.current) {
+      const map = mapRef.current.getMap();
+      map.on("draw.modechange", (e: { mode: string }) => {
+        setDrawingMode(e.mode);
+      });
+    }
+  }, [mapRef.current]);
+
+  const interactiveLayerIDs = useMemo(() => {
+    return layers
+      ?.filter(
+        (l: LayerConfig) => l.symbologyMode === SymbologyMode.Interactive,
+      )
+      .map((l) => `${l.slug}-fill`);
+  }, [layers]);
 
   return (
     <ReactMapGL
@@ -94,15 +121,22 @@ export function Map({
         longitude: -80,
         latitude: 40.44,
         zoom: 11,
+        ...initialViewState,
       }}
       interactive
-      interactiveLayerIds={interactiveLayerIDs}
+      interactiveLayerIds={
+        drawingMode === "simple_select" ? interactiveLayerIDs : []
+      }
       mapStyle={`${basemaps[basemap].url}?key=${mapTilerAPIKey}`}
+      maxZoom={maxZoom ?? DEFAULT_MAX_ZOOM}
+      minZoom={minZoom ?? DEFAULT_MIN_ZOOM}
       onClick={handleClick}
       onMouseMove={handleHover}
       onZoom={(e) => {
         setZoom(e.target.getZoom().toFixed(2));
       }}
+      ref={mapRef}
+      style={{ position: "relative" }}
     >
       <NavigationControl showCompass visualizePitch />
 
@@ -110,78 +144,40 @@ export function Map({
         <BasemapMenu onSelection={setBasemap} selectedBasemap={basemap} />
       </div>
 
-      <div className="absolute left-2.5 top-2.5 rounded-sm border bg-white bg-white/60 p-1 text-xs font-bold backdrop-blur-md">
-        Zoom: <span>{zoom}</span>
+      <div className="absolute bottom-2.5 left-2.5 rounded-sm border bg-white bg-white/60 p-1 text-xs font-bold backdrop-blur-md">
+        Zoom: <span className="font-mono">{zoom}</span>
       </div>
 
-      <div className="absolute bottom-5 right-2.5">
-        <Legend layers={selectedLayers} />
+      <div className="absolute bottom-10 right-2.5">
+        <Legend layers={layers} />
       </div>
 
-      {/* Popup on hover */}
-      {!!hoverPoint && !!hoveredFeatures && !clickPoint && (
-        <div
-          className="pointer-events-none absolute mx-auto border border-transparent bg-white/60 pb-2 backdrop-blur-md"
-          style={{ left: hoverPoint.x + 12, top: hoverPoint.y + 12 }}
-        >
-          <div className="px-2 py-1 text-left text-xs font-bold">
-            {hoveredFeatures.length > 1 && "Click to open selection menu"}
-          </div>
-          {hoveredFeatures.map((feature, i) => (
-            <div className="px-2" key={feature.id}>
-              {!!i && (
-                <div className="flex items-center ">
-                  <div className="w-8 border-t border-stone-700" />
-                  <div className="mx-1 w-fit flex-shrink pb-0.5 italic">
-                    and
-                  </div>
-                  <div className="flex-grow border-t border-stone-700" />
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+      {!!useDrawControls && (
+        <DrawControl
+          controls={{
+            polygon: true,
+            trash: true,
+          }}
+          displayControlsDefault={false}
+          position="top-left"
+          {...drawControlProps}
+        />
       )}
 
-      {!!clickPoint && clickedFeatures ? (
-        <div
-          className="border-lightgreen absolute z-10 mx-auto border-2 bg-white/80 pb-2 backdrop-blur-md"
-          style={{ left: clickPoint.x + 12, top: clickPoint.y + 12 }}
-        >
-          <Button
-            className="absolute right-1 top-1 font-bold hover:text-red-600"
-            onPress={() => {
-              setClickPoint(null);
-              setClickedFeatures(null);
+      {!!layers &&
+        layers.map((layer) => (
+          <LayerGroup
+            context={{
+              selectedIDs,
+              hoveredFeatures,
+              hoveredPoint,
+              clickedPoint,
             }}
-          >
-            <TbX className="h-4 w-4" />
-          </Button>
-          <div className="flex items-center space-x-1 px-2 py-1 text-left text-xs font-bold">
-            <FaChevronCircleDown />
-            <div>Select a parcel</div>
-          </div>
-          <div className="flex flex-col items-stretch">
-            {clickedFeatures.map((feature, i) => (
-              <div key={feature.id}>
-                {!!i && (
-                  <div className="flex items-center">
-                    <div className="w-8 flex-shrink border-t border-stone-700" />
-                    <div className="mx-1 w-fit flex-shrink pb-0.5 italic">
-                      or
-                    </div>
-                    <div className="flex-grow border-t border-stone-700" />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      ) : null}
-      {!!selectedLayers &&
-        selectedLayers.map((layerConfig) => (
-          <LayerGroup context={{}} key={layerConfig.slug} layer={layerConfig} />
+            key={layer.slug}
+            layer={layer}
+          />
         ))}
+
       {children}
     </ReactMapGL>
   );

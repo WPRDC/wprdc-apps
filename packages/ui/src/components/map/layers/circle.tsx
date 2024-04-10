@@ -1,21 +1,15 @@
 import { Layer } from "react-map-gl/maplibre";
-import type { LayerContext, LayerOptions, SymbologyProps } from "@wprdc/types";
-import { darken, generateColorExpression } from "../util";
-
-interface PointLayerProps {
-  layer: LayerOptions<SymbologyProps>;
-  sourceLayer: string;
-  context: LayerContext;
-}
+import type { SymbologyLayerProps } from "../Map.types";
+import { parseConfig } from "../parse";
 
 export function CircleLayer({
   layer,
   sourceLayer,
-}: PointLayerProps): React.ReactElement {
+  context,
+}: SymbologyLayerProps): React.ReactElement {
   const { slug } = layer;
 
-  const color = generateColorExpression(layer);
-  const borderColor = generateColorExpression(layer, darken());
+  const { color, borderColor } = parseConfig(layer, context);
 
   return (
     <Layer

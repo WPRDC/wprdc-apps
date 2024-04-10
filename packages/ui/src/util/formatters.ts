@@ -1,4 +1,9 @@
-import type { Formatter, PropertyAssessment, Value } from "@wprdc/types";
+import type {
+  DatastoreField,
+  Formatter,
+  PropertyAssessment,
+  Value,
+} from "@wprdc/types";
 import type { ReactNode } from "react";
 
 export function makeAddress(
@@ -49,4 +54,30 @@ export function formatDollars(value?: number): string | undefined {
 
 export function formatDate(date: string): string {
   return new Date(date).toISOString().substring(0, 10);
+}
+
+/** Converts an array of field definitions into a data dict csv */
+export function asDataDict(
+  fields: DatastoreField[],
+  options: { noHeader?: boolean; table?: string } = {},
+): string {
+  const header = options.noHeader
+    ? ""
+    : `${options.table ? "table," : ""}field,label,type,notes`;
+
+  const tableValues: (string | undefined)[] = options.table
+    ? [options.table]
+    : [];
+
+  return fields.reduce<string>((acc, cur) => {
+    const values = tableValues
+      .concat([
+        cur.id,
+        (cur.info?.label ?? "").trim(),
+        cur.type,
+        (cur.info?.notes ?? "").trim(),
+      ])
+      .map((v) => `"${v}"`);
+    return `${acc}\n${values.join(",")}`;
+  }, header);
 }

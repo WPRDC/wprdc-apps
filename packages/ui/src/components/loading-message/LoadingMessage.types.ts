@@ -1,7 +1,7 @@
-import type { SizeCategory } from "../../types";
+import type { Size } from "@wprdc/types";
 
 export interface LoadingMessageProps {
   name?: string;
   message?: string;
-  size?: SizeCategory;
+  size?: Size;
 }

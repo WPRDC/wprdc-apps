@@ -27,7 +27,7 @@ export function HeadingSection({
   const assessmentRecord = assessment.records[0];
   const [addressLine, cityLine] = makeAddress(assessmentRecord);
   return (
-    <div className="flex justify-between py-4">
+    <div className="flex justify-between pb-4">
       <div className="w-2/3">
         <div className="mb-1 flex space-x-1">
           <ClassChip parcelClass={assessmentRecord.CLASSDESC} />

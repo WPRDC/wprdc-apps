@@ -65,16 +65,10 @@ export async function PropertyDashboard({
             parcelID={parcelID}
           />
         </div>
+
         <Heading level={2}>Assessment</Heading>
         <Section>
           {/* Assessment*/}
-          <ConnectedSection<PropertyAssessment>
-            className="col-span-6 row-span-3"
-            getter={fetchAssessmentRecord}
-            label="Dwelling Characteristics"
-            parcelID={parcelID}
-            section={DwellingSection}
-          />
           <ConnectedSection<PropertyAssessment>
             className="col-span-6 row-span-1"
             getter={fetchAssessmentRecord}
@@ -83,12 +77,21 @@ export async function PropertyDashboard({
             section={AssessedValuesSection}
           />
           <ConnectedSection<PropertyAssessment>
+            className="col-span-6 row-span-3"
+            getter={fetchAssessmentRecord}
+            label="Dwelling Characteristics"
+            parcelID={parcelID}
+            section={DwellingSection}
+          />
+
+          <ConnectedSection<PropertyAssessment>
             className="col-span-6 row-span-2"
             getter={fetchAssessmentRecord}
             label="Tax Context"
             parcelID={parcelID}
             section={TaxContextSection}
           />
+
           <ConnectedSection<PropertyAssessment>
             className="col-span-2 row-span-1"
             getter={fetchAssessmentRecord}

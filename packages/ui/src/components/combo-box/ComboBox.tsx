@@ -18,19 +18,32 @@ export function ComboBox<T extends object>({
   label,
   description,
   errorMessage,
+  variant = "default",
   className,
-
   children,
   ...props
 }: ComboBoxProps<T>): React.ReactElement {
   return (
     <RAComboBox {...props} className={twMerge("relative", className)}>
-      <Label className="flex items-center pb-1">
-        <TbSearch className="pr-0.5" />
-        <Typography.Label>{label}</Typography.Label>
+      <Label
+        className={twMerge(
+          "flex items-center pb-1",
+          variant === "search-nav" && "absolute z-10",
+        )}
+      >
+        <TbSearch
+          className={twMerge("pr-0.5", variant === "search-nav" && "size-8")}
+        />
+        {variant !== "search-nav" && (
+          <Typography.Label>{label}</Typography.Label>
+        )}
       </Label>
 
-      <Input className="w-full rounded-sm border border-stone-800 px-2 py-1" />
+      <Input
+        className={twMerge(
+          "w-full rounded-sm border border-stone-800 px-2 py-1",
+        )}
+      />
 
       {description ? <Text slot="description">{description}</Text> : null}
       <FieldError>{errorMessage}</FieldError>

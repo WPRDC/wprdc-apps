@@ -1,54 +1,55 @@
-import { Extent, GeoType, IDed, Publisher } from "../shared";
+import { GeoType, IDed, Publisher } from "../shared";
 import { FilterSpecification } from "maplibre-gl";
 import { SymbologyProps } from "./symbology";
 import { LegendGroupOptions } from "./legend";
 import { ReactNode } from "react";
+import { MapState } from "./shared";
+
+export interface LayerSource extends IDed {
+  /** URL to source or to information about it.  Used in links. */
+  url: string;
+
+  /** CKAN resource ID for CKAN resources */
+  resourceID: string;
+}
 
 /** Properties common among all layers */
 export interface CommonLayerOptions extends IDed {
-  /** Type of geometry used in layer */
-  type: GeoType;
-
   /** Description of the layer/dataset */
   description: string;
 
-  /* Data source visualized by layer */
-  source: {
-    title: string;
-    url: string;
-  };
-  /** CKAN resource ID */
-  resourceID: string;
+  /** Type of geometry used in layer */
+  type: GeoType;
+
+  /** Data source being visualized by layer */
+  source: LayerSource;
 
   /** Publisher details */
   publisher: Publisher;
 
   /** Geographic extent of the layer */
-  extent: Extent;
-
-  /** If true, the features can be clicked */
-  interactive?: boolean;
+  extent: string;
 
   /** Options that define the layer's legend item if one */
   legend?: LegendGroupOptions;
 
   /** Options that define the layer's popup if one*/
-  popup?: PopupOptions;
+  hoverPopup?: (props: MapState) => React.ReactElement;
 
   /** Hides layer if true */
   hidden?: boolean;
 
   /**
-   * SQL query from which to generate layer
+   * TODO: SQL query from which to generate layer
    *  if not provided, SELECT * FROM {resourceID} will be used
    */
-  sql?: string;
+  // sql?: string;
 
   /** URL of tile JSON to override as source */
-  tileJSONSource?: string;
+  tileJSONSource: string;
 
   /** Override source-layer  */
-  sourceLayer?: string;
+  sourceLayer: string;
 
   /** Override min zoom */
   minZoom?: number;
@@ -75,13 +76,8 @@ export interface PopupFieldOptions {
   asTitle?: boolean;
 }
 
-/** Options used by map popups */
-export interface PopupOptions {
-  /** Title to display at top of popup */
-  title?: string;
-  /** Field props */
-  fields: [];
-}
+interface PopupProps {}
 
 /** Add common options to a specific symbology layer type */
-export type LayerOptions<V extends SymbologyProps> = CommonLayerOptions & V;
+export type LayerConfig<V extends SymbologyProps = SymbologyProps> =
+  CommonLayerOptions & V;

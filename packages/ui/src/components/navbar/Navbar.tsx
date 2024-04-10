@@ -11,6 +11,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { FaChevronUp } from "react-icons/fa6";
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
+import { twMerge } from "tailwind-merge";
 import type { NavbarProps } from "./Navbar.types";
 import { Logo } from "./Logo";
 
@@ -21,6 +22,7 @@ export function Navbar({
   logoComponent,
   projectTitle,
   children,
+  fullWidth = false,
 }: NavbarProps): React.ReactElement {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -56,8 +58,9 @@ export function Navbar({
       {/* Navbar */}
       <div className="w-full border-b-2 border-black bg-white dark:border-slate-800 dark:bg-black lg:flex ">
         <div
-          className={classNames(
-            "mx-auto w-full max-w-7xl lg:flex lg:items-center lg:justify-between",
+          className={twMerge(
+            "mx-auto w-full lg:flex lg:items-center lg:justify-between",
+            fullWidth ? "" : "max-w-7xl ",
           )}
         >
           <div className="flex w-full justify-between p-4 lg:w-fit">

@@ -7,6 +7,7 @@ export interface ComboBoxProps<T extends object>
   extends Omit<RAComboBoxProps<T>, "children" | "className"> {
   label?: string;
   description?: string | null;
+  variant?: "default" | "search-nav";
   errorMessage?: string | ((validation: ValidationResult) => string);
   children: React.ReactNode | ((item: T) => React.ReactNode);
   className?: string;

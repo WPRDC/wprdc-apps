@@ -1,15 +1,18 @@
 "use client";
 
-import type { AsyncListData } from "react-stately";
+import type { AsyncListData, Key } from "react-stately";
 import { useAsyncList } from "react-stately";
 import type { RankedParcelIndex } from "@wprdc/types";
 import { ListBoxItem, Text } from "react-aria-components";
 import { autocompleteParcelSearch } from "@wprdc/api";
 import { ComboBox, getClassificationColor } from "@wprdc/ui";
+import { useRouter } from "next/navigation";
 
-const API_TOKEN = process.env.NEXT_PUBLIC_CKAN_API_TOKEN ?? "";
+const API_TOKEN = process.env.CKAN_API_TOKEN ?? "";
 
 export function ParcelSearch(): React.ReactElement {
+  const router = useRouter();
+
   const list: AsyncListData<RankedParcelIndex> =
     useAsyncList<RankedParcelIndex>({
       async load({ signal, filterText }) {
@@ -24,20 +27,26 @@ export function ParcelSearch(): React.ReactElement {
       },
     });
 
+  function handleSelectionChange(key: Key): void {
+    list.setFilterText("");
+    if (key) router.push(`/parcel?parcel=${key}`);
+  }
+
   return (
     <ComboBox<RankedParcelIndex>
-      className="w-80 min-w-52"
+      className="w-80 min-w-52 text-xl"
       inputValue={list.filterText}
       items={list.items}
       label="Search Address or Parcel ID"
       onInputChange={(v: string) => {
         list.setFilterText(v);
       }}
+      onSelectionChange={handleSelectionChange}
+      variant="search-nav"
     >
       {(item: RankedParcelIndex) => (
         <ListBoxItem
-          className="group"
-          href={`/parcel/${item.parcel_id}`}
+          className="group cursor-pointer"
           id={item.parcel_id}
           textValue={item.address}
         >
@@ -54,7 +63,7 @@ export function ParcelSearch(): React.ReactElement {
                 </div>
               </div>
               <Text className="block truncate font-medium" slot="label">
-                <div className=" font-medium leading-none">
+                <div className="font-semibold leading-none">
                   {item.housenum} {item.street} {item.unit}
                 </div>
                 <div className="text-xs leading-none">

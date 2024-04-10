@@ -16,12 +16,14 @@ export function ConnectedSection<T extends DatastoreRecord>({
   ...props
 }: ConnectedSectionProps<T>): React.ReactElement {
   return (
-    <SectionCard className={className} label={label}>
-      <Suspense fallback="loading...">
-        {/* @ts-expect-error Async Server Component */}
-        <ConnectedSectionContent {...props} />
-      </Suspense>
-    </SectionCard>
+    <div className={className}>
+      <SectionCard label={label}>
+        <Suspense fallback="loading...">
+          {/* @ts-expect-error Async Server Component */}
+          <ConnectedSectionContent {...props} />
+        </Suspense>
+      </SectionCard>
+    </div>
   );
 }
 

@@ -42,7 +42,7 @@ export function SalesSection({
     });
   }
 
-  if (!records.length)
+  if (!records.length && !assessmentSales.length)
     return (
       <Typography.Note>No property sale transactions found</Typography.Note>
     );
