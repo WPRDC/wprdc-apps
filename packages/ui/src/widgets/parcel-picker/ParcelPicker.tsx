@@ -150,7 +150,7 @@ export function ParcelPicker({
   }, [drawnAreas]);
 
   return (
-    <div className="h-[45rem] w-full">
+    <div className="flex h-full w-full flex-col">
       <Map
         drawControlProps={{
           onCreate: handleDrawing,
@@ -176,16 +176,17 @@ export function ParcelPicker({
         />
       </Map>
 
-      <div>
-        <FileTrigger onSelect={handleFileUpload}>
-          <Button>Upload Saved Selection</Button>
-        </FileTrigger>
-        <Button onPress={handleSelectionDownload}>Download Selection</Button>
-        <div>
-          Save your selection so can query the same parcels again or make
-          changes later on.
-        </div>
-      </div>
+      {/* todo: move this to a menu */}
+      {/*<div className="h-24">*/}
+      {/*  <FileTrigger onSelect={handleFileUpload}>*/}
+      {/*    <Button>Upload Saved Selection</Button>*/}
+      {/*  </FileTrigger>*/}
+      {/*  <Button onPress={handleSelectionDownload}>Download Selection</Button>*/}
+      {/*  <div>*/}
+      {/*    Save your selection so can query the same parcels again or make*/}
+      {/*    changes later on.*/}
+      {/*  </div>*/}
+      {/*</div>*/}
     </div>
   );
 }

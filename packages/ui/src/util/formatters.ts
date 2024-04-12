@@ -61,9 +61,9 @@ export function asDataDict(
   fields: DatastoreField[],
   options: { noHeader?: boolean; table?: string } = {},
 ): string {
-  const header = options.noHeader
-    ? ""
-    : `${options.table ? "table," : ""}field,label,type,notes`;
+  let columns = ["field", "label", "type", "notes"];
+  if (options.table) columns = ["table"].concat(columns);
+  const header = options.noHeader ? "" : `${columns.join(",")}\n`;
 
   const tableValues: (string | undefined)[] = options.table
     ? [options.table]
@@ -78,6 +78,6 @@ export function asDataDict(
         (cur.info?.notes ?? "").trim(),
       ])
       .map((v) => `"${v}"`);
-    return `${acc}\n${values.join(",")}`;
+    return `${acc}${values.join(",")}\n`;
   }, header);
 }

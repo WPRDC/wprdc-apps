@@ -154,8 +154,6 @@ export async function autocompleteParcelSearch(
              address,
              geom,
              centroid,
-             geom_geojson,
-             centroid_geojson,
              parcel_index._full_text <-> '${searchTerm}' AS dist
       FROM parcel_index
       ORDER BY dist

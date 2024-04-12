@@ -42,18 +42,18 @@ export function FieldMenu({
   return (
     <div className="w-full overflow-auto">
       <div className="mx-auto h-full w-full max-w-screen-lg">
-        {Object.entries(datasets).map(([title, menus]) => (
+        {Object.entries(datasets).map(([title, menuDatasets]) => (
           <section className="pb-6" key={title}>
             <Heading id={slugify(title)} level={2}>
               {title}
             </Heading>
             <div className="grid grid-cols-1 gap-x-4 gap-y-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-x-12">
-              {menus.map((menu) => (
+              {menuDatasets.map((dataset) => (
                 <DatasetFieldMenu
-                  key={menu.title}
-                  {...menu}
-                  onSelectionChange={handleSelectionChange(menu.table)}
-                  selection={selectionByDataset[menu.table]}
+                  key={dataset.title}
+                  {...dataset}
+                  onSelectionChange={handleSelectionChange(dataset.table)}
+                  selection={selectionByDataset[dataset.table]}
                 />
               ))}
             </div>

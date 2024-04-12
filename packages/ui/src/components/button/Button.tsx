@@ -16,7 +16,6 @@ export function Button({
   children,
   ...buttonProps
 }: ButtonProps): React.ReactElement {
-  "use client";
   return (
     <RAButton
       {...buttonProps}
@@ -28,6 +27,7 @@ export function Button({
         dense
           ? "rounded-sm px-0.5 py-0 text-xs shadow-none hover:shadow-sm"
           : "px-1 py-0.5 text-sm",
+        buttonProps.isDisabled ? "cursor-not-allowed bg-gray-100" : "",
         className,
       )}
     >

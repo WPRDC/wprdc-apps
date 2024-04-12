@@ -25,6 +25,7 @@ export const datasets: Record<string, Dataset[]> = {
       table: ParcelTable.FiledAssessmentAppeals,
       datasetURL:
         "https://data.wprdc.org/dataset/filed-property-assessment-appeals",
+      ignoredFields: ["as_of"],
       parcelIDField: "parcel_id",
     },
     {
@@ -33,7 +34,7 @@ export const datasets: Record<string, Dataset[]> = {
       table: ParcelTable.AssessmentAppeals,
       datasetURL:
         "https://data.wprdc.org/dataset/allegheny-county-property-assessment-appeals",
-      parcelIDField: "Parcel ID",
+      parcelIDField: "PARCEL ID",
     },
   ],
 

@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  parcels-n-at:
+    container_name: web
+    build:
+      context: .
+      dockerfile: ./apps/parcels-n-at/Dockerfile
+    restart: always
+    ports:
+      - 3000:3000

@@ -39,7 +39,7 @@ export function FieldPicker<T extends DatastoreRecord>({
   const selectionCount: string = useMemo(() => {
     if (typeof internalSelection === "string") return String(fields.length);
     return String(internalSelection.size);
-  }, [internalSelection]);
+  }, [fields.length, internalSelection]);
 
   // use controlled state if available
   const _selection = selection ?? internalSelection;
@@ -73,6 +73,7 @@ export function FieldPicker<T extends DatastoreRecord>({
           </Button>
         </div>
       </div>
+
       <ListBox
         {...props}
         className="w-full flex-grow overflow-auto rounded-sm border border-stone-400 p-1"
@@ -88,6 +89,7 @@ export function FieldPicker<T extends DatastoreRecord>({
           />
         ))}
       </ListBox>
+
       <div className="w-full text-right text-xs">
         {selectionCount} field{selectionCount === "1" ? "" : "s"} selected
       </div>

@@ -1,13 +1,14 @@
-import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import type { DatastoreField, GeoJSONFeature } from "@wprdc/types";
 import type { LayerSlug } from "@wprdc/ui";
 import { asDataDict, dataLayers } from "@wprdc/ui";
-import type { Selection, Key } from "react-aria-components";
+import type { Key } from "react-aria-components";
 import AdmZip from "adm-zip";
 import sql from "@/db";
 import type { Dataset } from "@/datasets";
 import { datasetsByTable } from "@/datasets";
+import { fieldFilter } from "@/util";
 
 interface ParcelSearchRecord {
   parcel_id: string;
@@ -77,10 +78,16 @@ async function getParcelsUnderFeature(
 async function getDatasetParcelData(
   dataset: Dataset,
   parcelIDs: string[],
-  fieldSelection: Selection,
+  fieldSelection: "all" | Key[],
+  fields: DatastoreField[],
 ): Promise<Record<string, string | number | boolean>[]> {
+  const selectedAll = fieldSelection === "all";
+  const fieldNames: string[] = selectedAll
+    ? fields.map((field) => field.id)
+    : (fieldSelection as string[]);
+
   return sql`
-          SELECT ${fieldSelection === "all" ? sql("*") : sql(Array.from(fieldSelection))}
+          SELECT ${sql(dataset.parcelIDField)} as parcel_id, ${sql(fieldNames)}
           FROM ${sql(dataset.table)}
           WHERE ${sql(dataset.parcelIDField)} IN ${sql(parcelIDs)};
         `;
@@ -132,26 +139,38 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   // fieldSelection is keyed by table names
   const dataTables = Object.keys(fieldSelection);
 
-  const tableFields: { fields: DatastoreField[] }[] = await Promise.all(
+  const tableFields: DatastoreField[][] = await Promise.all(
     dataTables.map((table) =>
-      fetch(`${BASE_URL}/api/fields/${table}`).then(
-        (res) => res.json() as Promise<{ fields: DatastoreField[] }>,
+      fetch(`${BASE_URL}/api/fields/${table}`).then((res) =>
+        (
+          res.json() as Promise<{
+            fields: DatastoreField[];
+          }>
+        ).then(({ fields }) => fields),
       ),
     ),
   );
 
   const fieldDefs: Record<string, DatastoreField[]> = Object.fromEntries(
-    dataTables.map((table, i) => [table, tableFields[i].fields]),
+    dataTables.map((table, i) => [table, tableFields[i]]),
   );
 
   const data = await Promise.all(
-    dataTables.map((table) =>
-      getDatasetParcelData(
-        datasetsByTable[table],
+    dataTables.map((table) => {
+      const currentDataset: Dataset = datasetsByTable[table];
+      const filteredFields = fieldDefs[table].filter(
+        fieldFilter([
+          ...(currentDataset.ignoredFields ?? []),
+          currentDataset.parcelIDField,
+        ]),
+      );
+      return getDatasetParcelData(
+        currentDataset,
         allParcels,
         fieldSelection[table],
-      ),
-    ),
+        filteredFields,
+      );
+    }),
   );
 
   // map table names to each table's data
@@ -161,16 +180,26 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   // start zip file with CSVs of data tables
   const zip = new AdmZip();
   let dataDictionary = "";
-  let manifestText = `MANIFEST
+  let readmeText = `README
   
-Metadata
+This archive contains a customized parcel data extraction from:
+
+  https://www.wprdc.org/parcels-n-at
+
+--------------------------------------------------------------------------------
+
+Generated on: ${new Date().toLocaleString()}
+
+Metadata Files
   data-dictionary.csv - definitions of fields found in data files
   parcels.txt         - list of selected parcel IDs
-  selection.json      - serialized form of selection used to generate this output, can be uploaded/copied to form to reuse.
+  selection.json      - serialized form of selection used to generate this 
+                          output, can be uploaded/copied to form to reuse.
   
 Data Files
 `;
 
+  const sources: string[] = [];
   Object.entries(results).forEach(([table, tableData], i) => {
     if (tableData.length) {
       const dataset = datasetsByTable[table];
@@ -185,17 +214,20 @@ Data Files
           : fieldDefs[table].filter((fieldDef) =>
               tableSelection.includes(fieldDef.id),
             );
+
       dataDictionary += asDataDict(fields, {
         noHeader: Boolean(i),
         table: dataset.slug,
       });
 
       // add file to manifest
-      manifestText += ` ${dataset.slug}.csv - ${dataset.title} data\n`;
+      readmeText += `  ${dataset.slug}.csv\n`;
+      sources.push(dataset.datasetURL);
     }
   });
 
-  // add data dictionary to zip file
+  // add data dictionary to zip file with final row for parcel ID
+  dataDictionary += `all,parcel_id,Parcel ID,text,16-digit Allegheny County parcel identification number.\n`;
   zip.addFile("data-dictionary.csv", Buffer.from(dataDictionary));
 
   // add list of parcels to zip file
@@ -217,8 +249,9 @@ Data Files
     ),
   );
 
-  // add manifest
-  zip.addFile("MANIFEST.txt", Buffer.from(manifestText));
+  // add manifest to zip file
+  readmeText += `\nSources\n  ${sources.join("\n  ")}`;
+  zip.addFile("README.txt", Buffer.from(readmeText));
 
   return new NextResponse(zip.toBuffer(), {
     headers: { "Content-Type": "application/x-zip" },
