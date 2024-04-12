@@ -8,4 +8,4 @@ services:
       dockerfile: ./apps/parcels-n-at/Dockerfile
     restart: always
     ports:
-      - 3000:3000
+      - 3000:3033
