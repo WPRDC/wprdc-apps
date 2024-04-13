@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Parcels N'at",
   description: "Quickly download parcel data from the WPRDC",
   keywords: ["open data", "civic", "property", "real estate", "data"],
-  publisher: "Western Pennsylvania Regional Data Center",,
+  publisher: "Western Pennsylvania Regional Data Center",
 };
 
 const jetbrainsMono = JetBrains_Mono({
