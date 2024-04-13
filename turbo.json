@@ -1,7 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalEnv": ["CKAN_API_TOKEN", "NEXT_PUBLIC_MAPTILER_API_KEY", "BASE_URL"],
-
   "globalDependencies": ["**/.env.*local"],
   "pipeline": {
     "build": {

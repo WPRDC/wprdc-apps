@@ -18,22 +18,22 @@
     "react": "^18.2.0"
   },
   "dependencies": {
-    "maplibre-gl": "^4.0.2",
     "@maplibre/maplibre-gl-style-spec": "^20.1.1",
     "@react-types/shared": "^3.22.1",
+    "maplibre-gl": "^4.1.2",
     "react-map-gl": "^7.1.7"
   },
   "devDependencies": {
-    "@wprdc/eslint-config": "workspace:*",
+    "@react-types/shared": "^3.22.1",
     "@types/geojson": "^7946.0.14",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.20",
+    "@types/node": "^20.12.7",
+    "@types/react": "^18.2.78",
+    "@types/react-dom": "^18.2.25",
+    "@wprdc/eslint-config": "workspace:*",
     "@wprdc/tailwind-config": "workspace:*",
     "@wprdc/typescript-config": "workspace:*",
     "react": "^18.2.0",
-    "@react-types/shared": "^3.22.1",
-    "@types/node": "^20.10.6",
     "tsup": "^8.0.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.5"
   }
 }
