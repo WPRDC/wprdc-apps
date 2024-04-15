@@ -2,17 +2,17 @@
 
 import type { ParcelSelectionOptions } from "@wprdc/ui";
 import {
-  Spinner,
   Button,
   Heading,
   municipalitiesLayer,
   parcelLayer,
   ParcelPicker,
   pittsburghNeighborhoodLayer,
+  Spinner,
 } from "@wprdc/ui";
 import { useCallback, useRef, useState } from "react";
 import type { Key } from "react-stately";
-import { TbCheck, TbDownload, TbX } from "react-icons/tb";
+import { TbDownload } from "react-icons/tb";
 import { FieldMenu } from "@/components/field-menu";
 import { datasets } from "@/datasets";
 import { formatShortDate } from "@/util";
