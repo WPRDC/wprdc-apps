@@ -22,8 +22,10 @@ export const pittsburghBoundary: LayerConfig<SolidSymbologyProps> = {
     url: "https://data.wprdc.org/dataset/pittsburgh-city-boundary",
     resourceID: "11af0bf9-2d04-4e71-b28c-a0dfb3078080",
   },
-  tileJSONSource: "https://data.wprdc.org/tiles/municipalities",
-  sourceLayer: "b0cb0249-d1ba-45b7-9918-dc86fa8af04c",
+
+  tileJSONSource:
+    "https://data.wprdc.org/tiles/table.b0cb0249-d1ba-45b7-9918-dc86fa8af04c._geom",
+  sourceLayer: "table.b0cb0249-d1ba-45b7-9918-dc86fa8af04c._geom",
   filter: ["==", "NAME", "PITTSBURGH"],
 
   color: "#000",

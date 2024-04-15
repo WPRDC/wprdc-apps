@@ -1,8 +1,11 @@
 import type { GeoJSONFeature } from "@wprdc/types";
+import type { ViewState } from "react-map-gl/maplibre";
 
 export interface ParcelPickerProps {
   mapTilerAPIKey?: string;
   onSelectionChange?: (options: ParcelSelectionOptions) => void;
+  initialViewState?: Partial<ViewState>;
+  onDrawCountChange?: (n: number, loading: boolean) => void;
 }
 
 export interface ParcelSelectionOptions {

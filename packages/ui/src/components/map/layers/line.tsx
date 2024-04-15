@@ -1,4 +1,5 @@
 import { Layer } from "react-map-gl/maplibre";
+import { useMemo } from "react";
 import type { SymbologyLayerProps } from "../Map.types";
 import { parseConfig } from "../parse";
 
@@ -9,7 +10,9 @@ export function LineLayer({
 }: SymbologyLayerProps): React.ReactElement {
   const { slug } = layer;
 
-  const { color, borderWidth } = parseConfig(layer, context);
+  const { color, borderWidth } = useMemo(() => {
+    return parseConfig(layer, context);
+  }, [layer, context]);
 
   return (
     <Layer

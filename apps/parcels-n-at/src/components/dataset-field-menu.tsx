@@ -19,7 +19,7 @@ export function DatasetFieldMenu({
   return (
     <div className="flex h-96 w-full flex-col">
       <div className="mb-2">
-        <Heading className="m-0 border-none text-xl leading-none" level={2}>
+        <Heading className="m-0 border-none text-base leading-none" level={3}>
           {title}
         </Heading>
         <A

@@ -16,12 +16,19 @@ import type {
   MapGeoJSONFeature,
   MapLayerMouseEvent,
   ViewState,
+  ViewStateChangeEvent,
 } from "react-map-gl/maplibre";
 import type { Selection } from "react-aria-components";
 import type {
   ColorSpecification,
   DataDrivenPropertyValueSpecification,
 } from "@maplibre/maplibre-gl-style-spec";
+import type {
+  DrawCreateEvent,
+  DrawDeleteEvent,
+  DrawModeChangeEvent,
+  DrawUpdateEvent,
+} from "@mapbox/mapbox-gl-draw";
 import type MapboxDraw from "@mapbox/mapbox-gl-draw";
 
 export type MouseEventContext = MapState;
@@ -46,6 +53,8 @@ export interface MapProps {
     e: MapLayerMouseEvent,
   ) => void;
 
+  onZoom?: (zoom: number, context: MapState, e: ViewStateChangeEvent) => void;
+
   /** Selected map features. Map of layer IDs to the features from that layer that are selected */
   selectedIDs?: SelectionRecord;
 
@@ -66,6 +75,9 @@ export interface MapProps {
 
   /** Props sent draw controls */
   drawControlProps?: DrawControlProps;
+
+  /** Show zoom info overlay */
+  showZoom?: boolean;
 }
 
 export interface BasemapOptions {
@@ -126,22 +138,11 @@ export type DrawControlProps = ConstructorParameters<typeof MapboxDraw>[0] & {
   onCreate?: (evt: DrawCreateEvent) => void;
   onDelete?: (evt: DrawDeleteEvent) => void;
   onUpdate?: (evt: DrawUpdateEvent) => void;
+  onModeChange?: (evt: DrawModeChangeEvent) => void;
 };
 
-export interface DrawCreateEvent {
-  type: "draw.create";
-  features: GeoJSONFeature[];
-}
-
-export interface DrawDeleteEvent {
-  type: "draw.delete";
-  features: GeoJSONFeature[];
-  action: string;
-}
-
-export interface DrawUpdateEvent {
-  type: "draw.update";
-  features: GeoJSONFeature[];
-}
-
-export type DrawEvent = DrawCreateEvent | DrawDeleteEvent | DrawUpdateEvent;
+export type DrawEvent =
+  | DrawCreateEvent
+  | DrawDeleteEvent
+  | DrawUpdateEvent
+  | DrawModeChangeEvent;

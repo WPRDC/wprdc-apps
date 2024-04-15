@@ -16,6 +16,7 @@ export default function DrawControl({
   onCreate = () => undefined,
   onUpdate = () => undefined,
   onDelete = () => undefined,
+  onModeChange = () => undefined,
   ...props
 }: DrawControlProps): null {
   useControl<MapboxDraw>(
@@ -24,11 +25,13 @@ export default function DrawControl({
       map.on("draw.create", onCreate);
       map.on("draw.update", onUpdate);
       map.on("draw.delete", onDelete);
+      map.on("draw.modechange", onModeChange);
     },
     ({ map }) => {
       map.off("draw.create", onCreate);
       map.off("draw.update", onUpdate);
       map.off("draw.delete", onDelete);
+      map.off("draw.modechange", onModeChange);
     },
     {
       position,

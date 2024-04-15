@@ -1,4 +1,5 @@
 import { Layer } from "react-map-gl/maplibre";
+import { useMemo } from "react";
 import type { SymbologyLayerProps } from "../Map.types";
 import { parseConfig } from "../parse";
 
@@ -10,7 +11,9 @@ export function PolygonLayer({
   const { slug } = layer;
 
   const { color, opacity, borderOpacity, borderWidth, borderColor } =
-    parseConfig(layer, context);
+    useMemo(() => {
+      return parseConfig(layer, context);
+    }, [layer, context]);
 
   return (
     <>

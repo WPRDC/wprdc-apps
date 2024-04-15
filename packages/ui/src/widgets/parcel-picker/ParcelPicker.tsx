@@ -7,20 +7,20 @@ import type {
   InteractiveSymbologyProps,
   LayerConfig,
 } from "@wprdc/types";
-import { FileTrigger } from "react-aria-components";
 import type { Polygon } from "geojson";
+import type { DrawMode } from "@mapbox/mapbox-gl-draw";
 import {
-  parcelLayer,
-  pittsburghNeighborhoodLayer,
-  municipalitiesLayer as _municipalities,
-  pittsburghBoundary,
   alleghenyCountyBoundary,
+  municipalitiesLayer as _municipalities,
+  parcelLayer,
+  pittsburghBoundary,
+  pittsburghNeighborhoodLayer,
 } from "../../layers";
 import type { DrawEvent } from "../../components";
-import { Button, Map } from "../../components";
+import { Map } from "../../components";
 import { flattenPolygons } from "../../util/geo";
 import type { ParcelPickerProps } from "./ParcelPicker.types";
-import { StatusOverlay } from "./StatusOverlay";
+import { ModeOverlay } from "./ModeOverlay";
 
 const municipalities: LayerConfig<InteractiveSymbologyProps> = {
   ..._municipalities,
@@ -36,7 +36,11 @@ const layerLookup: Record<string, LayerConfig<InteractiveSymbologyProps>> = {
 export function ParcelPicker({
   mapTilerAPIKey,
   onSelectionChange,
+  initialViewState,
+  onDrawCountChange,
 }: ParcelPickerProps): React.ReactElement {
+  // Zoom level of the map
+  const [zoom, setZoom] = useState<number>(initialViewState?.zoom ?? 11);
   // Admin region selection: map of admin region layer ids to array of feature ids that are selected
   const [selectedFeatures, setSelectedFeatures] = useState<
     Record<string, string[]>
@@ -48,9 +52,7 @@ export function ParcelPicker({
 
   // Shapes drawn on map using draw control
   const [drawnAreas, setDrawnAreas] = useState<GeoJSONFeature[]>([]);
-  const [parcelsUnderDrawing, setParcelsUnderDrawing] = useState<number>(0);
-  const [parcelsUnderDrawingIsLoading, setParcelsUnderDrawingIsLoading] =
-    useState<boolean>(false);
+  const [drawMode, setDrawMode] = useState<DrawMode>();
 
   // TODO: Custom SQL filter
   // const [selectedFilter, setSelectedFilter] = useState<string>("");
@@ -98,33 +100,9 @@ export function ParcelPicker({
       case "draw.delete":
         setDrawnAreas([]);
         break;
+      case "draw.modechange":
+        setDrawMode(e.mode);
     }
-  }
-
-  function handleFileUpload(files: FileList | null): void {
-    const file = files?.item(0);
-    if (file) {
-      file.text().then(
-        (text) => {
-          setSelectedFeatures(JSON.parse(text) as Record<string, string[]>);
-        },
-        (err) => {
-          // eslint-disable-next-line no-console -- todo: handle this with ui error
-          console.error(err);
-        },
-      );
-    }
-  }
-
-  function handleSelectionDownload(): void {
-    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      JSON.stringify(selectedFeatures),
-    )}`;
-    const link = document.createElement("a");
-    link.href = jsonString;
-    link.download = "selection.json";
-
-    link.click();
   }
 
   /* todo:
@@ -132,22 +110,26 @@ export function ParcelPicker({
    */
 
   useEffect(() => {
-    if (drawnAreas.length) {
-      setParcelsUnderDrawingIsLoading(true);
-      const geom = flattenPolygons(drawnAreas as GeoJSONFeature<Polygon>[]);
+    if (onDrawCountChange) {
+      if (!drawnAreas.length) onDrawCountChange(0, false);
+      else {
+        onDrawCountChange(0, true);
+        const geom = flattenPolygons(drawnAreas as GeoJSONFeature<Polygon>[]);
 
-      fetch(`/api/parcels/count/?geometry=${JSON.stringify(geom.geometry)}`)
-        .then((res) => res.json())
-        .then((data: { parcelCount: number }) => {
-          setParcelsUnderDrawing(data.parcelCount);
-          setParcelsUnderDrawingIsLoading(false);
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console -- nothing else we can really do here
-          console.error(err);
-        });
+        fetch(`/api/parcels/count/?geometry=${JSON.stringify(geom.geometry)}`)
+          .then((res) => res.json())
+          .then((data: { parcelCount: number }) => {
+            onDrawCountChange(data.parcelCount, false);
+          })
+          .catch((err) => {
+            // eslint-disable-next-line no-console -- nothing else we can really do here
+            console.error(err);
+          });
+      }
     }
-  }, [drawnAreas]);
+  }, [onDrawCountChange, drawnAreas]);
+
+  // console.log(drawMode);
 
   return (
     <div className="flex h-full w-full flex-col">
@@ -156,7 +138,9 @@ export function ParcelPicker({
           onCreate: handleDrawing,
           onDelete: handleDrawing,
           onUpdate: handleDrawing,
+          onModeChange: handleDrawing,
         }}
+        initialViewState={initialViewState}
         layers={[
           parcelLayer,
           pittsburghNeighborhoodLayer,
@@ -166,14 +150,13 @@ export function ParcelPicker({
         ]}
         mapTilerAPIKey={mapTilerAPIKey}
         onClick={handleMapClick}
+        onZoom={setZoom}
         selectedIDs={selectedFeatures}
         useDrawControls
       >
-        <StatusOverlay
-          parcelsUnderDrawing={parcelsUnderDrawing}
-          parcelsUnderDrawingIsLoading={parcelsUnderDrawingIsLoading}
-          selectedFeatures={selectedFeatures}
-        />
+        <div className="absolute bottom-2.5 left-2.5 rounded border border-stone-600 bg-white/60 p-2 backdrop-blur-sm">
+          <ModeOverlay drawing={drawMode === "draw_polygon"} zoom={zoom} />
+        </div>
       </Map>
 
       {/* todo: move this to a menu */}

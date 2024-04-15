@@ -2,6 +2,7 @@
 
 import type { ParcelSelectionOptions } from "@wprdc/ui";
 import {
+  Spinner,
   Button,
   Heading,
   municipalitiesLayer,
@@ -9,18 +10,21 @@ import {
   ParcelPicker,
   pittsburghNeighborhoodLayer,
 } from "@wprdc/ui";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import type { Key } from "react-stately";
-import { TbDownload } from "react-icons/tb";
+import { TbCheck, TbDownload, TbX } from "react-icons/tb";
 import { FieldMenu } from "@/components/field-menu";
 import { datasets } from "@/datasets";
 import { formatShortDate } from "@/util";
+import { StepHeader } from "@/components/step-header";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 
 export default function Page(): React.ReactElement {
   const linkRef = useRef<HTMLAnchorElement>(null);
 
+  const [drawnCount, setDrawnCount] = useState<number>(0);
+  const [drawLoading, setDrawLoading] = useState<boolean>(false);
   const [parcelSelection, setParcelSelection] =
     useState<ParcelSelectionOptions>({});
 
@@ -55,6 +59,13 @@ export default function Page(): React.ReactElement {
       });
   }
 
+  const handleDrawing = useCallback((count: number, loading: boolean): void => {
+    setDrawLoading(loading);
+    if (!loading) {
+      setDrawnCount(count);
+    }
+  }, []);
+
   const parcelsSelected = parcelSelection.selectedFeatures
     ? parcelSelection.selectedFeatures[parcelLayer.slug].length
     : 0;
@@ -64,110 +75,106 @@ export default function Page(): React.ReactElement {
   const municipalitiesSelected = parcelSelection.selectedFeatures
     ? parcelSelection.selectedFeatures[municipalitiesLayer.slug].length
     : 0;
-  const areasDrawn = parcelSelection.drawnAreas?.length ?? 0;
   const fieldsSelected = Object.values(fieldSelection).flat().length;
 
   const downloadEnabled =
     (Boolean(parcelsSelected) ||
       Boolean(neighborhoodsSelected) ||
       Boolean(municipalitiesSelected) ||
-      Boolean(areasDrawn)) &&
+      Boolean(drawnCount)) &&
     Boolean(fieldsSelected);
 
   return (
-    <div className="flex w-full overflow-auto">
+    <div className="flex w-full">
       <div className="flex w-1/2 flex-col">
         <ParcelPicker
           mapTilerAPIKey={API_KEY}
+          onDrawCountChange={handleDrawing}
           onSelectionChange={setParcelSelection}
         />
       </div>
-      <div className="w-1/ h-full overflow-auto p-4">
-        <div className="mb-2 border-b pb-4">
+
+      <div className="flex h-full w-1/2 flex-col p-4">
+        <div className="pb-1">
           <Heading className="m-0 mb-1 p-0" level={1}>
             Download parcel data from the WPRDC
           </Heading>
-          <div className="text-2xl font-medium italic text-gray-800">
+          <div className="text-xl font-medium italic text-gray-800">
             The data you want, for the parcels you&apos;re interested in.
           </div>
-          <div>
-            <div className="my-2 flex items-center">
-              <div className="bg-primary mr-2 flex size-8 items-center justify-center rounded-full border-2 border-black">
-                <div className="text-3xl font-bold">1</div>
-              </div>
-              <div className="text-2xl font-bold">Select Parcels</div>
-            </div>
-            <div className="pl-12">
-              <div className="text-base font-medium">
-                Mix and match how you select parcels
-              </div>
-              <ul className="list-inside list-disc text-base font-medium">
-                <li>Select parcels on the map one-by-one,</li>
-                <li>
-                  Select administrative regions to select all the parcels within
-                  them,
-                </li>
-                <li>Draw a shape to select parcels under it, and/or</li>
-                <li>
-                  Paste a list of Parcel IDs{" "}
-                  <span className="text-sm italic text-gray-600">
-                    coming soon
-                  </span>
-                </li>
-              </ul>
+        </div>
+
+        {/* Select Parcels*/}
+        <div>
+          <StepHeader step={1}>Select Parcels</StepHeader>
+          <div className="pl-6 text-base font-medium">
+            <div>Mix and match how you select parcels on the map.</div>
+            <div className="pt-1 text-sm font-bold leading-none">
+              Current Selection:
             </div>
 
-            <div className="mb-2 mt-4 flex items-center">
-              <div className="bg-primary mr-2 flex size-8 items-center justify-center rounded-full border-2 border-black">
-                <div className="text-3xl font-bold">2</div>
+            <div className="flex leading-none">
+              <div className="mr-1 after:content-['|']">
+                <span className="font-mono text-sm">{parcelsSelected}</span>
+                <span className="mx-1 text-xs">Individual Parcels</span>
               </div>
-              <div className="text-2xl font-bold">Select Fields</div>
-            </div>
-            <div className="pl-12">
-              <div className="text-base font-medium">
-                Select all the fields you want to download from across various
-                datasets.
+              <div className="mr-1 after:content-['|']">
+                <span className="font-mono text-sm">
+                  {neighborhoodsSelected}
+                </span>
+                <span className="mx-1 text-xs">Neighborhoods</span>
+              </div>
+              <div className="mr-1 after:content-['|']">
+                <span className="font-mono text-sm">
+                  {municipalitiesSelected}
+                </span>
+                <span className="mx-1 text-xs">Municipalities</span>
+              </div>
+              <div className="flex items-baseline">
+                <div className="font-mono text-sm">
+                  {drawLoading ? (
+                    <Spinner className="inline-block" size="S" />
+                  ) : (
+                    drawnCount
+                  )}
+                </div>
+                <div className="mx-1 text-xs">Parcels Under Drawing</div>
               </div>
             </div>
+          </div>
+        </div>
 
-            <div className="my-2 flex items-center">
-              <div className="bg-primary mr-2 flex size-8 items-center justify-center rounded-full border-2 border-black">
-                <div className="text-3xl font-bold">3</div>
-              </div>
-              <div className="text-2xl font-bold">Download</div>
-            </div>
+        {/* Select Fields */}
+        <div className="mt-2 flex flex-col overflow-auto border-t border-gray-400 pt-2">
+          <StepHeader step={2}>Select Fields</StepHeader>
+          <div className="pb-2 pl-6 text-base font-medium">
+            Select all the fields you want to download from across various
+            datasets.
+          </div>
+          <div className="overflow-auto px-6">
+            <FieldMenu
+              datasets={datasets}
+              onSelectionChange={setFieldSelection}
+            />
+          </div>
+        </div>
+
+        {/* Download */}
+        <div className="border-t border-gray-400 pt-2">
+          <StepHeader step={3}>Download</StepHeader>
+          <div className="flex pl-6">
             <div>
-              <div className="pl-12">
-                <div className="text-base font-medium">
-                  <div>Download data based on your selections.</div>
-                </div>
-                <div className="font-mono text-sm">
-                  <span>
-                    {parcelsSelected} Parcel{parcelsSelected !== 1 ? "s" : ""},{" "}
-                  </span>
-                  <span>
-                    {neighborhoodsSelected} Neighborhood
-                    {parcelsSelected !== 1 ? "s" : ""}, and
-                  </span>{" "}
-                  <span>
-                    {municipalitiesSelected} Municipalit
-                    {parcelsSelected !== 1 ? "ies" : "y"} selected.
-                  </span>
-                </div>
-                <div className="font-mono text-sm">
-                  <span>{fieldsSelected}</span> Fields selected.
-                </div>
-
-                {/* eslint-disable-next-line jsx-a11y/anchor-has-content,jsx-a11y/anchor-is-valid -- workaround used for download triggered by button  */}
-                <a className="hidden" ref={linkRef} />
-                <Button
-                  className="mt-3 flex items-center space-x-1"
-                  isDisabled={!downloadEnabled}
-                  onPress={handleDownload}
-                >
-                  <TbDownload />
-                  <div>Download Data For Your Selection</div>
-                </Button>
+              {/* eslint-disable-next-line jsx-a11y/anchor-has-content,jsx-a11y/anchor-is-valid -- workaround used for download triggered by button  */}
+              <a className="hidden" ref={linkRef} />
+              <Button
+                className="mx-0 mt-2 flex items-center space-x-1"
+                isDisabled={!downloadEnabled}
+                onPress={handleDownload}
+              >
+                <TbDownload />
+                <div>Download Data For Your Selection</div>
+              </Button>
+              <div className="min-h-5">
                 {!downloadEnabled && (
                   <div className="font-gray-700 text-xs italic">
                     You must select parcels and fields before downloading.
@@ -177,7 +184,6 @@ export default function Page(): React.ReactElement {
             </div>
           </div>
         </div>
-        <FieldMenu datasets={datasets} onSelectionChange={setFieldSelection} />
       </div>
     </div>
   );

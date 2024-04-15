@@ -13,6 +13,7 @@ import type {
   MapLayerMouseEvent,
   MapRef,
   Point,
+  ViewStateChangeEvent,
 } from "react-map-gl/maplibre";
 import ReactMapGL, { NavigationControl } from "react-map-gl/maplibre";
 import type { LayerConfig, MapState } from "@wprdc/types";
@@ -40,11 +41,13 @@ export function Map({
   maxZoom,
   useDrawControls = false,
   drawControlProps = {},
+  onZoom,
+  showZoom = false,
 }: MapProps): React.ReactElement {
   const mapRef = useRef<MapRef>(null);
 
   const [basemap, setBasemap] = useState<keyof typeof basemaps>("basic");
-  const [zoom, setZoom] = useState<string>();
+  const [zoomText, setZoomText] = useState<string>();
 
   const [hoveredPoint, setHoveredPoint] = useState<Point | null>(null);
   const [hoveredFeatures, setHoveredFeatures] = useState<
@@ -58,13 +61,26 @@ export function Map({
 
   const [drawingMode, setDrawingMode] = useState<string>("simple_select");
 
-  const mapState: MapState = {
-    selectedIDs,
-    hoveredFeatures,
-    clickedFeatures,
-    hoveredPoint,
-    clickedPoint,
-  };
+  const mapState: MapState = useMemo(
+    () => ({
+      selectedIDs,
+      hoveredFeatures,
+      clickedFeatures,
+      hoveredPoint,
+      clickedPoint,
+    }),
+    [selectedIDs, hoveredFeatures, clickedFeatures, hoveredPoint, clickedPoint],
+  );
+
+  const handleZoom = useCallback(
+    (e: ViewStateChangeEvent) => {
+      // set zoom for showing on map
+      const z = e.target.getZoom();
+      setZoomText(z.toFixed(2));
+      if (onZoom) onZoom(z, mapState, e);
+    },
+    [mapState, onZoom],
+  );
 
   const handleHover = useCallback(
     (e: MapLayerMouseEvent) => {
@@ -132,9 +148,7 @@ export function Map({
       minZoom={minZoom ?? DEFAULT_MIN_ZOOM}
       onClick={handleClick}
       onMouseMove={handleHover}
-      onZoom={(e) => {
-        setZoom(e.target.getZoom().toFixed(2));
-      }}
+      onZoom={handleZoom}
       ref={mapRef}
       style={{ position: "relative" }}
     >
@@ -144,9 +158,11 @@ export function Map({
         <BasemapMenu onSelection={setBasemap} selectedBasemap={basemap} />
       </div>
 
-      <div className="absolute bottom-2.5 left-2.5 rounded-sm border bg-white bg-white/60 p-1 text-xs font-bold backdrop-blur-md">
-        Zoom: <span className="font-mono">{zoom}</span>
-      </div>
+      {showZoom ? (
+        <div className="absolute bottom-2.5 left-2.5 rounded-sm border bg-white p-1 text-xs font-bold">
+          Zoom: <span className="font-mono">{zoomText}</span>
+        </div>
+      ) : null}
 
       <div className="absolute bottom-10 right-2.5">
         <Legend layers={layers} />

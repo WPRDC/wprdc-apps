@@ -19,7 +19,7 @@ export function Spinner({
   let width = 2;
   switch (size) {
     case "S":
-      height = 12;
+      height = 10;
       break;
     case "L":
       height = 48;

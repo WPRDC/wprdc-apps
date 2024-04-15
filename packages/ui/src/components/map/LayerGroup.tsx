@@ -16,7 +16,7 @@ export function LayerGroup({
     <Source
       id={layer.slug}
       maxzoom={layer.maxZoom ?? 22}
-      minzoom={layer.minZoom ?? 15}
+      minzoom={layer.minZoom ?? 0}
       type="vector"
       url={layer.tileJSONSource}
     >
