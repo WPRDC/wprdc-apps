@@ -42,7 +42,7 @@ export function PolygonLayer({
         layout={{
           "line-cap": "round",
           "line-join": "miter",
-          "line-sort-key": lineSortKey,
+          "line-sort-key": lineSortKey ?? 1,
         }}
         maxzoom={layer.maxZoom ?? 22}
         minzoom={layer.minZoom ?? 0}

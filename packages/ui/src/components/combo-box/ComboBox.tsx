@@ -59,9 +59,11 @@ export function ComboBox<T extends object>({
         <ListBox className="bg-white p-2">{children}</ListBox>
       </Popover>
 
-      {Array.from(props.items ?? []).length ? (
-        <div className="w-[--trigger-width]">
-          <div>Nothing</div>
+      {props.inputValue && props.inputValue.length < 3 ? (
+        <div className="absolute w-[--trigger-width]">
+          <div className="ml-11 bg-white/40 px-1 py-0.5 text-xs backdrop-blur-md">
+            Type at least 3 characters to see results
+          </div>
         </div>
       ) : null}
     </RAComboBox>

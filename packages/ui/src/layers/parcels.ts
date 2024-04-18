@@ -34,7 +34,7 @@ export const parcelLayer: LayerConfig<InteractiveSymbologyProps> = {
   // default style config
   color: { default: "#000", selected: "#FCEC52", hovered: "#bae6fd" },
 
-  borderColor: { default: "#000", selected: "#FCEC52", hovered: "#bae6fd" },
+  borderColor: { default: "#000", selected: "#000", hovered: "#bae6fd" },
 
   opacity: [
     [16, { default: 0.1, selected: 0.5, hovered: 0.6 }],

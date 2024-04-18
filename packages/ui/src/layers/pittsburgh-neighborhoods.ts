@@ -34,19 +34,24 @@ export const pittsburghNeighborhoodLayer: LayerConfig<InteractiveSymbologyProps>
 
     // default style config
     color: { default: "#000", selected: "#FCEC52", hovered: "#bae6fd" },
+    borderColor: { default: "#000", selected: "#000", hovered: "#bae6fd" },
 
     opacity: [
-      [8, { default: 0.2, selected: 0.6, hovered: 0.7 }],
-      [14.5, { default: 0.2, selected: 0.6, hovered: 0.7 }],
+      [8, { default: 0.2, selected: 0.4, hovered: 0.7 }],
+      [14.5, { default: 0.2, selected: 0.4, hovered: 0.7 }],
       [15, { default: 0, selected: 0, hovered: 0 }],
     ],
-
     borderOpacity: [
       [8, 1],
       [14.5, 1],
       [15, 0],
     ],
 
+    borderWidth: [
+      [8, { default: 1, selected: 2, hovered: 2.5 }],
+      [12, { default: 1, selected: 2, hovered: 2.5 }],
+      [14.5, { default: 4, selected: 8, hovered: 10 }],
+    ],
     hoverPopupFormat: "neighborhood",
     clickPopupFormat: "neighborhood",
   };

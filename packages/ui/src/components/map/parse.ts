@@ -14,7 +14,6 @@ import type {
   ExpressionSpecification,
   SourceFunctionSpecification,
 } from "@maplibre/maplibre-gl-style-spec";
-import type { MapGeoJSONFeature } from "react-map-gl/maplibre";
 import {
   darken,
   DEFAULT_BORDER_WIDTH,
@@ -68,6 +67,7 @@ export function parseConfig(
         layer.slug
       ] ?? [])[0];
 
+      // eslint-disable-next-line no-case-declarations -- readability
       const hoveredID: string =
         (context.hoveredFeatures
           ? context.hoveredFeatures.find((f) => f.source === layer.slug)
