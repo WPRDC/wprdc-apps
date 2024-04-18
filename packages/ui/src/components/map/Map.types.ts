@@ -9,12 +9,12 @@ import type {
   LayerConfig,
   MapState,
   SelectionRecord,
-  GeoJSONFeature,
 } from "@wprdc/types";
 import type {
   ControlPosition,
   MapGeoJSONFeature,
   MapLayerMouseEvent,
+  Point,
   ViewState,
   ViewStateChangeEvent,
 } from "react-map-gl/maplibre";
@@ -78,6 +78,9 @@ export interface MapProps {
 
   /** Show zoom info overlay */
   showZoom?: boolean;
+
+  /** Callback used when clicking map to navigate */
+  onNavigate?: (feature: MapGeoJSONFeature, mapState: MapState) => void;
 }
 
 export interface BasemapOptions {
@@ -130,6 +133,7 @@ export interface ParseResults {
   borderColor: DataDrivenPropertyValueSpecification<ColorSpecification>;
   borderOpacity: DataDrivenPropertyValueSpecification<number>;
   borderWidth: DataDrivenPropertyValueSpecification<number>;
+  lineSortKey?: DataDrivenPropertyValueSpecification<number>;
 }
 
 export type DrawControlProps = ConstructorParameters<typeof MapboxDraw>[0] & {
@@ -146,3 +150,14 @@ export type DrawEvent =
   | DrawDeleteEvent
   | DrawUpdateEvent
   | DrawModeChangeEvent;
+
+export interface PopupProps {
+  features: MapGeoJSONFeature[];
+  point: Point;
+  getPopupID: (feature: MapGeoJSONFeature) => string;
+}
+
+export interface ClickPopupProps extends PopupProps {
+  onClose: () => void;
+  onNavigate: (feature: MapGeoJSONFeature) => void;
+}

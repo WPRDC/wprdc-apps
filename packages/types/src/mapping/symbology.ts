@@ -8,6 +8,10 @@ import {
   LineLayerSpecification,
 } from "maplibre-gl";
 import { MapState } from "./shared";
+import type {
+  MapGeoJSONFeature,
+  MapLayerMouseEvent,
+} from "react-map-gl/maplibre";
 
 export type CirclePaintSpec = NonNullable<CircleLayerSpecification["paint"]>;
 export type CircleLayoutSpec = NonNullable<CircleLayerSpecification["layout"]>;
@@ -122,7 +126,8 @@ export type InteractiveSymbologyProps = Partial<
   /** Maplibre expression that indicates which features to ignore wrt interaction */
   ignoreCase?: ExpressionSpecification;
 
-  clickPopup?: (props: MapState) => React.ReactElement;
+  clickPopupFormat?: string;
+  hoverPopupFormat?: string;
 };
 
 /** Props for layers with features styled with ramps using underlying data */

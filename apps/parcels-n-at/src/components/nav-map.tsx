@@ -19,9 +19,8 @@ export function NavMap({ selectedParcel }: NavMapProps): React.ReactElement {
       mapTilerAPIKey={API_KEY}
       maxZoom={19}
       minZoom={11}
-      onClick={(features) => {
-        features.length &&
-          router.push(`/parcel?parcel=${features[0].properties.parcel_id}`);
+      onNavigate={(feature) => {
+        router.push(`/explore?parcel=${feature.properties.parcel_id}`);
       }}
       selectedIDs={{
         [parcelLayer.slug]: [selectedParcel ?? ""],

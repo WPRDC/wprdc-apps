@@ -6,25 +6,43 @@ import type {
 } from "@wprdc/types";
 import type { ReactNode } from "react";
 
+export interface AddressParts {
+  number?: string;
+  fraction?: string;
+  unit?: string;
+  street?: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+}
+
 export function makeAddress(
-  data?: PropertyAssessment,
+  parts: AddressParts,
 ): [string | undefined, string | undefined] {
-  if (!data) return [undefined, undefined];
+  let addressLine = [parts.number, parts.fraction, parts.street].join(" ");
 
-  let addressLine = [
-    data.PROPERTYHOUSENUM,
-    data.PROPERTYFRACTION,
-    data.PROPERTYADDRESS,
-  ].join(" ");
-
-  if ((data.PROPERTYUNIT ?? "").trim().length)
-    addressLine = addressLine.concat(", ", data.PROPERTYUNIT ?? "");
+  if ((parts.unit ?? "").trim().length)
+    addressLine = addressLine.concat(", ", parts.unit ?? "");
 
   const cityLine =
-    data.PROPERTYCITY && data.PROPERTYSTATE && data.PROPERTYZIP
-      ? `${data.PROPERTYCITY}, ${data.PROPERTYSTATE} ${data.PROPERTYZIP}`
+    parts.city && parts.state && parts.zip
+      ? `${parts.city}, ${parts.state} ${parts.zip}`
       : undefined;
   return [addressLine, cityLine];
+}
+
+export function makeAssessmentAddress(
+  data?: PropertyAssessment,
+): [string | undefined, string | undefined] {
+  return makeAddress({
+    number: data?.PROPERTYHOUSENUM,
+    fraction: data?.PROPERTYFRACTION,
+    unit: data?.PROPERTYUNIT ?? undefined,
+    street: data?.PROPERTYADDRESS,
+    city: data?.PROPERTYCITY,
+    state: data?.PROPERTYSTATE,
+    zip: data?.PROPERTYZIP,
+  });
 }
 
 export function formatValue<T extends Value = Value>(

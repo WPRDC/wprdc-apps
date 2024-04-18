@@ -89,7 +89,7 @@ export function Navbar({
               />
             </button>
           </div>
-          <nav>{children}</nav>
+          <nav className="flex-grow">{children}</nav>
         </div>
       </div>
     </div>

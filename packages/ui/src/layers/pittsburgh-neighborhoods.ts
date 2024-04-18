@@ -46,4 +46,7 @@ export const pittsburghNeighborhoodLayer: LayerConfig<InteractiveSymbologyProps>
       [14.5, 1],
       [15, 0],
     ],
+
+    hoverPopupFormat: "neighborhood",
+    clickPopupFormat: "neighborhood",
   };

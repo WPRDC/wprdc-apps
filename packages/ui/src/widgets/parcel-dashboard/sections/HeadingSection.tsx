@@ -2,7 +2,7 @@ import type { ParcelBoundary, PropertyAssessment, Value } from "@wprdc/types";
 import { Suspense } from "react";
 import type { MultiSourceSectionProps } from "../types";
 import { HeroImage } from "../components/HeroImage";
-import { makeAddress } from "../../../util";
+import { makeAssessmentAddress } from "../../../util";
 import { ClassChip } from "../components/ClassChip";
 import { FieldValues } from "../../../components";
 import { OwnerInfo } from "./OwnerInfo";
@@ -25,7 +25,7 @@ export function HeadingSection({
   const imgURL = `https://iasworld.alleghenycounty.us/iasworld/iDoc2/Services/GetPhoto.ashx?parid=${parcelID}&jur=002`;
 
   const assessmentRecord = assessment.records[0];
-  const [addressLine, cityLine] = makeAddress(assessmentRecord);
+  const [addressLine, cityLine] = makeAssessmentAddress(assessmentRecord);
   return (
     <div className="flex justify-between pb-4">
       <div className="w-2/3">

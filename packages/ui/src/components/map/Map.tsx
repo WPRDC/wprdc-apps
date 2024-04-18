@@ -16,7 +16,11 @@ import type {
   ViewStateChangeEvent,
 } from "react-map-gl/maplibre";
 import ReactMapGL, { NavigationControl } from "react-map-gl/maplibre";
-import type { LayerConfig, MapState } from "@wprdc/types";
+import type {
+  InteractiveSymbologyProps,
+  LayerConfig,
+  MapState,
+} from "@wprdc/types";
 import { SymbologyMode } from "@wprdc/types";
 import { BasemapMenu } from "./BasemapMenu";
 import { LayerGroup } from "./LayerGroup";
@@ -25,6 +29,7 @@ import { Legend } from "./Legend";
 import { basemaps } from "./basemaps";
 import type { MapProps } from "./Map.types";
 import DrawControl from "./DrawControl";
+import { ClickPopup, HoverPopup } from "./popup";
 
 const DEFAULT_MIN_ZOOM = 9;
 const DEFAULT_MAX_ZOOM = 22;
@@ -42,6 +47,7 @@ export function Map({
   useDrawControls = false,
   drawControlProps = {},
   onZoom,
+  onNavigate,
   showZoom = false,
 }: MapProps): React.ReactElement {
   const mapRef = useRef<MapRef>(null);
@@ -98,14 +104,47 @@ export function Map({
   const handleClick = useCallback(
     (e: MapLayerMouseEvent): void => {
       const features = extractFeatures(e);
+
       setClickedFeatures(features);
       if (!!features && features.length > 1) setClickedPoint(e.point);
       else setClickedPoint(null);
+      // if the map is used for navigation
+      if (onNavigate && features && features.length === 1)
+        handleNavigate(features[0]);
       if (onClick) {
         onClick(features ?? [], mapState, e);
       }
     },
-    [mapState, onClick],
+    [mapState, onClick, onNavigate],
+  );
+
+  /** Called when attempting to close a popup */
+  const handlePopupClose = useCallback(() => {
+    setClickedPoint(null);
+    setClickedFeatures(null);
+  }, []);
+
+  /** Called when navigating using a feature */
+  const handleNavigate = useCallback(
+    (feature: MapGeoJSONFeature) => {
+      handlePopupClose();
+      if (onNavigate) onNavigate(feature, mapState);
+    },
+    [handlePopupClose, mapState, onNavigate],
+  );
+
+  /** Used by popups to determine which layout to use */
+  const getPopupID = useCallback(
+    (f: MapGeoJSONFeature) => {
+      const layer: LayerConfig<InteractiveSymbologyProps> | undefined =
+        layers?.find<LayerConfig<InteractiveSymbologyProps>>(
+          (l: LayerConfig): l is LayerConfig<InteractiveSymbologyProps> =>
+            l.slug === f.source &&
+            l.symbologyMode === SymbologyMode.Interactive,
+        );
+      return layer?.hoverPopupFormat ?? "";
+    },
+    [layers],
   );
 
   function getCursor(features?: MapGeoJSONFeature[] | null): string {
@@ -193,6 +232,26 @@ export function Map({
             layer={layer}
           />
         ))}
+
+      {!!hoveredFeatures?.length &&
+        !!hoveredPoint &&
+        !clickedFeatures?.length && (
+          <HoverPopup
+            features={hoveredFeatures}
+            getPopupID={getPopupID}
+            point={hoveredPoint}
+          />
+        )}
+
+      {!!clickedFeatures?.length && !!clickedPoint && (
+        <ClickPopup
+          features={clickedFeatures}
+          getPopupID={getPopupID}
+          onClose={handlePopupClose}
+          onNavigate={handleNavigate}
+          point={clickedPoint}
+        />
+      )}
 
       {children}
     </ReactMapGL>

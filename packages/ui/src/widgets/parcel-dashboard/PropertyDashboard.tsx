@@ -44,12 +44,14 @@ import { HeadingSection } from "./sections/HeadingSection";
 import type { SectionProps } from "./types";
 
 export interface PropertyDashboardProps {
-  parcelID: string;
+  parcelID?: string;
 }
 
 export async function PropertyDashboard({
-  parcelID,
+  parcelID: _parcelID,
 }: PropertyDashboardProps): Promise<null | React.ReactElement> {
+  const parcelID = _parcelID ?? "0027S00125000000";
+
   const assessment: APIResult<PropertyAssessment> =
     await fetchAssessmentRecord(parcelID);
   const boundary: APIResult<ParcelBoundary> =

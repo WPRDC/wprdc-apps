@@ -2,14 +2,13 @@
 
 import {
   ComboBox as RAComboBox,
-  FieldError,
   Input,
   Label,
   ListBox,
   Text,
 } from "react-aria-components";
-import { TbSearch } from "react-icons/tb";
 import { twMerge } from "tailwind-merge";
+import { BiSearchAlt2 } from "react-icons/bi";
 import { Popover } from "../popover";
 import { Typography } from "../typography";
 import type { ComboBoxProps } from "./ComboBox.types";
@@ -17,40 +16,54 @@ import type { ComboBoxProps } from "./ComboBox.types";
 export function ComboBox<T extends object>({
   label,
   description,
-  errorMessage,
   variant = "default",
   className,
   children,
   ...props
 }: ComboBoxProps<T>): React.ReactElement {
   return (
-    <RAComboBox {...props} className={twMerge("relative", className)}>
-      <Label
+    <RAComboBox
+      {...props}
+      aria-label={label}
+      className={twMerge("relative", className)}
+    >
+      {variant !== "search-nav" ? (
+        <Label className={twMerge("flex items-stretch pb-1")}>
+          <Typography.Label>{label}</Typography.Label>
+        </Label>
+      ) : null}
+
+      <div
         className={twMerge(
-          "flex items-center pb-1",
-          variant === "search-nav" && "absolute z-10",
+          variant === "search-nav" ? "absolute flex" : "hidden",
+          "h-full items-center rounded-l-md border-r border-black bg-stone-900 ",
         )}
       >
-        <TbSearch
-          className={twMerge("pr-0.5", variant === "search-nav" && "size-8")}
+        <BiSearchAlt2
+          className={twMerge(
+            "mx-1",
+            variant === "search-nav" && "size-8 text-white",
+          )}
         />
-        {variant !== "search-nav" && (
-          <Typography.Label>{label}</Typography.Label>
-        )}
-      </Label>
-
+      </div>
       <Input
         className={twMerge(
-          "w-full rounded-sm border border-stone-800 px-2 py-1",
+          "w-full rounded border-2 border-stone-800 px-2 py-1",
+          variant === "search-nav" && " pl-11 ",
         )}
       />
 
       {description ? <Text slot="description">{description}</Text> : null}
-      <FieldError>{errorMessage}</FieldError>
 
       <Popover className="w-[--trigger-width] border border-stone-800 shadow-md">
         <ListBox className="bg-white p-2">{children}</ListBox>
       </Popover>
+
+      {Array.from(props.items ?? []).length ? (
+        <div className="w-[--trigger-width]">
+          <div>Nothing</div>
+        </div>
+      ) : null}
     </RAComboBox>
   );
 }

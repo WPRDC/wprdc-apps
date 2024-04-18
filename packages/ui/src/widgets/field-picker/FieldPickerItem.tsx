@@ -31,7 +31,7 @@ export function FieldPickerItem<T extends DatastoreRecord = DatastoreRecord>({
           {info?.label && !!info.label.length ? info.label : fieldName}
         </Text>
         <Text className="font-mono text-xs leading-none" slot="label">
-          {fieldName}
+          {type}
         </Text>
       </div>
       <div className="flex items-center">

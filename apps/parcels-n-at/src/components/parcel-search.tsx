@@ -4,11 +4,8 @@ import type { AsyncListData, Key } from "react-stately";
 import { useAsyncList } from "react-stately";
 import type { RankedParcelIndex } from "@wprdc/types";
 import { ListBoxItem, Text } from "react-aria-components";
-import { autocompleteParcelSearch } from "@wprdc/api";
 import { ComboBox, getClassificationColor } from "@wprdc/ui";
 import { useRouter } from "next/navigation";
-
-const API_TOKEN = process.env.CKAN_API_TOKEN ?? "";
 
 export function ParcelSearch(): React.ReactElement {
   const router = useRouter();
@@ -16,11 +13,12 @@ export function ParcelSearch(): React.ReactElement {
   const list: AsyncListData<RankedParcelIndex> =
     useAsyncList<RankedParcelIndex>({
       async load({ signal, filterText }) {
-        const results = await autocompleteParcelSearch(filterText ?? "", 10, {
+        const response = await fetch(`/api/parcels/search?q=${filterText}`, {
           signal,
-          headers: { Authorization: API_TOKEN },
         });
-
+        const { results } = (await response.json()) as {
+          results: RankedParcelIndex[];
+        };
         return {
           items: results,
         };
@@ -29,7 +27,7 @@ export function ParcelSearch(): React.ReactElement {
 
   function handleSelectionChange(key: Key): void {
     list.setFilterText("");
-    if (key) router.push(`/parcel?parcel=${key}`);
+    if (key) router.push(`/explore?parcel=${key}`);
   }
 
   return (
@@ -42,6 +40,7 @@ export function ParcelSearch(): React.ReactElement {
         list.setFilterText(v);
       }}
       onSelectionChange={handleSelectionChange}
+      placeholder="Search Address or Parcel ID"
       variant="search-nav"
     >
       {(item: RankedParcelIndex) => (

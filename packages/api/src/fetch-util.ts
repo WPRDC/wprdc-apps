@@ -4,7 +4,6 @@ import {
   FieldRecord,
   QueryResult,
 } from "@wprdc/types";
-import { fetchParcelRecords } from "./domains/parcel";
 
 const HOST = process.env.NEXT_PUBLIC_API_HOST ?? "https://data.wprdc.org";
 const API_KEY = process.env.CKAN_API_TOKEN;

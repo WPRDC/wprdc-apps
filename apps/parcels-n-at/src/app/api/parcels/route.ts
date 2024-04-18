@@ -8,7 +8,7 @@ import AdmZip from "adm-zip";
 import sql from "@/db";
 import type { Dataset } from "@/datasets";
 import { datasetsByTable } from "@/datasets";
-import { fieldFilter } from "@/util";
+import { datasetFieldFilter, fieldFilter } from "@/util";
 
 interface ParcelSearchRecord {
   parcel_id: string;
@@ -83,7 +83,7 @@ async function getDatasetParcelData(
 ): Promise<Record<string, string | number | boolean>[]> {
   const selectedAll = fieldSelection === "all";
   const fieldNames: string[] = selectedAll
-    ? fields.map((field) => field.id)
+    ? fields.filter(datasetFieldFilter(dataset)).map((field) => field.id)
     : (fieldSelection as string[]);
 
   return sql`
@@ -210,7 +210,7 @@ Data Files
       const tableSelection = fieldSelection[table];
       const fields =
         tableSelection === "all"
-          ? fieldDefs[table]
+          ? fieldDefs[table].filter(datasetFieldFilter(dataset))
           : fieldDefs[table].filter((fieldDef) =>
               tableSelection.includes(fieldDef.id),
             );
@@ -258,14 +258,24 @@ Data Files
   });
 }
 
-function asCSV(data: Record<string, string | number | boolean>[]): string {
+function asCSV(
+  data: Record<string, string | number | boolean | null | undefined>[],
+): string {
   const headers: string[] = Object.keys(data[0]);
 
   return data.reduce<string>(
     (csv, row) => {
-      const rowString = headers.map((h) => String(row[h])).join(",");
+      // wrap in quotes and comma-separate
+      const rowString = headers.map((h) => renderCell(row[h])).join(",");
       return csv.concat(`${rowString}\n`);
     },
     `${headers.join(",")}\n`,
   );
+}
+
+function renderCell(
+  datum: string | number | boolean | null | undefined,
+): string {
+  if (datum === null || datum === undefined) return "";
+  return `"${datum}"`;
 }

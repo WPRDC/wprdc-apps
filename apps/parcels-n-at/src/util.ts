@@ -1,6 +1,14 @@
 import type { DatastoreField, DatastoreRecord } from "@wprdc/types";
+import type { Dataset } from "@/datasets";
 
 const COMMON_SKIPPED_FIELDS = ["_id", "_geom", "_geom_webmercator"];
+
+export const datasetFieldFilter =
+  (dataset: Dataset) =>
+  (field: DatastoreField): boolean => {
+    const { ignoredFields = [], parcelIDField } = dataset;
+    return fieldFilter([...ignoredFields, parcelIDField])(field);
+  };
 
 export const fieldFilter =
   <T extends DatastoreRecord>(skippedFields: string[]) =>

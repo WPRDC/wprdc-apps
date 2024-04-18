@@ -1,5 +1,3 @@
-// defaults to auto
-
 import type { DatastoreRecord } from "@wprdc/types";
 import type { NextRequest } from "next/server";
 import { fetchFields } from "@wprdc/api";

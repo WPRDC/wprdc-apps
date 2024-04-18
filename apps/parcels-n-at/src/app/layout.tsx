@@ -4,7 +4,9 @@ import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "@wprdc/ui/styles.css";
-import { Navbar } from "@wprdc/ui";
+import { A, Navbar } from "@wprdc/ui";
+import Link from "next/link";
+import { TbCompass, TbDownload } from "react-icons/tb";
 
 export const metadata: Metadata = {
   title: "Parcels N'at",
@@ -36,7 +38,22 @@ export default function RootLayout({
               Parcels n&apos;at
             </div>
           }
-        />
+        >
+          <div className="flex space-x-4 px-8 text-xl font-semibold leading-none">
+            <Link
+              className="hover:bg-primary flex items-center hover:underline"
+              href="/explore"
+            >
+              <TbCompass /> Explorer
+            </Link>
+            <Link
+              className="hover:bg-primary flex items-center hover:underline"
+              href="/bulk"
+            >
+              <TbDownload /> Bulk&nbsp;Download
+            </Link>
+          </div>
+        </Navbar>
         <main className="lg:flex lg:h-full lg:overflow-hidden">{children}</main>
       </body>
     </html>

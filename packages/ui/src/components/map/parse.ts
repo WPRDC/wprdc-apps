@@ -14,6 +14,7 @@ import type {
   ExpressionSpecification,
   SourceFunctionSpecification,
 } from "@maplibre/maplibre-gl-style-spec";
+import type { MapGeoJSONFeature } from "react-map-gl/maplibre";
 import {
   darken,
   DEFAULT_BORDER_WIDTH,
@@ -37,6 +38,7 @@ export function parseConfig(
 ): ParseResults {
   let color: ParseResults["color"];
   let borderColor: ParseResults["borderColor"];
+  let lineSortKey: ParseResults["lineSortKey"];
   // the process for generating color expressions varies between symbology modes
   switch (layer.symbologyMode) {
     case SymbologyMode.Qualitative:
@@ -44,6 +46,14 @@ export function parseConfig(
       borderColor = parseQualitativeColorExpression(layer, darken(20));
       break;
     case SymbologyMode.Solid:
+      color = parseOption(layer.color, layer, context, DEFAULT_COLOR);
+      borderColor = parseOption(
+        layer.borderColor,
+        layer,
+        context,
+        darken(20)(DEFAULT_COLOR),
+      );
+      break;
     case SymbologyMode.Interactive:
       color = parseOption(layer.color, layer, context, DEFAULT_COLOR);
       borderColor = parseOption(
@@ -52,6 +62,27 @@ export function parseConfig(
         context,
         darken(20)(DEFAULT_COLOR),
       );
+
+      // eslint-disable-next-line no-case-declarations -- readability
+      const selectedID: string | undefined = (context.selectedIDs?.[
+        layer.slug
+      ] ?? [])[0];
+
+      const hoveredID: string =
+        (context.hoveredFeatures
+          ? context.hoveredFeatures.find((f) => f.source === layer.slug)
+          : undefined
+        )?.properties[layer.idField] ?? "";
+
+      if (selectedID)
+        lineSortKey = [
+          "case",
+          ["==", ["get", layer.idField], selectedID],
+          100,
+          ["==", ["get", layer.idField], hoveredID],
+          200,
+          0,
+        ];
       break;
   }
 
@@ -74,7 +105,14 @@ export function parseConfig(
     layer.type === GeoType.Polygon ? DEFAULT_BORDER_WIDTH : DEFAULT_LINE_WIDTH,
   );
 
-  return { color, borderColor, opacity, borderOpacity, borderWidth };
+  return {
+    color,
+    borderColor,
+    opacity,
+    borderOpacity,
+    borderWidth,
+    lineSortKey,
+  };
 }
 
 /**

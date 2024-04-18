@@ -11,7 +11,7 @@ import type { Polygon } from "geojson";
 import type { DrawMode } from "@mapbox/mapbox-gl-draw";
 import {
   alleghenyCountyBoundary,
-  municipalitiesLayer as _municipalities,
+  municipalities as _municipalities,
   parcelLayer,
   pittsburghBoundary,
   pittsburghNeighborhoodLayer,
@@ -128,8 +128,6 @@ export function ParcelPicker({
       }
     }
   }, [onDrawCountChange, drawnAreas]);
-
-  // console.log(drawMode);
 
   return (
     <div className="flex h-full w-full flex-col">

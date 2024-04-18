@@ -4,7 +4,7 @@ import type { ParcelSelectionOptions } from "@wprdc/ui";
 import {
   Button,
   Heading,
-  municipalitiesLayer,
+  municipalities,
   parcelLayer,
   ParcelPicker,
   pittsburghNeighborhoodLayer,
@@ -73,7 +73,7 @@ export default function Page(): React.ReactElement {
     ? parcelSelection.selectedFeatures[pittsburghNeighborhoodLayer.slug].length
     : 0;
   const municipalitiesSelected = parcelSelection.selectedFeatures
-    ? parcelSelection.selectedFeatures[municipalitiesLayer.slug].length
+    ? parcelSelection.selectedFeatures[municipalities.slug].length
     : 0;
   const fieldsSelected = Object.values(fieldSelection).flat().length;
 

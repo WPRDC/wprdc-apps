@@ -10,10 +10,16 @@ export function PolygonLayer({
 }: SymbologyLayerProps): React.ReactElement {
   const { slug } = layer;
 
-  const { color, opacity, borderOpacity, borderWidth, borderColor } =
-    useMemo(() => {
-      return parseConfig(layer, context);
-    }, [layer, context]);
+  const {
+    color,
+    opacity,
+    borderOpacity,
+    borderWidth,
+    borderColor,
+    lineSortKey,
+  } = useMemo(() => {
+    return parseConfig(layer, context);
+  }, [layer, context]);
 
   return (
     <>
@@ -35,6 +41,8 @@ export function PolygonLayer({
         id={`${slug}-line`}
         layout={{
           "line-cap": "round",
+          "line-join": "miter",
+          "line-sort-key": lineSortKey,
         }}
         maxzoom={layer.maxZoom ?? 22}
         minzoom={layer.minZoom ?? 0}

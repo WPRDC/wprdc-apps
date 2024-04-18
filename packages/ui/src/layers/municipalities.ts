@@ -1,7 +1,7 @@
 import type { LayerConfig, InteractiveSymbologyProps } from "@wprdc/types";
 import { GeoType, SymbologyMode } from "@wprdc/types";
 
-export const municipalitiesLayer: LayerConfig<InteractiveSymbologyProps> = {
+export const municipalities: LayerConfig<InteractiveSymbologyProps> = {
   // metadata
   slug: "allegheny-county-municipalities",
   title: "Allegheny County Municipalities",
@@ -47,4 +47,7 @@ export const municipalitiesLayer: LayerConfig<InteractiveSymbologyProps> = {
     [14.5, 1],
     [15, 0],
   ],
+
+  hoverPopupFormat: "municipality",
+  clickPopupFormat: "municipality",
 };

@@ -33,9 +33,6 @@ export interface CommonLayerOptions extends IDed {
   /** Options that define the layer's legend item if one */
   legend?: LegendGroupOptions;
 
-  /** Options that define the layer's popup if one*/
-  hoverPopup?: (props: MapState) => React.ReactElement;
-
   /** Hides layer if true */
   hidden?: boolean;
 

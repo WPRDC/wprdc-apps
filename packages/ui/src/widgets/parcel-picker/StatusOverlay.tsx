@@ -1,7 +1,7 @@
 import {
   parcelLayer,
   pittsburghNeighborhoodLayer,
-  municipalitiesLayer,
+  municipalities,
 } from "../../layers";
 import { Spinner } from "../../components";
 
@@ -20,7 +20,7 @@ export function StatusOverlay({
   const numSelectedNeighborhoods =
     selectedFeatures[pittsburghNeighborhoodLayer.slug].length;
   const numSelectedMunicipalities =
-    selectedFeatures[municipalitiesLayer.slug].length;
+    selectedFeatures[municipalities.slug].length;
 
   return (
     <div className="absolute bottom-12 right-4 rounded border border-stone-700 bg-white p-2">
