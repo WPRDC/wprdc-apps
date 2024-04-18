@@ -19,6 +19,7 @@ export function ComboBox<T extends object>({
   variant = "default",
   className,
   children,
+  placeholder,
   ...props
 }: ComboBoxProps<T>): React.ReactElement {
   return (
@@ -51,6 +52,7 @@ export function ComboBox<T extends object>({
           "w-full rounded border-2 border-stone-800 px-2 py-1",
           variant === "search-nav" && " pl-11 ",
         )}
+        placeholder={placeholder}
       />
 
       {description ? <Text slot="description">{description}</Text> : null}

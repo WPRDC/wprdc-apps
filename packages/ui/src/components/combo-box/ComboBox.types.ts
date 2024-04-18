@@ -11,4 +11,5 @@ export interface ComboBoxProps<T extends object>
   errorMessage?: string | ((validation: ValidationResult) => string);
   children: React.ReactNode | ((item: T) => React.ReactNode);
   className?: string;
+  placeholder?: string;
 }
