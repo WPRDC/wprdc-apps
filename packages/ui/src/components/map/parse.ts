@@ -4,9 +4,9 @@ import type {
   LayerConfig,
   MapState,
   QualitativeSymbologyProps,
+  StyleOption,
   StyleValue,
   ZoomOption,
-  StyleOption,
 } from "@wprdc/types";
 import { GeoType, SymbologyMode } from "@wprdc/types";
 import type {
@@ -68,7 +68,7 @@ export function parseConfig(
       ] ?? [])[0];
 
       // eslint-disable-next-line no-case-declarations -- readability
-      const hoveredID: string =
+      const hoveredID =
         (context.hoveredFeatures
           ? context.hoveredFeatures.find((f) => f.source === layer.slug)
           : undefined

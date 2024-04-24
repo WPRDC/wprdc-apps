@@ -23,7 +23,7 @@ export function Card({
       <A
         className={classNames(
           "ui flex h-full flex-col rounded-t-md shadow-lg",
-          "hover:shadow-2xl active:shadow dark:border-textSecondaryDark",
+          "active:shadow hover:shadow-2xl dark:border-textSecondaryDark",
         )}
         href={href}
       >

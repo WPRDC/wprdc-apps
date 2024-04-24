@@ -17,3 +17,5 @@ export type SpecGenerator<T> = (context: MapState) => T;
 export type WithGenerator<T> =
   | DataDrivenPropertyValueSpecification<T>
   | SpecGenerator<DataDrivenPropertyValueSpecification<T>>;
+
+export type Coordinate = [number, number];

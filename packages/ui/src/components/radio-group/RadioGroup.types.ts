@@ -4,8 +4,8 @@
  *
  **/
 import type {
-  RadioProps as RARadioProps,
   RadioGroupProps as RARadioGroupProps,
+  RadioProps as RARadioProps,
 } from "react-aria-components";
 
 export type RadioProps = RARadioProps;

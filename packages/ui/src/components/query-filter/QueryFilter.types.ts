@@ -8,7 +8,7 @@ import type { RuleGroupType } from "react-querybuilder";
 
 export interface QueryFilterProps {
   /** Set of fields that be used in the filter */
-  fields: DatastoreField<DatastoreRecord>[];
+  fields: DatastoreField[];
 
   /** Default state for uncontrolled instances */
   defaultQuery?: RuleGroupType;

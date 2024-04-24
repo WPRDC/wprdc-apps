@@ -2,10 +2,10 @@ import {
   ArchiveAssessmentAppeal,
   CityViolation,
   ConservatorshipRecord,
+  Coordinate,
   DatastoreRecord,
   FiledAssessmentAppeal,
   ForeclosureFiling,
-  GeoJSONFeature,
   ParcelBoundary,
   PLIPermit,
   PropertyAssessment,
@@ -167,4 +167,39 @@ export async function autocompleteParcelSearch(
   );
 
   return records ?? [];
+}
+
+export interface GeocodeResponse {
+  centroid: Coordinate;
+  bbox: [Coordinate, Coordinate];
+}
+
+export async function geocodeParcel(
+  parcelID: string,
+  init?: RequestInit,
+): Promise<GeocodeResponse | null> {
+  const sql: string = `
+  SELECT 
+    "PIN", 
+    ST_AsGeoJSON(ST_Centroid(_geom)) as centroid, 
+    ST_AsGeoJSON(ST_Envelope(_geom)) as bbox
+  FROM "parcel_boundaries"
+  WHERE "PIN" = '${parcelID}'
+  LIMIT 1
+  `;
+
+  const { records } = await fetchSQLSearch<{
+    PIN: string;
+    centroid: string;
+    bbox: string;
+  }>(sql, undefined, init);
+
+  if (!records || !records.length) return null;
+  const bboxPolygon: Coordinate[][] = JSON.parse(records[0].bbox).coordinates;
+  const centroid: Coordinate = JSON.parse(records[0].centroid).coordinates;
+
+  return {
+    centroid: centroid,
+    bbox: [bboxPolygon[0][0], bboxPolygon[0][2]],
+  };
 }

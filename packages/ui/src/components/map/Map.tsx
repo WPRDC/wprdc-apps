@@ -7,7 +7,14 @@
  **/
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import type {
   MapGeoJSONFeature,
   MapLayerMouseEvent,
@@ -34,23 +41,27 @@ import { ClickPopup, HoverPopup } from "./popup";
 const DEFAULT_MIN_ZOOM = 9;
 const DEFAULT_MAX_ZOOM = 22;
 
-export function Map({
-  children,
-  onClick,
-  onHover,
-  mapTilerAPIKey,
-  selectedIDs,
-  layers,
-  initialViewState,
-  minZoom,
-  maxZoom,
-  useDrawControls = false,
-  drawControlProps = {},
-  onZoom,
-  onNavigate,
-  showZoom = false,
-}: MapProps): React.ReactElement {
-  const mapRef = useRef<MapRef>(null);
+export const Map = forwardRef<MapRef, MapProps>(function _Map(
+  {
+    children,
+    onClick,
+    onHover,
+    mapTilerAPIKey,
+    selectedIDs,
+    layers,
+    initialViewState,
+    minZoom,
+    maxZoom,
+    useDrawControls = false,
+    drawControlProps = {},
+    onZoom,
+    onNavigate,
+    showZoom = false,
+  },
+  ref,
+): React.ReactElement {
+  const _mapRef = useRef<MapRef>(null);
+  const mapRef = ref ?? _mapRef;
 
   const [basemap, setBasemap] = useState<keyof typeof basemaps>("basic");
   const [zoomText, setZoomText] = useState<string>();
@@ -76,6 +87,35 @@ export function Map({
       clickedPoint,
     }),
     [selectedIDs, hoveredFeatures, clickedFeatures, hoveredPoint, clickedPoint],
+  );
+
+  /** Called when attempting to close a popup */
+  const handlePopupClose = useCallback(() => {
+    setClickedPoint(null);
+    setClickedFeatures(null);
+  }, []);
+
+  /** Called when navigating using a feature */
+  const handleNavigate = useCallback(
+    (feature: MapGeoJSONFeature) => {
+      handlePopupClose();
+      if (onNavigate) onNavigate(feature, mapState);
+    },
+    [handlePopupClose, mapState, onNavigate],
+  );
+
+  /** Used by popups to determine which layout to use */
+  const getPopupID = useCallback(
+    (f: MapGeoJSONFeature) => {
+      const layer: LayerConfig<InteractiveSymbologyProps> | undefined =
+        layers?.find<LayerConfig<InteractiveSymbologyProps>>(
+          (l: LayerConfig): l is LayerConfig<InteractiveSymbologyProps> =>
+            l.slug === f.source &&
+            l.symbologyMode === SymbologyMode.Interactive,
+        );
+      return layer?.hoverPopupFormat ?? "";
+    },
+    [layers],
   );
 
   const handleZoom = useCallback(
@@ -115,52 +155,26 @@ export function Map({
         onClick(features ?? [], mapState, e);
       }
     },
-    [mapState, onClick, onNavigate],
+    [handleNavigate, mapState, onClick, onNavigate],
   );
 
-  /** Called when attempting to close a popup */
-  const handlePopupClose = useCallback(() => {
-    setClickedPoint(null);
-    setClickedFeatures(null);
-  }, []);
-
-  /** Called when navigating using a feature */
-  const handleNavigate = useCallback(
-    (feature: MapGeoJSONFeature) => {
-      handlePopupClose();
-      if (onNavigate) onNavigate(feature, mapState);
-    },
-    [handlePopupClose, mapState, onNavigate],
-  );
-
-  /** Used by popups to determine which layout to use */
-  const getPopupID = useCallback(
-    (f: MapGeoJSONFeature) => {
-      const layer: LayerConfig<InteractiveSymbologyProps> | undefined =
-        layers?.find<LayerConfig<InteractiveSymbologyProps>>(
-          (l: LayerConfig): l is LayerConfig<InteractiveSymbologyProps> =>
-            l.slug === f.source &&
-            l.symbologyMode === SymbologyMode.Interactive,
-        );
-      return layer?.hoverPopupFormat ?? "";
-    },
-    [layers],
-  );
-
-  function getCursor(features?: MapGeoJSONFeature[] | null): string {
-    if (!features?.length) return "grab";
-    return "pointer";
-  }
-
+  // Add listener for drawing mode change
   useEffect(() => {
-    if (mapRef.current) {
+    if (typeof mapRef !== "function" && mapRef.current) {
       const map = mapRef.current.getMap();
       map.on("draw.modechange", (e: { mode: string }) => {
         setDrawingMode(e.mode);
       });
     }
-  }, [mapRef.current]);
+  }, [mapRef]);
 
+  // Set map cursor based on hover state
+  const cursor = useMemo(() => {
+    if (!hoveredFeatures?.length) return "grab";
+    return "pointer";
+  }, [hoveredFeatures]);
+
+  // IDs of layers that will pass data to map event handlers
   const interactiveLayerIDs = useMemo(() => {
     return layers
       ?.filter(
@@ -171,7 +185,7 @@ export function Map({
 
   return (
     <ReactMapGL
-      cursor={getCursor(hoveredFeatures)}
+      cursor={cursor}
       initialViewState={{
         longitude: -80,
         latitude: 40.44,
@@ -207,7 +221,7 @@ export function Map({
         <Legend layers={layers} />
       </div>
 
-      {!!useDrawControls && (
+      {useDrawControls ? (
         <DrawControl
           controls={{
             polygon: true,
@@ -217,7 +231,7 @@ export function Map({
           position="top-left"
           {...drawControlProps}
         />
-      )}
+      ) : null}
 
       {!!layers &&
         layers.map((layer) => (
@@ -256,4 +270,4 @@ export function Map({
       {children}
     </ReactMapGL>
   );
-}
+});

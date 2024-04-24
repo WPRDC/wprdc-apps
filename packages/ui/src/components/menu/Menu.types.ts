@@ -4,8 +4,8 @@
  *
  **/
 import type {
-  MenuProps as RAMenuProps,
   MenuItemProps as RAMenuItemProps,
+  MenuProps as RAMenuProps,
   SectionProps as RASectionProps,
 } from "react-aria-components";
 

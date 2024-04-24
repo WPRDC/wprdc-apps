@@ -8,12 +8,12 @@
 "use client";
 
 import {
-  Form,
-  SearchField,
-  Label,
-  Input,
   Button as RAButton,
   FieldError,
+  Form,
+  Input,
+  Label,
+  SearchField,
 } from "react-aria-components";
 import { Button } from "../button";
 import type { SearchBarProps } from "./SearchBar.types";

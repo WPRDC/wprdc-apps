@@ -1,8 +1,6 @@
 import { twMerge } from "tailwind-merge";
-import { TbAlertTriangleFilled } from "react-icons/tb";
 import {
   PiCheckFatFill,
-  PiSealWarningBold,
   PiWarningCircleDuotone,
   PiWarningDuotone,
   PiWarningOctagonDuotone,

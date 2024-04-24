@@ -5,10 +5,10 @@
  **/
 
 import type {
-  TabProps as RATabProps,
-  TabsProps as RATabsProps,
   TabListProps as RATabListProps,
   TabPanelProps as RATabPanelProps,
+  TabProps as RATabProps,
+  TabsProps as RATabsProps,
 } from "react-aria-components";
 
 export type TabProps = RATabProps;

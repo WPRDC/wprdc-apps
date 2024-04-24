@@ -114,6 +114,9 @@ importers:
       react-icons:
         specifier: ^5.0.1
         version: 5.0.1(react@18.2.0)
+      react-map-gl:
+        specifier: ^7.1.7
+        version: 7.1.7(maplibre-gl@4.1.2)(react-dom@18.2.0)(react@18.2.0)
       react-stately:
         specifier: ^3.30.1
         version: 3.30.1(react@18.2.0)
@@ -390,6 +393,9 @@ importers:
       postcss:
         specifier: ^8.4.38
         version: 8.4.38
+      postcss-load-config:
+        specifier: ^5.0.3
+        version: 5.0.3(postcss@8.4.38)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -7597,6 +7603,23 @@ packages:
       lilconfig: 3.1.1
       postcss: 8.4.38
       yaml: 2.4.1
+
+  /postcss-load-config@5.0.3(postcss@8.4.38):
+    resolution: {integrity: sha512-90pBBI5apUVruIEdCxZic93Wm+i9fTrp7TXbgdUCH+/L+2WnfpITSpq5dFU/IPvbv7aNiMlQISpUkAm3fEcvgQ==}
+    engines: {node: '>= 18'}
+    peerDependencies:
+      jiti: '>=1.21.0'
+      postcss: '>=8.0.9'
+    peerDependenciesMeta:
+      jiti:
+        optional: true
+      postcss:
+        optional: true
+    dependencies:
+      lilconfig: 3.1.1
+      postcss: 8.4.38
+      yaml: 2.4.1
+    dev: true
 
   /postcss-nested@6.0.1(postcss@8.4.38):
     resolution: {integrity: sha512-mEp4xPMi5bSWiMbsgoPfcP74lsWLHkQbZc3sY+jWYd65CUwXrUaTp0fmNpa01ZcETKlIgUdFN/MpS2xZtqL9dQ==}

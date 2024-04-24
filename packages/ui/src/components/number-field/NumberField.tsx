@@ -8,11 +8,11 @@
 "use client";
 
 import {
-  NumberField as RANumberField,
-  Label,
+  Button,
   Group,
   Input,
-  Button,
+  Label,
+  NumberField as RANumberField,
 } from "react-aria-components";
 import type { NumberFieldProps } from "./NumberField.types";
 
