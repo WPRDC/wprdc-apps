@@ -61,12 +61,17 @@ export function formatValue<T extends Value = Value>(
   return formatter(value);
 }
 
-export function formatDollars(value?: number): string | undefined {
+export function formatDollars(
+  value?: number,
+  options: Intl.NumberFormatOptions = {},
+): string | undefined {
   if (!value && value !== 0) return undefined;
+
   return value.toLocaleString("en-US", {
     style: "currency",
     currency: "USD",
     maximumFractionDigits: 0,
+    ...options,
   });
 }
 

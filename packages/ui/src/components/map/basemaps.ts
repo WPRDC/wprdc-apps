@@ -10,31 +10,31 @@ export const basemaps: Record<string, BasemapOptions> = {
   basic: {
     url: "https://api.maptiler.com/maps/basic-v2/style.json",
     label: "Basic",
-    image: outdoors as string,
+    image: basic as string,
   },
   streets: {
     url: "https://api.maptiler.com/maps/streets-v2/style.json",
     label: "Streets",
-    image: satellite as string,
+    image: streets as string,
   },
   outdoors: {
     url: "https://api.maptiler.com/maps/b59101bd-2934-4077-86c6-31144aa01131/style.json",
     label: "Outdoors",
-    image: streets as string,
+    image: outdoors as string,
   },
   minimal: {
     url: "https://api.maptiler.com/maps/dataviz/style.json",
     label: "Minimal",
-    image: topo as string,
+    image: minimal as string,
   },
   topo: {
     url: "https://api.maptiler.com/maps/topo-v2/style.json",
     label: "Topographic",
-    image: minimal as string,
+    image: topo as string,
   },
   satellite: {
     url: "https://api.maptiler.com/maps/satellite/style.json",
     label: "Satellite",
-    image: basic as string,
+    image: satellite as string,
   },
 };

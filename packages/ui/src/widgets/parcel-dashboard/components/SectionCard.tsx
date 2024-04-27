@@ -20,9 +20,7 @@ export function SectionCard(
       )}
     >
       {!!props.label && <Typography.Label>{props.label}</Typography.Label>}
-      <Suspense fallback={<Suspense fallback="Loading" />}>
-        {props.children}
-      </Suspense>
+      {props.children}
     </section>
   );
 }

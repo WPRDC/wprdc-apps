@@ -13,15 +13,13 @@ export default function Page({
   searchParams?: Record<string, string | number>;
 }): React.ReactElement {
   return (
-    <div className="h-full w-full lg:flex lg:content-stretch">
-      <div className="lg:w-1/2">
+    <div className="h-full w-full  xl:flex xl:content-stretch">
+      <div className="h-96 xl:h-auto xl:w-1/2">
         <NavMap selectedParcel={String(searchParams?.parcel)} />
       </div>
-      <div className="h-full border-l-2 border-stone-400 bg-stone-200 lg:w-1/2 lg:overflow-auto">
+      <div className="h-full border-l-2 border-stone-400 bg-stone-200 xl:w-1/2 xl:overflow-auto">
         {searchParams?.parcel ? (
-          <Suspense fallback="Loading" key={searchParams.parcel}>
-            <PropertyDashboard parcelID={String(searchParams.parcel)} />
-          </Suspense>
+          <PropertyDashboard parcelID={String(searchParams.parcel)} />
         ) : (
           <div>Pick a parcel to begin</div>
         )}

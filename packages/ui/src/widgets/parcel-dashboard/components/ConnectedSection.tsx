@@ -18,7 +18,7 @@ export function ConnectedSection<T extends DatastoreRecord>({
   return (
     <div className={className}>
       <SectionCard label={label}>
-        <Suspense fallback="loading...">
+        <Suspense fallback="loading..." key={props.parcelID}>
           {/* @ts-expect-error Async Server Component */}
           <ConnectedSectionContent {...props} />
         </Suspense>
@@ -46,7 +46,7 @@ export function MultiConnectedSection<T extends DatastoreRecordSet>({
 }: MultiConnectedSectionProps<T>): React.ReactElement {
   return (
     <SectionCard className={className} label={label}>
-      <Suspense fallback="loading...">
+      <Suspense fallback="loading..." key={props.parcelID}>
         {/* @ts-expect-error Async Server Component */}
         <MultiConnectedSectionContent {...props} />
       </Suspense>

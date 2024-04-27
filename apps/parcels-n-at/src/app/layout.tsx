@@ -27,7 +27,7 @@ export default function RootLayout({
 }>): React.ReactElement {
   return (
     <html className={`${jetbrainsMono.variable} `} lang="en">
-      <body className="flex h-screen flex-col lg:overflow-hidden">
+      <body className="flex h-screen flex-col overflow-auto xl:overflow-hidden">
         <Navbar
           darkLogoSrc="/wprdc-mark-dark.png"
           fullWidth
@@ -53,7 +53,7 @@ export default function RootLayout({
             </a>
           </div>
         </Navbar>
-        <main className="lg:flex lg:h-full lg:overflow-hidden">{children}</main>
+        <main className="xl:flex xl:h-full xl:overflow-hidden">{children}</main>
       </body>
     </html>
   );

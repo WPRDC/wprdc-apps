@@ -43,7 +43,7 @@ export function ParcelSearch(): React.ReactElement {
         list.setFilterText(v);
       }}
       onSelectionChange={handleSelectionChange}
-      placeholder="Search Address or Parcel ID"
+      placeholder="Search address or parcel ID"
       variant="search-nav"
     >
       {(item: RankedParcelIndex) => (

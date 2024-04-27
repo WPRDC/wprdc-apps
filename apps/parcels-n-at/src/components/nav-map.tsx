@@ -49,8 +49,8 @@ export function NavMap({ selectedParcel }: NavMapProps): React.ReactElement {
         [parcelLayer.slug]: [selectedParcel ?? ""],
       }}
     >
-      <div className="absolute left-2.5 top-2.5 w-full">
-        <div className="mx-auto max-w-screen-lg">
+      <div className="absolute left-2.5 top-2.5">
+        <div className="mx-auto w-fit">
           <ParcelSearch />
         </div>
       </div>

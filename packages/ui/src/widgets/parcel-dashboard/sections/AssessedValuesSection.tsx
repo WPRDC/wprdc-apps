@@ -1,11 +1,21 @@
 import type { PropertyAssessment } from "@wprdc/types";
+import { useMemo } from "react";
 import { Table } from "../../../components";
 import type { SectionProps } from "../types";
+import { formatDollars } from "../../../util";
 
 export function AssessedValuesSection({
   records,
 }: SectionProps<PropertyAssessment>): React.ReactElement {
   const record = records[0];
+
+  const notation: Intl.NumberFormatOptions["notation"] = useMemo(
+    () =>
+      record.FAIRMARKETTOTAL && record.FAIRMARKETTOTAL >= 10_000_000
+        ? "compact"
+        : "standard",
+    [record.FAIRMARKETTOTAL],
+  );
 
   return (
     <Table<number>
@@ -20,11 +30,7 @@ export function AssessedValuesSection({
         ],
       ]}
       format={(v?: number) =>
-        new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD",
-          maximumFractionDigits: 0,
-        }).format(v ?? 0)
+        formatDollars(v, { notation, compactDisplay: "long" })
       }
       rows={["Local", "County", "Fair Market"]}
     />
