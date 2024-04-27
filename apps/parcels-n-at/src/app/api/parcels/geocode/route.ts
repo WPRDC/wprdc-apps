@@ -1,13 +1,13 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { geocodeParcel } from "@wprdc/api";
-import type { Coordinate } from "@wprdc/types";
+import type { CoordinatePair } from "@wprdc/types";
 
 export type GeocodeResponseBody =
   | {
-      centroid: Coordinate;
+      centroid: CoordinatePair;
       status: "success";
-      bbox: [Coordinate, Coordinate];
+      bbox: [CoordinatePair, CoordinatePair];
     }
   | {
       status: "error";

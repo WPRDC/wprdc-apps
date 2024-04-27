@@ -12,6 +12,8 @@ const project = resolve(process.cwd(), "tsconfig.json");
  */
 
 module.exports = {
+  parser: "@typescript-eslint/parser",
+
   extends: [
     "@vercel/style-guide/eslint/browser",
     "@vercel/style-guide/eslint/typescript",
