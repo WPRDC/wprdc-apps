@@ -13,9 +13,12 @@ export function ParcelSearch(): React.ReactElement {
   const list: AsyncListData<RankedParcelIndex> =
     useAsyncList<RankedParcelIndex>({
       async load({ signal, filterText }) {
-        const response = await fetch(`/api/parcels/search?q=${filterText}`, {
-          signal,
-        });
+        const response = await fetch(
+          `/api/parcels/search?q=${filterText ?? ""}`,
+          {
+            signal,
+          },
+        );
         const { results } = (await response.json()) as {
           results: RankedParcelIndex[];
         };
@@ -27,7 +30,7 @@ export function ParcelSearch(): React.ReactElement {
 
   function handleSelectionChange(key: Key): void {
     list.setFilterText("");
-    if (key) router.push(`/explore?parcel=${key}`);
+    if (key) router.push(`/explore?parcel=${key.toString()}`);
   }
 
   return (

@@ -18,7 +18,7 @@ export function SubsidiesSection({
           icon={TbHomeHeart}
           info={fields.HOMESTEADFLAG.info?.notes}
           label="Homestead"
-          variant="active"
+          variant="success"
         />
       )}
       {!!record.FARMSTEADFLAG && (
@@ -27,7 +27,7 @@ export function SubsidiesSection({
           icon={GiFarmTractor}
           info={fields.FARMSTEADFLAG.info?.notes}
           label="Farmstead"
-          variant="active"
+          variant="success"
         />
       )}
       {!!record.CLEANGREEN && (
@@ -36,7 +36,7 @@ export function SubsidiesSection({
           icon={TbLeaf}
           info={fields.CLEANGREEN.info?.notes}
           label="Clean & Green"
-          variant="active"
+          variant="success"
         />
       )}
       {!!record.ABATEMENTFLAG && (
@@ -45,7 +45,7 @@ export function SubsidiesSection({
           icon={TbPigMoney}
           info={fields.ABATEMENTFLAG.info?.notes}
           label="Receives Abatement"
-          variant="active"
+          variant="success"
         />
       )}
       {!record.HOMESTEADFLAG &&

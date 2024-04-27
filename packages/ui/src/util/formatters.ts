@@ -95,7 +95,7 @@ export function asDataDict(
         cur.type,
         (cur.info?.notes ?? "").trim(),
       ])
-      .map((v) => `"${v}"`);
+      .map((v) => `"${v ?? ""}"`);
     return `${acc}${values.join(",")}\n`;
   }, header);
 }

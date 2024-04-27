@@ -1,13 +1,14 @@
-import type {
-  DataDrivenPropertyValueSpecification,
-  ExpressionSpecification,
-} from "@maplibre/maplibre-gl-style-spec";
+import type { DataDrivenPropertyValueSpecification } from "@maplibre/maplibre-gl-style-spec";
 import tinycolor from "tinycolor2";
 import type {
   MapGeoJSONFeature,
   MapLayerMouseEvent,
 } from "react-map-gl/maplibre";
-import type { LayerConfig } from "@wprdc/types";
+import type {
+  InteractiveSymbologyProps,
+  LayerConfig,
+  MapState,
+} from "@wprdc/types";
 import { GeoType } from "@wprdc/types";
 
 export const darken =
@@ -47,18 +48,6 @@ export const DEFAULT_LINE_WIDTH: DataDrivenPropertyValueSpecification<number> =
 export const DEFAULT_SELECTED_COLOR = "cyan";
 export const DEFAULT_COLOR = "#000";
 
-const thing: ExpressionSpecification = [
-  "case",
-  ["!=", ["get", "parcel_id"], "COMMON GROUND"],
-  "#000",
-  [
-    "case",
-    ["==", ["get", "parcel_id"], ""],
-    "red",
-    ["case", ["==", ["get", "parcel_id"], "0125M00143000000"], "blue", "#000"],
-  ],
-];
-
 export function getInteractiveLayerID(layer: LayerConfig): string {
   switch (layer.type) {
     case GeoType.Point:
@@ -68,4 +57,21 @@ export function getInteractiveLayerID(layer: LayerConfig): string {
     case GeoType.Polygon:
       return `${layer.slug}-fill`;
   }
+}
+
+export function getSelectedID(
+  layer: LayerConfig<InteractiveSymbologyProps>,
+  context: MapState,
+): string | undefined {
+  return (context.selectedIDs?.[layer.slug] ?? [])[0];
+}
+
+export function getPrimaryHoveredID(
+  layer: LayerConfig<InteractiveSymbologyProps>,
+  context: MapState,
+): string | undefined {
+  const { hoveredFeatures } = context;
+  if (!hoveredFeatures) return undefined;
+  const primaryFeature = hoveredFeatures.find((f) => f.source === layer.slug);
+  return primaryFeature?.properties[layer.idField] as string | undefined;
 }

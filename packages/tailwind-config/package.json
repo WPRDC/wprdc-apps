@@ -5,10 +5,13 @@
   "exports": {
     "./tailwind.config": "./tailwind.config.ts"
   },
+  "scripts": {
+    "update": "pnpm update"
+  },
   "devDependencies": {
-    "@types/node": "^20.11.25",
+    "@types/node": "^20.12.7",
     "@wprdc/typescript-config": "workspace:*",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.4.3",
     "tailwindcss-react-aria-components": "^1.1.1"
   }
 }

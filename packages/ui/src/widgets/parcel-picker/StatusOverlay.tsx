@@ -15,7 +15,7 @@ export function StatusOverlay({
   selectedFeatures,
   parcelsUnderDrawing,
   parcelsUnderDrawingIsLoading,
-}: StatusOverlayProps) {
+}: StatusOverlayProps): React.ReactElement {
   const numSelectedParcels = selectedFeatures[parcelLayer.slug].length;
   const numSelectedNeighborhoods =
     selectedFeatures[pittsburghNeighborhoodLayer.slug].length;

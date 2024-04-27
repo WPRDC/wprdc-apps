@@ -36,7 +36,7 @@ export function ConnectedFieldPicker<
         );
         setIsLoading(false);
       })
-      .catch((err) => {
+      .catch((err: unknown) => {
         // eslint-disable-next-line no-console -- nothing else we can really do here
         console.error(err);
       });

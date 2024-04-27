@@ -1,5 +1,5 @@
 // Interfaces for datastore response data
-import { Value } from "../shared";
+import type { Value } from "../shared";
 
 export type DatastoreRecord = Record<string, Value>;
 
@@ -8,7 +8,7 @@ export enum DataType {
   Text = "text",
   Float = "float8",
   Int = "int",
-  BigInt = "int",
+  BigInt = "bigint",
   DateTime = "datetime",
   Date = "date",
   Time = "time",
@@ -72,18 +72,17 @@ export interface QueryResult<T extends DatastoreRecord> {
 /**
  * Response from CKAN datastore_search endpoint
  */
-export interface DatastoreSearchResponse<T extends DatastoreRecord> {
-  /** URL of datastore_search help */
-  help: string;
-  /** True if successful query */
-  success: boolean;
-  /** Result of query */
-  result: QueryResult<T>;
-  /** Total number of rows in table */
-  total: number;
-  /** True if the total number of rows was estimated */
-  total_was_estimated: boolean;
-}
+export type SearchResponseBody<T extends DatastoreRecord> =
+  | {
+      success: true;
+      help: string;
+      result: QueryResult<T>;
+    }
+  | {
+      success: false;
+      help: string;
+      error: string;
+    };
 
 export type FieldRecord<T extends DatastoreRecord> = Record<
   keyof T,

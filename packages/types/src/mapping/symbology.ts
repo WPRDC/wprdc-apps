@@ -1,17 +1,12 @@
-import {
+import type {
   ColorSpecification,
   ExpressionSpecification,
 } from "@maplibre/maplibre-gl-style-spec";
-import {
+import type {
   CircleLayerSpecification,
   FillLayerSpecification,
   LineLayerSpecification,
 } from "maplibre-gl";
-import { MapState } from "./shared";
-import type {
-  MapGeoJSONFeature,
-  MapLayerMouseEvent,
-} from "react-map-gl/maplibre";
 
 export type CirclePaintSpec = NonNullable<CircleLayerSpecification["paint"]>;
 export type CircleLayoutSpec = NonNullable<CircleLayerSpecification["layout"]>;
@@ -20,7 +15,7 @@ export type FillLayoutSpec = NonNullable<FillLayerSpecification["layout"]>;
 export type LinePaintSpec = NonNullable<LineLayerSpecification["paint"]>;
 export type LineLayoutSpec = NonNullable<LineLayerSpecification["layout"]>;
 
-export type StyleValue = string | number | ColorSpecification;
+export type StyleValue = string | number;
 
 export type ZoomOption<T extends StyleValue | InteractiveOption<StyleValue>> = [
   number,
@@ -65,6 +60,7 @@ export enum SymbologyMode {
   Interactive = "interactive",
 }
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- need to use type
 type DiscreteSymbologyProps = {
   /** Color specification to apply to all features in layer */
   color: ColorSpecification;
@@ -72,6 +68,7 @@ type DiscreteSymbologyProps = {
   borderColor: ColorSpecification;
 };
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- need to use type
 type ContinuousSymbologyProps = {
   /** Override opacity settings */
   opacity: number;

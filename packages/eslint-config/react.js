@@ -39,5 +39,9 @@ module.exports = {
     "import/no-default-export": "off",
     "unicorn/filename-case": "off",
     "no-implicit-coercion": "off",
+    "@typescript-eslint/restrict-template-expressions": [
+      "error",
+      { allowNumber: true },
+    ],
   },
 };

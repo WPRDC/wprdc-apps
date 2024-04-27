@@ -13,13 +13,6 @@ export async function OwnerInfo({
 }: OwnerInfoProps): Promise<React.ReactElement> {
   const owner = await fetchOwnerName(parcelID);
 
-  const address = [
-    assessmentRecord.CHANGENOTICEADDRESS1,
-    assessmentRecord.CHANGENOTICEADDRESS2,
-    assessmentRecord.CHANGENOTICEADDRESS3,
-    assessmentRecord.CHANGENOTICEADDRESS4,
-  ].join(" ");
-
   return (
     <FieldValues
       colorBand={false}

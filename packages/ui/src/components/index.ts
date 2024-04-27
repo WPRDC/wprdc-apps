@@ -19,7 +19,6 @@ export * from "./modal";
 export * from "./navbar";
 export * from "./number-field";
 export * from "./popover";
-export * from "./query-filter";
 export * from "./radio-group";
 export * from "./search-bar";
 export * from "./spinner";

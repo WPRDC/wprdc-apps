@@ -53,7 +53,7 @@ export default function Page(): React.ReactElement {
         link.click();
         window.URL.revokeObjectURL(url);
       })
-      .catch((err) => {
+      .catch((err: unknown) => {
         // eslint-disable-next-line no-console -- for debugging
         console.error(err);
       });

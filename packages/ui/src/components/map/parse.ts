@@ -21,6 +21,8 @@ import {
   DEFAULT_FILL_OPACITY,
   DEFAULT_LINE_OPACITY,
   DEFAULT_LINE_WIDTH,
+  getPrimaryHoveredID,
+  getSelectedID,
 } from "./util";
 import type { ParseResults } from "./Map.types";
 
@@ -62,27 +64,18 @@ export function parseConfig(
         darken(20)(DEFAULT_COLOR),
       );
 
-      // eslint-disable-next-line no-case-declarations -- readability
-      const selectedID: string | undefined = (context.selectedIDs?.[
-        layer.slug
-      ] ?? [])[0];
-
-      // eslint-disable-next-line no-case-declarations -- readability
-      const hoveredID =
-        (context.hoveredFeatures
-          ? context.hoveredFeatures.find((f) => f.source === layer.slug)
-          : undefined
-        )?.properties[layer.idField] ?? "";
-
-      if (selectedID)
-        lineSortKey = [
-          "case",
-          ["==", ["get", layer.idField], selectedID],
-          100,
-          ["==", ["get", layer.idField], hoveredID],
-          200,
-          0,
-        ];
+      lineSortKey = [
+        "case",
+        ["==", ["get", layer.idField], getSelectedID(layer, context) ?? ""],
+        100,
+        [
+          "==",
+          ["get", layer.idField],
+          getPrimaryHoveredID(layer, context) ?? "",
+        ],
+        200,
+        0,
+      ];
       break;
   }
 

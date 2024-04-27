@@ -19,16 +19,17 @@ export function NavMap({ selectedParcel }: NavMapProps): React.ReactElement {
   const router = useRouter();
 
   useEffect(() => {
-    void fetch(`/api/parcels/geocode/?pid=${selectedParcel}`)
-      .then((res) => res.json())
-      .then((data: GeocodeResponseBody) => {
-        if (data.bbox && mapRef.current) {
-          const map = mapRef.current.getMap();
-          map.fitBounds(data.bbox, {
-            padding: 50,
-          });
-        }
-      });
+    if (selectedParcel)
+      void fetch(`/api/parcels/geocode/?pid=${selectedParcel}`)
+        .then((res) => res.json())
+        .then((data: GeocodeResponseBody) => {
+          if (data.bbox && mapRef.current) {
+            const map = mapRef.current.getMap();
+            map.fitBounds(data.bbox, {
+              padding: 50,
+            });
+          }
+        });
   }, [selectedParcel]);
 
   return (
@@ -39,7 +40,9 @@ export function NavMap({ selectedParcel }: NavMapProps): React.ReactElement {
       maxZoom={19}
       minZoom={11}
       onNavigate={(feature: MapGeoJSONFeature) => {
-        router.push(`/explore?parcel=${feature.properties.parcel_id}`);
+        router.push(
+          `/explore?parcel=${feature.properties.parcel_id as string}`,
+        );
       }}
       ref={mapRef}
       selectedIDs={{

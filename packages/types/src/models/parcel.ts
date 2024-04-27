@@ -1,5 +1,4 @@
-import { DatastoreRecord } from "../ckan";
-import { GeoJSON } from "geojson";
+import type { DatastoreRecord } from "../ckan";
 
 export interface ParcelIndex extends DatastoreRecord {
   parcel_id: string;

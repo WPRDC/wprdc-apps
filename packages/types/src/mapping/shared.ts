@@ -1,6 +1,6 @@
-import { MapGeoJSONFeature } from "react-map-gl/maplibre";
-import { DataDrivenPropertyValueSpecification } from "@maplibre/maplibre-gl-style-spec";
-import { Point } from "maplibre-gl";
+import type { MapGeoJSONFeature } from "react-map-gl/maplibre";
+import type { DataDrivenPropertyValueSpecification } from "@maplibre/maplibre-gl-style-spec";
+import type { Point } from "maplibre-gl";
 
 export type SelectionRecord = Record<string, string[]>;
 
@@ -18,4 +18,4 @@ export type WithGenerator<T> =
   | DataDrivenPropertyValueSpecification<T>
   | SpecGenerator<DataDrivenPropertyValueSpecification<T>>;
 
-export type Coordinate = [number, number];
+export type CoordinatePair = [number, number];

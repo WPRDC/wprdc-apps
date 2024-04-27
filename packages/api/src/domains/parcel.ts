@@ -1,8 +1,8 @@
-import {
+import type {
   ArchiveAssessmentAppeal,
   CityViolation,
   ConservatorshipRecord,
-  Coordinate,
+  CoordinatePair,
   DatastoreRecord,
   FiledAssessmentAppeal,
   ForeclosureFiling,
@@ -13,13 +13,13 @@ import {
   QueryResult,
   TaxLienWithCurrentStatus,
 } from "@wprdc/types";
+import type { RankedParcelIndex } from "@wprdc/types/src";
 import {
   fetchDatastoreSearch,
   fetchSQLSearch,
   toFieldLookup,
 } from "../fetch-util";
-import { APIResult } from "../types";
-import { RankedParcelIndex } from "@wprdc/types/src";
+import type { APIResult } from "../types";
 
 export enum ParcelTable {
   Assessment = "property_assessments",
@@ -71,47 +71,76 @@ export async function fetchParcelRecords<T extends DatastoreRecord>(
     queryParams,
   );
   if (!records || !fields) {
+    // eslint-disable-next-line no-console -- rare but useful
     console.warn(`Nothing found for ${parcelID} on table ${table}.`);
     return { fields: undefined, records: undefined };
   }
-  return { fields: toFieldLookup(fields), records: records };
+  return { fields: toFieldLookup(fields), records };
 }
 
 // Individual resource fetchers
-export const fetchAssessmentRecord = (parcelID: string) =>
+export const fetchAssessmentRecord = (
+  parcelID: string,
+): Promise<APIResult<PropertyAssessment>> =>
   fetchParcelRecords<PropertyAssessment>(parcelID, ParcelTable.Assessment);
-export const fetchParcelBoundariesRecord = (parcelID: string) =>
+
+export const fetchParcelBoundariesRecord = (
+  parcelID: string,
+): Promise<APIResult<ParcelBoundary>> =>
   fetchParcelRecords<ParcelBoundary>(parcelID, ParcelTable.ParcelBoundaries);
-export const fetchFiledAssessmentAppealsRecord = (parcelID: string) =>
+
+export const fetchFiledAssessmentAppealsRecord = (
+  parcelID: string,
+): Promise<APIResult<FiledAssessmentAppeal>> =>
   fetchParcelRecords<FiledAssessmentAppeal>(
     parcelID,
     ParcelTable.FiledAssessmentAppeals,
   );
-export const fetchPropertySaleTransactionsRecords = (parcelID: string) =>
+
+export const fetchPropertySaleTransactionsRecords = (
+  parcelID: string,
+): Promise<APIResult<PropertySaleTransaction>> =>
   fetchParcelRecords<PropertySaleTransaction>(
     parcelID,
     ParcelTable.PropertySaleTransactions,
   );
-export const fetchAssessmentAppealsRecords = (parcelID: string) =>
+export const fetchAssessmentAppealsRecords = (
+  parcelID: string,
+): Promise<APIResult<ArchiveAssessmentAppeal>> =>
   fetchParcelRecords<ArchiveAssessmentAppeal>(
     parcelID,
     ParcelTable.AssessmentAppeals,
   );
-export const fetchPLIPermitRecords = (parcelID: string) =>
+
+export const fetchPLIPermitRecords = (
+  parcelID: string,
+): Promise<APIResult<PLIPermit>> =>
   fetchParcelRecords<PLIPermit>(parcelID, ParcelTable.PLIPermit);
-export const fetchCityViolationsRecords = (parcelID: string) =>
+
+export const fetchCityViolationsRecords = (
+  parcelID: string,
+): Promise<APIResult<CityViolation>> =>
   fetchParcelRecords<CityViolation>(parcelID, ParcelTable.CityViolations);
-export const fetchForeclosureFilingsRecords = (parcelID: string) =>
+
+export const fetchForeclosureFilingsRecords = (
+  parcelID: string,
+): Promise<APIResult<ForeclosureFiling>> =>
   fetchParcelRecords<ForeclosureFiling>(
     parcelID,
     ParcelTable.ForeclosureFilings,
   );
-export const fetchTaxLiensWithCurrentStatusRecords = (parcelID: string) =>
+
+export const fetchTaxLiensWithCurrentStatusRecords = (
+  parcelID: string,
+): Promise<APIResult<TaxLienWithCurrentStatus>> =>
   fetchParcelRecords<TaxLienWithCurrentStatus>(
     parcelID,
     ParcelTable.TaxLiensWithCurrentStatus,
   );
-export const fetchConservatorshipRecordRecords = (parcelID: string) =>
+
+export const fetchConservatorshipRecordRecords = (
+  parcelID: string,
+): Promise<APIResult<ConservatorshipRecord>> =>
   fetchParcelRecords<ConservatorshipRecord>(
     parcelID,
     ParcelTable.ConservatorshipRecord,
@@ -122,15 +151,15 @@ export async function fetchOwnerName(parcelID: string): Promise<string> {
     const requestURL = `https://tools.wprdc.org/property-whois/whois/${parcelID}/`;
 
     const response = await fetch(requestURL);
-    const { name, success } = (await response.json()) as {
+    const { name } = (await response.json()) as {
       name: string;
       success: boolean;
     };
     if (name) return name;
-    else {
-      throw new Error(`Owner not found for ${parcelID}`);
-    }
+
+    throw new Error(`Owner not found for ${parcelID}`);
   } catch (error) {
+    // eslint-disable-next-line no-console -- rare but useful
     console.error(`Owner not found for ${parcelID}`);
     throw new Error(`Owner not found for ${parcelID}`);
   }
@@ -138,7 +167,7 @@ export async function fetchOwnerName(parcelID: string): Promise<string> {
 
 export async function autocompleteParcelSearch(
   searchTerm: string,
-  limit: number = 10,
+  limit = 10,
   init?: RequestInit,
 ): Promise<RankedParcelIndex[]> {
   const sql: string = `
@@ -170,15 +199,15 @@ export async function autocompleteParcelSearch(
 }
 
 export interface GeocodeResponse {
-  centroid: Coordinate;
-  bbox: [Coordinate, Coordinate];
+  centroid: CoordinatePair;
+  bbox: [CoordinatePair, CoordinatePair];
 }
 
 export async function geocodeParcel(
   parcelID: string,
   init?: RequestInit,
 ): Promise<GeocodeResponse | null> {
-  const sql: string = `
+  const sql = `
   SELECT 
     "PIN", 
     ST_AsGeoJSON(ST_Centroid(_geom)) as centroid, 
@@ -194,12 +223,19 @@ export async function geocodeParcel(
     bbox: string;
   }>(sql, undefined, init);
 
-  if (!records || !records.length) return null;
-  const bboxPolygon: Coordinate[][] = JSON.parse(records[0].bbox).coordinates;
-  const centroid: Coordinate = JSON.parse(records[0].centroid).coordinates;
+  if (!records?.length) return null;
+  const record = records[0];
+
+  const bboxPolygon: CoordinatePair[][] = (
+    JSON.parse(record.bbox) as { coordinates: CoordinatePair[][] }
+  ).coordinates;
+
+  const centroid: CoordinatePair = (
+    JSON.parse(record.centroid) as { coordinates: CoordinatePair }
+  ).coordinates;
 
   return {
-    centroid: centroid,
+    centroid,
     bbox: [bboxPolygon[0][0], bboxPolygon[0][2]],
   };
 }

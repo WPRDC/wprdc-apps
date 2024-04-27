@@ -1,6 +1,5 @@
-import { Selection } from "@react-types/shared";
-import { SymbologyProps } from "./symbology";
-import { LayerConfig } from "./layer";
+import type { Selection } from "@react-types/shared";
+import type { LayerConfig } from "./layer";
 
 export * from "./symbology";
 export * from "./layer";
@@ -18,6 +17,6 @@ export interface BasemapOptions {
 
 export interface MapContextOptions {
   selection?: Record<string, Selection>;
-  selectedLayers?: LayerConfig<SymbologyProps>[];
+  selectedLayers?: LayerConfig[];
   onSelectionChange?: (category: string) => (sel: Selection) => void;
 }

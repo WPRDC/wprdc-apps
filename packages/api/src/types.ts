@@ -1,4 +1,8 @@
-import { DatastoreField, DatastoreRecord, FieldRecord } from "@wprdc/types";
+import type {
+  DatastoreField,
+  DatastoreRecord,
+  FieldRecord,
+} from "@wprdc/types";
 
 export interface QueryResult<T extends DatastoreRecord> {
   fields?: DatastoreField<T>[];

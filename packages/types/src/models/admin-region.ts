@@ -1,4 +1,4 @@
-import { DatastoreRecord } from "../ckan";
+import type { DatastoreRecord } from "../ckan";
 
 export interface Neighborhood extends DatastoreRecord {
   GlobalID: string;

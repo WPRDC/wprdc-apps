@@ -1,6 +1,4 @@
-"use client";
-
-export function OwnerInfoSkeleton() {
+export function OwnerInfoSkeleton(): React.ReactElement {
   return (
     <div>
       <div className="mb-1 flex items-center">

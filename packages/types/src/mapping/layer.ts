@@ -1,11 +1,10 @@
-import { GeoType, IDed, Publisher } from "../shared";
-import { FilterSpecification } from "maplibre-gl";
-import { SymbologyProps } from "./symbology";
-import { LegendGroupOptions } from "./legend";
-import { ReactNode } from "react";
-import { MapState } from "./shared";
+import type { FilterSpecification } from "maplibre-gl";
+import type { ReactNode } from "react";
+import type { GeoType, Identifiable, Publisher } from "../shared";
+import type { SymbologyProps } from "./symbology";
+import type { LegendGroupOptions } from "./legend";
 
-export interface LayerSource extends IDed {
+export interface LayerSource extends Identifiable {
   /** URL to source or to information about it.  Used in links. */
   url: string;
 
@@ -14,7 +13,7 @@ export interface LayerSource extends IDed {
 }
 
 /** Properties common among all layers */
-export interface CommonLayerOptions extends IDed {
+export interface CommonLayerOptions extends Identifiable {
   /** Description of the layer/dataset */
   description: string;
 
@@ -36,7 +35,7 @@ export interface CommonLayerOptions extends IDed {
   /** Hides layer if true */
   hidden?: boolean;
 
-  /**
+  /*
    * TODO: SQL query from which to generate layer
    *  if not provided, SELECT * FROM {resourceID} will be used
    */
@@ -72,8 +71,6 @@ export interface PopupFieldOptions {
   /** Use this field's value as the popup title */
   asTitle?: boolean;
 }
-
-interface PopupProps {}
 
 /** Add common options to a specific symbology layer type */
 export type LayerConfig<V extends SymbologyProps = SymbologyProps> =

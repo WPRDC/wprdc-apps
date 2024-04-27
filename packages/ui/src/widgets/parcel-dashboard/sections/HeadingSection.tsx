@@ -1,4 +1,4 @@
-import type { ParcelBoundary, PropertyAssessment, Value } from "@wprdc/types";
+import type { ParcelBoundary, PropertyAssessment } from "@wprdc/types";
 import { Suspense } from "react";
 import type { MultiSourceSectionProps } from "../types";
 import { HeroImage } from "../components/HeroImage";

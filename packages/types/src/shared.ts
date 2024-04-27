@@ -1,6 +1,6 @@
 // Common p
 
-import { ReactElement, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 /** Possible value from datastore query */
 export type Value = string | number | boolean | undefined | null;
@@ -25,7 +25,7 @@ export enum Extent {
   Pittsburgh = "Pittsburgh",
 }
 
-export interface IDed {
+export interface Identifiable {
   /** Identifier used in url paths (unique to each layer)  */
   slug: string;
   /** Human-friendly name */

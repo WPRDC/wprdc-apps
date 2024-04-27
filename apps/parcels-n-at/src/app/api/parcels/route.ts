@@ -277,5 +277,6 @@ function renderCell(
   datum: string | number | boolean | null | undefined,
 ): string {
   if (datum === null || datum === undefined) return "";
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions -- todo: use symbols for boolean values
   return `"${datum}"`;
 }

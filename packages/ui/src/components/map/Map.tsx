@@ -196,7 +196,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       interactiveLayerIds={
         drawingMode === "simple_select" ? interactiveLayerIDs : []
       }
-      mapStyle={`${basemaps[basemap].url}?key=${mapTilerAPIKey}`}
+      mapStyle={`${basemaps[basemap].url}?key=${mapTilerAPIKey ?? ""}`}
       maxZoom={maxZoom ?? DEFAULT_MAX_ZOOM}
       minZoom={minZoom ?? DEFAULT_MIN_ZOOM}
       onClick={handleClick}
