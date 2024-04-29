@@ -8,11 +8,58 @@ import {
 import { HeroImage } from "../components/HeroImage";
 import { makeAssessmentAddress } from "../../../util";
 import { ClassChip } from "../components/ClassChip";
-import { FieldValues } from "../../../components";
+import { Bone, FieldValues } from "../../../components";
 import { OwnerInfo } from "./OwnerInfo";
 
 interface HeadingSectionProps {
   parcelID: string;
+}
+
+export function HeadingSectionSkeleton(): React.ReactElement {
+  return (
+    <div className="flex justify-between pb-4">
+      <div className="w-2/3">
+        <div className="mb-1 flex space-x-1">
+          <Bone className="mb-1 h-5" />
+          <Bone className="mb-1 h-5" />
+        </div>
+
+        <div>
+          <Bone className="mb-1.5 mt-2 h-10 w-9/12" />
+          <Bone className="h-6 w-60" />
+          <div className="space-y-1.5 pt-2">
+            <div className="flex space-x-1.5">
+              <Bone />
+              <Bone className="w-40" />
+            </div>
+            <div className="flex space-x-1.5">
+              <Bone />
+              <Bone className="w-32" />
+            </div>
+          </div>
+          <OwnerSectionSkeleton />
+        </div>
+      </div>
+      <Bone className="relative aspect-video h-full w-1/3" />
+    </div>
+  );
+}
+
+export function OwnerSectionSkeleton(): React.ReactElement {
+  return (
+    <div>
+      <div className="space-y-1.5 pt-2">
+        <div className="flex space-x-1.5">
+          <Bone />
+          <Bone className="w-48" />
+        </div>
+        <div className="flex space-x-1.5">
+          <Bone />
+          <Bone className="h-8 w-36" />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export async function HeadingSection({
@@ -64,7 +111,7 @@ export async function HeadingSection({
 
         <div>
           {assessmentRecord ? (
-            <Suspense fallback="Loading...">
+            <Suspense fallback={<OwnerSectionSkeleton />} key={parcelID}>
               {/* @ts-expect-error Server-side */}
               <OwnerInfo
                 assessmentRecord={assessmentRecord}

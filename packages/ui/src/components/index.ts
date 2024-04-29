@@ -1,4 +1,5 @@
 export * from "./a";
+export * from "./bone";
 export * from "./breadcrumbs";
 export * from "./button";
 export * from "./card";
