@@ -1,5 +1,4 @@
 import type { PropsWithChildren } from "react";
-import { Suspense } from "react";
 import { twMerge } from "tailwind-merge";
 import { Typography } from "../../../components";
 

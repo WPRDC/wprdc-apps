@@ -1,5 +1,4 @@
 import { PropertyDashboard } from "@wprdc/ui";
-import { Suspense } from "react";
 import { NavMap } from "@/components/nav-map";
 
 interface Params {
