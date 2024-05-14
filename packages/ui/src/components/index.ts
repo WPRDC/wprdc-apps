@@ -29,3 +29,4 @@ export * from "./tag";
 export * from "./text-field";
 export * from "./tooltip";
 export * from "./typography";
+export * from "./upload";

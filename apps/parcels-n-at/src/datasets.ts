@@ -10,9 +10,9 @@ export type Dataset = Omit<
 };
 
 export const datasets: Record<string, Dataset[]> = {
-  Assessment: [
+  "Property Assessments": [
     {
-      title: "Property Assessments",
+      title: "Assessments",
       slug: "property-assessments",
       table: ParcelTable.Assessment,
       datasetURL: "https://data.wprdc.org/dataset/property-assessments",

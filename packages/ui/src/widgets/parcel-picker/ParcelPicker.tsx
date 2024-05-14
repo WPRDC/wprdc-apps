@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { MapGeoJSONFeature } from "react-map-gl/maplibre";
 import type {
   GeoJSONFeature,
@@ -9,6 +9,7 @@ import type {
 } from "@wprdc/types";
 import type { Polygon } from "geojson";
 import type { DrawMode } from "@mapbox/mapbox-gl-draw";
+import { twMerge } from "tailwind-merge";
 import {
   alleghenyCountyBoundary,
   municipalities as _municipalities,
@@ -19,7 +20,10 @@ import {
 import type { DrawEvent } from "../../components";
 import { Map } from "../../components";
 import { flattenPolygons } from "../../util/geo";
-import type { ParcelPickerProps } from "./ParcelPicker.types";
+import type {
+  ParcelPickerProps,
+  ParcelSelectionOptions,
+} from "./ParcelPicker.types";
 import { ModeOverlay } from "./ModeOverlay";
 
 const municipalities: LayerConfig<InteractiveSymbologyProps> = {
@@ -38,76 +42,105 @@ export function ParcelPicker({
   onSelectionChange,
   initialViewState,
   onDrawCountChange,
+  className,
+  selection: _selection,
 }: ParcelPickerProps): React.ReactElement {
   // Zoom level of the map
   const [zoom, setZoom] = useState<number>(initialViewState?.zoom ?? 11);
-  // Admin region selection: map of admin region layer ids to array of feature ids that are selected
-  const [selectedFeatures, setSelectedFeatures] = useState<
-    Record<string, string[]>
-  >({
-    [parcelLayer.slug]: [],
-    [pittsburghNeighborhoodLayer.slug]: [],
-    [municipalities.slug]: [],
+
+  const [innerSelection, setInnerSelection] = useState<ParcelSelectionOptions>({
+    selectedFeatures: {
+      [parcelLayer.slug]: [],
+      [pittsburghNeighborhoodLayer.slug]: [],
+      [municipalities.slug]: [],
+    },
+    drawnAreas: [],
   });
 
   // Shapes drawn on map using draw control
-  const [drawnAreas, setDrawnAreas] = useState<GeoJSONFeature[]>([]);
   const [drawMode, setDrawMode] = useState<DrawMode>();
 
-  // TODO: Custom SQL filter
-  // const [selectedFilter, setSelectedFilter] = useState<string>("");
+  const { selectedFeatures, drawnAreas } = _selection ?? innerSelection;
 
   useEffect(() => {
     if (onSelectionChange) onSelectionChange({ selectedFeatures, drawnAreas });
   }, [onSelectionChange, drawnAreas, selectedFeatures]);
 
-  function handleMapClick(features: MapGeoJSONFeature[]): void {
-    if (features.length) {
-      const primaryFeature: MapGeoJSONFeature = features[0];
-      if (
-        [
-          parcelLayer.slug,
-          pittsburghNeighborhoodLayer.slug,
-          municipalities.slug,
-        ].includes(primaryFeature.source)
-      ) {
-        const layerID: string = primaryFeature.source;
-        const regionLayerConfig: LayerConfig<InteractiveSymbologyProps> =
-          layerLookup[layerID];
+  const setDrawnAreas = useCallback(
+    function setDrawnAreas(newAreas: GeoJSONFeature[]): void {
+      const newSelection: ParcelSelectionOptions = {
+        selectedFeatures,
+        drawnAreas: newAreas,
+      };
+      if (onSelectionChange) onSelectionChange(newSelection);
+      setInnerSelection(newSelection);
+    },
+    [onSelectionChange, selectedFeatures],
+  );
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- maplibre uses any
-        const regionID: string =
-          primaryFeature.properties[regionLayerConfig.idField];
+  const setSelectedFeatures = useCallback(
+    function setSelectedFeatures(
+      newFeatureSelection: Record<string, string[]>,
+    ): void {
+      const newSelection: ParcelSelectionOptions = {
+        selectedFeatures: newFeatureSelection,
+        drawnAreas,
+      };
+      if (onSelectionChange) onSelectionChange(newSelection);
+      setInnerSelection(newSelection);
+    },
+    [drawnAreas, onSelectionChange],
+  );
 
-        // toggle the region IDs presence in the selected list
-        const oldSelection: string[] = selectedFeatures[layerID];
-        setSelectedFeatures({
-          ...selectedFeatures,
-          [layerID]: oldSelection.includes(regionID)
-            ? oldSelection.filter((id) => id !== regionID)
-            : [...oldSelection, regionID],
-        });
+  const handleMapClick = useCallback(
+    function handleMapClick(features: MapGeoJSONFeature[]): void {
+      if (features.length) {
+        const primaryFeature: MapGeoJSONFeature = features[0];
+        if (
+          [
+            parcelLayer.slug,
+            pittsburghNeighborhoodLayer.slug,
+            municipalities.slug,
+          ].includes(primaryFeature.source)
+        ) {
+          const layerID: string = primaryFeature.source;
+          const regionLayerConfig: LayerConfig<InteractiveSymbologyProps> =
+            layerLookup[layerID];
+
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- maplibre uses any
+          const regionID: string =
+            primaryFeature.properties[regionLayerConfig.idField];
+
+          // toggle the region IDs presence in the selected list
+          const oldSelection: string[] = selectedFeatures[layerID];
+          setSelectedFeatures({
+            ...selectedFeatures,
+            [layerID]: oldSelection.includes(regionID)
+              ? oldSelection.filter((id) => id !== regionID)
+              : [...oldSelection, regionID],
+          });
+        }
       }
-    }
-  }
+    },
+    [selectedFeatures, setSelectedFeatures],
+  );
 
-  function handleDrawing(e: DrawEvent): void {
-    switch (e.type) {
-      case "draw.create":
-      case "draw.update":
-        setDrawnAreas(e.features);
-        break;
-      case "draw.delete":
-        setDrawnAreas([]);
-        break;
-      case "draw.modechange":
-        setDrawMode(e.mode);
-    }
-  }
-
-  /* todo:
-      actions - download, save selection, copy list of parcel ids, SQL filter (query builder)
-   */
+  const handleDrawing = useCallback(
+    function handleDrawing(e: DrawEvent): void {
+      switch (e.type) {
+        case "draw.create":
+        case "draw.update":
+          setDrawnAreas(e.features);
+          break;
+        case "draw.delete":
+          setDrawnAreas([]);
+          break;
+        case "draw.modechange":
+          setDrawMode(e.mode);
+      }
+    },
+    [setDrawnAreas],
+  );
 
   useEffect(() => {
     if (onDrawCountChange) {
@@ -130,7 +163,7 @@ export function ParcelPicker({
   }, [onDrawCountChange, drawnAreas]);
 
   return (
-    <div className="flex h-full w-full flex-col">
+    <div className={twMerge("flex h-full w-full flex-col", className)}>
       <Map
         drawControlProps={{
           onCreate: handleDrawing,
@@ -141,8 +174,8 @@ export function ParcelPicker({
         initialViewState={initialViewState}
         layers={[
           parcelLayer,
-          pittsburghNeighborhoodLayer,
           municipalities,
+          pittsburghNeighborhoodLayer,
           pittsburghBoundary,
           alleghenyCountyBoundary,
         ]}
@@ -151,23 +184,13 @@ export function ParcelPicker({
         onZoom={setZoom}
         selectedIDs={selectedFeatures}
         useDrawControls
+        withScrollZoomControl
+        defaultScrollZoom={false}
       >
         <div className="absolute bottom-2.5 left-2.5 rounded border border-stone-600 bg-white/60 p-2 backdrop-blur-sm">
           <ModeOverlay drawing={drawMode === "draw_polygon"} zoom={zoom} />
         </div>
       </Map>
-
-      {/* todo: move this to a menu */}
-      {/*<div className="h-24">*/}
-      {/*  <FileTrigger onSelect={handleFileUpload}>*/}
-      {/*    <Button>Upload Saved Selection</Button>*/}
-      {/*  </FileTrigger>*/}
-      {/*  <Button onPress={handleSelectionDownload}>Download Selection</Button>*/}
-      {/*  <div>*/}
-      {/*    Save your selection so can query the same parcels again or make*/}
-      {/*    changes later on.*/}
-      {/*  </div>*/}
-      {/*</div>*/}
     </div>
   );
 }

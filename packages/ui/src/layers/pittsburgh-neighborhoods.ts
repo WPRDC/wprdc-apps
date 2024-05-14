@@ -33,7 +33,7 @@ export const pittsburghNeighborhoodLayer: LayerConfig<InteractiveSymbologyProps>
     idField: "hood",
 
     // default style config
-    color: { default: "#000", selected: "#FCEC52", hovered: "#bae6fd" },
+    color: { default: "#FFF", selected: "#FCEC52", hovered: "#bae6fd" },
     borderColor: { default: "#000", selected: "#000", hovered: "#bae6fd" },
 
     opacity: [
@@ -52,6 +52,15 @@ export const pittsburghNeighborhoodLayer: LayerConfig<InteractiveSymbologyProps>
       [12, { default: 1, selected: 2, hovered: 2.5 }],
       [14.5, { default: 4, selected: 8, hovered: 10 }],
     ],
+
+    labelTextField: ["get", "hood"],
+    textSize: [
+      [8, 0],
+      [11.9, 0],
+      [12, 9],
+      [15, 12],
+    ],
+
     hoverPopupFormat: "neighborhood",
     clickPopupFormat: "neighborhood",
   };

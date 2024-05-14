@@ -21,6 +21,7 @@ import {
   DEFAULT_FILL_OPACITY,
   DEFAULT_LINE_OPACITY,
   DEFAULT_LINE_WIDTH,
+  DEFAULT_TEXT_SIZE,
   getPrimaryHoveredID,
   getSelectedID,
 } from "./util";
@@ -79,6 +80,7 @@ export function parseConfig(
       break;
   }
 
+  // numeric values
   const opacity = parseOption(
     layer.opacity,
     layer,
@@ -98,6 +100,17 @@ export function parseConfig(
     layer.type === GeoType.Polygon ? DEFAULT_BORDER_WIDTH : DEFAULT_LINE_WIDTH,
   );
 
+  const textSize = parseOption(
+    layer.textSize,
+    layer,
+    context,
+    DEFAULT_TEXT_SIZE,
+  );
+
+  // label
+  // todo: handle subtitles
+  const textField = layer.labelTextField;
+
   return {
     color,
     borderColor,
@@ -105,6 +118,8 @@ export function parseConfig(
     borderOpacity,
     borderWidth,
     lineSortKey,
+    textField,
+    textSize,
   };
 }
 

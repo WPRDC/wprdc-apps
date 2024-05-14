@@ -1,4 +1,4 @@
-import type { IconType } from "react-icons/lib/cjs/iconBase";
+import type { IconType } from "react-icons/lib";
 import type { ReactNode } from "react";
 
 export interface ChipProps {

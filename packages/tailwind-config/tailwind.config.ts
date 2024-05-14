@@ -24,16 +24,24 @@ const config: Omit<Config, "content"> = {
         text: colors.slate["700"],
         textDark: colors.slate["200"],
         textSecondary: "#404040",
-        textSecondaryDark: "#a3a3a3",
+        textSecondaryDark: "#A3A3A3",
         border: colors.stone["700"],
         borderDark: colors.stone["300"],
+        wprdc: {
+          "50": "#FEFDE8",
+          "100": "#FEFDC3",
+          "200": "#FDF68B",
+          "300": "#FCEC52", // primary color
+          "400": "#F9DA16",
+          "500": "#E9C109",
+          "600": "#C99705",
+          "700": "#A06C08",
+          "800": "#84550F",
+          "900": "#704513",
+          "950": "#422406",
+        },
       },
       fontFamily: {
-        // sans: [
-        //   "var(--font-public-sans)",
-        //   "Public Sans",
-        //   ...defaultTheme.fontFamily.sans,
-        // ],
         mono: [
           "var(--font-jetbrains-mono)",
           "JetBrains Mono",

@@ -1,5 +1,6 @@
 import type { FilterSpecification } from "maplibre-gl";
 import type { ReactNode } from "react";
+import { type ExpressionSpecification } from "@maplibre/maplibre-gl-style-spec";
 import type { GeoType, Identifiable, Publisher } from "../shared";
 import type { SymbologyProps } from "./symbology";
 import type { LegendGroupOptions } from "./legend";
@@ -72,6 +73,12 @@ export interface PopupFieldOptions {
   asTitle?: boolean;
 }
 
+/** Select fields used to e feature labels */
+export interface LabelOptions {
+  labelTextField?: ExpressionSpecification;
+  subTitleTextField?: ExpressionSpecification;
+}
+
 /** Add common options to a specific symbology layer type */
 export type LayerConfig<V extends SymbologyProps = SymbologyProps> =
-  CommonLayerOptions & V;
+  CommonLayerOptions & LabelOptions & V;

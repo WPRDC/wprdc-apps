@@ -11,7 +11,15 @@ import type {
   TabsProps as RATabsProps,
 } from "react-aria-components";
 
-export type TabProps = RATabProps;
-export type TabsProps = RATabsProps;
-export type TabListProps<T> = RATabListProps<T>;
-export type TabPanelProps = RATabPanelProps;
+export interface TabProps extends RATabProps {
+  className?: string;
+}
+export interface TabsProps extends RATabsProps {
+  className?: string;
+}
+export interface TabListProps<T> extends RATabListProps<T> {
+  className?: string;
+}
+export interface TabPanelProps extends RATabPanelProps {
+  className?: string;
+}

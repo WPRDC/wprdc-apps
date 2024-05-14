@@ -50,7 +50,7 @@ export function FieldPicker<T extends DatastoreRecord>({
         <Label>
           <Typography.Label>Select field(s)</Typography.Label>
         </Label>
-        <div className="flex">
+        <div className="flex space-x-1 pb-1">
           <Button
             className="flex items-center border-green-800 hover:bg-green-700/20"
             dense

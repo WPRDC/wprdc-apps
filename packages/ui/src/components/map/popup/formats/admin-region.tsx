@@ -12,7 +12,7 @@ export function NeighborhoodPopupRow({
   const { hood } = feature.properties as Neighborhood;
 
   return (
-    <div className="text-lg font-bold">
+    <div className="text-base font-bold">
       <div>{hood}</div>
     </div>
   );
@@ -27,7 +27,7 @@ export function MunicipalityPopupRow({
   name = name.toLowerCase();
   if (name === "o'hara") name = "O'Hara"; // fixme: generalize
   return (
-    <div className="text-lg font-bold">
+    <div className="text-base font-bold">
       <div className="capitalize">{name}</div>
     </div>
   );

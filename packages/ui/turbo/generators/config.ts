@@ -36,8 +36,8 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         type: "add",
         path: "src/components/{{kebabCase name}}/index.ts",
         template:
-          'export * from "./{{pascalCase name}}.tsx";\n' +
-          'export * from "./{{pascalCase name}}.types.ts";\n',
+          'export * from "./{{pascalCase name}}";\n' +
+          'export * from "./{{pascalCase name}}.types";\n',
       },
       // append ui index
       {

@@ -77,6 +77,9 @@ type ContinuousSymbologyProps = {
   borderWidth: number;
   /** Override border opacity */
   borderOpacity: number;
+
+  /** Override font size for labels if they are present */
+  textSize: number;
 };
 
 /** Props for layers with features styled the same */

@@ -19,7 +19,7 @@ export function DatasetFieldMenu({
   return (
     <div className="flex h-96 w-full flex-col">
       <div className="mb-2">
-        <Heading className="m-0 border-none text-base leading-none" level={3}>
+        <Heading className="m-0 border-none text-lg leading-none" level={3}>
           {title}
         </Heading>
         <A
@@ -34,7 +34,7 @@ export function DatasetFieldMenu({
           <Chip label="City of Pittsburgh Only" variant="warning" />
         ) : null}
       </div>
-      <div className="relative flex w-full items-center gap-x-2 overflow-hidden">
+      <div className="flex w-full items-center gap-x-2 overflow-hidden ">
         <ConnectedFieldPicker {...pickerProps} />
       </div>
     </div>

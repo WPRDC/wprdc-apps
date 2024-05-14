@@ -48,6 +48,8 @@ export const DEFAULT_LINE_WIDTH: DataDrivenPropertyValueSpecification<number> =
 export const DEFAULT_SELECTED_COLOR = "cyan";
 export const DEFAULT_COLOR = "#000";
 
+export const DEFAULT_TEXT_SIZE = 12;
+
 export function getInteractiveLayerID(layer: LayerConfig): string {
   switch (layer.type) {
     case GeoType.Point:

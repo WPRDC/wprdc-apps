@@ -19,7 +19,9 @@ export function ParcelIndexPopupRow({
       {address && city ? (
         <div className="mb-1 font-sans text-xs leading-none">{city}</div>
       ) : null}
-      <div className="font-mono text-xs">{feature.properties.PIN}</div>
+      <div className="font-mono text-xs leading-none">
+        {feature.properties.parcel_id}
+      </div>
     </div>
   );
 }

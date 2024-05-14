@@ -28,7 +28,7 @@ export function ParcelSearch(): React.ReactElement {
       },
     });
 
-  function handleSelectionChange(key: Key): void {
+  function handleSelectionChange(key: Key | null): void {
     list.setFilterText("");
     if (key) router.push(`/explore?parcel=${key.toString()}`);
   }

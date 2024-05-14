@@ -34,7 +34,7 @@ export const municipalities: LayerConfig<InteractiveSymbologyProps> = {
   idField: "NAME",
 
   // default style config
-  color: { default: "#000", selected: "#FCEC52", hovered: "#bae6fd" },
+  color: { default: "#FFF", selected: "#FCEC52", hovered: "#bae6fd" },
   borderColor: { default: "#000", selected: "#000", hovered: "#bae6fd" },
 
   opacity: [
@@ -52,6 +52,13 @@ export const municipalities: LayerConfig<InteractiveSymbologyProps> = {
     [8, { default: 1, selected: 2, hovered: 2.5 }],
     [12, { default: 1, selected: 2, hovered: 2.5 }],
     [14.5, { default: 4, selected: 8, hovered: 10 }],
+  ],
+
+  labelTextField: ["get", "NAME"],
+  textSize: [
+    [8, 6],
+    [12, 12],
+    [15, 12],
   ],
 
   hoverPopupFormat: "municipality",

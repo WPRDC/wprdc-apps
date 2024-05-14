@@ -7,7 +7,7 @@
  **/
 import * as React from "react";
 import {
-  Tb123,
+  TbNumbers,
   TbAbc,
   TbCalendar,
   TbCalendarTime,
@@ -17,7 +17,7 @@ import {
   TbQuestionMark,
 } from "react-icons/tb";
 import { DataType } from "@wprdc/types";
-import type { IconType } from "react-icons/lib/cjs/iconBase";
+import type { IconType } from "react-icons";
 import { twMerge } from "tailwind-merge";
 import type { DataTypeIconProps } from "./DataTypeIcon.types";
 
@@ -33,7 +33,7 @@ export function DataTypeIcon({
 function getIcon(dataType: DataTypeIconProps["dataType"]): IconType {
   switch (dataType) {
     case DataType.Int:
-      return Tb123;
+      return TbNumbers;
     case DataType.Float:
       return TbDecimal;
     case DataType.Text:

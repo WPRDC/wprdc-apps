@@ -6,14 +6,16 @@ export interface ParcelPickerProps {
   onSelectionChange?: (options: ParcelSelectionOptions) => void;
   initialViewState?: Partial<ViewState>;
   onDrawCountChange?: (n: number, loading: boolean) => void;
+  className?: string;
+  selection?: ParcelSelectionOptions;
 }
 
 export interface ParcelSelectionOptions {
   /** Map of layer IDs to a list of feature IDs from that layer that have been selected */
-  selectedFeatures?: Record<string, string[]>;
+  selectedFeatures: Record<string, string[]>;
 
   /** List of shapes under which parcels should be searched */
-  drawnAreas?: GeoJSONFeature[];
+  drawnAreas: GeoJSONFeature[];
 
   // todo: add custom SQL query
 }

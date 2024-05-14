@@ -29,8 +29,8 @@ export function Chip({
         className={twMerge(
           "flex w-fit items-center space-x-1 rounded-md border-2 px-1",
           variant === "default" && "",
-          variant === "success" && "border-green-900 bg-green-400/70",
-          variant === "warning" && "border-orange-900 bg-orange-400/70",
+          variant === "success" && "border-green-900 bg-green-300/70",
+          variant === "warning" && "border-orange-900 bg-orange-300/70",
           variant === "danger" && "border-red-900 bg-red-400/70",
           variant === "info" && "border-blue-900 bg-blue-400/70",
         )}

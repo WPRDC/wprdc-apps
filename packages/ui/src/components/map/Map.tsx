@@ -29,6 +29,9 @@ import type {
   MapState,
 } from "@wprdc/types";
 import { SymbologyMode } from "@wprdc/types";
+import { twMerge } from "tailwind-merge";
+import { TbToggleLeft, TbToggleRightFilled } from "react-icons/tb";
+import { Button } from "../button";
 import { BasemapMenu } from "./BasemapMenu";
 import { LayerGroup } from "./LayerGroup";
 import { extractFeatures } from "./util";
@@ -40,6 +43,11 @@ import { ClickPopup, HoverPopup } from "./popup";
 
 const DEFAULT_MIN_ZOOM = 9;
 const DEFAULT_MAX_ZOOM = 22;
+const DEFAULT_LONGITUDE = -80;
+const DEFAULT_LATITUDE = 40.44;
+const DEFAULT_ZOOM = 11;
+
+const NODE_ENV = process.env.NODE_ENV ?? "development";
 
 export const Map = forwardRef<MapRef, MapProps>(function _Map(
   {
@@ -57,6 +65,10 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     onZoom,
     onNavigate,
     showZoom = false,
+    style = {},
+    scrollZoom = true,
+    withScrollZoomControl = false,
+    defaultScrollZoom = false,
   },
   ref,
 ): React.ReactElement {
@@ -64,7 +76,10 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
   const mapRef = ref ?? _mapRef;
 
   const [basemap, setBasemap] = useState<keyof typeof basemaps>("basic");
-  const [zoomText, setZoomText] = useState<string>();
+  const [zoomText, setZoomText] = useState<string>(DEFAULT_ZOOM.toFixed(2));
+
+  const [scrollZoomButtonActive, setScrollZoomButtonActive] =
+    useState<boolean>(false);
 
   const [hoveredPoint, setHoveredPoint] = useState<Point | null>(null);
   const [hoveredFeatures, setHoveredFeatures] = useState<
@@ -77,6 +92,12 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
   >(null);
 
   const [drawingMode, setDrawingMode] = useState<string>("simple_select");
+
+  const [onMac, setOnMac] = useState<boolean>(false);
+
+  // scrollZoom controlled by the button
+  const [scrollZoomOverride, setScrollZoomOverride] =
+    useState(defaultScrollZoom);
 
   const mapState: MapState = useMemo(
     () => ({
@@ -158,15 +179,47 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     [handleNavigate, mapState, onClick, onNavigate],
   );
 
-  // Add listener for drawing mode change
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent): void => {
+      if ((onMac && e.key === "Meta") || (!onMac && e.key === "Control")) {
+        setScrollZoomButtonActive(true);
+      }
+    },
+    [onMac],
+  );
+
+  const handleKeyUp = useCallback(
+    (e: KeyboardEvent): void => {
+      if ((onMac && e.key === "Meta") || (!onMac && e.key === "Control")) {
+        setScrollZoomButtonActive(false);
+      }
+    },
+    [onMac],
+  );
+
+  // listen to keystrokes - used for controlling scroll zoom
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+  }, [handleKeyDown, handleKeyUp]);
+
+  // Add listener for drawing mode change and scroll zoom control
   useEffect(() => {
     if (typeof mapRef !== "function" && mapRef.current) {
       const map = mapRef.current.getMap();
+      // drawing mode
       map.on("draw.modechange", (e: { mode: string }) => {
         setDrawingMode(e.mode);
       });
     }
   }, [mapRef]);
+
+  // check if user is on a mac device (for keyboard reasons)
+  useEffect(() => {
+    setOnMac(
+      navigator.platform.startsWith("Mac") || navigator.platform === "iPhone",
+    );
+  }, []);
 
   // Set map cursor based on hover state
   const cursor = useMemo(() => {
@@ -183,19 +236,34 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       .map((l) => `${l.slug}-fill`);
   }, [layers]);
 
+  // can scroll zoom when it's toggled on, it's
+  const canScrollZoom = useMemo(
+    () =>
+      scrollZoomOverride ||
+      scrollZoomButtonActive ||
+      (scrollZoom && !withScrollZoomControl),
+    [
+      scrollZoomOverride,
+      scrollZoomButtonActive,
+      scrollZoom,
+      withScrollZoomControl,
+    ],
+  );
+
   return (
     <ReactMapGL
       cursor={cursor}
       initialViewState={{
-        longitude: -80,
-        latitude: 40.44,
-        zoom: 11,
+        longitude: DEFAULT_LONGITUDE,
+        latitude: DEFAULT_LATITUDE,
+        zoom: DEFAULT_ZOOM,
         ...initialViewState,
       }}
       interactive
       interactiveLayerIds={
         drawingMode === "simple_select" ? interactiveLayerIDs : []
       }
+      scrollZoom={canScrollZoom}
       mapStyle={`${basemaps[basemap].url}?key=${mapTilerAPIKey ?? ""}`}
       maxZoom={maxZoom ?? DEFAULT_MAX_ZOOM}
       minZoom={minZoom ?? DEFAULT_MIN_ZOOM}
@@ -203,23 +271,60 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       onMouseMove={handleHover}
       onZoom={handleZoom}
       ref={mapRef}
-      style={{ position: "relative" }}
+      style={{ position: "relative", ...style }}
     >
       <NavigationControl showCompass visualizePitch />
 
-      <div className="absolute right-12 top-2.5">
-        <BasemapMenu onSelection={setBasemap} selectedBasemap={basemap} />
+      <div className="absolute right-12 top-2 flex flex-col items-end space-y-2">
+        <div>
+          <BasemapMenu onSelection={setBasemap} selectedBasemap={basemap} />
+        </div>
+        {withScrollZoomControl ? (
+          <>
+            <Button
+              onPress={() => {
+                setScrollZoomOverride(!scrollZoomOverride);
+              }}
+              className="flex items-center"
+            >
+              <div className="mr-1 text-sm">Scroll Wheel Zoom</div>
+              <TbToggleLeft
+                className={twMerge(
+                  "hidden size-5 text-gray-500",
+                  !canScrollZoom && "block",
+                )}
+              />
+              <TbToggleRightFilled
+                className={twMerge(
+                  "hidden size-5 text-green-700",
+                  canScrollZoom && "block",
+                )}
+              />
+            </Button>
+            <div className="rounded border bg-white/80 px-1 text-right text-sm italic leading-none backdrop-blur">
+              or hold{" "}
+              <span className="inline-block rounded border border-gray-500 px-[3px] font-mono text-xs font-bold not-italic leading-none">
+                {onMac ? "⌘" : "ctrl"}
+              </span>{" "}
+              to scroll wheel zoom
+            </div>
+          </>
+        ) : null}
       </div>
 
-      {showZoom ? (
-        <div className="absolute bottom-2.5 left-2.5 rounded-sm border bg-white p-1 text-xs font-bold">
-          Zoom: <span className="font-mono">{zoomText}</span>
+      {showZoom || NODE_ENV === "development" ? (
+        <div className="absolute bottom-1 right-1/2 rounded border bg-white/80 p-0.5 text-xs font-bold backdrop-blur">
+          <span className="font-mono leading-none">{zoomText}</span>
         </div>
       ) : null}
 
       <div className="absolute bottom-10 right-2.5">
         <Legend layers={layers} />
       </div>
+
+      {withScrollZoomControl ? (
+        <div className="absolute right-12 top-8" />
+      ) : null}
 
       {useDrawControls ? (
         <DrawControl
@@ -249,7 +354,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
 
       {!!hoveredFeatures?.length &&
         !!hoveredPoint &&
-        !clickedFeatures?.length && (
+        !(!!clickedFeatures?.length && !!clickedPoint) && (
           <HoverPopup
             features={hoveredFeatures}
             getPopupID={getPopupID}

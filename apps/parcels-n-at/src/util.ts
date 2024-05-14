@@ -26,3 +26,16 @@ export function formatShortDate(date: Date): string {
 
   return `${year}-${month}-${day}-${hour}${minute}`;
 }
+
+/**
+ * A preliminary check to see if a string could be a parcel ID.
+ *
+ * !!! Does not guarantee that the parcel ID exists
+ * Useful for immediate parsing feedback on obvious issues.
+ *
+ * @param parcelID - potential parcelID string to test
+ */
+export function isValidParcelIDForm(parcelID: string): boolean {
+  const test = /[a-zA-Z0-9]{16}/g;
+  return test.exec(parcelID) !== null;
+}

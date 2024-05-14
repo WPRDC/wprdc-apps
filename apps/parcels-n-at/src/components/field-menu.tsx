@@ -44,10 +44,10 @@ export function FieldMenu({
       <div className="h-full w-full">
         {Object.entries(datasets).map(([title, menuDatasets]) => (
           <section className="border-t pb-6 first:border-none" key={title}>
-            <Heading className="text-xl" id={slugify(title)} level={2}>
+            <Heading className="text-2xl" id={slugify(title)} level={2}>
               {title}
             </Heading>
-            <div className="grid grid-cols-1 gap-x-4 gap-y-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-x-12">
+            <div className="grid grid-cols-1 gap-x-4 gap-y-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-x-8 xl:gap-x-12 ">
               {menuDatasets.map((dataset) => (
                 <DatasetFieldMenu
                   key={dataset.title}

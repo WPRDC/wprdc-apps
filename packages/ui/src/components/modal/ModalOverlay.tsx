@@ -1,3 +1,5 @@
+"use client";
+
 import { ModalOverlay as RAModalOverlay } from "react-aria-components";
 import type { ModalOverlayProps } from "./Modal.types";
 

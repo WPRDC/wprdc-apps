@@ -191,11 +191,19 @@ This archive contains a customized parcel data extraction from:
 Generated on: ${new Date().toLocaleString()}
 
 Metadata Files
-  data-dictionary.csv - definitions of fields found in data files
-  parcels.txt         - list of selected parcel IDs
-  selection.json      - serialized form of selection used to generate this 
-                          output, can be uploaded/copied to form to reuse.
-  
+  data-dictionary.csv   - definitions of fields found in data files
+
+  parcels.txt           - list of parcels found within all selection parameters
+
+  selection/parcel-selection.json - serialized form of parcel selection used to
+                                    generate this output, can be uploaded/copied 
+                                    to form to reuse.
+
+  selection/field-selection.json  - serialized form of field selection used to
+                                    generate this output, can be uploaded/copied
+                                    to form to reuse.
+
+
 Data Files
 `;
 
@@ -204,7 +212,7 @@ Data Files
     if (tableData.length) {
       const dataset = datasetsByTable[table];
       // add file to zip
-      zip.addFile(`${dataset.slug}.csv`, Buffer.from(asCSV(tableData)));
+      zip.addFile(`data/${dataset.slug}.csv`, Buffer.from(asCSV(tableData)));
 
       // add fields to dict
       const tableSelection = fieldSelection[table];
@@ -221,7 +229,7 @@ Data Files
       });
 
       // add file to manifest
-      readmeText += `  ${dataset.slug}.csv\n`;
+      readmeText += `  data/${dataset.slug}.csv\n`;
       sources.push(dataset.datasetURL);
     }
   });
@@ -235,18 +243,21 @@ Data Files
 
   // add selection to zip file
   zip.addFile(
-    "selection.json",
+    "selection/map-selection.json",
     Buffer.from(
       JSON.stringify(
         {
           selectedFeatures,
           drawnAreas,
-          fieldSelection,
         },
         null,
         2,
       ),
     ),
+  );
+  zip.addFile(
+    "selection/field-selection.json",
+    Buffer.from(JSON.stringify(fieldSelection, null, 2)),
   );
 
   // add manifest to zip file

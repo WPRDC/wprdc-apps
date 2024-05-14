@@ -31,8 +31,8 @@ export const parcelLayer: LayerConfig<InteractiveSymbologyProps> = {
   idField: "parcel_id",
   ignoreCase: ["==", ["get", "parcel_id"], "COMMON GROUND"],
 
-  // default style config
-  color: { default: "#000", selected: "#FCEC52", hovered: "#bae6fd" },
+  // style config
+  color: { default: "#FFF", selected: "#FCEC52", hovered: "#bae6fd" },
 
   borderColor: { default: "#000", selected: "#000", hovered: "#bae6fd" },
 
@@ -43,6 +43,15 @@ export const parcelLayer: LayerConfig<InteractiveSymbologyProps> = {
 
   borderOpacity: [[16, 1]],
 
+  labelTextField: ["get", "housenum"],
+  textSize: [
+    [16, 6],
+    [16.5, 10],
+    [17.5, 10],
+    [21, 18],
+  ],
+
+  // interaction
   hoverPopupFormat: "parcel-index",
   clickPopupFormat: "parcel-index",
 };

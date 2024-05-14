@@ -80,6 +80,27 @@ export interface MapProps {
 
   /** Callback used when clicking map to navigate */
   onNavigate?: (feature: MapGeoJSONFeature, mapState: MapState) => void;
+
+  /** Override map's CSS style */
+  style?: React.CSSProperties;
+
+  /**
+   * Whether the scroll wheel will zoom the map (default: true)
+   *
+   * Used with custom implementations of toggling scrollZoom (e.g. holding ctrl key)
+   */
+  scrollZoom?: boolean;
+
+  /**
+   * Provides a switch to toggle scroll zoom. (default: false)
+   *
+   * Can be used in conjunction with outside control using `scrollZoom`.
+   *  A `true` value from the control will override `scrollZoom` value.
+   */
+  withScrollZoomControl?: boolean;
+
+  /** Default value for scrollZoom control if using withScrollZoomControl (default: false) */
+  defaultScrollZoom?: boolean;
 }
 
 export interface BasemapOptions {
@@ -133,6 +154,8 @@ export interface ParseResults {
   borderOpacity: DataDrivenPropertyValueSpecification<number>;
   borderWidth: DataDrivenPropertyValueSpecification<number>;
   lineSortKey?: DataDrivenPropertyValueSpecification<number>;
+  textField?: DataDrivenPropertyValueSpecification<string>;
+  textSize?: DataDrivenPropertyValueSpecification<number>;
 }
 
 export type DrawControlProps = ConstructorParameters<typeof MapboxDraw>[0] & {
