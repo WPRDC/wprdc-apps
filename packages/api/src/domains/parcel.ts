@@ -23,7 +23,7 @@ import type { APIResult } from "../types";
 
 export enum ParcelTable {
   Assessment = "property_assessments",
-  PropertySaleTransactions = "property_sale_transactions",
+  PropertySaleTransactions = "5bbe6c55-bce6-4edb-9d04-68edeb6bf7b1",
   AssessmentAppeals = "8e92a566-b52b-4d10-9fb5-c18b883cd926",
   FiledAssessmentAppeals = "12e00874-bdca-46c2-89ab-bd0e9272b3cb",
   PLIPermit = "pli_permits",
