@@ -149,17 +149,23 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     [mapState, onZoom],
   );
 
+  const clearHover = useCallback(() => {
+    setHoveredPoint(null);
+    setHoveredFeatures(null);
+  }, []);
+
   const handleHover = useCallback(
     (e: MapLayerMouseEvent) => {
       const features = extractFeatures(e);
-      setHoveredFeatures(features);
-      if (!!features && !!features.length) setHoveredPoint(e.point);
-      else setHoveredPoint(null);
+      if (!!features && !!features.length) {
+        setHoveredFeatures(features);
+        setHoveredPoint(e.point);
+      } else clearHover();
       if (onHover) {
         onHover(features ?? [], mapState, e);
       }
     },
-    [mapState, onHover],
+    [mapState, onHover, clearHover],
   );
 
   const handleClick = useCallback(
@@ -269,6 +275,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       minZoom={minZoom ?? DEFAULT_MIN_ZOOM}
       onClick={handleClick}
       onMouseMove={handleHover}
+      onMouseOut={clearHover}
       onZoom={handleZoom}
       ref={mapRef}
       style={{ position: "relative", ...style }}
