@@ -16,7 +16,7 @@ export function LineLayer({
 
   return (
     <Layer
-      filter={layer.filter ?? true}
+      filter={layer.renderOptions?.filter ?? true}
       id={`${slug}-line`}
       layout={{}}
       paint={{

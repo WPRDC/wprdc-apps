@@ -1,5 +1,10 @@
 {
   "extends": "@wprdc/typescript-config/base.json",
+  "compilerOptions": {
+    "lib": ["dom", "ES2015"],
+    "sourceMap": true,
+    "types": ["node"]
+  },
   "include": ["."],
   "exclude": ["dist", "node_modules"]
 }

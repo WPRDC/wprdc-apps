@@ -8,7 +8,7 @@ import {
 import { HeroImage } from "../components/HeroImage";
 import { makeAssessmentAddress } from "../../../util";
 import { ClassChip } from "../components/ClassChip";
-import { Bone, FieldValues } from "../../../components";
+import { A, Bone, FieldValues } from "../../../components";
 import { OwnerInfo } from "./OwnerInfo";
 
 interface HeadingSectionProps {
@@ -119,6 +119,9 @@ export async function HeadingSection({
               />
             </Suspense>
           ) : null}
+        </div>
+        <div>
+          <A href={`/landlord/?parcel=${parcelID}`}>See Owner Portfolio</A>
         </div>
       </div>
 

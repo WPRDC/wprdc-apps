@@ -1,11 +1,13 @@
 import { PiLineSegmentsFill } from "react-icons/pi";
-import type { CategoryOptions } from "@wprdc/types";
+import type { CategoryOptions, LayerConfig } from "@wprdc/types";
 import { GeoType, SymbologyMode } from "@wprdc/types";
 import { darken } from "./util";
 import type { LegendItemProps, LegendProps, LegendRowProps } from "./Map.types";
 
 export function Legend({ layers }: LegendProps): React.ReactElement | null {
-  const filteredLayers = layers?.filter((l) => !l.noLegend);
+  const filteredLayers = layers?.filter(
+    (l: LayerConfig) => !l.renderOptions?.noLegend,
+  );
 
   // hide layer when empty
   if (!filteredLayers?.length) {
@@ -33,14 +35,14 @@ export function LegendItem({ layer }: LegendItemProps): React.ReactElement {
       </div>
       {layer.symbologyMode === SymbologyMode.Solid && (
         <LegendRow
-          borderColor={layer.borderColor}
-          color={layer.color}
+          borderColor={layer.symbology.borderColor}
+          color={layer.symbology.color}
           label={layer.title}
           type={layer.type}
         />
       )}
       {layer.symbologyMode === SymbologyMode.Qualitative &&
-        Object.entries<CategoryOptions>(layer.colors.categories).map(
+        Object.entries<CategoryOptions>(layer.symbology.colors.categories).map(
           ([k, record]) => <LegendRow key={k} {...record} type={layer.type} />,
         )}
     </div>

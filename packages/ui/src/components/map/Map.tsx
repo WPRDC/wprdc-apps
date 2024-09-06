@@ -69,6 +69,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     scrollZoom = true,
     withScrollZoomControl = false,
     defaultScrollZoom = false,
+    interactiveLayerIDs: manualInteractiveLayerIDs = [],
   },
   ref,
 ): React.ReactElement {
@@ -134,7 +135,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
             l.slug === f.source &&
             l.symbologyMode === SymbologyMode.Interactive,
         );
-      return layer?.hoverPopupFormat ?? "";
+      return layer?.interaction.hoverPopupFormat ?? "";
     },
     [layers],
   );
@@ -235,11 +236,14 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
 
   // IDs of layers that will pass data to map event handlers
   const interactiveLayerIDs = useMemo(() => {
-    return layers
-      ?.filter(
-        (l: LayerConfig) => l.symbologyMode === SymbologyMode.Interactive,
-      )
-      .map((l) => `${l.slug}-fill`);
+    const autoLayerIDs =
+      layers
+        ?.filter(
+          (l: LayerConfig) => l.symbologyMode === SymbologyMode.Interactive,
+        )
+        .map((l) => `${l.slug}-fill`) ?? [];
+
+    return autoLayerIDs.concat(manualInteractiveLayerIDs);
   }, [layers]);
 
   // can scroll zoom when it's toggled on, it's

@@ -12,5 +12,10 @@ import { twMerge } from "tailwind-merge";
 import type { TabsProps } from "./Tabs.types";
 
 export function Tabs({ className, ...props }: TabsProps): React.ReactElement {
-  return <RATabs {...props} className={twMerge("", className)} />;
+  return (
+    <RATabs
+      {...props}
+      className={twMerge("orientation-vertical:flex", className)}
+    />
+  );
 }

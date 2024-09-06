@@ -26,10 +26,10 @@ export function PolygonLayer({
   return (
     <>
       <Layer
-        filter={layer.filter ?? true}
+        filter={layer.renderOptions?.filter ?? true}
         id={`${slug}-fill`}
-        maxzoom={layer.maxZoom ?? 22}
-        minzoom={layer.minZoom ?? 0}
+        maxzoom={layer.tileSource.maxZoom ?? 22}
+        minzoom={layer.tileSource.minZoom ?? 0}
         paint={{
           "fill-color": color,
           "fill-opacity": opacity,
@@ -39,15 +39,15 @@ export function PolygonLayer({
         type="fill"
       />
       <Layer
-        filter={layer.filter ?? true}
+        filter={layer.renderOptions?.filter ?? true}
         id={`${slug}-line`}
         layout={{
           "line-cap": "round",
           "line-join": "miter",
           "line-sort-key": lineSortKey ?? 1,
         }}
-        maxzoom={layer.maxZoom ?? 22}
-        minzoom={layer.minZoom ?? 0}
+        maxzoom={layer.tileSource.maxZoom ?? 22}
+        minzoom={layer.tileSource.minZoom ?? 0}
         paint={{
           "line-color": borderColor,
           "line-opacity": borderOpacity,
@@ -79,8 +79,8 @@ export function PolygonLayer({
             "text-halo-color": "rgb(255,255,255, 0.8)",
             // "text-halo-blur": 1,
           }}
-          maxzoom={layer.maxZoom ?? 22}
-          minzoom={layer.minZoom ?? 0}
+          maxzoom={layer.tileSource.maxZoom ?? 22}
+          minzoom={layer.tileSource.minZoom ?? 0}
           source={slug}
           source-layer={sourceLayer}
         />

@@ -3,7 +3,7 @@
   "display": "TypeScript types-only library",
   "extends": "./base.json",
   "compilerOptions": {
-    "lib": ["esnext", "DOM"],
+    "lib": ["ES2015"],
     "module": "ESNext",
     "target": "ES6",
     "importHelpers": true,

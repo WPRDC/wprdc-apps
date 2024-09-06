@@ -1,4 +1,6 @@
 import { TbCompass, TbDownload } from "react-icons/tb";
+import { LayerMenu, defaultPolygonLayer } from "@wprdc/ui";
+import * as React from "react";
 
 export default function Home(): React.ReactElement {
   return (
@@ -7,6 +9,10 @@ export default function Home(): React.ReactElement {
         Welcome to the Parcel&apos;s N&apos;at early access.
       </h1>
       <div className="text-center text-3xl font-bold">Select a tool</div>
+
+      <div className="flex items-start space-x-1.5">
+        <LayerMenu defaultConfig={defaultPolygonLayer} />
+      </div>
 
       <div className="mx-auto flex w-full max-w-screen-md flex-col items-center space-y-12">
         <a

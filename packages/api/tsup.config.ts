@@ -3,9 +3,9 @@ import { defineConfig } from "tsup";
 
 export default defineConfig((options: Options) => ({
   entry: ["src/**/*.ts"],
-  format: ["esm"],
+  format: ["cjs", "esm"],
   dts: true,
   minify: false,
-  clean: true,
+  clean: false,
   ...options,
 }));

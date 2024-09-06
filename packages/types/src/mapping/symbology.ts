@@ -72,33 +72,20 @@ type DiscreteSymbologyProps = {
 type ContinuousSymbologyProps = {
   /** Override opacity settings */
   opacity: number;
-
   /** Override border width */
   borderWidth: number;
   /** Override border opacity */
   borderOpacity: number;
-
   /** Override font size for labels if they are present */
   textSize: number;
 };
 
-/** Props for layers with features styled the same */
-export type SolidSymbologyProps = DiscreteSymbologyProps &
-  ZoomConfig<ContinuousSymbologyProps> & {
-    symbologyMode: SymbologyMode.Solid;
-  };
-
-/** Props for layers with features styled based on categorization using underlying data */
-export type QualitativeSymbologyProps = ZoomConfig<ContinuousSymbologyProps> & {
-  symbologyMode: SymbologyMode.Qualitative;
-
-  /** Maps categories to their colors */
-  colors: {
-    /** Field to check categories against from */
-    field: string;
-    /** Maps categories to colors */
-    categories: Record<string | number, CategoryOptions>;
-  };
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- need to use type
+type TextSymbologyProps = {
+  /** Expression that returns a string to use as a label */
+  textField?: ExpressionSpecification;
+  /** Expression that returns a string to use as a subtitle to `textField` */
+  subtitleTextField?: ExpressionSpecification;
 };
 
 /** Category definition */
@@ -111,24 +98,40 @@ export interface CategoryOptions {
   borderColor?: ColorSpecification;
 }
 
-export type InteractiveSymbologyProps = Partial<
-  InteractiveConfig<DiscreteSymbologyProps> &
-    InteractiveConfig<ContinuousSymbologyProps>
-> & {
+/** Props for layers with features styled the same */
+export interface SolidSymbologyProps {
+  symbologyMode: SymbologyMode.Solid;
+  symbology: TextSymbologyProps &
+    DiscreteSymbologyProps &
+    ZoomConfig<ContinuousSymbologyProps>;
+}
+
+interface QualitativeColorOptions {
+  /** Maps categories to their colors */
+  colors: {
+    /** Field to check categories against from */
+    field: string;
+    /** Maps categories to colors */
+    categories: Record<string | number, CategoryOptions>;
+  };
+}
+
+/** Props for layers with features styled based on categorization using underlying data */
+export interface QualitativeSymbologyProps {
+  symbologyMode: SymbologyMode.Qualitative;
+  symbology: TextSymbologyProps &
+    QualitativeColorOptions &
+    ZoomConfig<ContinuousSymbologyProps>;
+}
+
+export interface InteractiveSymbologyProps {
   symbologyMode: SymbologyMode.Interactive;
-
-  /**
-   * Property of layer feature that represents a unique ID.
-   *  Used for selection and hover style states.
-   */
-  idField: string;
-
-  /** Maplibre expression that indicates which features to ignore wrt interaction */
-  ignoreCase?: ExpressionSpecification;
-
-  clickPopupFormat?: string;
-  hoverPopupFormat?: string;
-};
+  symbology: TextSymbologyProps &
+    Partial<
+      InteractiveConfig<DiscreteSymbologyProps> &
+        InteractiveConfig<ContinuousSymbologyProps>
+    >;
+}
 
 /** Props for layers with features styled with ramps using underlying data */
 // export interface SequentialSymbologyProps extends BaseSymbologyProps {}

@@ -10,7 +10,7 @@ function Label({ children, className }: LabelProps): React.ReactElement {
   return (
     <div
       className={twMerge(
-        "font-roboto text-xs font-black uppercase text-stone-500",
+        "text-xs font-black uppercase text-stone-500",
         className,
       )}
     >
@@ -35,7 +35,7 @@ function Code({
   return (
     <span
       className={twMerge(
-        "text-wprdc-700 box-content inline rounded border border-stone-400 bg-stone-100 px-0.5 font-mono text-sm font-medium not-italic",
+        "box-content inline rounded border border-stone-400 bg-stone-100 px-0.5 font-mono text-sm font-medium not-italic text-wprdc-700",
         block && "block",
         className,
       )}

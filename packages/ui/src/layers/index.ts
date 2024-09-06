@@ -10,6 +10,10 @@ export * from "./municipalities";
 export * from "./pittsburgh-boundary";
 export * from "./allegheny-county-boundary";
 
+export * from "./defaults/line";
+export * from "./defaults/point";
+export * from "./defaults/polygon";
+
 export const dataLayers = {
   "pittsburgh-neighborhoods": pittsburghNeighborhoodLayer,
   parcels: parcelLayer,

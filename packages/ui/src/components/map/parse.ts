@@ -1,14 +1,15 @@
-import type {
-  InteractiveOption,
-  InteractiveSymbologyProps,
-  LayerConfig,
-  MapState,
-  QualitativeSymbologyProps,
-  StyleOption,
-  StyleValue,
-  ZoomOption,
+import {
+  GeoType,
+  type InteractiveOption,
+  type InteractiveSymbologyProps,
+  type LayerConfig,
+  type MapState,
+  type QualitativeSymbologyProps,
+  type StyleOption,
+  type StyleValue,
+  SymbologyMode,
+  type ZoomOption,
 } from "@wprdc/types";
-import { GeoType, SymbologyMode } from "@wprdc/types";
 import type {
   DataDrivenPropertyValueSpecification,
   ExpressionSpecification,
@@ -42,36 +43,40 @@ export function parseConfig(
   let borderColor: ParseResults["borderColor"];
   let lineSortKey: ParseResults["lineSortKey"];
   // the process for generating color expressions varies between symbology modes
+
   switch (layer.symbologyMode) {
     case SymbologyMode.Qualitative:
       color = parseQualitativeColorExpression(layer);
       borderColor = parseQualitativeColorExpression(layer, darken(20));
       break;
     case SymbologyMode.Solid:
-      color = parseOption(layer.color, layer, context, DEFAULT_COLOR);
+      color = parseOption(layer.symbology.color, layer, context, DEFAULT_COLOR);
       borderColor = parseOption(
-        layer.borderColor,
+        layer.symbology.borderColor,
         layer,
         context,
         darken(20)(DEFAULT_COLOR),
       );
       break;
     case SymbologyMode.Interactive:
-      color = parseOption(layer.color, layer, context, DEFAULT_COLOR);
+      color = parseOption(layer.symbology.color, layer, context, DEFAULT_COLOR);
       borderColor = parseOption(
-        layer.borderColor,
+        layer.symbology.borderColor,
         layer,
         context,
         darken(20)(DEFAULT_COLOR),
       );
-
       lineSortKey = [
         "case",
-        ["==", ["get", layer.idField], getSelectedID(layer, context) ?? ""],
+        [
+          "==",
+          ["get", layer.interaction.idField],
+          getSelectedID(layer, context) ?? "",
+        ],
         100,
         [
           "==",
-          ["get", layer.idField],
+          ["get", layer.interaction.idField],
           getPrimaryHoveredID(layer, context) ?? "",
         ],
         200,
@@ -82,34 +87,33 @@ export function parseConfig(
 
   // numeric values
   const opacity = parseOption(
-    layer.opacity,
+    layer.symbology.opacity,
     layer,
     context,
     DEFAULT_FILL_OPACITY,
   );
   const borderOpacity = parseOption(
-    layer.borderOpacity,
+    layer.symbology.borderOpacity,
     layer,
     context,
     DEFAULT_LINE_OPACITY,
   );
   const borderWidth = parseOption(
-    layer.borderWidth,
+    layer.symbology.borderWidth,
     layer,
     context,
     layer.type === GeoType.Polygon ? DEFAULT_BORDER_WIDTH : DEFAULT_LINE_WIDTH,
   );
 
   const textSize = parseOption(
-    layer.textSize,
+    layer.symbology.textSize,
     layer,
     context,
     DEFAULT_TEXT_SIZE,
   );
 
   // label
-  // todo: handle subtitles
-  const textField = layer.labelTextField;
+  const textField: ExpressionSpecification = layer.symbology.textField;
 
   return {
     color,
@@ -135,9 +139,9 @@ export function parseQualitativeColorExpression(
   styler: (color: string) => string = (c) => c,
 ): SourceFunctionSpecification<string> {
   return {
-    property: layer.colors.field,
+    property: layer.symbology.colors.field,
     type: "categorical",
-    stops: Object.entries(layer.colors.categories).map(([k, v]) => [
+    stops: Object.entries(layer.symbology.colors.categories).map(([k, v]) => [
       k,
       styler(v.color),
     ]),
@@ -190,20 +194,18 @@ export function parseZoomOption<T extends StyleValue>(
   layer: LayerConfig,
   context: MapState,
 ): ExpressionSpecification {
-  const minZoom = layer.minZoom ?? 0.1;
+  const minZoom = layer.tileSource.minZoom ?? 0.1;
 
-  const parsedZoomOption: [number, T | ExpressionSpecification][] = option.map(
-    ([zoom, value]) => [
-      zoom,
-      typeof value === "object"
-        ? parseInteractiveOption(
-            value,
-            layer as LayerConfig<InteractiveSymbologyProps>,
-            context,
-          )
-        : value,
-    ],
-  );
+  const parsedZoomOption: [number, T][] = option.map(([zoom, value]) => [
+    zoom,
+    typeof value === "object"
+      ? parseInteractiveOption(
+          value,
+          layer as LayerConfig<InteractiveSymbologyProps>,
+          context,
+        )
+      : value,
+  ]);
 
   const remainder = Array.prototype.concat(...parsedZoomOption) as (
     | StyleValue
@@ -237,7 +239,7 @@ export function parseInteractiveOption<T extends StyleValue>(
   context: MapState,
 ): ExpressionSpecification | T {
   const { selectedIDs, hoveredFeatures } = context;
-  const { idField } = layer;
+  const { idField } = layer.interaction;
 
   const hoveredFeature = hoveredFeatures ? hoveredFeatures[0] : null;
 
@@ -246,7 +248,9 @@ export function parseInteractiveOption<T extends StyleValue>(
     : [];
 
   const hoveredID = hoveredFeature
-    ? (hoveredFeature.properties[layer.idField] as string | undefined)
+    ? (hoveredFeature.properties[layer.interaction.idField] as
+        | string
+        | undefined)
     : "";
 
   const result: ExpressionSpecification = [
@@ -261,8 +265,8 @@ export function parseInteractiveOption<T extends StyleValue>(
     ],
   ];
 
-  if (layer.ignoreCase) {
-    return ["case", layer.ignoreCase, option.default, result];
+  if (layer.interaction.ignoreCase) {
+    return ["case", layer.interaction.ignoreCase, option.default, result];
   }
 
   return result;

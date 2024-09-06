@@ -8,5 +8,5 @@ export function TabPanel({
   className,
   ...props
 }: TabPanelProps): React.ReactElement {
-  return <RATabPanel {...props} className={twMerge("", className)} />;
+  return <RATabPanel {...props} className={twMerge("flex-grow", className)} />;
 }

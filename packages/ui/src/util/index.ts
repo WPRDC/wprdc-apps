@@ -9,3 +9,7 @@ export function getCookie(name: string): string | null {
 }
 
 export * from "./formatters";
+
+// template string pass-through function to signal prettier to format strings
+export const tw = (strings: ArrayLike<string>, ...values: string[]): string =>
+  String.raw({ raw: strings }, ...values);

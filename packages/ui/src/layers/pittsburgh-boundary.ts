@@ -5,12 +5,8 @@ export const pittsburghBoundary: LayerConfig<SolidSymbologyProps> = {
   slug: "pittsburgh-boundary",
   title: "Pittsburgh Boundary",
   description: "Boundary of the City of Pittsburgh",
-
   symbologyMode: SymbologyMode.Solid,
   type: GeoType.Polygon,
-  extent: "Pittsburgh",
-  noLegend: true,
-
   publisher: {
     name: "City of Pittsburgh",
     homepage: "http://www.pittsburghpa.gov/",
@@ -23,13 +19,21 @@ export const pittsburghBoundary: LayerConfig<SolidSymbologyProps> = {
     resourceID: "11af0bf9-2d04-4e71-b28c-a0dfb3078080",
   },
 
-  tileJSONSource:
-    "https://data.wprdc.org/tiles/table.b0cb0249-d1ba-45b7-9918-dc86fa8af04c._geom",
-  sourceLayer: "table.b0cb0249-d1ba-45b7-9918-dc86fa8af04c._geom",
-  filter: ["==", "NAME", "PITTSBURGH"],
+  tileSource: {
+    tileJSONSource:
+      "https://data.wprdc.org/tiles/table.b0cb0249-d1ba-45b7-9918-dc86fa8af04c._geom",
+    sourceLayer: "table.b0cb0249-d1ba-45b7-9918-dc86fa8af04c._geom",
+  },
 
-  color: "#000",
-  borderColor: "#000",
-  opacity: 0,
-  borderWidth: 4,
+  symbology: {
+    color: "#000",
+    borderColor: "#000",
+    opacity: 0,
+    borderWidth: 4,
+  },
+
+  renderOptions: {
+    filter: ["==", "NAME", "PITTSBURGH"],
+    noLegend: true,
+  },
 };

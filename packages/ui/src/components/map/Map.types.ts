@@ -101,6 +101,9 @@ export interface MapProps {
 
   /** Default value for scrollZoom control if using withScrollZoomControl (default: false) */
   defaultScrollZoom?: boolean;
+
+  /** Manually specify interactive layers */
+  interactiveLayerIDs?: string[];
 }
 
 export interface BasemapOptions {

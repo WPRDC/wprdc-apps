@@ -16,7 +16,7 @@ export function CircleLayer({
 
   return (
     <Layer
-      filter={layer.filter ?? true}
+      filter={layer.renderOptions?.filter ?? true}
       id={`${slug}-circle`}
       layout={{}}
       paint={{

@@ -1,5 +1,4 @@
 import type { DataDrivenPropertyValueSpecification } from "@maplibre/maplibre-gl-style-spec";
-import tinycolor from "tinycolor2";
 import type {
   MapGeoJSONFeature,
   MapLayerMouseEvent,
@@ -10,16 +9,17 @@ import type {
   MapState,
 } from "@wprdc/types";
 import { GeoType } from "@wprdc/types";
+import chroma from "chroma-js";
 
 export const darken =
   (amount?: number) =>
   (color: string): string =>
-    tinycolor(color).darken(amount).toString();
+    chroma(color).darken(amount).hex();
 
 export const lighten =
   (amount?: number) =>
   (color: string): string =>
-    tinycolor(color).lighten(amount).toString();
+    chroma(color).brighten(amount).hex();
 
 export function extractFeatures(
   e: MapLayerMouseEvent,
@@ -75,5 +75,7 @@ export function getPrimaryHoveredID(
   const { hoveredFeatures } = context;
   if (!hoveredFeatures) return undefined;
   const primaryFeature = hoveredFeatures.find((f) => f.source === layer.slug);
-  return primaryFeature?.properties[layer.idField] as string | undefined;
+  return primaryFeature?.properties[layer.interaction.idField] as
+    | string
+    | undefined;
 }

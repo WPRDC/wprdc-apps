@@ -39,7 +39,7 @@ export function isValidCKANResponse<T extends DatastoreRecord>(
  */
 export async function fetchSQLSearch<T extends DatastoreRecord>(
   sql: string,
-  queryParams: Record<string, string> = {},
+  queryParams: Record<string, string | number> = {},
   options: RequestInit = {},
 ): Promise<Partial<QueryResult<T>>> {
   try {

@@ -34,9 +34,9 @@ async function getParcelsInRegion(
   selectedIDs: string[],
 ): Promise<string[]> {
   const layerConfig = dataLayers[layerSlug];
-  const { idField, source } = layerConfig;
+  const { interaction, source } = layerConfig;
   const { resourceID } = source;
-
+  const { idField } = interaction;
   // query all parcels that fall under the select regions
   // todo: replace references to parcel_index table with env vars
 

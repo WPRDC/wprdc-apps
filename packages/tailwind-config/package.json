@@ -9,9 +9,9 @@
     "update": "pnpm update"
   },
   "devDependencies": {
-    "@types/node": "^20.12.7",
+    "@types/node": "^22.5.4",
     "@wprdc/typescript-config": "workspace:*",
-    "tailwindcss": "^3.4.3",
-    "tailwindcss-react-aria-components": "^1.1.1"
+    "tailwindcss": "^3.4.10",
+    "tailwindcss-react-aria-components": "^1.1.5"
   }
 }

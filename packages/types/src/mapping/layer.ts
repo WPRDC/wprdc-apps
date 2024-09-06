@@ -1,8 +1,11 @@
 import type { FilterSpecification } from "maplibre-gl";
 import type { ReactNode } from "react";
-import { type ExpressionSpecification } from "@maplibre/maplibre-gl-style-spec";
+import type { ExpressionSpecification } from "@maplibre/maplibre-gl-style-spec";
 import type { GeoType, Identifiable, Publisher } from "../shared";
-import type { SymbologyProps } from "./symbology";
+import {
+  type InteractiveSymbologyProps,
+  type SymbologyProps,
+} from "./symbology";
 import type { LegendGroupOptions } from "./legend";
 
 export interface LayerSource extends Identifiable {
@@ -11,6 +14,20 @@ export interface LayerSource extends Identifiable {
 
   /** CKAN resource ID for CKAN resources */
   resourceID: string;
+}
+
+export interface TileSource {
+  /** URL of tile JSON to override as source */
+  tileJSONSource: string;
+
+  /** Override source-layer  */
+  sourceLayer: string;
+
+  /** Override min zoom */
+  minZoom?: number;
+
+  /** Override max zoom */
+  maxZoom?: number;
 }
 
 /** Properties common among all layers */
@@ -27,38 +44,19 @@ export interface CommonLayerOptions extends Identifiable {
   /** Publisher details */
   publisher: Publisher;
 
-  /** Geographic extent of the layer */
-  extent: string;
+  /** Tileserver details */
+  tileSource: TileSource;
 
   /** Options that define the layer's legend item if one */
   legend?: LegendGroupOptions;
 
-  /** Hides layer if true */
-  hidden?: boolean;
+  renderOptions?: {
+    /** Filter dataset */
+    filter?: FilterSpecification;
 
-  /*
-   * TODO: SQL query from which to generate layer
-   *  if not provided, SELECT * FROM {resourceID} will be used
-   */
-  // sql?: string;
-
-  /** URL of tile JSON to override as source */
-  tileJSONSource: string;
-
-  /** Override source-layer  */
-  sourceLayer: string;
-
-  /** Override min zoom */
-  minZoom?: number;
-
-  /** Override max zoom */
-  maxZoom?: number;
-
-  /** Filter dataset */
-  filter?: FilterSpecification;
-
-  /** Set to true to ignore layer when generating legend */
-  noLegend?: boolean;
+    /** Set to true to ignore layer when generating legend */
+    noLegend?: boolean;
+  };
 }
 
 /** Define how to visualize a field in a popup */
@@ -73,12 +71,23 @@ export interface PopupFieldOptions {
   asTitle?: boolean;
 }
 
-/** Select fields used to e feature labels */
-export interface LabelOptions {
-  labelTextField?: ExpressionSpecification;
-  subTitleTextField?: ExpressionSpecification;
+export interface InteractionOptions {
+  clickPopupFormat?: string;
+  hoverPopupFormat?: string;
+  /**
+   * Property of layer feature that represents a unique ID.
+   *  Used for selection and hover style states.
+   */
+  idField: string;
+
+  /** Maplibre expression that indicates which features to ignore wrt interaction */
+  ignoreCase?: ExpressionSpecification;
 }
 
 /** Add common options to a specific symbology layer type */
-export type LayerConfig<V extends SymbologyProps = SymbologyProps> =
-  CommonLayerOptions & LabelOptions & V;
+export type LayerConfig<T extends SymbologyProps = SymbologyProps> =
+  T extends InteractiveSymbologyProps
+    ? CommonLayerOptions & {
+        interaction: InteractionOptions;
+      } & T
+    : CommonLayerOptions & T;

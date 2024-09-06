@@ -28,7 +28,10 @@ import { ModeOverlay } from "./ModeOverlay";
 
 const municipalities: LayerConfig<InteractiveSymbologyProps> = {
   ..._municipalities,
-  filter: ["!=", ["get", "NAME"], "PITTSBURGH"],
+  renderOptions: {
+    ..._municipalities.renderOptions,
+    filter: ["!=", ["get", "NAME"], "PITTSBURGH"],
+  },
 };
 
 const layerLookup: Record<string, LayerConfig<InteractiveSymbologyProps>> = {
@@ -109,7 +112,7 @@ export function ParcelPicker({
 
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- maplibre uses any
           const regionID: string =
-            primaryFeature.properties[regionLayerConfig.idField];
+            primaryFeature.properties[regionLayerConfig.interaction.idField];
 
           // toggle the region IDs presence in the selected list
           const oldSelection: string[] = selectedFeatures[layerID];

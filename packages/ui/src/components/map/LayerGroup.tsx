@@ -15,30 +15,30 @@ export function LayerGroup({
   return (
     <Source
       id={layer.slug}
-      maxzoom={layer.maxZoom ?? 22}
-      minzoom={layer.minZoom ?? 0}
+      maxzoom={layer.tileSource.maxZoom ?? 22}
+      minzoom={layer.tileSource.minZoom ?? 0}
       type="vector"
-      url={layer.tileJSONSource}
+      url={layer.tileSource.tileJSONSource}
     >
       {layer.type === GeoType.Point && (
         <CircleLayer
           context={context}
           layer={layer}
-          sourceLayer={layer.sourceLayer}
+          sourceLayer={layer.tileSource.sourceLayer}
         />
       )}
       {layer.type === GeoType.Polygon && (
         <PolygonLayer
           context={context}
           layer={layer}
-          sourceLayer={layer.sourceLayer}
+          sourceLayer={layer.tileSource.sourceLayer}
         />
       )}
       {layer.type === GeoType.Line && (
         <LineLayer
           context={context}
           layer={layer}
-          sourceLayer={layer.sourceLayer}
+          sourceLayer={layer.tileSource.sourceLayer}
         />
       )}
     </Source>

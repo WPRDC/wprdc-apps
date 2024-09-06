@@ -12,13 +12,9 @@ import type {
   PropertySaleTransaction,
   QueryResult,
   TaxLienWithCurrentStatus,
+  RankedParcelIndex,
 } from "@wprdc/types";
-import type { RankedParcelIndex } from "@wprdc/types/src";
-import {
-  fetchDatastoreSearch,
-  fetchSQLSearch,
-  toFieldLookup,
-} from "../fetch-util";
+import { fetchSQLSearch, toFieldLookup } from "../fetch-util";
 import type { APIResult } from "../types";
 
 export enum ParcelTable {
@@ -48,20 +44,23 @@ export const parcelIDFields: Record<ParcelTable, string> = {
 };
 
 function _fetchParcelRecords<T extends DatastoreRecord>(
-  parcelID: string,
+  parcelID: string | string[],
   table: ParcelTable,
   queryParams?: Record<string, string | number>,
 ): Promise<Partial<QueryResult<T>>> {
   const parcelIDField = parcelIDFields[table];
-  return fetchDatastoreSearch<T>(
-    table,
-    JSON.stringify({ [parcelIDField]: parcelID }),
+  const parcelIDs = Array.isArray(parcelID) ? parcelID : [parcelID];
+
+  return fetchSQLSearch<T>(
+    `SELECT *
+     FROM "${table}"
+     WHERE "${parcelIDField}" IN (${parcelIDs.map((pid) => `'${pid}'`).join(", ")})`,
     queryParams,
   );
 }
 
 export async function fetchParcelRecords<T extends DatastoreRecord>(
-  parcelID: string,
+  parcelID: string | string[],
   table: ParcelTable,
   queryParams?: Record<string, string | number>,
 ): Promise<APIResult<T>> {
@@ -72,7 +71,7 @@ export async function fetchParcelRecords<T extends DatastoreRecord>(
   );
   if (!records || !fields) {
     // eslint-disable-next-line no-console -- rare but useful
-    console.warn(`Nothing found for ${parcelID} on table ${table}.`);
+    console.warn(`Nothing found for ${String(parcelID)} on table ${table}.`);
     return { fields: undefined, records: undefined };
   }
   return { fields: toFieldLookup(fields), records };
@@ -80,17 +79,17 @@ export async function fetchParcelRecords<T extends DatastoreRecord>(
 
 // Individual resource fetchers
 export const fetchAssessmentRecord = (
-  parcelID: string,
+  parcelID: string | string[],
 ): Promise<APIResult<PropertyAssessment>> =>
   fetchParcelRecords<PropertyAssessment>(parcelID, ParcelTable.Assessment);
 
 export const fetchParcelBoundariesRecord = (
-  parcelID: string,
+  parcelID: string | string[],
 ): Promise<APIResult<ParcelBoundary>> =>
   fetchParcelRecords<ParcelBoundary>(parcelID, ParcelTable.ParcelBoundaries);
 
 export const fetchFiledAssessmentAppealsRecord = (
-  parcelID: string,
+  parcelID: string | string[],
 ): Promise<APIResult<FiledAssessmentAppeal>> =>
   fetchParcelRecords<FiledAssessmentAppeal>(
     parcelID,
@@ -98,14 +97,14 @@ export const fetchFiledAssessmentAppealsRecord = (
   );
 
 export const fetchPropertySaleTransactionsRecords = (
-  parcelID: string,
+  parcelID: string | string[],
 ): Promise<APIResult<PropertySaleTransaction>> =>
   fetchParcelRecords<PropertySaleTransaction>(
     parcelID,
     ParcelTable.PropertySaleTransactions,
   );
 export const fetchAssessmentAppealsRecords = (
-  parcelID: string,
+  parcelID: string | string[],
 ): Promise<APIResult<ArchiveAssessmentAppeal>> =>
   fetchParcelRecords<ArchiveAssessmentAppeal>(
     parcelID,
@@ -113,17 +112,17 @@ export const fetchAssessmentAppealsRecords = (
   );
 
 export const fetchPLIPermitRecords = (
-  parcelID: string,
+  parcelID: string | string[],
 ): Promise<APIResult<PLIPermit>> =>
   fetchParcelRecords<PLIPermit>(parcelID, ParcelTable.PLIPermit);
 
 export const fetchCityViolationsRecords = (
-  parcelID: string,
+  parcelID: string | string[],
 ): Promise<APIResult<CityViolation>> =>
   fetchParcelRecords<CityViolation>(parcelID, ParcelTable.CityViolations);
 
 export const fetchForeclosureFilingsRecords = (
-  parcelID: string,
+  parcelID: string | string[],
 ): Promise<APIResult<ForeclosureFiling>> =>
   fetchParcelRecords<ForeclosureFiling>(
     parcelID,
@@ -131,7 +130,7 @@ export const fetchForeclosureFilingsRecords = (
   );
 
 export const fetchTaxLiensWithCurrentStatusRecords = (
-  parcelID: string,
+  parcelID: string | string[],
 ): Promise<APIResult<TaxLienWithCurrentStatus>> =>
   fetchParcelRecords<TaxLienWithCurrentStatus>(
     parcelID,
@@ -139,7 +138,7 @@ export const fetchTaxLiensWithCurrentStatusRecords = (
   );
 
 export const fetchConservatorshipRecordRecords = (
-  parcelID: string,
+  parcelID: string | string[],
 ): Promise<APIResult<ConservatorshipRecord>> =>
   fetchParcelRecords<ConservatorshipRecord>(
     parcelID,
@@ -208,13 +207,12 @@ export async function geocodeParcel(
   init?: RequestInit,
 ): Promise<GeocodeResponse | null> {
   const sql = `
-  SELECT 
-    "PIN", 
-    ST_AsGeoJSON(ST_Centroid(_geom)) as centroid, 
-    ST_AsGeoJSON(ST_Envelope(_geom)) as bbox
-  FROM "parcel_boundaries"
-  WHERE "PIN" = '${parcelID}'
-  LIMIT 1
+      SELECT "PIN",
+             ST_AsGeoJSON(ST_Centroid(_geom)) as centroid,
+             ST_AsGeoJSON(ST_Envelope(_geom)) as bbox
+      FROM "parcel_boundaries"
+      WHERE "PIN" = '${parcelID}'
+      LIMIT 1
   `;
 
   const { records } = await fetchSQLSearch<{
@@ -227,11 +225,15 @@ export async function geocodeParcel(
   const record = records[0];
 
   const bboxPolygon: CoordinatePair[][] = (
-    JSON.parse(record.bbox) as { coordinates: CoordinatePair[][] }
+    JSON.parse(record.bbox) as {
+      coordinates: CoordinatePair[][];
+    }
   ).coordinates;
 
   const centroid: CoordinatePair = (
-    JSON.parse(record.centroid) as { coordinates: CoordinatePair }
+    JSON.parse(record.centroid) as {
+      coordinates: CoordinatePair;
+    }
   ).coordinates;
 
   return {

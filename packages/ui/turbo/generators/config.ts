@@ -42,7 +42,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       // append ui index
       {
         type: "append",
-        path: "src/index.tsx",
+        path: "src/index.ts",
         template: 'export * from "./components/{{kebabCase name}}";',
       },
     ],
