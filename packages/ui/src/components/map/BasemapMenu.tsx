@@ -2,8 +2,8 @@
 
 import type { Selection } from "react-aria-components";
 import { MenuTrigger } from "react-aria-components";
-import { GridMenu, GridMenuItem } from "../grid-menu";
 import { Button } from "../button";
+import { GridMenu, GridMenuItem } from "../grid-menu";
 import { Popover } from "../popover";
 import { basemaps } from "./basemaps";
 

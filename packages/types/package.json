@@ -21,8 +21,10 @@
   "dependencies": {
     "@maplibre/maplibre-gl-style-spec": "^20.3.1",
     "@react-types/shared": "^3.24.1",
+    "@strapi/strapi": "^5.0.3",
     "maplibre-gl": "^4.6.0",
-    "react-map-gl": "^7.1.7"
+    "react-map-gl": "^7.1.7",
+    "html-react-parser": "^5.1.16"
   },
   "devDependencies": {
     "@react-types/shared": "^3.24.1",

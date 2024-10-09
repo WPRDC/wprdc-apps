@@ -1,13 +1,3 @@
-import type {
-  ArchiveAssessmentAppeal,
-  CityViolation,
-  FiledAssessmentAppeal,
-  ForeclosureFiling,
-  PLIPermit,
-  PropertyAssessment,
-  PropertySaleTransaction,
-  TaxLienWithCurrentStatus,
-} from "@wprdc/types";
 import {
   fetchAssessmentAppealsRecords,
   fetchAssessmentRecord,
@@ -18,29 +8,39 @@ import {
   fetchPropertySaleTransactionsRecords,
   fetchTaxLiensWithCurrentStatusRecords,
 } from "@wprdc/api";
-import { type PropsWithChildren, Suspense } from "react";
+import type {
+  ArchiveAssessmentAppeal,
+  CityViolation,
+  FiledAssessmentAppeal,
+  ForeclosureFiling,
+  PLIPermit,
+  PropertyAssessment,
+  PropertySaleTransaction,
+  TaxLienWithCurrentStatus,
+} from "@wprdc/types";
+import { Suspense, type PropsWithChildren } from "react";
 import { twMerge } from "tailwind-merge";
 import { Heading } from "../../components";
 import {
   ConnectedSection,
   MultiConnectedSection,
 } from "./components/ConnectedSection";
-import { FiledAssessmentAppealsSection } from "./sections/FiledAssessmentAppealsSection";
-import { SalesSection } from "./sections/SalesSection";
-import { AssessmentAppealsSection } from "./sections/AssessmentAppealsSection";
 import { AssessedValuesSection } from "./sections/AssessedValuesSection";
-import { SubsidiesSection } from "./sections/SubsidiesSection";
-import { TaxContextSection } from "./sections/TaxContextSection";
-import { DwellingSection } from "./sections/DwellingSection";
-import { LotAreaSection } from "./sections/LotAreaSection";
+import { AssessmentAppealsSection } from "./sections/AssessmentAppealsSection";
 import { CityViolationsSection } from "./sections/CityViolationsSection";
-import { PLIPermitsSection } from "./sections/PLIPermitsSection";
-import { TaxLiensSection } from "./sections/TaxLIensSection";
+import { DwellingSection } from "./sections/DwellingSection";
+import { FiledAssessmentAppealsSection } from "./sections/FiledAssessmentAppealsSection";
 import { ForeclosureFilingSection } from "./sections/ForeclosureFilingsSection";
 import {
   HeadingSection,
   HeadingSectionSkeleton,
 } from "./sections/HeadingSection";
+import { LotAreaSection } from "./sections/LotAreaSection";
+import { PLIPermitsSection } from "./sections/PLIPermitsSection";
+import { SalesSection } from "./sections/SalesSection";
+import { SubsidiesSection } from "./sections/SubsidiesSection";
+import { TaxContextSection } from "./sections/TaxContextSection";
+import { TaxLiensSection } from "./sections/TaxLIensSection";
 
 export interface PropertyDashboardProps {
   parcelID?: string;

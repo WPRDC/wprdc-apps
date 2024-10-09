@@ -7,13 +7,13 @@
  **/
 "use client";
 
-import { GiHamburgerMenu } from "react-icons/gi";
-import { FaChevronUp } from "react-icons/fa6";
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
+import { FaChevronUp } from "react-icons/fa6";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { twMerge } from "tailwind-merge";
-import type { NavbarProps } from "./Navbar.types";
 import { Logo } from "./Logo";
+import type { NavbarProps } from "./Navbar.types";
 
 export function Navbar({
   logoSrc,

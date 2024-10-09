@@ -18,20 +18,6 @@ export function NavMap({ selectedParcel }: NavMapProps): React.ReactElement {
 
   const router = useRouter();
 
-  useEffect(() => {
-    if (selectedParcel)
-      void fetch(`/api/parcels/geocode/?pid=${selectedParcel}`)
-        .then((res) => res.json())
-        .then((data: GeocodeResponseBody) => {
-          if (data.bbox && mapRef.current) {
-            const map = mapRef.current.getMap();
-            map.fitBounds(data.bbox, {
-              padding: 50,
-            });
-          }
-        });
-  }, [selectedParcel]);
-
   return (
     <Map
       initialViewState={{ zoom: 15.5 }}

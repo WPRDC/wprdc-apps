@@ -5,10 +5,10 @@
  */
 "use client";
 
+import { useMemo } from "react";
 import { Breadcrumb as RABreadcrumb } from "react-aria-components";
 import { twMerge } from "tailwind-merge";
 import type { BreadCrumbProps } from "./Breadcrumbs.types";
-import { useMemo } from "react";
 
 export function Breadcrumb({
   className,

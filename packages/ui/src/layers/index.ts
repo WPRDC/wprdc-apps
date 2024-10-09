@@ -1,8 +1,8 @@
-import { pittsburghNeighborhoodLayer } from "./pittsburgh-neighborhoods";
-import { parcelLayer } from "./parcels";
-import { municipalities } from "./municipalities";
-import { pittsburghBoundary } from "./pittsburgh-boundary";
 import { alleghenyCountyBoundary } from "./allegheny-county-boundary";
+import { municipalities } from "./municipalities";
+import { parcelLayer } from "./parcels";
+import { pittsburghBoundary } from "./pittsburgh-boundary";
+import { pittsburghNeighborhoodLayer } from "./pittsburgh-neighborhoods";
 
 export * from "./pittsburgh-neighborhoods";
 export * from "./parcels";

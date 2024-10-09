@@ -1,10 +1,10 @@
-import type { BasemapOptions } from "./Map.types";
+import basic from "./images/basemaps/basic-close.jpg";
+import minimal from "./images/basemaps/minimal-close.jpg";
 import outdoors from "./images/basemaps/outdoors-close.jpg";
 import satellite from "./images/basemaps/satellite-close.jpg";
 import streets from "./images/basemaps/streets-close.jpg";
 import topo from "./images/basemaps/topo-close.jpg";
-import minimal from "./images/basemaps/minimal-close.jpg";
-import basic from "./images/basemaps/basic-close.jpg";
+import type { BasemapOptions } from "./Map.types";
 
 export const basemaps: Record<string, BasemapOptions> = {
   basic: {

@@ -1,8 +1,8 @@
 import type { PropertyAssessment } from "@wprdc/types";
 import { useMemo } from "react";
 import { Table } from "../../../components";
-import type { SectionProps } from "../types";
 import { formatDollars } from "../../../util";
+import type { SectionProps } from "../types";
 
 export function AssessedValuesSection({
   records,

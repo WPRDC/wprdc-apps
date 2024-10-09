@@ -7,8 +7,8 @@
  */
 "use client";
 
-import { twMerge } from "tailwind-merge";
 import { Heading as RAHeading } from "react-aria-components";
+import { twMerge } from "tailwind-merge";
 import type { HeadingProps } from "./Heading.types";
 
 export function Heading({

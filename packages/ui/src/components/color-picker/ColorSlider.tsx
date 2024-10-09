@@ -1,10 +1,10 @@
 "use client";
 
 import {
-  ColorSlider as RAColorSlider,
   Label,
-  SliderTrack,
+  ColorSlider as RAColorSlider,
   SliderOutput,
+  SliderTrack,
 } from "react-aria-components";
 import { twMerge } from "tailwind-merge";
 import { Typography } from "../typography";

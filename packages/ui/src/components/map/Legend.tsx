@@ -1,8 +1,8 @@
-import { PiLineSegmentsFill } from "react-icons/pi";
 import type { CategoryOptions, LayerConfig } from "@wprdc/types";
 import { GeoType, SymbologyMode } from "@wprdc/types";
-import { darken } from "./util";
+import { PiLineSegmentsFill } from "react-icons/pi";
 import type { LegendItemProps, LegendProps, LegendRowProps } from "./Map.types";
+import { darken } from "./util";
 
 export function Legend({ layers }: LegendProps): React.ReactElement | null {
   const filteredLayers = layers?.filter(

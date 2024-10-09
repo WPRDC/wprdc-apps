@@ -1,8 +1,5 @@
+import type { Municipality, Neighborhood } from "@wprdc/types";
 import type { MapGeoJSONFeature } from "react-map-gl/maplibre";
-import type {
-  Municipality,
-  Neighborhood,
-} from "@wprdc/types/src/models/admin-region";
 
 export function NeighborhoodPopupRow({
   feature,

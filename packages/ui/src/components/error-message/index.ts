@@ -1,2 +1,2 @@
-export * from  "./ErrorMessage";
-export * from  "./ErrorMessage.types";
+export * from "./ErrorMessage";
+export * from "./ErrorMessage.types";

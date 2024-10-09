@@ -1,9 +1,9 @@
+import { Spinner } from "../../components";
 import {
+  municipalities,
   parcelLayer,
   pittsburghNeighborhoodLayer,
-  municipalities,
 } from "../../layers";
-import { Spinner } from "../../components";
 
 export interface StatusOverlayProps {
   selectedFeatures: Record<string, string[]>;

@@ -19,7 +19,7 @@ export function isValidCKANResponse<T extends DatastoreRecord>(
 ): body is SearchResponseBody<T> {
   try {
     // we currently assume if the shared keys are there, the rest is correct
-    return !!(
+    return (
       Object.prototype.hasOwnProperty.call(body, "success") &&
       Object.prototype.hasOwnProperty.call(body, "help")
     );

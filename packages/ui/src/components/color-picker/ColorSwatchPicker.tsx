@@ -1,8 +1,8 @@
 "use client";
 
 import {
-  ColorSwatchPicker as RAColorSwatchPicker,
   ColorSwatchPickerItem,
+  ColorSwatchPicker as RAColorSwatchPicker,
 } from "react-aria-components";
 import { twMerge } from "tailwind-merge";
 import { type ColorSwatchPickerProps } from "./ColorPicker.types";
@@ -20,7 +20,7 @@ export function ColorSwatchPicker({
     >
       {colors.map((color) => (
         <ColorSwatchPickerItem
-          className="relative w-fit rounded border border-stone-700  outline-none  forced-color-adjust-none focus-visible:outline focus-visible:outline-blue-500"
+          className="relative w-fit rounded border border-stone-700 forced-color-adjust-none focus-visible:outline focus-visible:outline-blue-500"
           key={color.id}
           color={color.color}
         >

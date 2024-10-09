@@ -1,5 +1,5 @@
-import type { PropertyAssessment } from "@wprdc/types";
 import { fetchOwnerName } from "@wprdc/api";
+import type { PropertyAssessment } from "@wprdc/types";
 import { FieldValues } from "../../../components";
 
 export interface OwnerInfoProps {

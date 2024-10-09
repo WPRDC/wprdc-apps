@@ -1,5 +1,5 @@
-import { Source } from "react-map-gl/maplibre";
 import { GeoType } from "@wprdc/types";
+import { Source } from "react-map-gl/maplibre";
 import { CircleLayer } from "./layers/circle";
 import { LineLayer } from "./layers/line";
 import { PolygonLayer } from "./layers/polygon";

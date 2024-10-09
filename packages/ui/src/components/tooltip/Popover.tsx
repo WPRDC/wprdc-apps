@@ -12,18 +12,17 @@ interface PopoverProps extends Omit<RAPopoverProps, "children"> {
 export function Popover(props: PopoverProps): React.ReactElement {
   return (
     <RAPopover
-      className={({ isEntering, isExiting }) => `
-            group rounded-sm  bg-white p-3 ring-1 ring-black/10 drop-shadow-lg placement-top:mb-2 placement-bottom:mt-2
-            ${
-              isEntering
-                ? "animate-in fade-in placement-top:slide-in-from-bottom-1 placement-bottom:slide-in-from-top-1 duration-200 ease-out"
-                : ""
-            }
-            ${
-              isExiting
-                ? "animate-out fade-out placement-top:slide-out-to-bottom-1 placement-bottom:slide-out-to-top-1 duration-150 ease-in"
-                : ""
-            }`}
+      className={({ isEntering, isExiting }) =>
+        `group rounded-sm bg-white p-3 ring-1 ring-black/10 drop-shadow-lg placement-top:mb-2 placement-bottom:mt-2 ${
+          isEntering
+            ? "animate-in fade-in placement-top:slide-in-from-bottom-1 placement-bottom:slide-in-from-top-1 duration-200 ease-out"
+            : ""
+        } ${
+          isExiting
+            ? "animate-out fade-out placement-top:slide-out-to-bottom-1 placement-bottom:slide-out-to-top-1 duration-150 ease-in"
+            : ""
+        }`
+      }
     >
       <OverlayArrow>
         <svg
@@ -33,7 +32,7 @@ export function Popover(props: PopoverProps): React.ReactElement {
           <path d="M0 0L6 6L12 0" />
         </svg>
       </OverlayArrow>
-      <Dialog className="max-w-sm outline-none">{props.children}</Dialog>
+      <Dialog className="max-w-sm">{props.children}</Dialog>
     </RAPopover>
   );
 }

@@ -1,9 +1,9 @@
 import type { MapGeoJSONFeature } from "react-map-gl/maplibre";
-import { ParcelIndexPopupRow } from "./formats/parcel";
 import {
   MunicipalityPopupRow,
   NeighborhoodPopupRow,
 } from "./formats/admin-region";
+import { ParcelIndexPopupRow } from "./formats/parcel";
 
 export interface PopupRowProps {
   pID: string;

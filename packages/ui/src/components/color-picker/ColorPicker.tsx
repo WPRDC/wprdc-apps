@@ -9,20 +9,20 @@
  **/
 import * as React from "react";
 import {
-  ColorPicker as RAColorPicker,
   DialogTrigger,
   Popover,
+  ColorPicker as RAColorPicker,
 } from "react-aria-components";
 import { twMerge } from "tailwind-merge";
-import { Dialog } from "../dialog";
-import { Button } from "../button";
 import { defaultSwatchCollection } from "../../util/color";
+import { Button } from "../button";
+import { Dialog } from "../dialog";
 import { Typography } from "../typography";
-import type { ColorPickerProps } from "./ColorPicker.types";
-import { ColorSwatch } from "./ColorSwatch";
 import { ColorArea } from "./ColorArea";
-import { ColorSlider } from "./ColorSlider";
 import { ColorField } from "./ColorField";
+import type { ColorPickerProps } from "./ColorPicker.types";
+import { ColorSlider } from "./ColorSlider";
+import { ColorSwatch } from "./ColorSwatch";
 import { ColorSwatchPicker } from "./ColorSwatchPicker";
 
 export function ColorPicker({

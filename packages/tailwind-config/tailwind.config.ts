@@ -18,12 +18,12 @@ const config: Omit<Config, "content"> = {
         backgroundSecondary: colors.white,
         backgroundDark: colors.stone[900],
         backgroundSecondaryDark: colors.black,
-        focused: colors.cyan,
+        focused: colors.cyan["400"],
         error: colors.red,
         warning: colors.orange,
         text: colors.slate["700"],
         textDark: colors.slate["200"],
-        textSecondary: "#404040",
+        textSecondary: colors.stone["600"],
         textSecondaryDark: "#A3A3A3",
         border: colors.stone["700"],
         borderDark: colors.stone["300"],
@@ -71,7 +71,11 @@ const config: Omit<Config, "content"> = {
       },
     },
   },
-  plugins: [require("tailwindcss-react-aria-components")],
+  plugins: [
+    require("@tailwindcss/aspect-ratio"),
+    require("tailwindcss-react-aria-components"),
+    require("tailwindcss-animate"),
+  ],
   darkMode: "class",
 };
 export default config;

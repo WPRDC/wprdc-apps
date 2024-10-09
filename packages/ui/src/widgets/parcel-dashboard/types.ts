@@ -1,5 +1,5 @@
-import type { DatastoreRecord, FieldRecord, ParcelIndex } from "@wprdc/types";
 import type { APIResult } from "@wprdc/api";
+import type { DatastoreRecord, FieldRecord, ParcelIndex } from "@wprdc/types";
 import type { FC } from "react";
 
 export type SectionProps<

@@ -1,15 +1,15 @@
 import type { DataDrivenPropertyValueSpecification } from "@maplibre/maplibre-gl-style-spec";
 import type {
-  MapGeoJSONFeature,
-  MapLayerMouseEvent,
-} from "react-map-gl/maplibre";
-import type {
   InteractiveSymbologyProps,
   LayerConfig,
   MapState,
 } from "@wprdc/types";
 import { GeoType } from "@wprdc/types";
 import chroma from "chroma-js";
+import type {
+  MapGeoJSONFeature,
+  MapLayerMouseEvent,
+} from "react-map-gl/maplibre";
 
 export const darken =
   (amount?: number) =>

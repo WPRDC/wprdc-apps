@@ -3,13 +3,26 @@
  * Map types
  *
  **/
-import type * as React from "react";
+import type {
+  DrawCreateEvent,
+  DrawDeleteEvent,
+  DrawModeChangeEvent,
+  DrawUpdateEvent,
+} from "@mapbox/mapbox-gl-draw";
+import type MapboxDraw from "@mapbox/mapbox-gl-draw";
+import type {
+  ColorSpecification,
+  DataDrivenPropertyValueSpecification,
+} from "@maplibre/maplibre-gl-style-spec";
 import type {
   GeoType,
   LayerConfig,
   MapState,
   SelectionRecord,
 } from "@wprdc/types";
+import type * as React from "react";
+import { ReactNode } from "react";
+import type { Selection } from "react-aria-components";
 import type {
   ControlPosition,
   MapGeoJSONFeature,
@@ -18,18 +31,6 @@ import type {
   ViewState,
   ViewStateChangeEvent,
 } from "react-map-gl/maplibre";
-import type { Selection } from "react-aria-components";
-import type {
-  ColorSpecification,
-  DataDrivenPropertyValueSpecification,
-} from "@maplibre/maplibre-gl-style-spec";
-import type {
-  DrawCreateEvent,
-  DrawDeleteEvent,
-  DrawModeChangeEvent,
-  DrawUpdateEvent,
-} from "@mapbox/mapbox-gl-draw";
-import type MapboxDraw from "@mapbox/mapbox-gl-draw";
 
 export type MouseEventContext = MapState;
 
@@ -104,6 +105,9 @@ export interface MapProps {
 
   /** Manually specify interactive layers */
   interactiveLayerIDs?: string[];
+
+  /** Custom hover popup component */
+  hoverPopup?: ReactNode;
 }
 
 export interface BasemapOptions {

@@ -5,8 +5,8 @@
  *  Little bit of metadata.
  *
  */
-import { twMerge } from "tailwind-merge";
 import type { Size } from "@wprdc/types";
+import { twMerge } from "tailwind-merge";
 import type { TagProps } from "./Tag.types";
 
 export function Tag({

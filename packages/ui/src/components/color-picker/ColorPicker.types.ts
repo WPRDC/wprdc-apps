@@ -3,18 +3,18 @@
  * ColorPicker types
  *
  **/
+import { type Key } from "react";
 import type {
-  ColorPickerProps as RAColorPickerProps,
-  ColorAreaProps as RAColorAreaProps,
-  ColorSwatchProps as RAColorSwatchProps,
-  ColorSliderProps as RAColorSliderProps,
-  ColorFieldProps as RAColorFieldProps,
-  ColorSwatchPickerProps as RAColorSwatchPickerProps,
-  ColorThumbProps as RAColorThumbProps,
   ColorSwatchPickerItemProps,
+  ColorAreaProps as RAColorAreaProps,
+  ColorFieldProps as RAColorFieldProps,
+  ColorPickerProps as RAColorPickerProps,
+  ColorSliderProps as RAColorSliderProps,
+  ColorSwatchPickerProps as RAColorSwatchPickerProps,
+  ColorSwatchProps as RAColorSwatchProps,
+  ColorThumbProps as RAColorThumbProps,
   ValidationResult,
 } from "react-aria-components";
-import { type Key } from "react";
 
 export interface ColorPickerProps
   extends RAColorPickerProps,

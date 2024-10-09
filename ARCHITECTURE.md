@@ -7,7 +7,6 @@ This document will provide high-level design and code structure notes.
 The monorepo is maintained using Turborepo.
 It's recommended to explore the [Turborepo docs](https://turbo.build/repo/docs) in addition to this file.
 
-
 ## Directory Structure
 
 In general, each app and project will have a `src` directory for source code with configuration file at the project's
@@ -21,7 +20,6 @@ The [`/apps`](/apps) directory is where applications that use packages from `/pa
 
 The [`/packages`](/packages) directory is where shared libraries are kept, including shared configurations for tooling.
 
-
 ### Dependency graph
 
 ```
@@ -32,8 +30,8 @@ The [`/packages`](/packages) directory is where shared libraries are kept, inclu
 ------      -------      ˅ packages/ ˅
 | UI | <-↑<- | API |
 ------       -------
-   ↑     ↑      ↑ 
+   ↑     ↑      ↑
 ------------------
 |      Types     |
-------------------   
+------------------
 ```

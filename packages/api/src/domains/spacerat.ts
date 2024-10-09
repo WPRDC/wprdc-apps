@@ -1,4 +1,6 @@
-const HOST = process.env.SPACERAT_HOST ?? "http://127.0.0.1:5000";
+import { useEffect, useState } from "react";
+
+export const HOST = process.env.SPACERAT_HOST ?? "http://127.0.0.1:5000";
 
 export type SpaceRATAggregateStats =
   | ContinuousAggregateStatsRecord
@@ -139,6 +141,8 @@ export interface SpaceRATObject {
   name: string;
 }
 
+export type Described<T extends SpaceRATObject> = T & { description: string };
+
 async function _fetchObjects<T extends SpaceRATObject = SpaceRATObject>(
   obj: string,
   id = "",
@@ -185,19 +189,21 @@ export function fetchGeographies(): Promise<Geography[]> {
   return fetchObjects<Geography>("geography");
 }
 
-export function fetchMapConfig(id: string): Promise<MapConfig> {
-  return fetchObject<MapConfig>("maps", id);
+export function fetchMapSet(id: string): Promise<MapSet> {
+  return fetchObject<MapSet>("maps", id);
 }
-export function fetchMapConfigs(): Promise<MapConfig[]> {
-  return fetchObjects<MapConfig>("maps");
+export function fetchMapSets(): Promise<MapSet[]> {
+  return fetchObjects<MapSet>("maps");
 }
 
-export interface MapConfig extends SpaceRATObject {
+export type BreaksParams = Record<string, string>;
+
+export interface MapSet extends SpaceRATObject {
   /** Extra information about the map */
   description: string;
 
   /** Data source the map shows data from */
-  source: string;
+  source: Source;
 
   /** Available geographies */
   geographies: Geography[];
@@ -213,12 +219,97 @@ export interface MapConfig extends SpaceRATObject {
 }
 
 export interface VariantRecord {
+  name: string;
+  description: string;
+
   /** Maps geography IDs to tilesjsons of this map's data at that geography */
   tilejsons: Record<string, string>;
   /** Extra questions  for the variant */
-  questions: SpaceRATObject[];
+  questions: Question[];
 }
 
+export type SpaceRATDataType = "boolean" | "continuous" | "discrete" | "date";
+
+export type SpaceRATValueFormat =
+  | "number"
+  | "raw"
+  | "money"
+  | "date"
+  | "datetime"
+  | "isodatetime"
+  | "percent"
+  | "scientific";
+
 export type Geography = SpaceRATObject;
-export type Question = SpaceRATObject;
-export type Source = SpaceRATObject;
+export type Question = SpaceRATObject & {
+  datatype: SpaceRATDataType;
+  format: SpaceRATValueFormat;
+  description: string;
+};
+export type Source = SpaceRATObject & {
+  table: string;
+  spatial_resolution: string;
+  spatial_domain: string;
+  temporal_resolution: string;
+  temporal_domain_name: string;
+  temporal_domain_start: string;
+  temporal_domain_end: string;
+  region_select: string;
+  time_select: string;
+};
+
+interface HookResult<T> {
+  isLoading?: boolean;
+  data?: T;
+  error?: string;
+}
+
+export function useSpaceratModel<T extends SpaceRATObject>(
+  fetcher: (id: string) => Promise<T>,
+  id: string,
+): HookResult<T> {
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<T>();
+  const [error, setError] = useState<string>();
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetcher(id).then((s: T) => {
+      setData(s);
+      setIsLoading(false);
+    }, console.error);
+  }, [id]);
+
+  return {
+    isLoading,
+    data,
+    error,
+  };
+}
+
+export function formatValue(
+  value: string | number,
+  format: SpaceRATValueFormat,
+): string {
+  switch (format) {
+    case "money":
+      return Number(value).toLocaleString("en-US", {
+        currency: "USD",
+        style: "currency",
+      });
+    case "date":
+      return new Date(value).toLocaleDateString("en-US");
+    case "datetime":
+      return new Date(value).toLocaleString("en-US");
+    case "isodatetime":
+      return new Date(value).toISOString();
+    case "percent":
+      return Number(value).toLocaleString("en-US", { style: "percent" });
+    case "scientific":
+      return Number(value).toExponential();
+    case "number":
+      return Number(value).toLocaleString("en-US");
+    case "raw":
+      return value.toString();
+  }
+}

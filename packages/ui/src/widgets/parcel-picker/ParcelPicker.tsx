@@ -1,30 +1,30 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import type { MapGeoJSONFeature } from "react-map-gl/maplibre";
+import type { DrawMode } from "@mapbox/mapbox-gl-draw";
 import type {
   GeoJSONFeature,
   InteractiveSymbologyProps,
   LayerConfig,
 } from "@wprdc/types";
 import type { Polygon } from "geojson";
-import type { DrawMode } from "@mapbox/mapbox-gl-draw";
+import { useCallback, useEffect, useState } from "react";
+import type { MapGeoJSONFeature } from "react-map-gl/maplibre";
 import { twMerge } from "tailwind-merge";
+import type { DrawEvent } from "../../components";
+import { Map } from "../../components";
 import {
-  alleghenyCountyBoundary,
   municipalities as _municipalities,
+  alleghenyCountyBoundary,
   parcelLayer,
   pittsburghBoundary,
   pittsburghNeighborhoodLayer,
 } from "../../layers";
-import type { DrawEvent } from "../../components";
-import { Map } from "../../components";
 import { flattenPolygons } from "../../util/geo";
+import { ModeOverlay } from "./ModeOverlay";
 import type {
   ParcelPickerProps,
   ParcelSelectionOptions,
 } from "./ParcelPicker.types";
-import { ModeOverlay } from "./ModeOverlay";
 
 const municipalities: LayerConfig<InteractiveSymbologyProps> = {
   ..._municipalities,

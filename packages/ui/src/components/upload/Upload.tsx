@@ -7,16 +7,16 @@
  **/
 "use client";
 
+import { type DropEvent } from "@react-types/shared";
+import { useState } from "react";
 import {
   DropZone,
-  type FileDropItem,
   FileTrigger,
   Text,
+  type FileDropItem,
 } from "react-aria-components";
-import { useState } from "react";
-import { type DropEvent } from "@react-types/shared";
-import { twMerge } from "tailwind-merge";
 import { TbUpload } from "react-icons/tb";
+import { twMerge } from "tailwind-merge";
 import { Button } from "../button";
 import { Typography } from "../typography";
 import { type UploadProps } from "./Upload.types";

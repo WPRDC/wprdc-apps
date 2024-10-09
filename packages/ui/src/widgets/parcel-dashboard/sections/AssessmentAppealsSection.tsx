@@ -1,8 +1,8 @@
 import type { ArchiveAssessmentAppeal } from "@wprdc/types";
 import { FieldValues, Typography } from "../../../components";
+import { formatDollars } from "../../../util";
 import { RecordSection } from "../components/RecordSection";
 import type { SectionProps } from "../types";
-import { formatDollars } from "../../../util";
 
 export function AssessmentAppealsSection({
   fields,

@@ -1,14 +1,14 @@
-import type { ParcelBoundary, PropertyAssessment } from "@wprdc/types";
-import { Suspense } from "react";
 import {
-  type APIResult,
   fetchAssessmentRecord,
   fetchParcelBoundariesRecord,
+  type APIResult,
 } from "@wprdc/api";
-import { HeroImage } from "../components/HeroImage";
+import type { ParcelBoundary, PropertyAssessment } from "@wprdc/types";
+import { Suspense } from "react";
+import { A, Bone, FieldValues } from "../../../components";
 import { makeAssessmentAddress } from "../../../util";
 import { ClassChip } from "../components/ClassChip";
-import { A, Bone, FieldValues } from "../../../components";
+import { HeroImage } from "../components/HeroImage";
 import { OwnerInfo } from "./OwnerInfo";
 
 interface HeadingSectionProps {

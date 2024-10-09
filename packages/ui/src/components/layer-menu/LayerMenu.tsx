@@ -7,9 +7,9 @@
  * Menu for users to define style and data properties for a map layer.
  *
  **/
+import { GeoType, SymbologyMode, type LayerConfig } from "@wprdc/types";
 import * as React from "react";
-import { type Reducer, useId, useReducer } from "react";
-import { GeoType, type LayerConfig, SymbologyMode } from "@wprdc/types";
+import { useId, useReducer, type Reducer } from "react";
 import { ColorPicker } from "../color-picker";
 import { Heading } from "../heading";
 import type { LayerMenuProps } from "./LayerMenu.types";

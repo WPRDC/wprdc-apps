@@ -3,9 +3,9 @@
  * Navbar types
  *
  **/
+import type { StaticImport } from "next/dist/shared/lib/get-img-props";
 import type { ImageProps } from "next/image";
 import type Image from "next/image";
-import type { StaticImport } from "next/dist/shared/lib/get-img-props";
 import type { ReactNode } from "react";
 
 type Source = (string | undefined) & (string | StaticImport);

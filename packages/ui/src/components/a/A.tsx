@@ -6,38 +6,57 @@
  *
  **/
 "use client";
-import { Link } from "react-aria-components";
-import { twMerge } from "tailwind-merge";
+
+import { type UrlObject } from "node:url";
+import Link from "next/link";
 import { TbExternalLink } from "react-icons/tb";
+import { twMerge } from "tailwind-merge";
+import { buttonBaseStyle, buttonVariants } from "../button";
 import type { AProps } from "./A.types";
+
+function isExternalLink(href: string | UrlObject): boolean {
+  const url = String(href);
+  if (url.startsWith("http:") || url.startsWith("https:")) {
+    // don't count other *.wprdc.org sites
+    return !url.includes(".wprdc.org");
+  }
+  return false;
+}
 
 export function A({
   href = "",
   children,
   className,
+  variant,
+  buttonVariant,
   ...props
 }: AProps): React.ReactElement {
-  const isExternalLink = href.startsWith("http") || href.startsWith("https:");
+  const isExternal = isExternalLink(href);
+
   const link = (
     <Link
       className={twMerge(
-        "inline font-semibold underline hover:bg-primary",
+        variant === "button"
+          ? `block w-fit ${buttonBaseStyle} ${buttonVariants[buttonVariant ?? "default"]}`
+          : "inline font-semibold underline hover:bg-primary",
         className,
       )}
       href={href}
+      target={isExternal ? "_blank" : undefined}
       {...props}
     >
       {children}
     </Link>
   );
 
-  if (isExternalLink) {
+  if (isExternal) {
     return (
-      <div>
-        {link}
-        <TbExternalLink className="inline size-2.5" />
-      </div>
+      <span>
+        <span className="">{link}</span>
+        <TbExternalLink className="inline-block text-xs" />
+      </span>
     );
   }
+
   return link;
 }

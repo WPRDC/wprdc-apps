@@ -1,15 +1,15 @@
 import { type NextRequest, NextResponse } from "next/server";
 import {
   fetchSpaceratQuery,
-  type SpaceratParams,
-  type SpaceratResponse,
+  SpaceRATParams,
+  SpaceRATResponse,
 } from "@wprdc/api";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: SpaceratParams },
-) {
-  const response = await fetchSpaceratQuery(params);
+export async function GET(request: NextRequest): Promise<NextResponse> {
+  const searchParams = request.nextUrl.searchParams;
+  const response = await fetchSpaceratQuery(
+    Object.fromEntries(searchParams) as SpaceRATParams,
+  );
 
-  return NextResponse.json<SpaceratResponse>(response);
+  return NextResponse.json<SpaceRATResponse>(response);
 }

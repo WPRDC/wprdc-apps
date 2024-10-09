@@ -1,7 +1,7 @@
 "use client";
 
-import { ListBoxItem, Text } from "react-aria-components";
 import type { DatastoreRecord } from "@wprdc/types";
+import { ListBoxItem, Text } from "react-aria-components";
 import { InfoTooltip } from "../../components";
 import type { FieldPickerItemProps } from "./types";
 
@@ -16,9 +16,9 @@ export function FieldPickerItem<T extends DatastoreRecord = DatastoreRecord>({
     <ListBoxItem
       {...props}
       className={
-        "group flex border border-transparent px-1.5 py-1.5 outline-none " +
+        "group flex border border-transparent px-1.5 py-1.5 " +
         "hover:bg-stone-100 focus:border-blue-600 focus:bg-stone-100 focus:ring-1 focus:ring-blue-600" +
-        "selected:border-gray-400 selected:bg-sky-300/30 " +
+        "selected:border-gray-400 selected:bg-sky-300/30" +
         "selected:hover:bg-sky-300/50 selected:focus:border-blue-600 selected:focus:bg-sky-300/70"
       }
       textValue={fieldName}

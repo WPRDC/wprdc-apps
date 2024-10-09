@@ -10,8 +10,8 @@
 import {
   Input,
   Label,
-  TextArea,
   TextField as RATextField,
+  TextArea,
 } from "react-aria-components";
 import { twMerge } from "tailwind-merge";
 import { Typography } from "../typography";

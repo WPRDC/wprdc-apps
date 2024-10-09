@@ -1,10 +1,11 @@
 "use client";
-import { Button, DialogTrigger, Header } from "react-aria-components";
-import { TiInfoLarge as InfoIcon } from "react-icons/ti";
+
 import React from "react";
+import { Button, DialogTrigger, Header } from "react-aria-components";
 import { BiInfoCircle } from "react-icons/bi";
-import { Popover } from "./Popover";
+import { TiInfoLarge as InfoIcon } from "react-icons/ti";
 import type { InfoTooltipProps } from "./InfoTooltip.types";
+import { Popover } from "./Popover";
 
 export function InfoTooltip({
   info,

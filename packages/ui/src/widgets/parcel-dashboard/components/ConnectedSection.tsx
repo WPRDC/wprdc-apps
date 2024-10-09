@@ -1,6 +1,6 @@
+import type { APIResult } from "@wprdc/api";
 import type { DatastoreRecord } from "@wprdc/types";
 import { Suspense } from "react";
-import type { APIResult } from "@wprdc/api";
 import { Typography } from "../../../components";
 import type {
   ConnectedSectionProps,

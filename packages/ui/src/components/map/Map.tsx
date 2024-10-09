@@ -7,6 +7,12 @@
  **/
 "use client";
 
+import type {
+  InteractiveSymbologyProps,
+  LayerConfig,
+  MapState,
+} from "@wprdc/types";
+import { SymbologyMode } from "@wprdc/types";
 import {
   forwardRef,
   useCallback,
@@ -15,6 +21,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { TbToggleLeft, TbToggleRightFilled } from "react-icons/tb";
 import type {
   MapGeoJSONFeature,
   MapLayerMouseEvent,
@@ -23,23 +30,16 @@ import type {
   ViewStateChangeEvent,
 } from "react-map-gl/maplibre";
 import ReactMapGL, { NavigationControl } from "react-map-gl/maplibre";
-import type {
-  InteractiveSymbologyProps,
-  LayerConfig,
-  MapState,
-} from "@wprdc/types";
-import { SymbologyMode } from "@wprdc/types";
 import { twMerge } from "tailwind-merge";
-import { TbToggleLeft, TbToggleRightFilled } from "react-icons/tb";
 import { Button } from "../button";
 import { BasemapMenu } from "./BasemapMenu";
-import { LayerGroup } from "./LayerGroup";
-import { extractFeatures } from "./util";
-import { Legend } from "./Legend";
 import { basemaps } from "./basemaps";
-import type { MapProps } from "./Map.types";
 import DrawControl from "./DrawControl";
-import { ClickPopup, HoverPopup } from "./popup";
+import { LayerGroup } from "./LayerGroup";
+import { Legend } from "./Legend";
+import type { MapProps } from "./Map.types";
+import { ClickPopup, HoverPopup, SimplePopupWrapper } from "./popup";
+import { extractFeatures } from "./util";
 
 const DEFAULT_MIN_ZOOM = 9;
 const DEFAULT_MAX_ZOOM = 22;
@@ -70,6 +70,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     withScrollZoomControl = false,
     defaultScrollZoom = false,
     interactiveLayerIDs: manualInteractiveLayerIDs = [],
+    hoverPopup: customHoverPopup,
   },
   ref,
 ): React.ReactElement {
@@ -77,7 +78,9 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
   const mapRef = ref ?? _mapRef;
 
   const [basemap, setBasemap] = useState<keyof typeof basemaps>("basic");
-  const [zoomText, setZoomText] = useState<string>(DEFAULT_ZOOM.toFixed(2));
+  const [zoomText, setZoomText] = useState<string>(
+    (initialViewState?.zoom ?? DEFAULT_ZOOM).toFixed(2),
+  );
 
   const [scrollZoomButtonActive, setScrollZoomButtonActive] =
     useState<boolean>(false);
@@ -266,7 +269,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       initialViewState={{
         longitude: DEFAULT_LONGITUDE,
         latitude: DEFAULT_LATITUDE,
-        zoom: DEFAULT_ZOOM,
+        zoom: initialViewState?.zoom ?? DEFAULT_ZOOM,
         ...initialViewState,
       }}
       interactive
@@ -363,7 +366,8 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
           />
         ))}
 
-      {!!hoveredFeatures?.length &&
+      {customHoverPopup === undefined &&
+        !!hoveredFeatures?.length &&
         !!hoveredPoint &&
         !(!!clickedFeatures?.length && !!clickedPoint) && (
           <HoverPopup
@@ -372,6 +376,12 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
             point={hoveredPoint}
           />
         )}
+
+      {!!customHoverPopup && !!hoveredPoint && hoveredFeatures && (
+        <SimplePopupWrapper point={hoveredPoint}>
+          {customHoverPopup}
+        </SimplePopupWrapper>
+      )}
 
       {!!clickedFeatures?.length && !!clickedPoint && (
         <ClickPopup

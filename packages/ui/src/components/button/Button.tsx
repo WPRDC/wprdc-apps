@@ -6,9 +6,27 @@
  *
  */
 "use client";
-import { twMerge } from "tailwind-merge";
+
 import { Button as RAButton } from "react-aria-components";
-import type { ButtonProps } from "./Button.types";
+import { twMerge } from "tailwind-merge";
+import { tw } from "../../util";
+import type { ButtonProps, ButtonVariant } from "./Button.types";
+
+// export styles for use with other components
+export const buttonBaseStyle = tw`focus-visible:ring-focused cursor-pointer rounded border px-1 py-1 font-mono text-sm font-semibold uppercase leading-none shadow active:shadow-sm hover:shadow-md focus-visible:ring-2`;
+export const buttonVariants: Record<ButtonVariant, string> = {
+  primary: tw`border-2 border-text bg-primary text-text dark:border-text`,
+  success: tw`"border-green-900 bg-green-800 text-white`,
+  secondary: tw`border-2 border-text bg-primary text-text`,
+  borderless: tw`border-none bg-transparent text-text shadow-none hover:shadow-none`,
+  default: tw`border-stone-800 bg-white text-text`,
+  warning: tw`border-warning-800 bg-warning-300 text-black`,
+  danger: tw`border-red-900 bg-red-800 text-white`,
+  info: tw`border-indigo-800 bg-indigo-300 text-black`,
+};
+
+export const buttonDisabledStyle = tw`cursor-not-allowed bg-gray-100 text-gray-500`;
+export const buttonDenseStyle = tw`rounded-sm px-0.5 py-0 text-xs shadow-none hover:shadow-sm`;
 
 export function Button({
   dense,
@@ -21,17 +39,10 @@ export function Button({
     <RAButton
       {...buttonProps}
       className={twMerge(
-        "rounded border border-stone-800 bg-background",
-        "font-mono font-semibold uppercase",
-        "shadow active:shadow-sm hover:shadow-md",
-        "leading-none transition delay-75",
-        variant === "success" && "border-green-900 bg-green-800 text-white",
-        dense
-          ? "rounded-sm px-0.5 py-0 text-xs shadow-none hover:shadow-sm"
-          : "px-1 py-1 text-sm",
-        buttonProps.isDisabled
-          ? "cursor-not-allowed bg-gray-100 text-gray-500"
-          : "cursor-pointer",
+        buttonBaseStyle,
+        buttonVariants[variant ?? "default"],
+        dense && buttonDenseStyle,
+        buttonProps.isDisabled && buttonDisabledStyle,
         className,
       )}
     >

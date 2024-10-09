@@ -1,2 +1,2 @@
-export * from  "./NumberField";
-export * from  "./NumberField.types";
+export * from "./NumberField";
+export * from "./NumberField.types";

@@ -20,7 +20,7 @@ export function Dialog({
     <RADialog
       {...props}
       className={twMerge(
-        "relative rounded-md border border-black p-2 outline-none",
+        "relative rounded-md border border-black p-2",
         className,
       )}
     >

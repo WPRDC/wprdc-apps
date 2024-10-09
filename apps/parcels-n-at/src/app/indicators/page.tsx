@@ -1,21 +1,12 @@
-import {
-  type ContinuousAggregateStatsRecord,
-  fetchGeography,
-  fetchMapConfig,
-  fetchMapConfigs,
-  fetchQuestion,
-  fetchSpaceratQuery,
-  type QuestionRecord,
-  type SpaceRATResponse,
-} from "@wprdc/api";
-import { IndicatorMap } from "@/components/indicator-map";
+import { fetchMapSet, fetchMapSets } from "@wprdc/api";
+import { IndicatorMap, MapStats } from "@/components/indicator-map";
 
 interface SearchParams {
-  maps: string;
+  mapset: string;
   geog: string;
   variant: string;
   question: string;
-  stat: string;
+  stat?: keyof MapStats;
 }
 
 export default async function Page({
@@ -23,32 +14,20 @@ export default async function Page({
 }: {
   searchParams: SearchParams;
 }): Promise<React.ReactElement> {
-  const mapConfigs = await fetchMapConfigs();
-  const mapCollection = await fetchMapConfig(searchParams.maps);
-  const geog = await fetchGeography(searchParams.geog);
-  const question = await fetchQuestion(searchParams.question);
+  const { mapset, geog, variant, question, stat } = searchParams;
 
-  let response:
-    | SpaceRATResponse<QuestionRecord<ContinuousAggregateStatsRecord>>
-    | undefined;
-  if (searchParams.geog && searchParams.question && searchParams.variant) {
-    response = await fetchSpaceratQuery({
-      question: searchParams.question,
-      region: searchParams.geog,
-      variant: searchParams.variant,
-    });
-  }
+  const mapSets = await fetchMapSets();
+  const selectedMapSet = await fetchMapSet(mapset ?? mapSets[0].id);
 
   return (
-    <div className="w-full overflow-auto px-6">
+    <div className="w-full px-6">
       <IndicatorMap
-        availableMaps={mapConfigs}
-        map={mapCollection}
-        geog={geog}
-        variant={searchParams.variant}
-        question={question}
-        data={response}
-        stat={searchParams.stat}
+        availableMapsSets={mapSets}
+        selectedMapSet={selectedMapSet}
+        selectedGeogID={geog}
+        selectedVariantID={variant}
+        selectedQuestionID={question}
+        selectedStatID={stat}
       />
     </div>
   );

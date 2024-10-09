@@ -1,4 +1,4 @@
-import type { LayerConfig, InteractiveSymbologyProps } from "@wprdc/types";
+import type { InteractiveSymbologyProps, LayerConfig } from "@wprdc/types";
 import { GeoType, SymbologyMode } from "@wprdc/types";
 
 export const municipalities: LayerConfig<InteractiveSymbologyProps> = {

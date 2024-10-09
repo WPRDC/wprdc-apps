@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body,
+a {
+  @apply font-mono;
+}
+
+body {
+  @apply bg-background dark:bg-backgroundDark;
+  @apply text-text dark:text-textDark;
+}
+
+input {
+  @apply dark:bg-textSecondary dark:border-gray-900;
+}
+
+input::placeholder {
+  @apply text-green-600;
+}
+
+input[type='search']::-webkit-search-decoration,
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-results-button,
+input[type='search']::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+}
+
+.rendered-markdown p {
+  @apply my-3;
+  @apply font-sans;
+  @apply text-lg leading-relaxed;
+}

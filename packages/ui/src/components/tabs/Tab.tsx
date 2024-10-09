@@ -9,7 +9,7 @@ export function Tab({ className, ...props }: TabProps): React.ReactElement {
     <RATab
       {...props}
       className={twMerge(
-        "cursor-default rounded-t border-b-2 border-b-transparent px-3 py-0.5 font-mono text-lg font-semibold outline-none ring-blue-700 focus-visible:ring selected:border-stone-800 selected:bg-wprdc-200",
+        "cursor-default rounded-t border-b-2 border-b-transparent px-3 py-0.5 font-mono text-lg font-semibold ring-blue-700 focus-visible:ring selected:border-stone-800 selected:bg-wprdc-200",
         className,
       )}
     />

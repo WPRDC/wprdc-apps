@@ -1,10 +1,10 @@
+import type { DatastoreRecord, Value } from "@wprdc/types";
 import type { ReactElement } from "react";
 import React, { isValidElement } from "react";
 import { twMerge } from "tailwind-merge";
-import type { DatastoreRecord, Value } from "@wprdc/types";
-import { Typography } from "../typography";
-import { InfoTooltip } from "../tooltip";
 import { formatValue } from "../../util";
+import { InfoTooltip } from "../tooltip";
+import { Typography } from "../typography";
 import type { FieldValue, FieldValuesProps } from "./FieldValues.types";
 
 export function FieldValues<T extends DatastoreRecord>({

@@ -8,22 +8,22 @@ Before contributing, we encourage you to read our CONTRIBUTING policy (you are h
 
 Public Sans is a principles-driven open source typeface, maintained by the General Services Administration (GSA). We encourage contributions consistent with the project's design principles:
 
--   Be available as a free, open source webfont on any platform.
--   Use metrics similar to common system fonts for smoother progressive enhancement.
--   Have a broad range of weights and a good italic.
--   Perform well in headlines, text, and UI.
--   Be straightforward: have as few quirks as possible.
--   Have good multilingual support.
--   Allow for good data design with tabular figures.
--   Be strong and neutral.
--   Encourage continuous improvement — strive to be better, not necessarily perfect.
+- Be available as a free, open source webfont on any platform.
+- Use metrics similar to common system fonts for smoother progressive enhancement.
+- Have a broad range of weights and a good italic.
+- Perform well in headlines, text, and UI.
+- Be straightforward: have as few quirks as possible.
+- Have good multilingual support.
+- Allow for good data design with tabular figures.
+- Be strong and neutral.
+- Encourage continuous improvement — strive to be better, not necessarily perfect.
 
 We accept pull requests that improve Public Sans and are in the service of these design principles. We review all contributions for code quality and consistency and we may reject contributions that do not meet our standards for code quality or conform to our design principles. In addition a stylistic evaluation for consistency with these design principles, we will also evaluate all contributions for the following aspects of code quality:
 
--   Compiles without errors
--   Passes code scanning and continuous integration tests
--   Is legible and understandable
--   Is consistent with the existing codebase
+- Compiles without errors
+- Passes code scanning and continuous integration tests
+- Is legible and understandable
+- Is consistent with the existing codebase
 
 Any contributors will be responsible for updating `AUTHORS.txt` and `CONTRIBUTORS.txt` as necessary. We'll review these files as part of the code review process.
 
@@ -39,7 +39,7 @@ Public Sans is licensed under the [SIL Open Font License, Version 1.1](https://s
 
 License of USWDS’s Modified Version is based on the [SIL Open Font License, Version 1.1](https://github.com/uswds/public-sans/blob/master/LICENSE.md#sil-open-font-license-version-11) section of [LICENSE.md](https://github.com/uswds/public-sans/blob/master/LICENSE.md). The terms and conditions for modifications made to the original font by USWDS in the USWDS Modified Version can be found at https://github.com/uswds/public-sans/blob/master/LICENSE.md.
 
-By submitting a pull request, you agree to comply with the terms and conditions of the SIL Open Font License, Version 1.1. 
+By submitting a pull request, you agree to comply with the terms and conditions of the SIL Open Font License, Version 1.1.
 
 Public Sans is a GSA project. While GSA's contributions are not subject to copyright in the United States, contributors must license new contributions and derivative works under the SIL Open Font License, Version 1.1, as required under Section 5 of the SIL Open Font License, Version 1.1.
 
@@ -48,6 +48,7 @@ Public Sans is a GSA project. While GSA's contributions are not subject to copyr
 This package has been updated to use [Python 3](https://www.python.org/downloads/) and [Docker](https://www.docker.com/get-started). You'll need to install Docker to run the build script and build the font. Docker will take care of all the Python dependencies.
 
 ### Run build
+
 ```sh
 npm run build
 ```

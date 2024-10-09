@@ -1,13 +1,13 @@
 "use client";
 
 import type { DatastoreRecord } from "@wprdc/types";
+import { useMemo, useState } from "react";
 import type { Selection } from "react-aria-components";
 import { Group, Label, ListBox } from "react-aria-components";
-import { useMemo, useState } from "react";
 import { TbCheck, TbX } from "react-icons/tb";
 import { Button, Typography } from "../../components";
-import type { FieldPickerProps } from "./types";
 import { FieldPickerItem } from "./FieldPickerItem";
+import type { FieldPickerProps } from "./types";
 
 export function FieldPicker<T extends DatastoreRecord>({
   fields,

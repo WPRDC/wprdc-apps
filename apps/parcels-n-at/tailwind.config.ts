@@ -1,7 +1,5 @@
-// tailwind config is required for editor support
-
 import type { Config } from "tailwindcss";
-import sharedConfig from "@wprdc/tailwind-config/tailwind.config";
+import sharedConfig from "@wprdc/tailwind-config";
 
 const config: Pick<Config, "content" | "presets" | "plugins"> = {
   content: [

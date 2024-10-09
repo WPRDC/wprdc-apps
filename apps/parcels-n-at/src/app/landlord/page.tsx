@@ -3,6 +3,7 @@ import {
   fetchCityViolationsRecords,
   fetchOwnerName,
   fetchSpaceratQuery,
+  type QuestionRecord,
   type SpaceRATResponse,
 } from "@wprdc/api";
 import { type ReactNode } from "react";
@@ -13,7 +14,6 @@ import {
   type FieldRecord,
 } from "@wprdc/types";
 import { Tab, TabList, TabPanel, Tabs } from "@wprdc/ui";
-import { type QuestionRecord } from "@wprdc/api/src";
 import { Chart } from "@/components/chart";
 
 function groupByParcel<T extends DatastoreRecord>(
@@ -182,7 +182,7 @@ interface ValueDisplayProps {
 
 function ValueDisplay({ label, value }: ValueDisplayProps): React.ReactElement {
   return (
-    <dl className="py-2 ">
+    <dl className="py-2">
       <dd className="text-sm">{label}</dd>
       <dt className="font-mono text-4xl font-bold">{value}</dt>
     </dl>
@@ -213,7 +213,7 @@ function ViolationsDisplay(props: ViolationsDisplayProps): React.ReactElement {
 
       {Object.entries(byCaseFile).map(([cfn, violations]) => (
         <TabPanel key={cfn} id={cfn}>
-          <dl className=" mb-2">
+          <dl className="mb-2">
             <dt className="text-xs font-semibold text-stone-700">
               Case File #
             </dt>
@@ -224,7 +224,7 @@ function ViolationsDisplay(props: ViolationsDisplayProps): React.ReactElement {
             <dt className="text-xs font-semibold text-stone-700">
               Code Section
             </dt>
-            <dd className="font-mono ">
+            <dd className="font-mono">
               {violations[0].violation_code_section}
             </dd>
           </dl>
@@ -267,7 +267,7 @@ function ViolationCard({ violation }: ViolationCardProps): React.ReactElement {
       <dl>
         <div className="pb-2">
           <dt className="text-sm font-semibold">Findings</dt>
-          <dd className="font-mono  text-xs">
+          <dd className="font-mono text-xs">
             {violation.investigation_findings}
           </dd>
         </div>

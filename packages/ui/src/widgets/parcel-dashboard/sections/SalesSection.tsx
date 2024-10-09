@@ -1,7 +1,7 @@
 import type { PropertyAssessment, PropertySaleTransaction } from "@wprdc/types";
 import { InfoTooltip, Typography } from "../../../components";
-import type { MultiSourceSectionProps } from "../types";
 import { formatDate, formatDollars } from "../../../util";
+import type { MultiSourceSectionProps } from "../types";
 
 interface SimpleSalesRecord {
   date: string;

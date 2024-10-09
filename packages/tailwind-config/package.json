@@ -3,15 +3,17 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./tailwind.config": "./tailwind.config.ts"
+    ".": "./tailwind.config.ts"
   },
   "scripts": {
     "update": "pnpm update"
   },
   "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/node": "^22.5.4",
     "@wprdc/typescript-config": "workspace:*",
     "tailwindcss": "^3.4.10",
+    "tailwindcss-animate": "^1.0.7",
     "tailwindcss-react-aria-components": "^1.1.5"
   }
 }

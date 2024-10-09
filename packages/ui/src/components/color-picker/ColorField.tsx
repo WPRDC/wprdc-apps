@@ -6,8 +6,8 @@ import {
   ColorField as RAColorField,
   Text,
 } from "react-aria-components";
-import { Typography } from "../typography";
 import { Input } from "../input";
+import { Typography } from "../typography";
 import { type ColorFieldProps } from "./ColorPicker.types";
 
 export function ColorField({

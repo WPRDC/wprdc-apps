@@ -1,10 +1,10 @@
-import { twMerge } from "tailwind-merge";
 import {
   PiCheckFatFill,
   PiWarningCircleDuotone,
   PiWarningDuotone,
   PiWarningOctagonDuotone,
 } from "react-icons/pi";
+import { twMerge } from "tailwind-merge";
 import { InfoTooltip } from "../tooltip";
 import type { ChipProps } from "./Chip.types";
 

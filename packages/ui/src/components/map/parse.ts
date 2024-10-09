@@ -1,5 +1,11 @@
+import type {
+  DataDrivenPropertyValueSpecification,
+  ExpressionSpecification,
+  SourceFunctionSpecification,
+} from "@maplibre/maplibre-gl-style-spec";
 import {
   GeoType,
+  SymbologyMode,
   type InteractiveOption,
   type InteractiveSymbologyProps,
   type LayerConfig,
@@ -7,14 +13,9 @@ import {
   type QualitativeSymbologyProps,
   type StyleOption,
   type StyleValue,
-  SymbologyMode,
   type ZoomOption,
 } from "@wprdc/types";
-import type {
-  DataDrivenPropertyValueSpecification,
-  ExpressionSpecification,
-  SourceFunctionSpecification,
-} from "@maplibre/maplibre-gl-style-spec";
+import type { ParseResults } from "./Map.types";
 import {
   darken,
   DEFAULT_BORDER_WIDTH,
@@ -26,7 +27,6 @@ import {
   getPrimaryHoveredID,
   getSelectedID,
 } from "./util";
-import type { ParseResults } from "./Map.types";
 
 /**
  * Converts our layer configuration to maplibre expressions.

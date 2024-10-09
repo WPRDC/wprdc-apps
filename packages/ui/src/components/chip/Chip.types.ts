@@ -1,5 +1,5 @@
-import type { IconType } from "react-icons/lib";
 import type { ReactNode } from "react";
+import type { IconType } from "react-icons/lib";
 
 export interface ChipProps {
   label: string;

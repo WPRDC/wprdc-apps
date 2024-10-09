@@ -1,6 +1,6 @@
 import type { PropertyAssessment } from "@wprdc/types";
-import { TbHomeHeart, TbLeaf, TbPigMoney } from "react-icons/tb";
 import { GiFarmTractor } from "react-icons/gi";
+import { TbHomeHeart, TbLeaf, TbPigMoney } from "react-icons/tb";
 import { Chip, Typography } from "../../../components";
 import type { SectionProps } from "../types";
 

@@ -1,5 +1,5 @@
-import type { ReactElement, ReactNode } from "react";
 import type { DatastoreRecord, FieldRecord, Value } from "@wprdc/types";
+import type { ReactElement, ReactNode } from "react";
 
 export interface FieldValue {
   id: number | string;

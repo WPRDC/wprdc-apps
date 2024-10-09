@@ -1,5 +1,5 @@
-import type { MapGeoJSONFeature } from "react-map-gl/maplibre";
 import type { ParcelIndex } from "@wprdc/types";
+import type { MapGeoJSONFeature } from "react-map-gl/maplibre";
 import { makeAddress } from "../../../../util";
 
 export function ParcelIndexPopupRow({

@@ -1,7 +1,8 @@
 "use client";
 
-import { TbSquareRoundedChevronDown, TbX } from "react-icons/tb";
+import { PropsWithChildren } from "react";
 import { Button } from "react-aria-components";
+import { TbSquareRoundedChevronDown, TbX } from "react-icons/tb";
 import type { ClickPopupProps, PopupProps } from "../Map.types";
 import { PopupRow } from "./PopupRow";
 
@@ -24,7 +25,7 @@ export function HoverPopup({
         {features.map((feature, i) => (
           <div className="px-1" key={feature.id}>
             {!!i && (
-              <div className="flex items-center ">
+              <div className="flex items-center">
                 <div className="w-8 border-t border-stone-700" />
                 <div className="mx-1 w-fit flex-shrink italic leading-none">
                   and
@@ -87,6 +88,20 @@ export function ClickPopup({
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+export function SimplePopupWrapper({
+  children,
+  point,
+}: PropsWithChildren<{ point: PopupProps["point"] }>): React.ReactElement {
+  return (
+    <div
+      className="pointer-events-none absolute border-2 border-black/40 bg-white/80 backdrop-blur-md"
+      style={{ left: point.x + 12, top: point.y + 12 }}
+    >
+      {children}
     </div>
   );
 }

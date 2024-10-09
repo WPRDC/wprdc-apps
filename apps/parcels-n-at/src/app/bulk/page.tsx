@@ -120,11 +120,11 @@ export default function Page(): React.ReactElement {
 
   const downloadEnabled = useMemo(
     () =>
-      (Boolean(parcelsSelected) ||
-        Boolean(neighborhoodsSelected) ||
-        Boolean(municipalitiesSelected) ||
-        Boolean(drawnCount)) &&
-      Boolean(fieldsSelected),
+      (!!parcelsSelected ||
+        !!neighborhoodsSelected ||
+        !!municipalitiesSelected ||
+        !!drawnCount) &&
+      !!fieldsSelected,
     [
       drawnCount,
       fieldsSelected,
@@ -229,7 +229,7 @@ export default function Page(): React.ReactElement {
           <div className="px-9 pb-2 text-lg font-medium">
             Select all fields you want in your download.
           </div>
-          <div className="overflow-auto pl-9 ">
+          <div className="overflow-auto pl-9">
             <FieldMenu
               datasets={datasets}
               onSelectionChange={setFieldSelection}

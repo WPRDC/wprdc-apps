@@ -5,19 +5,19 @@
  * Data type icon
  *
  **/
+import { DataType } from "@wprdc/types";
 import * as React from "react";
+import type { IconType } from "react-icons";
 import {
-  TbNumbers,
   TbAbc,
   TbCalendar,
   TbCalendarTime,
   TbClock,
   TbDecimal,
   TbMap,
+  TbNumbers,
   TbQuestionMark,
 } from "react-icons/tb";
-import { DataType } from "@wprdc/types";
-import type { IconType } from "react-icons";
 import { twMerge } from "tailwind-merge";
 import type { DataTypeIconProps } from "./DataTypeIcon.types";
 

@@ -1,14 +1,14 @@
 "use client";
 
 import {
-  ComboBox as RAComboBox,
   Input,
   Label,
   ListBox,
+  ComboBox as RAComboBox,
   Text,
 } from "react-aria-components";
-import { twMerge } from "tailwind-merge";
 import { BiSearchAlt2 } from "react-icons/bi";
+import { twMerge } from "tailwind-merge";
 import { Popover } from "../popover";
 import { Typography } from "../typography";
 import type { ComboBoxProps } from "./ComboBox.types";

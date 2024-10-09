@@ -3,11 +3,16 @@ const { resolve } = require("node:path");
 const project = resolve(process.cwd(), "tsconfig.json");
 
 module.exports = {
-  extends: ["eslint:recommended", "prettier", "turbo"],
-  plugins: ["only-warn"],
-  env: {
-    node: true,
-  },
+  extends: [
+    ...[
+      "@vercel/style-guide/eslint/node",
+      "@vercel/style-guide/eslint/typescript",
+      "@vercel/style-guide/eslint/browser",
+      "@vercel/style-guide/eslint/react",
+      "@vercel/style-guide/eslint/next",
+    ].map(require.resolve),
+    "turbo",
+  ],
   parserOptions: {
     project,
   },
@@ -15,29 +20,17 @@ module.exports = {
     React: true,
     JSX: true,
   },
+  plugins: ["only-warn"],
   settings: {
     "import/resolver": {
       typescript: {
         project,
       },
-      node: {
-        extensions: [".mjs", ".js", ".jsx", ".ts", ".tsx"],
-      },
     },
   },
-  ignorePatterns: [
-    // Ignore dotfiles
-    ".*.js",
-    "node_modules/",
-    "dist/",
-  ],
-  overrides: [
-    {
-      files: ["*.js?(x)", "*.ts?(x)"],
-    },
-  ],
+  ignorePatterns: [".*.js", "node_modules/", "dist/"],
+  // add rules configurations here
   rules: {
     "import/no-default-export": "off",
-    "no-implicit-coercion": "off",
   },
 };

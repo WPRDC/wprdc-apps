@@ -1,2 +1,2 @@
-export * from  "./LoadingMessage";
-export * from  "./LoadingMessage.types";
+export * from "./LoadingMessage";
+export * from "./LoadingMessage.types";
