@@ -1,8 +1,9 @@
-node_modules
+**/node_modules/
+**/dist
+
 npm-debug.log
 
 .idea
 
-.next
-dist
-.turbo
+**/.next/
+**/.turbo

@@ -27,7 +27,7 @@ export default function Footer({
             </li>
             <div className="mt-3 grid grid-cols-2 gap-2">
               {links.map((link) => (
-                <li>
+                <li key={link.id}>
                   <A
                     key={link.id}
                     href={link.url ?? "#"}

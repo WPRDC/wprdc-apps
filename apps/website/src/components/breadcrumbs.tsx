@@ -18,7 +18,7 @@ export function Breadcrumbs({ path }: BreadcrumbsProps) {
         {path.map(({ id, label, href }, i) => (
           <Breadcrumb
             key={id}
-            className="inline after:content-['/'] last:after:content-none"
+            className="inline after:content-['/'] last:after:content-none text-base"
           >
             {i < path.length - 1 ? (
               <A href={href} className="mr-3 capitalize">

@@ -1,5 +1,5 @@
 import { A, Content, excerptReplacer, makeReplacer } from "@wprdc/ui";
-import { ListableContentType } from "@wprdc/types";
+import { CMSWeeknote, ListableContentType } from "@wprdc/types";
 
 import { convert } from "html-to-text";
 
@@ -94,10 +94,10 @@ export function BlogListItem<T extends ListableContentType>({
   );
 }
 
-export function BriefListItem<T extends ListableContentType>({
+export function BriefListItem({
   item,
   basePath = "",
-}: ListItemProps<T>) {
+}: ListItemProps<CMSWeeknote>) {
   const {
     slug,
     title,
@@ -107,13 +107,12 @@ export function BriefListItem<T extends ListableContentType>({
     publishDate,
     author,
     category,
+    week,
   } = item;
-
-  const text = excerpt || extractContent(article) || "";
 
   const href = `${basePath}/${slug}`;
 
-  const weekStart = getLastSunday(publishedAt ?? "");
+  const weekStart = getLastSunday(week ?? publishedAt ?? "");
 
   return (
     <li>
@@ -122,36 +121,33 @@ export function BriefListItem<T extends ListableContentType>({
         className="border-textSecondary bg-white border-2 p-4 rounded-md flex flex-col items-stretch space-y-6"
       >
         {!!weekStart && (
-          <h3>
-            <A
-              variant="button"
-              buttonVariant="borderless"
-              className="underline-none font-bold text-xl lg:text-2xl xl:text-3xl normal-case hover:underline p-0"
-              href={href}
-            >
-              <time
-                className="font-bold"
-                dateTime={new Date(weekStart).toISOString()}
+          <hgroup>
+            <h3>
+              <A
+                variant="button"
+                buttonVariant="borderless"
+                className="underline-none font-bold text-xl lg:text-2xl xl:text-3xl normal-case hover:underline p-0"
+                href={href}
               >
-                <span>Week of</span>{" "}
-                <span>
-                  {new Date(weekStart).toLocaleDateString("en-US", {
-                    dateStyle: "medium",
-                  })}
-                </span>
-              </time>
-            </A>
-          </h3>
+                <time
+                  className="font-bold"
+                  dateTime={new Date(weekStart).toISOString()}
+                >
+                  <span>Week of</span>{" "}
+                  <span>
+                    {new Date(weekStart).toLocaleDateString("en-US", {
+                      dateStyle: "medium",
+                    })}
+                  </span>
+                </time>
+              </A>
+            </h3>
+            {!!title && <p className="mt-3 font-bold italic bold">{title}</p>}
+          </hgroup>
         )}
 
-        {title}
-        <div className="line-clamp-3">
-          <Content
-            className="text-base"
-            replacer={makeReplacer(excerptReplacer)}
-          >
-            {text}
-          </Content>
+        <div className="">
+          <Content className="text-base">{article}</Content>
         </div>
       </article>
     </li>

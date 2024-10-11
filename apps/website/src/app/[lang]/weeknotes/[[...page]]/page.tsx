@@ -44,8 +44,8 @@ export default async function BlogHomeRoute({ params }: Props) {
     },
     {
       id: "2",
-      label: "Weeknotes",
-      href: "/weeknote",
+      label: "Dispatches",
+      href: "/weeknotes",
     },
   ];
 

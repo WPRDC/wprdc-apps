@@ -143,6 +143,7 @@ export interface CMSBlog extends StrapiBase, ListableContentType {
 export interface CMSWeeknote extends StrapiBase, ListableContentType {
   article: string | null;
   author: CMSAuthor;
+  week: string | null;
 }
 
 export interface CMSTool extends StrapiBase, ListableContentType {

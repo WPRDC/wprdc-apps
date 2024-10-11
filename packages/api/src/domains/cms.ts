@@ -233,7 +233,7 @@ export async function getWeeknotes(
   };
 
   const queryParams = {
-    sort: { publishedAt: "desc" },
+    sort: { week: "desc" },
     pagination,
     populate: blogPostFields,
   };
