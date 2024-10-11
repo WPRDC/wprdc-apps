@@ -57,12 +57,11 @@ export default async function ToolListingRoute({ params }: Props) {
       {/* todo: set up leading content */}
       <Container solo>
         <CardGrid>
-          {artifacts.map(({ id, ...artifact }) => (
+          {artifacts?.map(({ id, ...artifact }) => (
             <Card
               key={id}
               href={`/talks-and-publications/${artifact.slug}`}
               title={artifact.title ?? ""}
-              w
               subtitle={artifact.subtitle}
               thumbnailURL={`${STRAPI_URL}${artifact.primaryImage?.url}`}
             />

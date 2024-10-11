@@ -31,6 +31,7 @@ import type {
   ViewState,
   ViewStateChangeEvent,
 } from "react-map-gl/maplibre";
+import { StaticImageData } from "next/image";
 
 export type MouseEventContext = MapState;
 
@@ -113,7 +114,7 @@ export interface MapProps {
 export interface BasemapOptions {
   url: string;
   label: string;
-  image: string;
+  image: string | StaticImageData;
   dark?: boolean;
 }
 

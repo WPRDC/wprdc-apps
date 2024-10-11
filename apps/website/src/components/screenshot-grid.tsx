@@ -1,11 +1,11 @@
 import { STRAPI_URL } from "@/lib/constants.ts";
-import { IMedia } from "@wprdc/types";
+import { CMSImage } from "@wprdc/types";
 import { PopupImage } from "@wprdc/ui";
 import React from "react";
 
 export interface ScreenshotGridProps {
   title?: string;
-  screenshots?: IMedia[];
+  screenshots?: CMSImage[];
   pageTitle?: string | null;
 }
 

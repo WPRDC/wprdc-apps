@@ -27,6 +27,7 @@ export function Card({
           <div className="mb-3 text-2xl font-bold">{title}</div>
           {!!subtitle && <div>{subtitle}</div>}
         </div>
+
         {thumbnailURL && (
           <div className="relative z-0 h-40 border-2">
             <Image

@@ -1,14 +1,14 @@
 import { getStrapiMedia } from "@wprdc/api";
-import { IElementsLink, IElementsLogo } from "@wprdc/types";
+import { CMSLink, CMSLogo } from "@wprdc/types";
 import { A } from "@wprdc/ui";
 import React from "react";
 import Logo from "./logo.tsx";
 
 export interface FooterProps {
-  links: Array<IElementsLink>;
+  links: CMSLink[];
   logoURL: string | null;
   darkLogoURL: string | null;
-  affiliateLogos?: IElementsLogo[];
+  affiliateLogos?: CMSLogo[];
 }
 
 export default function Footer({
@@ -45,8 +45,8 @@ export default function Footer({
 
         <div className="space-x-2">
           {affiliateLogos.map((logo) => {
-            const darkURL = getStrapiMedia(logo?.image?.data?.url ?? "");
-            const lightURL = getStrapiMedia(logo?.darkImage?.data?.url ?? "");
+            const darkURL = getStrapiMedia(logo?.image.url ?? "");
+            const lightURL = getStrapiMedia(logo?.darkImage.url ?? "");
             return (
               <Logo
                 key={logo.id}

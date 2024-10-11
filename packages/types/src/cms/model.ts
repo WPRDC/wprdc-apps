@@ -3,7 +3,7 @@ export interface StrapiBase {
   documentId: string;
   createdAt: string;
   updatedAt: string | null;
-  publishedAt: string | null;
+  publishedAt: string;
   locale: string | null;
 }
 
@@ -22,7 +22,7 @@ interface ImageFormatData extends ImageBase {
   path: string | null;
 }
 
-interface BasicStrapiImage extends StrapiBase, ImageBase {
+export interface BasicCMSImage extends StrapiBase, ImageBase {
   alternativeText: string | null;
   caption: string | null;
   previewUrl: string | null;
@@ -30,7 +30,7 @@ interface BasicStrapiImage extends StrapiBase, ImageBase {
   provider_metadata: null | any;
 }
 
-interface StrapiImage extends BasicStrapiImage {
+export interface CMSImage extends BasicCMSImage {
   formats: ImageFormats;
 }
 
@@ -39,14 +39,14 @@ type ImageFormat = "thumbnail" | "small" | "medium" | "large";
 type ImageFormats = Record<ImageFormat, ImageFormatData>;
 
 // Components
-interface Logo {
+export interface CMSLogo {
   id: number;
   altText: string | null;
-  image: StrapiImage;
-  darkImage: StrapiImage;
+  image: CMSImage;
+  darkImage: CMSImage;
 }
 
-interface Link {
+export interface CMSLink {
   id: number;
   label: string;
   url: string;
@@ -54,7 +54,7 @@ interface Link {
   category: string | null;
 }
 
-interface SEO {
+export interface CMSSeo {
   id: number;
   metaTitle: string | null;
   metaDescription: string | null;
@@ -65,13 +65,13 @@ interface SEO {
   canonicalURL: string | null;
 }
 
-interface Metadata {
+export interface CMSMetadata {
   id: number;
   title: string;
   description: string;
 }
 
-interface Button {
+export interface CMSButton {
   id: number;
   buttonText: string | null;
   buttonUrl: string | null;
@@ -91,13 +91,13 @@ export interface ListableContentType extends StrapiBase {
 }
 
 export interface CMSNavMenuItem extends StrapiBase {
-  primaryLink: Link;
+  primaryLink: CMSLink;
   subMenu: {
     id: number;
     deatailLine: string;
     description: string;
-    link: Link;
-    subItems: Link[];
+    link: CMSLink;
+    subItems: CMSLink[];
   }[];
   defaultDescription: string;
   order: number;
@@ -125,7 +125,7 @@ export interface CMSPage extends StrapiBase {
   slug: string;
   subtitle: string | null;
   body: string | null;
-  relatedPages: Link[];
+  relatedPages: CMSLink[];
 }
 
 export interface CMSBlog extends StrapiBase, ListableContentType {
@@ -149,15 +149,15 @@ export interface CMSTool extends StrapiBase, ListableContentType {
   slug: string;
   title: string;
   subtitle: string | null;
-  thumbnail: StrapiImage;
+  thumbnail: CMSImage;
   description: string | null;
   url: string;
   tags: CMSTag[];
   order: number;
   docURL: string | null;
   githubURL: string | null;
-  screenshots: StrapiImage[];
-  relatedPages: Link[];
+  screenshots: CMSImage[];
+  relatedPages: CMSLink[];
 }
 
 export interface CMSProject extends StrapiBase, ListableContentType {
@@ -165,13 +165,13 @@ export interface CMSProject extends StrapiBase, ListableContentType {
   subtitle: string | null;
   url: string;
   githubURL: string;
-  thumbnail: StrapiImage;
-  screenshots: StrapiImage[];
+  thumbnail: CMSImage;
+  screenshots: CMSImage[];
   order: number;
   tags: CMSTag[];
   slug: string;
-  description: string | [];
-  relatedPages: Link[];
+  description: string | null;
+  relatedPages: CMSLink[];
 }
 
 export interface CMSArtifact extends StrapiBase, ListableContentType {
@@ -183,22 +183,22 @@ export interface CMSArtifact extends StrapiBase, ListableContentType {
   url: string;
   publicationDate: string;
 
-  relatedPages: Link[];
+  relatedPages: CMSLink[];
 
-  primaryImage: StrapiImage;
-  images: StrapiImage[];
+  primaryImage: CMSImage;
+  images: CMSImage[];
 }
 
 // Singletons
 export interface CMSGlobal extends StrapiBase {
-  navbarLogo: Logo;
-  navbarLinks: Link[];
-  footerLogo: Logo;
-  affiliateLogos: Logo[];
-  footerLinks: Link[];
-  seo: SEO;
-  metadata: Metadata;
-  favicon: BasicStrapiImage;
+  navbarLogo: CMSLogo;
+  navbarLinks: CMSLink[];
+  footerLogo: CMSLogo;
+  affiliateLogos: CMSLogo[];
+  footerLinks: CMSLink[];
+  seo: CMSSeo;
+  metadata: CMSMetadata;
+  favicon: BasicCMSImage;
 }
 
 export interface CMSHome extends StrapiBase {
@@ -207,7 +207,7 @@ export interface CMSHome extends StrapiBase {
     title: string;
     description: string;
     belowSeachText: string;
-    buttons: Button[];
+    buttons: CMSButton[];
   };
   blurbs: {
     id: number;
@@ -226,14 +226,14 @@ export interface CMSHome extends StrapiBase {
       id: number;
       partnerURL: string | null;
       partnerName: string | null;
-      partnerLogo: StrapiImage;
+      partnerLogo: CMSImage;
     }[];
     partners: {
       id: number;
       partnerURL: string | null;
       partnerName: string | null;
-      partnerLogo: StrapiImage;
+      partnerLogo: CMSImage;
     }[];
-    button: Button;
+    button: CMSButton;
   };
 }

@@ -19,6 +19,7 @@ export default function DrawControl({
   onModeChange = () => undefined,
   ...props
 }: DrawControlProps): null {
+  // @ts-expect-error -- fixme: look into this
   useControl<MapboxDraw>(
     () => new MapboxDraw({ styles, ...props }),
     ({ map }) => {

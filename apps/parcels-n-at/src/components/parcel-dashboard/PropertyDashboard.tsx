@@ -58,7 +58,6 @@ export function PropertyDashboard({
       <div className="mx-auto max-w-screen-lg">
         <div>
           <Suspense fallback={<HeadingSectionSkeleton />} key={parcelID}>
-            {/* @ts-expect-error Server-side async component */}
             <HeadingSection parcelID={parcelID} />
           </Suspense>
         </div>

@@ -1,8 +1,8 @@
-import { ITag, Size } from "@wprdc/types";
+import { CMSTag, Size } from "@wprdc/types";
 import classNames from "classnames";
 
 export interface TagProps {
-  tag: ITag;
+  tag: CMSTag;
   size?: Size;
 }
 

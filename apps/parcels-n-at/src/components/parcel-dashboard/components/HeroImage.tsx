@@ -5,12 +5,6 @@ import { Image } from "../../../components";
 
 export function HeroImage({ src }: Partial<ImageProps>): React.ReactElement {
   return (
-    <Image
-      alt="img"
-      className="object-cover object-top"
-      fill
-      next
-      src={src ?? ""}
-    />
+    <Image alt="img" className="object-cover object-top" fill src={src ?? ""} />
   );
 }

@@ -8,4 +8,13 @@ services:
       dockerfile: ./apps/parcels-n-at/Dockerfile
     restart: always
     ports:
-      - 3033:3000
+      - "3033:3000"
+  website:
+    container_name: website
+    network_mode: host
+    build:
+      context: .
+      dockerfile: ./apps/website/Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"

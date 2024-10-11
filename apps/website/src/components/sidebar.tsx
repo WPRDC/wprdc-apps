@@ -13,7 +13,7 @@ import {
   FaPerson,
 } from "react-icons/fa6";
 import { Tags } from "./tags.tsx";
-import { IElementsLink, ITag } from "@wprdc/types";
+import { CMSLink, CMSTag } from "@wprdc/types";
 import { twMerge } from "tailwind-merge";
 
 export interface SidebarProps {
@@ -21,13 +21,13 @@ export interface SidebarProps {
   /** contents of page to extract a TOC from */
   contents?: string | null;
   /** set of tags for the page*/
-  tags?: ITag[];
+  tags?: CMSTag[];
   /** documentation links */
   docLinks?: (string | null)[];
   /** links to relevant repos */
   githubLinks?: (string | null)[];
   /** other useful links */
-  relatedPages?: (IElementsLink | null)[];
+  relatedPages?: (CMSLink | null)[];
 
   /** title for link section */
   relatedLinksTitle?: string;
@@ -49,11 +49,11 @@ export function Sidebar({
 }: SidebarProps) {
   // create one list of links with their type for logos
 
-  function notNull(l: IElementsLink | null): l is IElementsLink {
+  function notNull(l: CMSLink | null): l is CMSLink {
     return l !== null;
   }
 
-  const links: IElementsLink[] = relatedPages.filter(notNull);
+  const links: CMSLink[] = relatedPages.filter(notNull);
 
   return (
     <>
@@ -108,7 +108,7 @@ export function Sidebar({
 }
 
 interface LinkIconProps {
-  link: IElementsLink;
+  link: CMSLink;
 }
 
 function LinkIcon({ link }: LinkIconProps) {

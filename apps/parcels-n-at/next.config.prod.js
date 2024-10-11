@@ -14,6 +14,7 @@ module.exports = {
       },
     ],
   },
+
   webpack: (config, { isServer }) => {
     if (isServer) {
       config.plugins.push(

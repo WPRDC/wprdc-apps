@@ -2,14 +2,14 @@
 
 import type { Size } from "@wprdc/types";
 import classNames from "classnames";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import type { MenuItemProps } from "react-aria-components";
 import { MenuItem, Text } from "react-aria-components";
 import { TbCircleCheckFilled } from "react-icons/tb";
 
 export interface BigButtonMenuItemProps extends MenuItemProps {
   children: string;
-  image: string;
+  image: string | StaticImageData;
   size?: Size;
 }
 

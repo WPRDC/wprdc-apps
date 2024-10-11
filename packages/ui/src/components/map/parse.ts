@@ -113,7 +113,8 @@ export function parseConfig(
   );
 
   // label
-  const textField: ExpressionSpecification = layer.symbology.textField;
+  const textField: ExpressionSpecification | undefined =
+    layer.symbology.textField;
 
   return {
     color,
@@ -196,7 +197,7 @@ export function parseZoomOption<T extends StyleValue>(
 ): ExpressionSpecification {
   const minZoom = layer.tileSource.minZoom ?? 0.1;
 
-  const parsedZoomOption: [number, T][] = option.map(([zoom, value]) => [
+  const parsedZoomOption = option.map(([zoom, value]) => [
     zoom,
     typeof value === "object"
       ? parseInteractiveOption(
