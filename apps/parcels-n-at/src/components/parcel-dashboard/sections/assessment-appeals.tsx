@@ -49,11 +49,8 @@ function ArchiveSection({
           {records
             .filter((r: ArchiveAssessmentAppeal) => r.HEARING_TYPE === "ANNUAL")
             .map((record: ArchiveAssessmentAppeal) => (
-              <Card>
-                <article
-                  key={record["TAX YEAR"]}
-                  className="mt-6 max-w-2xl space-y-4 rounded border-2 border-black bg-white p-4 first-of-type:mt-0"
-                >
+              <Card key={record["TAX YEAR"]}>
+                <article>
                   <h4 className="mb-1 text-2xl font-bold">
                     <span>Tax Year:</span>{" "}
                     <span className="font-mono">{record["TAX YEAR"]}</span>

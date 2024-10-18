@@ -6,6 +6,8 @@ import {
   fetchPLIPermitRecords,
   fetchPropertySaleTransactionsRecords,
   fetchTaxLiensWithCurrentStatusRecords,
+  fetchForeclosureFilingsRecords,
+  fetchConservatorshipRecordRecords,
 } from "@wprdc/api";
 import type {
   ArchiveAssessmentAppeal,
@@ -14,6 +16,8 @@ import type {
   PLIPermit,
   PropertyAssessment,
   TaxLienWithCurrentStatus,
+  ForeclosureFiling,
+  ConservatorshipRecord,
 } from "@wprdc/types";
 import { PropertySaleTransaction } from "@wprdc/types";
 import React, { Suspense } from "react";
@@ -32,6 +36,8 @@ import { CodeViolationsSection } from "./sections/code-violations";
 import { PLIPermitsSection } from "./sections/pli-permits";
 import { TaxContextSection } from "./sections/tax-context";
 import { TaxLiensSection } from "./sections/tax-liens";
+import { ForeclosureFilingSection } from "./sections/foreclosure";
+import { ConservatorshipRecordSection } from "./sections/conservatoriship";
 import { HeadingSection, HeadingSkeleton } from "./sections/headingSection";
 import { Section } from "./components/Section";
 import { PopupImage } from "@wprdc/ui";
@@ -50,7 +56,7 @@ export function PropertyDashboard({
       <div className="h-64 w-full">
         <Hero parcelID={parcelID} />
       </div>
-      <div className="sticky top-0 -mt-24 bg-black/40 px-4 py-2 backdrop-blur-md">
+      <div className="sticky top-0 z-40 -mt-24 bg-black/40 px-4 py-2 backdrop-blur-md">
         <Suspense fallback={<HeadingSkeleton />} key={parcelID}>
           <HeadingSection parcelID={parcelID} />
         </Suspense>
@@ -104,7 +110,7 @@ export function PropertyDashboard({
         section={AssessedValuesSection}
       />
 
-      {/* Assessement Appeals */}
+      {/* Assessment Appeals */}
       <MultiConnectedSection<{
         filed: FiledAssessmentAppeal;
         archive: ArchiveAssessmentAppeal;
@@ -166,6 +172,24 @@ export function PropertyDashboard({
         label="Tax Liens"
         parcelID={parcelID}
         section={TaxLiensSection}
+      />
+
+      {/* Liens */}
+      <ConnectedSection<ForeclosureFiling>
+        className="col-span-6 row-span-1"
+        getter={fetchForeclosureFilingsRecords}
+        label="Foreclosure"
+        parcelID={parcelID}
+        section={ForeclosureFilingSection}
+      />
+
+      {/* Liens */}
+      <ConnectedSection<ConservatorshipRecord>
+        className="col-span-6 row-span-1"
+        getter={fetchConservatorshipRecordRecords}
+        label="Conservatorship"
+        parcelID={parcelID}
+        section={ConservatorshipRecordSection}
       />
     </article>
   );
