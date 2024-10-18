@@ -1,6 +1,6 @@
 import type { FormattedValue, Formatter, Value } from "@wprdc/types";
 import type { ReactNode } from "react";
-import { Typography } from "../typography";
+import { twMerge } from "tailwind-merge";
 import type { TableProps } from "./Table.types";
 
 export function Table<T extends Value = Value>({
@@ -9,23 +9,29 @@ export function Table<T extends Value = Value>({
   rows,
   data,
   format,
-}: TableProps<T>): null | React.ReactElement {
-  // ensure correct dimensions
-  if (rows.length !== data.length) return null;
-  data.forEach((item) => {
-    if (item.length !== columns.length) return null;
-  });
-
+  totalRow = false,
+  totalCol = false,
+  rowLabel,
+}: TableProps): null | React.ReactElement {
   return (
-    <div>
-      {!!label && <Typography.Label>{label}</Typography.Label>}
-      <table className="w-full table-fixed font-mono text-sm">
+    <table className="w-full table-fixed border border-black font-mono text-sm">
+      {!!label && <caption className="italic">{label}</caption>}
+
+      {!!columns && (
         <thead>
-          <tr>
-            <td />
-            {columns.map((col) => (
+          <tr className="bg-black">
+            {rows ? (
+              <th className="px-3 text-left text-white">{rowLabel}</th>
+            ) : null}
+
+            {columns.map((col, c) => (
               <th
-                className="border-b-2 border-black font-sans"
+                className={twMerge(
+                  "border-l border-white px-3",
+                  totalCol && c === columns.length - 1
+                    ? "border-l-2 text-primary"
+                    : "text-white",
+                )}
                 key={col}
                 scope="col"
               >
@@ -34,33 +40,50 @@ export function Table<T extends Value = Value>({
             ))}
           </tr>
         </thead>
-        <tbody>
-          {rows.map((row, i) => (
-            <tr className="even:bg-stone-100" key={row}>
-              <th className="truncate text-right font-sans" scope="row">
-                {row}
+      )}
+
+      <tbody>
+        {data.map((row, i) => (
+          <tr className="" key={`${String(rows?.[i])}-${String(row)}`}>
+            {!!rows && (
+              <th
+                className={twMerge(
+                  "border-t border-white bg-black px-3 text-left",
+                  totalRow && i === data.length - 1
+                    ? "border-t-2 text-primary"
+                    : "text-white",
+                )}
+                scope="row"
+              >
+                {rows[i]}
               </th>
-              {data[i].map((cell, j) => (
-                <Cell<T>
-                  globalFormat={format}
-                  key={`${row}-${columns[j]}`}
-                  value={cell}
-                />
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+            )}
+            {data[i].map((cell, j) => (
+              <Cell
+                globalFormat={format}
+                key={`${String(rows?.[i])}-${String(row)}-${String(cell)}`}
+                value={cell}
+                inTotalRow={totalRow ? i === data.length - 1 : false}
+                inTotalCol={totalCol ? j === data[i].length - 1 : false}
+              />
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
 
-function Cell<T extends Value>({
+function Cell({
   value,
   globalFormat,
+  inTotalRow,
+  inTotalCol,
 }: {
-  value: T | FormattedValue<T> | undefined;
-  globalFormat?: Formatter<T>;
+  value: Value | FormattedValue | undefined;
+  globalFormat?: Formatter;
+  inTotalRow: boolean;
+  inTotalCol: boolean;
 }): React.ReactElement {
   let content: ReactNode;
   if (!value && value !== 0 && value !== false) {
@@ -71,5 +94,16 @@ function Cell<T extends Value>({
     content = globalFormat ? globalFormat(value) : value;
   }
 
-  return <td className=" min-w-[64px] px-3 text-right">{content}</td>;
+  return (
+    <td
+      className={twMerge(
+        "border border-black bg-white px-3 text-right font-mono",
+        inTotalCol || inTotalRow ? "bg-wprdc-50 font-bold" : "",
+        inTotalCol && "border-l-2",
+        inTotalRow && "border-t-2",
+      )}
+    >
+      {content}
+    </td>
+  );
 }

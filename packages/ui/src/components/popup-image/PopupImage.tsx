@@ -20,15 +20,28 @@ export function PopupImage({
 }: PopupImageProps): React.ReactElement {
   const { width: _, height: __, fill: ___, ...detailProps } = thumbnailProps;
   return (
-    <div className={twMerge("h-fulll w-fit max-w-full", className)}>
+    <div className={twMerge("h-full w-fit max-w-full", className)}>
       <DialogTrigger>
-        <Button className="relative h-fit w-fit border border-textSecondary shadow-lg active:shadow-sm hover:shadow-2xl dark:border-textSecondaryDark">
-          <Image {...thumbnailProps} />
+        <Button className="relative h-full w-full border border-textSecondary shadow-lg active:shadow-sm hover:shadow-2xl dark:border-textSecondaryDark">
+          <Image {...thumbnailProps} fill />
         </Button>
         <ModalOverlay isDismissable>
-          <Modal isDismissable>
-            <Dialog>
-              <Image {...detailProps} width={1200} height={600} />
+          <Modal isDismissable className="w-fit p-0">
+            <Dialog className="mx-auto h-fit w-fit">
+              {({ close }) => (
+                <Image
+                  {...detailProps}
+                  sizes="100vw"
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                  }}
+                  className="p-4"
+                  width={500}
+                  height={300}
+                  onClick={close}
+                />
+              )}
             </Dialog>
           </Modal>
         </ModalOverlay>

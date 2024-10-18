@@ -5,3 +5,7 @@
 .mapbox-gl-draw_ctrl-draw-btn.active, .mapbox-gl-draw_ctrl-draw-btn.active:hover {
   background-color: rgba(252, 236, 82, 0.70) !important;
 }
+
+details summary::-webkit-details-marker {
+  display:none;
+}

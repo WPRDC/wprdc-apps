@@ -4,8 +4,9 @@ import type { AsyncListData, Key } from "react-stately";
 import { useAsyncList } from "react-stately";
 import type { RankedParcelIndex } from "@wprdc/types";
 import { ListBoxItem, Text } from "react-aria-components";
-import { ComboBox, getClassificationColor } from "@wprdc/ui";
+import { ComboBox } from "@wprdc/ui";
 import { useRouter } from "next/navigation";
+import { getClassificationColor } from "@/components/parcel-dashboard";
 
 export function ParcelSearch(): React.ReactElement {
   const router = useRouter();

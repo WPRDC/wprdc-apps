@@ -1,12 +1,20 @@
 import type { PropsWithChildren } from "react";
-import { Chip } from "../../../components";
+import { Chip } from "@wprdc/ui";
+import { twMerge } from "tailwind-merge";
+import { Size } from "@wprdc/types";
 
 interface ClassChipProps extends PropsWithChildren {
   parcelClass?: string;
+  className?: string;
+  size?: Size;
+  inline?: boolean;
 }
 
 export function ClassChip({
   parcelClass,
+  size = "M",
+  className,
+  inline = false,
 }: ClassChipProps): null | React.ReactElement {
   let color = "#eee";
   const textColor = "#000";
@@ -38,7 +46,9 @@ export function ClassChip({
 
   return (
     <Chip
-      className="text-xs"
+      inline={inline}
+      size={size}
+      className={twMerge("text-xs", className)}
       color={color}
       label={parcelClass}
       textColor={textColor}

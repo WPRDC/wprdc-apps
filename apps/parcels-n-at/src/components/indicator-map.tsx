@@ -20,6 +20,7 @@ import {
   LoadingMessage,
   Map,
   Typography,
+  ChartViz,
 } from "@wprdc/ui";
 
 import {
@@ -51,8 +52,7 @@ import { ckmeans } from "simple-statistics";
 import chroma from "chroma-js";
 import type { MapState } from "@wprdc/types";
 import { twMerge } from "tailwind-merge";
-import { Chart } from "@/components/chart.tsx";
-import { VisualizationSpec } from "react-vega";
+import type { VisualizationSpec } from "@wprdc/types";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 
@@ -532,8 +532,7 @@ export function IndicatorMap({
           </div>
 
           <div className="">
-            <Chart
-              title=""
+            <ChartViz
               data={{ table: vegaData }}
               spec={histogramSpec(breaks, popupProps?.label ?? "")}
               signalListeners={signalListeners}

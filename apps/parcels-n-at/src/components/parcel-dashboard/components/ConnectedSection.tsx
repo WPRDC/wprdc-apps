@@ -1,14 +1,14 @@
 import type { APIResult } from "@wprdc/api";
 import type { DatastoreRecord } from "@wprdc/types";
 import { Suspense } from "react";
-import { Typography } from "../../../components";
+import { Typography } from "@wprdc/ui";
 import type {
   ConnectedSectionProps,
   DatastoreRecordSet,
   MultiConnectedSectionProps,
   MultiSourceSectionProps,
 } from "../types";
-import { SectionCard } from "./SectionCard";
+import { Section } from "./Section.tsx";
 
 export function ConnectedSection<T extends DatastoreRecord>({
   label,
@@ -17,11 +17,11 @@ export function ConnectedSection<T extends DatastoreRecord>({
 }: ConnectedSectionProps<T>): React.ReactElement {
   return (
     <div className={className}>
-      <SectionCard label={label}>
+      <Section label={label}>
         <Suspense fallback="loading..." key={props.parcelID}>
           <ConnectedSectionContent {...props} />
         </Suspense>
-      </SectionCard>
+      </Section>
     </div>
   );
 }
@@ -44,11 +44,11 @@ export function MultiConnectedSection<T extends DatastoreRecordSet>({
   ...props
 }: MultiConnectedSectionProps<T>): React.ReactElement {
   return (
-    <SectionCard className={className} label={label}>
+    <Section className={className} label={label}>
       <Suspense fallback="loading..." key={props.parcelID}>
         <MultiConnectedSectionContent {...props} />
       </Suspense>
-    </SectionCard>
+    </Section>
   );
 }
 

@@ -3,7 +3,6 @@ import {
   fetchAssessmentRecord,
   fetchCityViolationsRecords,
   fetchFiledAssessmentAppealsRecord,
-  fetchForeclosureFilingsRecords,
   fetchPLIPermitRecords,
   fetchPropertySaleTransactionsRecords,
   fetchTaxLiensWithCurrentStatusRecords,
@@ -12,35 +11,30 @@ import type {
   ArchiveAssessmentAppeal,
   CityViolation,
   FiledAssessmentAppeal,
-  ForeclosureFiling,
   PLIPermit,
   PropertyAssessment,
-  PropertySaleTransaction,
   TaxLienWithCurrentStatus,
 } from "@wprdc/types";
-import { Suspense, type PropsWithChildren } from "react";
-import { twMerge } from "tailwind-merge";
-import { Heading } from "../../components";
+import { PropertySaleTransaction } from "@wprdc/types";
+import React, { Suspense } from "react";
 import {
   ConnectedSection,
   MultiConnectedSection,
 } from "./components/ConnectedSection";
-import { AssessedValuesSection } from "./sections/AssessedValuesSection";
-import { AssessmentAppealsSection } from "./sections/AssessmentAppealsSection";
-import { CityViolationsSection } from "./sections/CityViolationsSection";
-import { DwellingSection } from "./sections/DwellingSection";
-import { FiledAssessmentAppealsSection } from "./sections/FiledAssessmentAppealsSection";
-import { ForeclosureFilingSection } from "./sections/ForeclosureFilingsSection";
-import {
-  HeadingSection,
-  HeadingSectionSkeleton,
-} from "./sections/HeadingSection";
-import { LotAreaSection } from "./sections/LotAreaSection";
-import { PLIPermitsSection } from "./sections/PLIPermitsSection";
-import { SalesSection } from "./sections/SalesSection";
-import { SubsidiesSection } from "./sections/SubsidiesSection";
-import { TaxContextSection } from "./sections/TaxContextSection";
-import { TaxLiensSection } from "./sections/TaxLIensSection";
+import { DwellingSection } from "./sections/dwelling";
+import { Hero } from "./sections/hero";
+import { AssessedValuesSection } from "./sections/assessed-value";
+import { OwnerSection } from "./sections/owner";
+import { AssessmentAppealsSection } from "./sections/assessment-appeals";
+import { ConditionSection } from "./sections/condition";
+import { SalesSection } from "@/components/parcel-dashboard/sections/sales";
+import { CodeViolationsSection } from "./sections/code-violations";
+import { PLIPermitsSection } from "./sections/pli-permits";
+import { TaxContextSection } from "./sections/tax-context";
+import { TaxLiensSection } from "./sections/tax-liens";
+import { HeadingSection, HeadingSkeleton } from "./sections/headingSection";
+import { Section } from "./components/Section";
+import { PopupImage } from "@wprdc/ui";
 
 export interface PropertyDashboardProps {
   parcelID?: string;
@@ -51,145 +45,128 @@ export function PropertyDashboard({
 }: PropertyDashboardProps): null | React.ReactElement {
   const parcelID = _parcelID ?? "0027S00125000000";
 
-  // todo: pass in more data from map so we don't need to load address
-
   return (
-    <div className="bg-stone-200 p-2 pb-4">
-      <div className="mx-auto max-w-screen-lg">
-        <div>
-          <Suspense fallback={<HeadingSectionSkeleton />} key={parcelID}>
-            <HeadingSection parcelID={parcelID} />
-          </Suspense>
-        </div>
-
-        <Heading level={2}>Assessment</Heading>
-        <Section>
-          {/* Assessment*/}
-          <ConnectedSection<PropertyAssessment>
-            className="col-span-6 row-span-1"
-            getter={fetchAssessmentRecord}
-            label="Assessesd Values"
-            parcelID={parcelID}
-            section={AssessedValuesSection}
-          />
-          <ConnectedSection<PropertyAssessment>
-            className="col-span-6 row-span-3"
-            getter={fetchAssessmentRecord}
-            label="Dwelling Characteristics"
-            parcelID={parcelID}
-            section={DwellingSection}
-          />
-          <ConnectedSection<PropertyAssessment>
-            className="col-span-6 row-span-2"
-            getter={fetchAssessmentRecord}
-            label="Tax Context"
-            parcelID={parcelID}
-            section={TaxContextSection}
-          />
-          <ConnectedSection<PropertyAssessment>
-            className="col-span-2 row-span-1"
-            getter={fetchAssessmentRecord}
-            label="Lot Area"
-            parcelID={parcelID}
-            section={LotAreaSection}
-          />
-          <ConnectedSection<PropertyAssessment>
-            className="col-span-4 row-span-1"
-            getter={fetchAssessmentRecord}
-            label="Subsidies"
-            parcelID={parcelID}
-            section={SubsidiesSection}
-          />
-        </Section>
-
-        <Heading level={2}>Sales</Heading>
-        <Section>
-          {/* Sales */}
-          <MultiConnectedSection<{
-            sales: PropertySaleTransaction;
-            assessment: PropertyAssessment;
-          }>
-            className="col-span-8 row-span-1"
-            getters={{
-              sales: fetchPropertySaleTransactionsRecords,
-              assessment: fetchAssessmentRecord,
-            }}
-            label="Sales History"
-            parcelID={parcelID}
-            section={SalesSection}
-          />
-        </Section>
-
-        <Heading level={2}>Permits and Violations</Heading>
-        <Section>
-          {/* Building Permits */}
-          <ConnectedSection<PLIPermit>
-            className="col-span-4 row-span-1"
-            getter={fetchPLIPermitRecords}
-            label="PLI Permits"
-            parcelID={parcelID}
-            section={PLIPermitsSection}
-          />
-          {/* Code Violations*/}
-          <ConnectedSection<CityViolation>
-            className="col-span-4 row-span-1"
-            getter={fetchCityViolationsRecords}
-            label="Pittsburgh Code Violations"
-            parcelID={parcelID}
-            section={CityViolationsSection}
-          />
-        </Section>
-
-        <Heading level={2}>Assessment Appeals</Heading>
-        <Section>
-          {/* Appeals */}
-          <ConnectedSection<FiledAssessmentAppeal>
-            className="col-span-6 row-span-1"
-            getter={fetchFiledAssessmentAppealsRecord}
-            label="Filed Assessment Appeal"
-            parcelID={parcelID}
-            section={FiledAssessmentAppealsSection}
-          />
-          <ConnectedSection<ArchiveAssessmentAppeal>
-            className="col-span-6 row-span-1"
-            getter={fetchAssessmentAppealsRecords}
-            label="Assessment Appeals History"
-            parcelID={parcelID}
-            section={AssessmentAppealsSection}
-          />
-        </Section>
-
-        <Heading level={2}>Delinquencies</Heading>
-        <Section>
-          {/* Foreclosure */}
-          <ConnectedSection<ForeclosureFiling>
-            className="col-span-6 row-span-1"
-            getter={fetchForeclosureFilingsRecords}
-            label="Foreclosure Filings"
-            parcelID={parcelID}
-            section={ForeclosureFilingSection}
-          />
-          {/* Liens */}
-          <ConnectedSection<TaxLienWithCurrentStatus>
-            className="col-span-6 row-span-1"
-            getter={fetchTaxLiensWithCurrentStatusRecords}
-            label="Tax Liens"
-            parcelID={parcelID}
-            section={TaxLiensSection}
-          />
-        </Section>
+    <article className="mx-auto mb-24">
+      <div className="h-64 w-full">
+        <Hero parcelID={parcelID} />
       </div>
-    </div>
-  );
-}
+      <div className="sticky top-0 -mt-24 bg-black/40 px-4 py-2 backdrop-blur-md">
+        <Suspense fallback={<HeadingSkeleton />} key={parcelID}>
+          <HeadingSection parcelID={parcelID} />
+        </Suspense>
+      </div>
 
-function Section({
-  children,
-  className,
-}: PropsWithChildren<{ className?: string }>): React.ReactElement {
-  return (
-    <section className={twMerge("mb-12 grid grid-cols-12 gap-2", className)}>
-      {children}
-    </section>
+      <Section label="Images">
+        <div className="flex space-x-8">
+          <PopupImage
+            alt="Photo of property"
+            src={`https://iasworld.alleghenycounty.us/iasworld/iDoc2/Services/GetPhoto.ashx?parid=${parcelID}&jur=002&Rank=1`}
+            className="relative h-32 w-32"
+          />
+          <PopupImage
+            alt="Sketch of parcel plot"
+            src={`https://iasworld.alleghenycounty.us/iasworld/maintain/services/GetSketchImage.ashx?&parid=${parcelID}&jur=002&&Taxyr=2024&mode=detailed&gridunits=0`}
+            className="relative h-32 w-32"
+          />
+        </div>
+      </Section>
+
+      {/* Owner */}
+      <ConnectedSection<PropertyAssessment>
+        getter={fetchAssessmentRecord}
+        label="Owner"
+        parcelID={parcelID}
+        section={OwnerSection}
+      />
+
+      {/* Tax Context */}
+      <ConnectedSection<PropertyAssessment>
+        className="col-span-6 row-span-2"
+        getter={fetchAssessmentRecord}
+        label="Tax Context"
+        parcelID={parcelID}
+        section={TaxContextSection}
+      />
+
+      {/* Dwelling Characteristics*/}
+      <ConnectedSection<PropertyAssessment>
+        getter={fetchAssessmentRecord}
+        label="Dwelling Characteristics"
+        parcelID={parcelID}
+        section={DwellingSection}
+      />
+
+      {/* Assessed Values */}
+      <ConnectedSection<PropertyAssessment>
+        getter={fetchAssessmentRecord}
+        label="Assessesd Values"
+        parcelID={parcelID}
+        section={AssessedValuesSection}
+      />
+
+      {/* Assessement Appeals */}
+      <MultiConnectedSection<{
+        filed: FiledAssessmentAppeal;
+        archive: ArchiveAssessmentAppeal;
+      }>
+        getters={{
+          filed: fetchFiledAssessmentAppealsRecord,
+          archive: fetchAssessmentAppealsRecords,
+        }}
+        label="Assessment Appeals"
+        parcelID={parcelID}
+        section={AssessmentAppealsSection}
+      />
+
+      {/* Condition */}
+      <ConnectedSection<PropertyAssessment>
+        getter={fetchAssessmentRecord}
+        label="Condition"
+        parcelID={parcelID}
+        section={ConditionSection}
+      />
+
+      {/* PLI Permits */}
+      <ConnectedSection<PLIPermit>
+        className="col-span-4 row-span-1"
+        getter={fetchPLIPermitRecords}
+        label="PLI Permits"
+        parcelID={parcelID}
+        section={PLIPermitsSection}
+      />
+
+      {/* Code Violations*/}
+      <ConnectedSection<CityViolation>
+        className="col-span-4 row-span-1"
+        getter={fetchCityViolationsRecords}
+        label="Pittsburgh Code Violations"
+        parcelID={parcelID}
+        section={CodeViolationsSection}
+      />
+
+      {/* Sales */}
+      <MultiConnectedSection<{
+        sales: PropertySaleTransaction;
+        assessment: PropertyAssessment;
+      }>
+        className="col-span-8 row-span-1"
+        getters={{
+          sales: fetchPropertySaleTransactionsRecords,
+          assessment: fetchAssessmentRecord,
+        }}
+        label="Sales History"
+        parcelID={parcelID}
+        section={SalesSection}
+      />
+
+      {/* Liens */}
+      <ConnectedSection<TaxLienWithCurrentStatus>
+        className="col-span-6 row-span-1"
+        getter={fetchTaxLiensWithCurrentStatusRecords}
+        label="Tax Liens"
+        parcelID={parcelID}
+        section={TaxLiensSection}
+      />
+    </article>
   );
 }

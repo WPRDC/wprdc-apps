@@ -62,12 +62,12 @@ export function formatValue<T extends Value = Value>(
 }
 
 export function formatDollars(
-  value?: number,
+  value?: Value | null,
   options: Intl.NumberFormatOptions = {},
 ): string | undefined {
   if (!value && value !== 0) return undefined;
 
-  return value.toLocaleString("en-US", {
+  return Number(value).toLocaleString("en-US", {
     style: "currency",
     currency: "USD",
     maximumFractionDigits: 0,
@@ -75,8 +75,19 @@ export function formatDollars(
   });
 }
 
-export function formatDate(date: string): string {
-  return new Date(date).toISOString().substring(0, 10);
+export function formatDate(date?: Value): string | undefined {
+  if (typeof date === "string" || typeof date === "number")
+    return new Date(date).toISOString().substring(0, 10);
+  return undefined;
+}
+
+export function formatLongDate(date?: Value): string | undefined {
+  if (typeof date === "string" || typeof date === "number")
+    return new Date(date).toLocaleDateString("en-US", {
+      dateStyle: "long",
+      timeZone: "UTC",
+    });
+  return undefined;
 }
 
 /** Converts an array of field definitions into a data dict csv */

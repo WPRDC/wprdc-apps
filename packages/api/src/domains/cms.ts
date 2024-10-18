@@ -39,8 +39,6 @@ export async function fetchAPI<T extends StrapiBase>(
       `/api${path}${queryString ? `?${queryString}` : ""}`,
     )}`;
 
-    console.log(requestUrl);
-
     // Make API call
     const response = await fetch(requestUrl, mergedOptions);
     return await response.json();

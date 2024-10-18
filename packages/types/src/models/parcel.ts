@@ -187,6 +187,7 @@ export interface ArchiveAssessmentAppeal extends DatastoreRecord {
 }
 
 export interface CityViolation extends DatastoreRecord {
+  _id: number;
   casefile_number: string;
   address: string;
   parcel_id: string;

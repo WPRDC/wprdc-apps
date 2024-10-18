@@ -7,14 +7,13 @@ import {
   type SpaceRATResponse,
 } from "@wprdc/api";
 import { type ReactNode } from "react";
-import { type VisualizationSpec } from "react-vega";
+import { type VisualizationSpec } from "@wprdc/types";
 import {
   type CityViolation,
   type DatastoreRecord,
   type FieldRecord,
 } from "@wprdc/types";
-import { Tab, TabList, TabPanel, Tabs } from "@wprdc/ui";
-import { Chart } from "@/components/chart";
+import { ChartViz, Tab, TabList, TabPanel, Tabs } from "@wprdc/ui";
 
 function groupByParcel<T extends DatastoreRecord>(
   records?: (DatastoreRecord & {
@@ -129,11 +128,10 @@ export default async function Page({
         })}
       />
       <div className="w-fit max-w-full overflow-x-auto border-2 border-stone-800">
-        <Chart
-          title="Properties by Fair-market Assessed Value"
-          spec={parcelPriceSpec}
-          data={{ table: records }}
-        />
+        <figure>
+          <figcaption>Properties by Fair-market Assessed Value</figcaption>
+          <ChartViz spec={parcelPriceSpec} data={{ table: records }} />
+        </figure>
       </div>
 
       <h2 className="mb-4 mt-12 text-5xl font-bold">Code Violations</h2>

@@ -32,16 +32,18 @@ function Code({
   children,
   className,
 }: CodeProps): React.ReactElement {
+  const Elem = block ? "pre" : "code";
+
   return (
-    <span
+    <Elem
       className={twMerge(
         "box-content inline rounded border border-stone-400 bg-stone-100 px-0.5 font-mono text-sm font-medium not-italic text-wprdc-700",
-        block && "block",
         className,
+        block ? "block" : "inline",
       )}
     >
       {children}
-    </span>
+    </Elem>
   );
 }
 

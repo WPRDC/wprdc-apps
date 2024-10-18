@@ -13,7 +13,7 @@ export function InfoTooltip({
 }: InfoTooltipProps): React.ReactElement {
   return (
     <DialogTrigger>
-      <Button className="text-blue-400 hover:text-blue-600">
+      <Button className="text-cyan-400 hover:text-blue-600">
         {size === "S" ? (
           <InfoIcon className="size-3" />
         ) : (
@@ -21,8 +21,10 @@ export function InfoTooltip({
         )}
       </Button>
       <Popover>
-        <Header className="mb-1 text-xs font-bold text-gray-500">Info</Header>
-        <div>{info}</div>
+        <Header className="mb-1 font-mono text-xs font-bold uppercase text-gray-500">
+          Info
+        </Header>
+        <div className="italic">{info}</div>
       </Popover>
     </DialogTrigger>
   );

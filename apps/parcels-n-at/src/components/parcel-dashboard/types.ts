@@ -1,6 +1,5 @@
 import type { APIResult } from "@wprdc/api";
 import type { DatastoreRecord, FieldRecord, ParcelIndex } from "@wprdc/types";
-import type { FC } from "react";
 
 export type SectionProps<
   T extends DatastoreRecord,
@@ -39,7 +38,7 @@ export interface ConnectedSectionProps<
   T extends DatastoreRecord,
   P extends object = object,
 > extends CommonSectionProps<P> {
-  section: FC<SectionProps<T> & P>;
+  section: (props: SectionProps<T> & P) => React.ReactElement;
   getter: (parcelID: string) => Promise<APIResult<T>>;
 }
 
@@ -47,7 +46,7 @@ export interface MultiConnectedSectionProps<
   T extends DatastoreRecordSet,
   P extends object = object,
 > extends CommonSectionProps<P> {
-  section: FC<MultiSourceSectionProps<T> & P>;
+  section: (props: MultiSourceSectionProps<T> & P) => React.ReactElement;
   getters: GetterSet<T>;
 }
 

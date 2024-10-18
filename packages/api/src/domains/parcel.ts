@@ -14,7 +14,7 @@ import type {
   TaxLienWithCurrentStatus,
   RankedParcelIndex,
 } from "@wprdc/types";
-import { fetchSQLSearch, toFieldLookup } from "../fetch-util";
+import { fetchFields, fetchSQLSearch, toFieldLookup } from "../fetch-util";
 import type { APIResult } from "../types";
 
 export enum ParcelTable {
@@ -22,7 +22,7 @@ export enum ParcelTable {
   PropertySaleTransactions = "5bbe6c55-bce6-4edb-9d04-68edeb6bf7b1",
   AssessmentAppeals = "8e92a566-b52b-4d10-9fb5-c18b883cd926",
   FiledAssessmentAppeals = "12e00874-bdca-46c2-89ab-bd0e9272b3cb",
-  PLIPermit = "pli_permits",
+  PLIPermit = "f4d1177a-f597-4c32-8cbf-7885f56253f6",
   CityViolations = "city_violations",
   ForeclosureFilings = "foreclosure_filings",
   TaxLiensWithCurrentStatus = "tax_liens_with_current_status",
@@ -43,7 +43,7 @@ export const parcelIDFields: Record<ParcelTable, string> = {
   [ParcelTable.ConservatorshipRecord]: "pin",
 };
 
-function _fetchParcelRecords<T extends DatastoreRecord>(
+async function _fetchParcelRecords<T extends DatastoreRecord>(
   parcelID: string | string[],
   table: ParcelTable,
   queryParams?: Record<string, string | number>,
@@ -51,12 +51,15 @@ function _fetchParcelRecords<T extends DatastoreRecord>(
   const parcelIDField = parcelIDFields[table];
   const parcelIDs = Array.isArray(parcelID) ? parcelID : [parcelID];
 
-  return fetchSQLSearch<T>(
+  const { records } = await fetchSQLSearch<T>(
     `SELECT *
      FROM "${table}"
      WHERE "${parcelIDField}" IN (${parcelIDs.map((pid) => `'${pid}'`).join(", ")})`,
     queryParams,
   );
+
+  const fields = await fetchFields(table);
+  return { fields, records };
 }
 
 export async function fetchParcelRecords<T extends DatastoreRecord>(
@@ -64,16 +67,17 @@ export async function fetchParcelRecords<T extends DatastoreRecord>(
   table: ParcelTable,
   queryParams?: Record<string, string | number>,
 ): Promise<APIResult<T>> {
-  const { fields, records } = await _fetchParcelRecords<T>(
+  const { records, fields } = await _fetchParcelRecords<T>(
     parcelID,
     table,
     queryParams,
   );
   if (!records || !fields) {
-    // eslint-disable-next-line no-console -- rare but useful
+    // eslint-disable-next-line no-console -- rare and useful
     console.warn(`Nothing found for ${String(parcelID)} on table ${table}.`);
     return { fields: undefined, records: undefined };
   }
+
   return { fields: toFieldLookup(fields), records };
 }
 

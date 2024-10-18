@@ -12,6 +12,12 @@ module.exports = {
         port: "",
         pathname: "/iasworld/iDoc2/Services/**",
       },
+      {
+        protocol: "https",
+        hostname: "iasworld.alleghenycounty.us",
+        port: "",
+        pathname: "/iasworld/maintain/services/**",
+      },
     ],
   },
 

@@ -5,6 +5,8 @@
  **/
 import type { ModalOverlayProps as RAModalOverlayProps } from "react-aria-components";
 
-export type ModalProps = ModalOverlayProps;
+export interface ModalProps extends ModalOverlayProps {
+  className?: string;
+}
 
 export type ModalOverlayProps = RAModalOverlayProps;

@@ -10,6 +10,7 @@ const config: Omit<Config, "content"> = {
     extend: {
       aspectRatio: {
         "4/3": "4 / 3",
+        "16/10": "16 / 10",
       },
       colors: {
         primary: "#FCEC52",
@@ -45,7 +46,7 @@ const config: Omit<Config, "content"> = {
         mono: [
           "var(--font-jetbrains-mono)",
           "JetBrains Mono",
-          ...defaultTheme.fontFamily.sans,
+          ...defaultTheme.fontFamily.mono,
         ],
       },
       maxHeight: {
@@ -72,7 +73,6 @@ const config: Omit<Config, "content"> = {
     },
   },
   plugins: [
-    require("@tailwindcss/aspect-ratio"),
     require("tailwindcss-react-aria-components"),
     require("tailwindcss-animate"),
   ],
