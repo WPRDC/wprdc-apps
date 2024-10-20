@@ -13,7 +13,8 @@
     "lint": "eslint src/",
     "dev": "tsup --watch",
     "type-check": "tsc --noEmit",
-    "update": "pnpm update"
+    "update": "pnpm update",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "peerDependencies": {
     "react": "^18.3.1"

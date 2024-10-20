@@ -4,9 +4,10 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "dev-parcelsnat": "turbo dev --filter=parcels-n-at --filter=@wprdc/ui --filter=@wprdc/types --filter=@wprdc/api",
     "lint": "turbo run lint",
     "type-check": "turbo type-check",
-    "clean": "turbo run clean",
+    "clean": "rm -rf .turbo && rm -rf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "version-packages": "changeset version",
     "release": "turbo run build --filter=docs^... && changeset publish"

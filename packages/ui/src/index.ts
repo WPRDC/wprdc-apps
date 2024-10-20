@@ -9,3 +9,5 @@ export * from "./components/content";
 export * from "./components/popup-image";
 
 export * from "./data-viz";
+
+export * from "./components/toast";

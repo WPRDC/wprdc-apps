@@ -2,10 +2,9 @@
 
 import { Map, parcelLayer } from "@wprdc/ui";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import type { MapGeoJSONFeature, MapRef } from "react-map-gl/maplibre";
 import { ParcelSearch } from "@/components/parcel-search";
-import type { GeocodeResponseBody } from "@/app/api/parcels/geocode/route";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 
@@ -20,6 +19,7 @@ export function NavMap({ selectedParcel }: NavMapProps): React.ReactElement {
 
   return (
     <Map
+      id="navMap"
       initialViewState={{ zoom: 15.5 }}
       layers={[parcelLayer]}
       mapTilerAPIKey={API_KEY}

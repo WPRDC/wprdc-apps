@@ -13,7 +13,7 @@ import { tw } from "../../util";
 import type { ButtonProps, ButtonVariant } from "./Button.types";
 
 // export styles for use with other components
-export const buttonBaseStyle = tw`focus-visible:ring-focused cursor-pointer rounded border px-1 py-1 font-mono text-sm font-semibold uppercase leading-none shadow active:shadow-sm hover:shadow-md focus-visible:ring-2`;
+export const buttonBaseStyle = tw`cursor-pointer rounded border px-1 py-1 font-mono text-sm font-semibold uppercase leading-none shadow active:shadow-sm hover:shadow-md focus-visible:ring-2 focus-visible:ring-focused`;
 export const buttonVariants: Record<ButtonVariant, string> = {
   primary: tw`border-2 border-text bg-primary text-text dark:border-text`,
   success: tw`"border-green-900 bg-green-800 text-white`,
@@ -33,6 +33,7 @@ export function Button({
   className,
   children,
   variant,
+  icon: Icon,
   ...buttonProps
 }: ButtonProps): React.ReactElement {
   return (
@@ -46,7 +47,14 @@ export function Button({
         className,
       )}
     >
-      {children}
+      {Icon ? (
+        <div className="flex items-center space-x-1">
+          <Icon />
+          {!!children && <div>{children}</div>}
+        </div>
+      ) : (
+        <>{children}</>
+      )}
     </RAButton>
   );
 }

@@ -4,6 +4,7 @@
  *
  **/
 import type { ButtonProps as RAButtonProps } from "react-aria-components";
+import { type IconType } from "react-icons/lib";
 
 export type ButtonVariant =
   | "default"
@@ -20,4 +21,5 @@ export interface ButtonProps extends RAButtonProps {
   variant?: ButtonVariant;
   className?: string;
   children?: React.ReactNode;
+  icon?: IconType;
 }

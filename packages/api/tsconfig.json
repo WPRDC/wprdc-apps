@@ -2,9 +2,15 @@
   "extends": "@wprdc/typescript-config/base.json",
   "compilerOptions": {
     "lib": ["dom", "ES2015"],
+    "module": "ESNext",
+    "target": "ES6",
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "noEmit": true,
     "sourceMap": true,
     "types": ["node"]
   },
   "include": ["."],
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "build", "node_modules"]
 }

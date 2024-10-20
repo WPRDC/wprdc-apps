@@ -13,7 +13,7 @@ export function InfoTooltip({
 }: InfoTooltipProps): React.ReactElement {
   return (
     <DialogTrigger>
-      <Button className="text-cyan-400 hover:text-blue-600">
+      <Button className="text-cyan-600 hover:text-cyan-400">
         {size === "S" ? (
           <InfoIcon className="size-3" />
         ) : (

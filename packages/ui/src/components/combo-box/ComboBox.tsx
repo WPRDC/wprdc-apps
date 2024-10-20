@@ -4,12 +4,12 @@ import {
   Input,
   Label,
   ListBox,
+  Popover,
   ComboBox as RAComboBox,
   Text,
 } from "react-aria-components";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { twMerge } from "tailwind-merge";
-import { Popover } from "../popover";
 import { Typography } from "../typography";
 import type { ComboBoxProps } from "./ComboBox.types";
 
@@ -37,7 +37,7 @@ export function ComboBox<T extends object>({
       <div
         className={twMerge(
           variant === "search-nav" ? "absolute flex" : "hidden",
-          "h-full items-center rounded-l-md border-r border-black bg-stone-900 ",
+          "h-full items-center rounded-l-md border-r border-black bg-stone-900",
         )}
       >
         <BiSearchAlt2
@@ -49,8 +49,8 @@ export function ComboBox<T extends object>({
       </div>
       <Input
         className={twMerge(
-          "w-full rounded border-2 border-stone-800 px-2 py-1",
-          variant === "search-nav" && " pl-11 ",
+          "w-full rounded border-2 border-stone-800 py-1",
+          variant === "search-nav" ? "pl-11 pr-2" : "px-2",
         )}
         placeholder={placeholder}
       />
@@ -61,7 +61,7 @@ export function ComboBox<T extends object>({
         <ListBox className="bg-white p-2">{children}</ListBox>
       </Popover>
 
-      {props.inputValue && props.inputValue.length < 3 ? (
+      {props.inputValue && props.inputValue.length < 4 ? (
         <div className="absolute w-[--trigger-width]">
           <div className="ml-11 bg-white/40 px-1 py-0.5 text-xs backdrop-blur-md">
             Type at least 4 characters to see results

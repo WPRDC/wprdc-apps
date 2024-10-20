@@ -21,7 +21,7 @@ import type {
   SelectionRecord,
 } from "@wprdc/types";
 import type * as React from "react";
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 import type { Selection } from "react-aria-components";
 import type {
   ControlPosition,
@@ -31,11 +31,13 @@ import type {
   ViewState,
   ViewStateChangeEvent,
 } from "react-map-gl/maplibre";
-import { StaticImageData } from "next/image";
+import { type StaticImageData } from "next/image";
 
 export type MouseEventContext = MapState;
 
 export interface MapProps {
+  id?: string;
+
   children?: React.ReactNode;
   /** Override initial view state */
   initialViewState?: Partial<ViewState>;

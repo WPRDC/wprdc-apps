@@ -1,7 +1,6 @@
 {
   "name": "@wprdc/api",
   "version": "0.0.0",
-  "main": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
   "files": [
     "dist/**"
@@ -20,7 +19,8 @@
     "lint": "eslint . --fix",
     "dev": "tsup --watch",
     "type-check": "tsc --noEmit",
-    "update": "pnpm update"
+    "update": "pnpm update",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "peerDependencies": {
     "react": "^18.3.1"
@@ -39,7 +39,7 @@
     "@wprdc/eslint-config": "workspace:*",
     "@wprdc/tailwind-config": "workspace:*",
     "@wprdc/typescript-config": "workspace:*",
-    "tsup": "^8.2.4",
-    "typescript": "^5.5.4"
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.3"
   }
 }

@@ -29,7 +29,7 @@ import type {
   Point,
   ViewStateChangeEvent,
 } from "react-map-gl/maplibre";
-import ReactMapGL, { NavigationControl } from "react-map-gl/maplibre";
+import { NavigationControl, Map as ReactMapGL } from "react-map-gl/maplibre";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../button";
 import { BasemapMenu } from "./BasemapMenu";
@@ -51,6 +51,7 @@ const NODE_ENV = process.env.NODE_ENV ?? "development";
 
 export const Map = forwardRef<MapRef, MapProps>(function _Map(
   {
+    id,
     children,
     onClick,
     onHover,
@@ -247,7 +248,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
         .map((l) => `${l.slug}-fill`) ?? [];
 
     return autoLayerIDs.concat(manualInteractiveLayerIDs);
-  }, [layers]);
+  }, [layers, manualInteractiveLayerIDs]);
 
   // can scroll zoom when it's toggled on, it's
   const canScrollZoom = useMemo(
@@ -265,6 +266,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
 
   return (
     <ReactMapGL
+      id={id}
       cursor={cursor}
       initialViewState={{
         longitude: DEFAULT_LONGITUDE,
@@ -377,11 +379,11 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
           />
         )}
 
-      {!!customHoverPopup && !!hoveredPoint && hoveredFeatures && (
+      {!!customHoverPopup && !!hoveredPoint && hoveredFeatures ? (
         <SimplePopupWrapper point={hoveredPoint}>
           {customHoverPopup}
         </SimplePopupWrapper>
-      )}
+      ) : null}
 
       {!!clickedFeatures?.length && !!clickedPoint && (
         <ClickPopup

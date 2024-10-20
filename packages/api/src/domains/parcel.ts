@@ -211,11 +211,11 @@ export async function geocodeParcel(
   init?: RequestInit,
 ): Promise<GeocodeResponse | null> {
   const sql = `
-      SELECT "PIN",
-             ST_AsGeoJSON(ST_Centroid(_geom)) as centroid,
-             ST_AsGeoJSON(ST_Envelope(_geom)) as bbox
-      FROM "parcel_boundaries"
-      WHERE "PIN" = '${parcelID}'
+      SELECT "parcel_id",
+             ST_AsGeoJSON(centroid) as centroid,
+             ST_AsGeoJSON(ST_Envelope(geom)) as bbox
+      FROM "parcel_index"
+      WHERE "parcel_id" = '${parcelID}'
       LIMIT 1
   `;
 
@@ -227,6 +227,8 @@ export async function geocodeParcel(
 
   if (!records?.length) return null;
   const record = records[0];
+
+  console.log("🐀", record.bbox);
 
   const bboxPolygon: CoordinatePair[][] = (
     JSON.parse(record.bbox) as {

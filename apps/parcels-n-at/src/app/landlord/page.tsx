@@ -13,7 +13,16 @@ import {
   type DatastoreRecord,
   type FieldRecord,
 } from "@wprdc/types";
-import { ChartViz, Tab, TabList, TabPanel, Tabs } from "@wprdc/ui";
+import {
+  ChartViz,
+  formatDollars,
+  SingleValueVizCollection,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
+} from "@wprdc/ui";
+import { PropertyDashboard } from "@/components/parcel-dashboard";
 
 function groupByParcel<T extends DatastoreRecord>(
   records?: (DatastoreRecord & {
@@ -40,9 +49,11 @@ function groupByCasefile(
 ): Record<string, CityViolation[]> {
   return records.reduce<Record<string, CityViolation[]>>((acc, curr) => {
     const cfn = curr.casefile_number;
+
     if (!Object.prototype.hasOwnProperty.call(acc, cfn)) {
       acc[cfn] = [];
     }
+
     acc[cfn].push(curr);
     return acc;
   }, {});
@@ -60,10 +71,6 @@ interface QueriedStats extends QuestionRecord {
     stddev: number;
     sum: number;
     third_quartile: number;
-  };
-  parcel_class: {
-    mode: string | number;
-    n: number;
   };
 }
 
@@ -88,22 +95,16 @@ export default async function Page({
     : "";
 
   const response: QueryResponse = await fetchSpaceratQuery<QueriedStats>({
-    question: ["fairmarkettotal", "classdesc"],
+    question: ["fairmarkettotal"],
     region: ["county.42003"],
     filter: "by_owner",
     filterArg: ownerSearch,
     queryRecords: true,
   });
 
-  // todo: have spacerat give us the parcel addresses in the records
   const { records, stats } = response.results;
 
   const parcelIDs = records.map((r) => r.region);
-
-  const pliViolations = await fetchCityViolationsRecords(parcelIDs);
-  const violationsByParcel = groupByParcel<CityViolation>(
-    pliViolations.records,
-  );
 
   // group by parcel ID and then
   const ownerName = fetchOwnerName(records[0].region);
@@ -111,64 +112,70 @@ export default async function Page({
   const mainStats = stats["county.42003"];
 
   return (
-    <div className="w-full overflow-auto px-6">
-      <h2>
+    <div className="mt-4 w-full overflow-auto px-6">
+      <h1>
         <div className="text-2xl">Real Estate Portfolio for</div>{" "}
         <div className="text-5xl font-bold">{ownerName}</div>
-      </h2>
-      <ValueDisplay
-        label="Number of Parcels"
-        value={mainStats.fairmarkettotal.n}
-      />
-      <ValueDisplay
-        label="Total Assessed Value"
-        value={mainStats.fairmarkettotal.sum.toLocaleString("en-US", {
-          style: "currency",
-          currency: "USD",
-        })}
-      />
-      <div className="w-fit max-w-full overflow-x-auto border-2 border-stone-800">
-        <figure>
-          <figcaption>Properties by Fair-market Assessed Value</figcaption>
-          <ChartViz spec={parcelPriceSpec} data={{ table: records }} />
-        </figure>
-      </div>
+      </h1>
 
-      <h2 className="mb-4 mt-12 text-5xl font-bold">Code Violations</h2>
-      <ValueDisplay
-        label="Total Number of Violations"
-        value={
-          pliViolations.records?.filter(
-            (r: CityViolation) => r.investigation_outcome === "VIOLATION FOUND",
-          ).length
-        }
-      />
+      <div className="mb-16 mt-4 flex flex-col space-y-6">
+        <div>
+          <h2 className="mb-4 text-2xl font-bold">Summary</h2>
 
-      <h3 className="mt-4">Breakdown by Parcel</h3>
-      <Tabs orientation="vertical">
-        <TabList className="min-w-">
-          {Object.entries(violationsByParcel).map(([pid, violations]) => (
-            <Tab
-              key={pid}
-              id={pid}
-              className="selected:border-transparent text-xs"
-            >
-              <div className="text-sm">
-                {cleanAddress(violations[0].address) ?? "No Address"}
+          <SingleValueVizCollection
+            items={[
+              {
+                id: "count",
+                label: "Number of Parcels",
+                value: mainStats.fairmarkettotal.n,
+              },
+              {
+                id: "total-value",
+                label: "Total Assessed Value",
+                value: mainStats.fairmarkettotal.sum,
+                format: formatDollars,
+              },
+            ]}
+          />
+          <div className="w-fit max-w-full overflow-x-auto border-2 border-stone-600">
+            <figure>
+              <figcaption className="bg-black px-2 py-1 font-mono text-sm font-bold uppercase text-white">
+                Properties by Fair-market Assessed Value
+              </figcaption>
+              <div className="max-w-3xl overflow-x-auto">
+                <ChartViz spec={parcelPriceSpec} data={{ table: records }} />
               </div>
-              <div>{pid}</div>
-            </Tab>
-          ))}
-        </TabList>
-        {Object.entries(violationsByParcel).map(([pid, violations]) => (
-          <TabPanel key={pid} id={pid} className="w-full">
-            <ViolationsDisplay
-              violations={violations}
-              fields={pliViolations.fields}
-            />
-          </TabPanel>
-        ))}
-      </Tabs>
+            </figure>
+          </div>
+        </div>
+        <div className="">
+          <h2 className="mb-4 text-2xl font-bold">Breakdown by Parcel</h2>
+          <Tabs orientation="vertical">
+            <TabList className="mr-2">
+              {records.map(({ region: pid, address }) => (
+                <Tab
+                  key={pid}
+                  id={pid}
+                  className="selected:border-transparent text-xs"
+                >
+                  <div className="text-sm">
+                    {!!address ? address : "No Address"}
+                  </div>
+                  <div>{pid}</div>
+                </Tab>
+              ))}
+            </TabList>
+            {records.map(({ region: pid }) => (
+              <TabPanel key={pid} id={pid}>
+                <div className="max-h-[50rem] max-w-screen-sm overflow-auto rounded-sm border border-black">
+                  {/* todo: render differently in embed mode (e.g. no map buttons) */}
+                  <PropertyDashboard parcelID={pid} />
+                </div>
+              </TabPanel>
+            ))}
+          </Tabs>
+        </div>
+      </div>
     </div>
   );
 }
@@ -318,6 +325,9 @@ const parcelPriceSpec: VisualizationSpec = {
   data: { name: "table" },
   $schema: "https://vega.github.io/schema/vega-lite/v5.json",
   mark: "bar",
+  view: {
+    strokeWidth: 0,
+  },
   encoding: {
     x: {
       field: "region",

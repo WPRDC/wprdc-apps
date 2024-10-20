@@ -6,7 +6,8 @@
     ".": "./tailwind.config.ts"
   },
   "scripts": {
-    "update": "pnpm update"
+    "update": "pnpm update",
+    "clean": "rm -rf node_modules"
   },
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",

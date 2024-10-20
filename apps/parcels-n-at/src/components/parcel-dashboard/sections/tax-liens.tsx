@@ -33,12 +33,14 @@ export function TaxLiensSection({
                     id: "tax_year",
                     label: fields.tax_year.info?.label,
                     value: record.tax_year,
+                    info: fields.tax_year.info?.notes,
                   },
                   {
                     id: "amount",
                     label: fields.amount.info?.label,
                     value: record.amount,
                     format: formatDollars,
+                    info: fields.amount.info?.notes,
                   },
                 ]}
               />

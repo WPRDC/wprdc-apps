@@ -1,7 +1,8 @@
 import { type Value } from "@wprdc/types";
-import { type ReactElement, type ReactNode } from "react";
+import React, { type ReactElement, type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 import { type IconType } from "react-icons/lib";
+import { InfoTooltip } from "../components";
 
 export type SingleValueVizVariant = "default" | "ratio" | "percent";
 
@@ -38,6 +39,7 @@ export function SingleValueViz<T extends Value>({
   value,
   label,
   variant,
+  info,
   icon: Icon,
   className,
   children,
@@ -47,11 +49,16 @@ export function SingleValueViz<T extends Value>({
     <div
       className={twMerge("rounded-sm border border-black bg-white", className)}
     >
-      <div className="flex items-center space-x-1 bg-black px-2 py-1.5 text-white">
-        {!!Icon && <Icon />}
-        <dt className="pr-1 font-mono text-sm uppercase leading-none">
-          {label}
-        </dt>
+      <div className="flex items-start bg-black px-2 text-white">
+        <div className="flex items-center space-x-1 py-1.5">
+          {!!Icon && <Icon />}
+          <dt className="pr-1 font-mono text-sm font-bold uppercase leading-none">
+            {label}
+          </dt>
+        </div>
+        <div className="py-0.5 leading-none">
+          {!!info && <InfoTooltip size="S" info={info} />}
+        </div>
       </div>
 
       <div>

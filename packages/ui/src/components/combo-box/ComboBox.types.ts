@@ -12,4 +12,5 @@ export interface ComboBoxProps<T extends object>
   children: React.ReactNode | ((item: T) => React.ReactNode);
   className?: string;
   placeholder?: string;
+  isLoading?: boolean;
 }

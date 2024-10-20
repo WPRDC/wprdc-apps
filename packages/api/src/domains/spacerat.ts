@@ -124,7 +124,7 @@ export async function fetchSpaceratQuery<
   T extends QuestionRecord = QuestionRecord,
 >(params: SpaceRATParams): Promise<SpaceRATResponse<T>> {
   const url = `${HOST}/answer?${new URLSearchParams(parseParams(params)).toString()}`;
-
+  console.log("😼", url);
   const response = await fetch(url);
 
   return (await response.json()) as SpaceRATResponse<T>;

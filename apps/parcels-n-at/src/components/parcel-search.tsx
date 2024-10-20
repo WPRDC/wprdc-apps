@@ -31,7 +31,7 @@ export function ParcelSearch(): React.ReactElement {
 
   function handleSelectionChange(key: Key | null): void {
     list.setFilterText("");
-    if (key) router.push(`/explore?parcel=${key.toString()}`);
+    if (key) router.push(`/explore?parcel=${key.toString()}&zoompan=1`);
   }
 
   return (
@@ -46,6 +46,7 @@ export function ParcelSearch(): React.ReactElement {
       onSelectionChange={handleSelectionChange}
       placeholder="Search address or parcel ID"
       variant="search-nav"
+      isLoading={list.isLoading}
     >
       {(item: RankedParcelIndex) => (
         <ListBoxItem
