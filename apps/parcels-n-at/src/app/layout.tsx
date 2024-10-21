@@ -58,7 +58,7 @@ export default function RootLayout({
             </a>
             <a
               className="hover:bg-primary flex items-center hover:underline"
-              href="/indicators?maps=property-assessments&geog=neighborhood&variant=_default_&question=countytotal&stat=median"
+              href="/indicators?maps=property-assessments&geog=neighborhood&variant=_default_&question=countytotal&stat=median&mapset=property-assessments"
             >
               <TbMathFunction /> Indicators
             </a>
