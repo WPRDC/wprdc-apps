@@ -5,7 +5,12 @@ import "./globals.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "@wprdc/ui/styles.css";
 import { Navbar } from "@wprdc/ui";
-import { TbCompass, TbDownload } from "react-icons/tb";
+import {
+  TbCompass,
+  TbDownload,
+  TbMathFunction,
+  TbPackage,
+} from "react-icons/tb";
 
 export const metadata: Metadata = {
   title: "Parcels N'at",
@@ -49,7 +54,13 @@ export default function RootLayout({
               className="hover:bg-primary flex items-center hover:underline"
               href="/bulk"
             >
-              <TbDownload /> Bulk&nbsp;Download
+              <TbPackage /> Bulk&nbsp;Downloader
+            </a>
+            <a
+              className="hover:bg-primary flex items-center hover:underline"
+              href="/indicators?maps=property-assessments&geog=neighborhood&variant=_default_&question=countytotal&stat=median"
+            >
+              <TbMathFunction /> Indicators
             </a>
           </div>
         </Navbar>

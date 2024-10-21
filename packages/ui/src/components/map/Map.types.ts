@@ -111,6 +111,8 @@ export interface MapProps {
 
   /** Custom hover popup component */
   hoverPopup?: ReactNode;
+
+  onLoad?: () => void;
 }
 
 export interface BasemapOptions {

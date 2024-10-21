@@ -1,9 +1,13 @@
-import { fetchOwnerName, QuestionRecord, SpaceRATResponse } from "@wprdc/api";
+import {
+  fetchOwnerName,
+  fetchSpaceratQuery,
+  QuestionRecord,
+  SpaceRATResponse,
+} from "@wprdc/api";
 import type { PropertyAssessment } from "@wprdc/types";
-import { A, Bone, formatDollars, SingleValueVizCollection } from "@wprdc/ui";
+import { A, formatDollars, SingleValueVizCollection } from "@wprdc/ui";
 import React from "react";
 import { SectionProps } from "@/components/parcel-dashboard/types.ts";
-import { fetchSpaceratQuery } from "@wprdc/api";
 import { TbCaretDown, TbCaretRight } from "react-icons/tb";
 
 export function OwnerSection({
@@ -58,13 +62,21 @@ export async function OwnerInfo({
     queryRecords: true,
   });
   const { records, stats } = response.results;
-  const parcelIDs = records.map((r) => r.region);
   const mainStats = stats["county.42003"];
+
+  const ownerAddr = [
+    assessmentRecord.CHANGENOTICEADDRESS1,
+    assessmentRecord.CHANGENOTICEADDRESS2,
+    assessmentRecord.CHANGENOTICEADDRESS3,
+    assessmentRecord.CHANGENOTICEADDRESS4,
+  ]
+    .join("")
+    .replace(/\s+/g, " ");
 
   return (
     <div>
       <div>
-        <address className="font-mono not-italic">
+        <address className="w-fit border border-black bg-white p-2 font-mono not-italic">
           <strong>{owner}</strong>
           <div>
             <p>{assessmentRecord.CHANGENOTICEADDRESS1}</p>
@@ -92,14 +104,15 @@ export async function OwnerInfo({
               },
             ]}
           />
-          <A
-            variant="button"
-            buttonVariant="primary"
-            href={`/landlord?parcel=${parcelID}`}
-          >
-            Explore Owner's Portfolio in Detail
-          </A>
-
+          <div className="flex flex-col space-y-4">
+            <A
+              variant="button"
+              buttonVariant="primary"
+              href={`/explore?parcel=${parcelID}&ownerAddr=${ownerAddr}`}
+            >
+              Highlight owner's properties on the map
+            </A>
+          </div>
           <details className="group mt-4">
             <summary className="group/summary flex w-fit cursor-pointer list-none items-center decoration-2 hover:text-stone-800">
               <TbCaretRight className="block size-5 group-open:hidden"></TbCaretRight>
@@ -109,9 +122,9 @@ export async function OwnerInfo({
               </h4>
             </summary>
             <div className="ml-2 box-content border-l-4 border-stone-600 p-3.5 pr-0">
-              <ul className="max-h-64 w-fit overflow-auto rounded-sm border border-black p-2">
+              <ul className="max-h-64 w-fit overflow-auto rounded-sm border border-black bg-white p-2">
                 {records
-                  .filter((r) => r.pid !== parcelID)
+                  .filter((r) => r.parcel_id !== parcelID)
                   .map(({ region: pid, address }) => (
                     <li key={pid}>
                       <A

@@ -214,7 +214,7 @@ export async function geocodeParcel(
       SELECT "parcel_id",
              ST_AsGeoJSON(centroid) as centroid,
              ST_AsGeoJSON(ST_Envelope(geom)) as bbox
-      FROM "parcel_index"
+      FROM spacerat."parcel_index"
       WHERE "parcel_id" = '${parcelID}'
       LIMIT 1
   `;
@@ -227,8 +227,6 @@ export async function geocodeParcel(
 
   if (!records?.length) return null;
   const record = records[0];
-
-  console.log("🐀", record.bbox);
 
   const bboxPolygon: CoordinatePair[][] = (
     JSON.parse(record.bbox) as {

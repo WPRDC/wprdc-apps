@@ -20,7 +20,7 @@ export async function GET(
     });
 
   const rankedParcels = await autocompleteParcelSearch(query, 10);
-  console.log(rankedParcels);
+
   return NextResponse.json<ResponseBody>({
     results: rankedParcels,
     status: "success",

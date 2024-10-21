@@ -34,6 +34,7 @@ export function ParcelSearch(): React.ReactElement {
     if (key) router.push(`/explore?parcel=${key.toString()}&zoompan=1`);
   }
 
+  console.debug(list.items);
   return (
     <ComboBox<RankedParcelIndex>
       className="w-80 min-w-52 text-xl"

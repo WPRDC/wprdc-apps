@@ -70,6 +70,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     scrollZoom = true,
     withScrollZoomControl = false,
     defaultScrollZoom = false,
+    onLoad,
     interactiveLayerIDs: manualInteractiveLayerIDs = [],
     hoverPopup: customHoverPopup,
   },
@@ -283,6 +284,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       maxZoom={maxZoom ?? DEFAULT_MAX_ZOOM}
       minZoom={minZoom ?? DEFAULT_MIN_ZOOM}
       onClick={handleClick}
+      onLoad={onLoad}
       onMouseMove={handleHover}
       onMouseOut={clearHover}
       onZoom={handleZoom}

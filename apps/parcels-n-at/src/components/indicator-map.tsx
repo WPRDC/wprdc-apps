@@ -139,7 +139,7 @@ export function IndicatorMap({
     };
 
   function handleChartHover(...args: any[]) {
-    console.log("🫡", args);
+    console.log(args);
   }
 
   function handleMapHover(

@@ -20,8 +20,8 @@ export const parcelLayer: LayerConfig<InteractiveSymbologyProps> = {
   },
 
   tileSource: {
-    tileJSONSource: "https://data.wprdc.org/tiles/table.parcel_index.geom",
-    sourceLayer: "table.parcel_index.geom",
+    tileJSONSource: "https://data.wprdc.org/tiles/table.parcel_index.geom.1",
+    sourceLayer: "table.parcel_index.geom.1",
     minZoom: 15,
   },
 
