@@ -21,6 +21,10 @@ export default async function Page({
 
   return (
     <div className="w-full px-6">
+      <div className="bg-primary text-xl font-bold">
+        THIS IS JUST A TECH DEMO. THE STATS AND CALCULATIONS HAVE NOT YET BEEN
+        VERIFIED.
+      </div>
       <IndicatorMap
         availableMapsSets={mapSets}
         selectedMapSet={selectedMapSet}
