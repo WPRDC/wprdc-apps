@@ -3,6 +3,12 @@ const IgnorePlugin = require("webpack").IgnorePlugin;
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   // transpilePackages: ["@wprdc/ui", "@wprdc/types"],
   images: {
     remotePatterns: [

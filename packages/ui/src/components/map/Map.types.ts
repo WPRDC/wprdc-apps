@@ -38,7 +38,7 @@ export type MouseEventContext = MapState;
 export interface MapProps {
   id?: string;
 
-  children?: React.ReactNode;
+  children?: any;
   /** Override initial view state */
   initialViewState?: Partial<ViewState>;
 

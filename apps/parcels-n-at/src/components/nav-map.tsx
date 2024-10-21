@@ -1,6 +1,6 @@
 "use client";
 
-import { A, Legend, LegendItem, Map, parcelLayer } from "@wprdc/ui";
+import { A, Map, parcelLayer } from "@wprdc/ui";
 import { useRouter } from "next/navigation";
 import React, { useMemo, useRef } from "react";
 import {
@@ -11,11 +11,7 @@ import {
 } from "react-map-gl/maplibre";
 import { ParcelSearch } from "@/components/parcel-search";
 import { FillPaintSpec, LayerConfig } from "@wprdc/types";
-import {
-  TbSquareFilled,
-  TbSquareLetterAFilled,
-  TbSquareLetterBFilled,
-} from "react-icons/tb";
+import { TbSquareLetterAFilled, TbSquareLetterBFilled } from "react-icons/tb";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 
@@ -244,91 +240,91 @@ export function NavMap({
         />
       </Source>
 
-      {!!ownerAddress || !!classes ? (
-        <section className="absolute bottom-3 left-3 flex flex-col space-y-2 rounded border-2 border-black bg-white p-2 font-mono text-xs leading-none">
-          <h2 className="font-sans text-xs font-black uppercase text-stone-500">
-            Legend
-          </h2>
-          {!!ownerAddress && (
-            <div>
-              <h3 className="mb-0.5 font-sans font-bold">Owner Address</h3>
-              <div className="flex items-center space-x-1">
-                <div className="size-3 rounded border border-black bg-[#14b8a6]"></div>
-                <div>{ownerAddress}</div>
-              </div>
-            </div>
-          )}
-          {!!classes && (
-            <div>
-              <h3 className="mb-0.5 font-sans font-bold">Use Class</h3>
-              {classes === "sim-city" ? (
-                <ul className="flex flex-col space-y-0.5">
-                  <li className="flex items-center space-x-1">
-                    <div className="size-3 rounded border border-black bg-[#14532d]"></div>
-                    <div>RESIDENTIAL</div>
-                  </li>
-                  <li className="flex items-center space-x-1">
-                    <div className="size-3 rounded border border-black bg-[#1e40af]"></div>
-                    <div>COMMERCIAL</div>
-                  </li>
-                  <li className="flex items-center space-x-1">
-                    <div className="size-3 rounded border border-black bg-[#92400e]"></div>
-                    <div>INDUSTRIAL</div>
-                  </li>
-                  <li className="flex items-center space-x-1">
-                    <div className="size-3 rounded border border-black bg-[#eab308]"></div>
-                    <div>AGRICULTURAL</div>
-                  </li>
-                  <li className="flex items-center space-x-1">
-                    <div className="size-3 rounded border border-black bg-[#a21caf]"></div>
-                    <div>GOVERNMENT</div>
-                  </li>
-                  <li className="flex items-center space-x-1">
-                    <div className="size-3 rounded border border-black bg-[#5b21b6]"></div>
-                    <div>UTILITIES</div>
-                  </li>
-                  <li className="flex items-center space-x-1">
-                    <div className="size-3 rounded border border-black bg-[#44403c]"></div>
-                    <div>OTHER</div>
-                  </li>
-                </ul>
-              ) : null}
-              {!!classes && classes !== "sim-city" ? (
-                <ul className="flex flex-col space-y-0.5">
-                  <li className="flex items-center space-x-1">
-                    <div className="size-3 rounded border border-black bg-[#FFFF00]"></div>
-                    <div>RESIDENTIAL</div>
-                  </li>
-                  <li className="flex items-center space-x-1">
-                    <div className="size-3 rounded border border-black bg-[#FF0000]"></div>
-                    <div>COMMERCIAL</div>
-                  </li>
-                  <li className="flex items-center space-x-1">
-                    <div className="size-3 rounded border border-black bg-[#A020F0]"></div>
-                    <div>INDUSTRIAL</div>
-                  </li>
-                  <li className="flex items-center space-x-1">
-                    <div className="size-3 rounded border border-black bg-[#228B22]"></div>
-                    <div>AGRICULTURAL</div>
-                  </li>
-                  <li className="flex items-center space-x-1">
-                    <div className="size-3 rounded border border-black bg-[#0000FF]"></div>
-                    <div>GOVERNMENT</div>
-                  </li>
-                  <li className="flex items-center space-x-1">
-                    <div className="size-3 rounded border border-black bg-[#575757]"></div>
-                    <div>UTILITIES</div>
-                  </li>
-                  <li className="flex items-center space-x-1">
-                    <div className="size-3 rounded border border-black bg-[#BEBEBE]"></div>
-                    <div>OTHER</div>
-                  </li>
-                </ul>
-              ) : null}
-            </div>
-          )}
-        </section>
-      ) : null}
+      {/*{!!ownerAddress || !!classes ? (*/}
+      {/*  <section className="absolute bottom-3 left-3 flex flex-col space-y-2 rounded border-2 border-black bg-white p-2 font-mono text-xs leading-none">*/}
+      {/*    <h2 className="font-sans text-xs font-black uppercase text-stone-500">*/}
+      {/*      Legend*/}
+      {/*    </h2>*/}
+      {/*    {!!ownerAddress && (*/}
+      {/*      <div>*/}
+      {/*        <h3 className="mb-0.5 font-sans font-bold">Owner Address</h3>*/}
+      {/*        <div className="flex items-center space-x-1">*/}
+      {/*          <div className="size-3 rounded border border-black bg-[#14b8a6]"></div>*/}
+      {/*          <div>{ownerAddress}</div>*/}
+      {/*        </div>*/}
+      {/*      </div>*/}
+      {/*    )}*/}
+      {/*    {!!classes && (*/}
+      {/*      <div>*/}
+      {/*        <h3 className="mb-0.5 font-sans font-bold">Use Class</h3>*/}
+      {/*        {classes === "sim-city" ? (*/}
+      {/*          <ul className="flex flex-col space-y-0.5">*/}
+      {/*            <li className="flex items-center space-x-1">*/}
+      {/*              <div className="size-3 rounded border border-black bg-[#14532d]"></div>*/}
+      {/*              <div>RESIDENTIAL</div>*/}
+      {/*            </li>*/}
+      {/*            <li className="flex items-center space-x-1">*/}
+      {/*              <div className="size-3 rounded border border-black bg-[#1e40af]"></div>*/}
+      {/*              <div>COMMERCIAL</div>*/}
+      {/*            </li>*/}
+      {/*            <li className="flex items-center space-x-1">*/}
+      {/*              <div className="size-3 rounded border border-black bg-[#92400e]"></div>*/}
+      {/*              <div>INDUSTRIAL</div>*/}
+      {/*            </li>*/}
+      {/*            <li className="flex items-center space-x-1">*/}
+      {/*              <div className="size-3 rounded border border-black bg-[#eab308]"></div>*/}
+      {/*              <div>AGRICULTURAL</div>*/}
+      {/*            </li>*/}
+      {/*            <li className="flex items-center space-x-1">*/}
+      {/*              <div className="size-3 rounded border border-black bg-[#a21caf]"></div>*/}
+      {/*              <div>GOVERNMENT</div>*/}
+      {/*            </li>*/}
+      {/*            <li className="flex items-center space-x-1">*/}
+      {/*              <div className="size-3 rounded border border-black bg-[#5b21b6]"></div>*/}
+      {/*              <div>UTILITIES</div>*/}
+      {/*            </li>*/}
+      {/*            <li className="flex items-center space-x-1">*/}
+      {/*              <div className="size-3 rounded border border-black bg-[#44403c]"></div>*/}
+      {/*              <div>OTHER</div>*/}
+      {/*            </li>*/}
+      {/*          </ul>*/}
+      {/*        ) : null}*/}
+      {/*        {!!classes && classes !== "sim-city" ? (*/}
+      {/*          <ul className="flex flex-col space-y-0.5">*/}
+      {/*            <li className="flex items-center space-x-1">*/}
+      {/*              <div className="size-3 rounded border border-black bg-[#FFFF00]"></div>*/}
+      {/*              <div>RESIDENTIAL</div>*/}
+      {/*            </li>*/}
+      {/*            <li className="flex items-center space-x-1">*/}
+      {/*              <div className="size-3 rounded border border-black bg-[#FF0000]"></div>*/}
+      {/*              <div>COMMERCIAL</div>*/}
+      {/*            </li>*/}
+      {/*            <li className="flex items-center space-x-1">*/}
+      {/*              <div className="size-3 rounded border border-black bg-[#A020F0]"></div>*/}
+      {/*              <div>INDUSTRIAL</div>*/}
+      {/*            </li>*/}
+      {/*            <li className="flex items-center space-x-1">*/}
+      {/*              <div className="size-3 rounded border border-black bg-[#228B22]"></div>*/}
+      {/*              <div>AGRICULTURAL</div>*/}
+      {/*            </li>*/}
+      {/*            <li className="flex items-center space-x-1">*/}
+      {/*              <div className="size-3 rounded border border-black bg-[#0000FF]"></div>*/}
+      {/*              <div>GOVERNMENT</div>*/}
+      {/*            </li>*/}
+      {/*            <li className="flex items-center space-x-1">*/}
+      {/*              <div className="size-3 rounded border border-black bg-[#575757]"></div>*/}
+      {/*              <div>UTILITIES</div>*/}
+      {/*            </li>*/}
+      {/*            <li className="flex items-center space-x-1">*/}
+      {/*              <div className="size-3 rounded border border-black bg-[#BEBEBE]"></div>*/}
+      {/*              <div>OTHER</div>*/}
+      {/*            </li>*/}
+      {/*          </ul>*/}
+      {/*        ) : null}*/}
+      {/*      </div>*/}
+      {/*    )}*/}
+      {/*  </section>*/}
+      {/*) : null}*/}
     </Map>
   );
 }
