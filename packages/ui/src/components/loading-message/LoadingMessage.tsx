@@ -6,6 +6,7 @@
 import React from "react";
 import { Spinner } from "../spinner";
 import type { LoadingMessageProps } from "./LoadingMessage.types";
+import { twMerge } from "tailwind-merge";
 
 export function LoadingMessage({
   name,
@@ -18,12 +19,23 @@ export function LoadingMessage({
   else if (displayName) `Loading ${displayName}...`;
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center">
-      <div>
-        <div className="flex flex-col items-center p-1 ">
-          <Spinner className="" size={size} />
-        </div>
-        <div className="p-1 font-mono font-semibold uppercase">{msg}</div>
+    <div
+      className={twMerge(
+        "flex h-full w-full items-center justify-center",
+        size !== "S" && "flex-col",
+      )}
+    >
+      <div className="flex items-center p-1">
+        <Spinner className="" size={size} />
+      </div>
+      <div
+        className={twMerge(
+          "p-1 font-mono font-semibold uppercase",
+          size === "S" && "text-xs",
+          size === "L" && "text-lg",
+        )}
+      >
+        {msg}
       </div>
     </div>
   );

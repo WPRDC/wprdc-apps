@@ -43,7 +43,9 @@ export default async function Page({
           {parcel ? (
             <PropertyDashboard parcelID={String(parcel)} />
           ) : (
-            <div>Pick a parcel to begin</div>
+            <div>
+              <div>Pick a parcel to begin</div>
+            </div>
           )}
         </div>
       </MapProvider>

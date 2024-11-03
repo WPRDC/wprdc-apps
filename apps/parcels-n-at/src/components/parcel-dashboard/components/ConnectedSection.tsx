@@ -1,7 +1,7 @@
 import type { APIResult } from "@wprdc/api";
 import type { DatastoreRecord } from "@wprdc/types";
 import { Suspense } from "react";
-import { Typography } from "@wprdc/ui";
+import { LoadingMessage, Typography } from "@wprdc/ui";
 import type {
   ConnectedSectionProps,
   DatastoreRecordSet,
@@ -24,7 +24,7 @@ export function ConnectedSection<T extends DatastoreRecord>({
         description={description}
         defaultOpen={defaultOpen}
       >
-        <Suspense fallback="loading..." key={props.parcelID}>
+        <Suspense fallback={<Loader />} key={props.parcelID}>
           <ConnectedSectionContent {...props} />
         </Suspense>
       </Section>
@@ -40,7 +40,7 @@ export async function ConnectedSectionContent<T extends DatastoreRecord>({
 }: Omit<ConnectedSectionProps<T>, "label">): Promise<React.ReactElement> {
   const { fields, records } = await getter(parcelID);
   if (!records || !fields || !records.length)
-    return <Typography.Note>Error getting data for {parcelID}</Typography.Note>;
+    return <Typography.Note>No records found for {parcelID}</Typography.Note>;
   return <Section fields={fields} records={records} {...sectionProps} />;
 }
 
@@ -52,7 +52,7 @@ export function MultiConnectedSection<T extends DatastoreRecordSet>({
 }: MultiConnectedSectionProps<T>): React.ReactElement {
   return (
     <Section className={className} label={label} description={description}>
-      <Suspense fallback="loading..." key={props.parcelID}>
+      <Suspense fallback={<Loader />} key={props.parcelID}>
         <MultiConnectedSectionContent {...props} />
       </Suspense>
     </Section>
@@ -74,9 +74,7 @@ export async function MultiConnectedSectionContent<
 
   for (const { records, fields } of results) {
     if (!records || !fields || !records.length)
-      return (
-        <Typography.Note>Error getting data for {parcelID}</Typography.Note>
-      );
+      return <Typography.Note>No records found for {parcelID}</Typography.Note>;
   }
 
   const childProps: MultiSourceSectionProps<T> = keys.reduce<
@@ -87,4 +85,12 @@ export async function MultiConnectedSectionContent<
   ) as MultiSourceSectionProps<T>;
 
   return <Section {...childProps} {...sectionProps} />;
+}
+
+function Loader() {
+  return (
+    <div className="w-fit">
+      <LoadingMessage message="Loading..." size="S" />
+    </div>
+  );
 }
