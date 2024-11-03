@@ -32,6 +32,7 @@ export interface CommonSectionProps<T extends object> {
   parcelID: string;
   label: string;
   description?: ReactNode;
+  datasetLinks?: string[];
   defaultOpen?: boolean;
   className?: string;
   sectionProps?: T;

@@ -79,6 +79,7 @@ export function PropertyDashboard({
         defaultOpen={true}
         parcelID={parcelID}
         section={OwnerSection}
+        datasetLinks={["https://data.wprdc.org/dataset/property-assessments"]}
       />
 
       {/* Assessed Values */}
@@ -88,6 +89,7 @@ export function PropertyDashboard({
         getter={fetchAssessmentRecord}
         parcelID={parcelID}
         section={AssessedValuesSection}
+        datasetLinks={["https://data.wprdc.org/dataset/property-assessments"]}
       />
 
       {/* Dwelling Characteristics*/}
@@ -97,6 +99,7 @@ export function PropertyDashboard({
         getter={fetchAssessmentRecord}
         parcelID={parcelID}
         section={DwellingSection}
+        datasetLinks={["https://data.wprdc.org/dataset/property-assessments"]}
       />
 
       {/* Condition */}
@@ -106,6 +109,7 @@ export function PropertyDashboard({
         getter={fetchAssessmentRecord}
         parcelID={parcelID}
         section={ConditionSection}
+        datasetLinks={["https://data.wprdc.org/dataset/property-assessments"]}
       />
 
       {/* Tax Context */}
@@ -115,6 +119,7 @@ export function PropertyDashboard({
         label="Tax Context"
         parcelID={parcelID}
         section={TaxContextSection}
+        datasetLinks={["https://data.wprdc.org/dataset/property-assessments"]}
       />
 
       <Section label="Images">
@@ -145,6 +150,10 @@ export function PropertyDashboard({
         label="Sales History"
         parcelID={parcelID}
         section={SalesSection}
+        datasetLinks={[
+          "https://data.wprdc.org/dataset/property-assessments",
+          "https://data.wprdc.org/dataset/real-estate-sales",
+        ]}
       />
 
       {/* Assessment Appeals */}
@@ -159,6 +168,10 @@ export function PropertyDashboard({
         label="Assessment Appeals"
         parcelID={parcelID}
         section={AssessmentAppealsSection}
+        datasetLinks={[
+          "https://data.wprdc.org/dataset/filed-property-assessment-appeals",
+          "https://data.wprdc.org/dataset/allegheny-county-property-assessment-appeals",
+        ]}
       />
 
       {/* PLI Permits */}
@@ -168,6 +181,7 @@ export function PropertyDashboard({
         label="PLI Permits"
         parcelID={parcelID}
         section={PLIPermitsSection}
+        datasetLinks={["https://data.wprdc.org/dataset/pli-permits"]}
       />
 
       {/* Code Violations*/}
@@ -177,6 +191,9 @@ export function PropertyDashboard({
         label="Pittsburgh Code Violations"
         parcelID={parcelID}
         section={CodeViolationsSection}
+        datasetLinks={[
+          "https://data.wprdc.org/dataset/pittsburgh-pli-violations-report",
+        ]}
       />
 
       {/* Liens */}
@@ -186,24 +203,33 @@ export function PropertyDashboard({
         label="Tax Liens"
         parcelID={parcelID}
         section={TaxLiensSection}
+        datasetLinks={[
+          "https://data.wprdc.org/dataset/allegheny-county-tax-liens-filed-and-satisfied",
+        ]}
       />
 
-      {/* Liens */}
+      {/* Foreclosures */}
       <ConnectedSection<ForeclosureFiling>
         className="col-span-6 row-span-1"
         getter={fetchForeclosureFilingsRecords}
         label="Foreclosure"
         parcelID={parcelID}
         section={ForeclosureFilingSection}
+        datasetLinks={[
+          "https://data.wprdc.org/dataset/allegheny-county-mortgage-foreclosure-records",
+        ]}
       />
 
-      {/* Liens */}
+      {/* Conservatorship */}
       <ConnectedSection<ConservatorshipRecord>
         className="col-span-6 row-span-1"
         getter={fetchConservatorshipRecordRecords}
         label="Conservatorship"
         parcelID={parcelID}
         section={ConservatorshipRecordSection}
+        datasetLinks={[
+          "https://data.wprdc.org/dataset/allegheny-county-conservatorship-filings",
+        ]}
       />
     </article>
   );

@@ -133,8 +133,8 @@ export async function OwnerInfo({
             <div className="ml-2 box-content border-l-4 border-stone-600 p-3.5 pr-0">
               {!!otherPropertyRecords.length ? (
                 <ul className="max-h-64 w-fit overflow-auto rounded-sm border border-black bg-white p-2">
-                  {otherPropertyRecords.map(({ region: pid, address }) => (
-                    <li key={pid}>
+                  {otherPropertyRecords.map(({ region: pid, address }, i) => (
+                    <li key={`${pid}-${i}`}>
                       <A
                         className="font-mono"
                         href={`/explore?parcel=${pid}&zoompan=1`}

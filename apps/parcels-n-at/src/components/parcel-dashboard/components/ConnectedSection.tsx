@@ -13,6 +13,7 @@ import { Section } from "./Section.tsx";
 export function ConnectedSection<T extends DatastoreRecord>({
   label,
   description,
+  datasetLinks,
   className,
   defaultOpen = false,
   ...props
@@ -22,6 +23,7 @@ export function ConnectedSection<T extends DatastoreRecord>({
       <Section
         label={label}
         description={description}
+        datasetLinks={datasetLinks}
         defaultOpen={defaultOpen}
       >
         <Suspense fallback={<Loader />} key={props.parcelID}>
@@ -47,11 +49,17 @@ export async function ConnectedSectionContent<T extends DatastoreRecord>({
 export function MultiConnectedSection<T extends DatastoreRecordSet>({
   label,
   description,
+  datasetLinks,
   className,
   ...props
 }: MultiConnectedSectionProps<T>): React.ReactElement {
   return (
-    <Section className={className} label={label} description={description}>
+    <Section
+      className={className}
+      label={label}
+      description={description}
+      datasetLinks={datasetLinks}
+    >
       <Suspense fallback={<Loader />} key={props.parcelID}>
         <MultiConnectedSectionContent {...props} />
       </Suspense>

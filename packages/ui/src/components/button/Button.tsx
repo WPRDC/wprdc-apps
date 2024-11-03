@@ -15,7 +15,7 @@ import type { ButtonProps, ButtonVariant } from "./Button.types";
 // export styles for use with other components
 export const buttonBaseStyle = tw`cursor-pointer rounded border px-1 py-1 font-mono text-sm font-semibold uppercase leading-none shadow active:shadow-sm hover:shadow-md focus-visible:ring-2 focus-visible:ring-focused`;
 export const buttonVariants: Record<ButtonVariant, string> = {
-  primary: tw`border-2 border-text bg-primary text-text dark:border-text`,
+  primary: tw`border-2 border-text bg-primary text-black dark:border-text`,
   success: tw`"border-green-900 bg-green-800 text-white`,
   secondary: tw`border-2 border-text bg-primary text-text`,
   borderless: tw`border-none bg-transparent text-text shadow-none hover:shadow-none`,
