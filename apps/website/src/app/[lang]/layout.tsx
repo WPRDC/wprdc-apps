@@ -71,7 +71,7 @@ export default async function RootLayout({
   const footerDarkLogoURL = getStrapiMedia(footerLogo?.darkImage?.url ?? "");
 
   return (
-    <html lang={params.lang}>
+    <html>
       <Script>
         {`
           var _paq = window._paq = window._paq || [];
@@ -95,7 +95,7 @@ export default async function RootLayout({
           darkLogoURL={navbarDarkLogoURL}
           menuItems={menuItems.data}
         />
-        <div className="flex-grow overflow-auto relative">
+        <div className="relative flex-grow overflow-auto">
           <main className="bg-background dark:bg-backgroundDark mb-16">
             {children}
           </main>

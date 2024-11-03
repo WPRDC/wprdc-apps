@@ -10,21 +10,22 @@ interface Params {
   highlightAssessedValue?: string;
 }
 
-export default function Page({
+export default async function Page({
   searchParams,
 }: {
   params: Params;
-  searchParams?: Record<string, string | number>;
-}): React.ReactElement {
-  const parcelID = searchParams?.parcel
-    ? String(searchParams.parcel)
-    : undefined;
-  const ownerAddress = searchParams?.ownerAddr
-    ? String(searchParams.ownerAddr)
-    : undefined;
-  const useClasses = searchParams?.classes
-    ? String(searchParams.classes)
-    : undefined;
+  searchParams: Promise<
+    Record<
+      "parcel" | "ownerAddr" | "classes" | "ownerOccupied",
+      string | number
+    >
+  >;
+}): Promise<React.ReactElement> {
+  const { parcel, ownerAddr, classes, ownerOccupied } = await searchParams;
+
+  const parcelID = parcel ? String(parcel) : undefined;
+  const ownerAddress = ownerAddr ? String(ownerAddr) : undefined;
+  const useClasses = classes ? String(classes) : undefined;
 
   return (
     <div className="h-full w-full xl:flex xl:content-stretch">
@@ -33,14 +34,14 @@ export default function Page({
           <NavMap
             selectedParcel={parcelID}
             ownerAddress={ownerAddress}
-            showOwnerOccupied={Boolean(searchParams?.ownerOccupied)}
-            showVacant={Boolean(searchParams?.ownerOccupied)}
+            showOwnerOccupied={Boolean(ownerOccupied)}
+            showVacant={Boolean(ownerOccupied)}
             classes={useClasses}
           />
         </div>
         <div className="relative h-full border-l-2 border-stone-800 bg-zinc-100 xl:w-1/2 xl:overflow-auto">
-          {searchParams?.parcel ? (
-            <PropertyDashboard parcelID={String(searchParams.parcel)} />
+          {parcel ? (
+            <PropertyDashboard parcelID={String(parcel)} />
           ) : (
             <div>Pick a parcel to begin</div>
           )}

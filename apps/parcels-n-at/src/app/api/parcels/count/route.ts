@@ -16,7 +16,7 @@ export async function GET(request: NextRequest): Promise<Response> {
 
   const [{ parcelCount }] = await sql<SearchRecord[]>`
         SELECT count(parcel_id) as "parcelCount"
-         FROM parcel_index 
+         FROM spacerat.parcel_index 
          WHERE ST_Intersects(
            "geom", 
           ST_GeomFromGeoJSON(${geometry})

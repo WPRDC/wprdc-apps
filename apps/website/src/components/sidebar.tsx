@@ -3,7 +3,7 @@
  *
  */
 
-import { A, Content, tocReplacer } from "@wprdc/ui";
+import { A, slugify } from "@wprdc/ui";
 import React from "react";
 import {
   FaBook,
@@ -15,6 +15,9 @@ import {
 import { Tags } from "./tags.tsx";
 import { CMSLink, CMSTag } from "@wprdc/types";
 import { twMerge } from "tailwind-merge";
+
+import * as cheerio from "cheerio";
+import { Element } from "html-react-parser";
 
 export interface SidebarProps {
   title?: string;
@@ -55,30 +58,46 @@ export function Sidebar({
 
   const links: CMSLink[] = relatedPages.filter(notNull);
 
+  const $ = cheerio.load(contents ?? "");
+
+  const headings: cheerio.Cheerio<Element>[] = [];
+  $("h1, h2, h3, h4, h5, h6").each((i, element) => {
+    headings.push($(element));
+  });
+
   return (
     <>
       <aside
         className={twMerge(
-          "lg:border-text dark:border-textDark w-full pb-4 lg:p-2 lg:border lg:sticky lg:top-12",
+          "lg:border-text dark:border-textDark flex w-full flex-col space-y-5 bg-white pb-4 lg:sticky lg:top-12 lg:border lg:p-2",
           className,
         )}
       >
-        {!!contents && !!contents.match("<h") && (
-          <nav>
-            <h2 className="mb-2 text-xs font-bold uppercase">On this page</h2>
-            <ol className="px-1.5 text-sm">
-              <Content replacer={tocReplacer} className="text-sm">
-                {contents}
-              </Content>
-            </ol>
-          </nav>
+        {!!headings && !!headings.length && (
+          <section>
+            <nav>
+              <h2 className="mb-2 text-xs font-bold uppercase">On this page</h2>
+              <ol className="flex flex-col space-y-1 px-1.5 text-sm">
+                {headings.map((heading) => {
+                  const id = slugify(heading.text());
+                  return (
+                    <li key={id}>
+                      <A href={`#${id}`} className="font-sans">
+                        {heading.text()}
+                      </A>
+                    </li>
+                  );
+                })}
+              </ol>
+            </nav>
+          </section>
         )}
 
         {!!links && !!links.length && (
-          <>
-            <div className="mb-1 text-sm uppercase">
+          <section>
+            <h2 className="mb-1 text-sm uppercase">
               {relatedLinksTitle ?? "More Links"}
-            </div>
+            </h2>
             <ul>
               {!!links &&
                 links.map((link) => (
@@ -93,14 +112,14 @@ export function Sidebar({
                   </li>
                 ))}
             </ul>
-          </>
+          </section>
         )}
 
         {!!tags && !!tags.length && (
-          <div className="mt-5">
-            <div className="mb-2 text-xs font-bold uppercase">Tags</div>
+          <section>
+            <h2 className="mb-2 text-xs font-bold uppercase">Tags</h2>
             <Tags tags={tags} size="S" />
-          </div>
+          </section>
         )}
       </aside>
     </>

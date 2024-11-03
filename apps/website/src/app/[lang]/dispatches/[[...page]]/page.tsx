@@ -15,11 +15,11 @@ import { Subtitle } from "@/components/subtitle.tsx";
 import { BriefListItem } from "@/components/listing-list-item.tsx";
 
 type Props = {
-  params: {
+  params: Promise<{
     lang: string;
     page: string;
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
+  }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogHomeRoute({ params }: Props) {
-  const { page } = params;
+  const { page } = await params;
   const pageNum = parseInt(page ?? 1);
 
   const { data: posts, meta } = await getWeeknotes(pageNum, DEFAULT_PAGE_SIZE);
@@ -45,7 +45,7 @@ export default async function BlogHomeRoute({ params }: Props) {
     {
       id: "2",
       label: "Dispatches",
-      href: "/weeknotes",
+      href: "/dispatches",
     },
   ];
 
@@ -63,10 +63,11 @@ export default async function BlogHomeRoute({ params }: Props) {
           </MainPanel>
         </Container>
       </HeroPanel>
+
       <Container solo>
         <MainPanel solo>
           <PaginationControl
-            path="/weeknotes"
+            path="/dispatches"
             currentPage={pageNum ?? 0}
             pageCount={pageCount}
           />
@@ -75,14 +76,14 @@ export default async function BlogHomeRoute({ params }: Props) {
             {posts.map((post) => (
               <BriefListItem
                 key={post.id}
-                basePath="/weeknotes/post"
+                basePath="/dispatches/post"
                 item={post}
               />
             ))}
           </Listing>
 
           <PaginationControl
-            path="/weeknotes"
+            path="/dispatches"
             currentPage={pageNum ?? 0}
             pageCount={pageCount}
           />

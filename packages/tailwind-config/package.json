@@ -10,11 +10,11 @@
     "clean": "rm -rf node_modules"
   },
   "devDependencies": {
-    "@tailwindcss/aspect-ratio": "^0.4.2",
-    "@types/node": "^22.5.4",
+    "@tailwindcss/typography": "^0.5.15",
+    "@types/node": "^22.8.1",
     "@wprdc/typescript-config": "workspace:*",
-    "tailwindcss": "^3.4.10",
+    "tailwindcss": "^3.4.14",
     "tailwindcss-animate": "^1.0.7",
-    "tailwindcss-react-aria-components": "^1.1.5"
+    "tailwindcss-react-aria-components": "^1.1.6"
   }
 }

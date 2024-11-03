@@ -47,18 +47,17 @@ export async function fetchSQLSearch<T extends DatastoreRecord>(
     const requestUrl = `${HOST}/api/action/datastore_search_sql?${new URLSearchParams(
       { ...queryParams, sql },
     ).toString()}`;
-
     // Trigger API call
     const response = await fetch(requestUrl, { ...defaultOptions, ...options });
-    const body: unknown = await response.json();
 
+    const body: unknown = await response.json();
     if (isValidCKANResponse<T>(body)) {
       if (body.success) {
         const { fields, records } = body.result;
         return { fields, records };
       }
     }
-    return {};
+    throw new Error(response.statusText);
   } catch (error) {
     throw new Error(String(error));
   }
@@ -86,6 +85,7 @@ export async function fetchDatastoreSearch<T extends DatastoreRecord>(
 
     // Trigger API call
     const response = await fetch(requestUrl, { ...defaultOptions, ...options });
+
     const body: unknown = await response.json();
 
     if (isValidCKANResponse<T>(body)) {

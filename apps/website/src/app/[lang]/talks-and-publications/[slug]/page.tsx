@@ -16,19 +16,22 @@ import { PrimaryLink } from "@/components/primary-link.tsx";
 import { Content } from "@wprdc/ui";
 import { ScreenshotGrid } from "@/components/screenshot-grid.tsx";
 import { Sidebar } from "@/components/sidebar.tsx";
+import { processContent } from "@/lib/parsing.ts";
 
 type Props = {
-  params: {
+  params: Promise<{
     lang: string;
     slug: string;
-  };
+  }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug, lang } = await params;
+
   const artifact = await getContentBySlug<CMSArtifact>(
     "/artifacts",
-    params.slug,
-    params.lang,
+    slug,
+    lang,
     "*",
   );
   return {
@@ -37,10 +40,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ArtifactsRoute({ params }: Props) {
+  const { slug, lang } = await params;
+
   const artifact = await getContentBySlug<CMSArtifact>(
     "/artifacts",
-    params.slug,
-    params.lang,
+    slug,
+    lang,
     "*",
   );
   const { title, subtitle, description, relatedPages, url, images } =
@@ -82,7 +87,11 @@ export default async function ArtifactsRoute({ params }: Props) {
 
       <Container>
         <MainPanel>
-          <Content>{description}</Content>
+          <Content
+            dangerouslySetInnerHTML={{
+              __html: processContent(description ?? ""),
+            }}
+          />
           <ScreenshotGrid screenshots={images} pageTitle={title} />
         </MainPanel>
         <SidePanel>

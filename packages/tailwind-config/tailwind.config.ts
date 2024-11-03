@@ -73,6 +73,7 @@ const config: Omit<Config, "content"> = {
     },
   },
   plugins: [
+    require("@tailwindcss/typography"),
     require("tailwindcss-react-aria-components"),
     require("tailwindcss-animate"),
   ],

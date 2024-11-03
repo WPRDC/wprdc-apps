@@ -16,31 +16,40 @@ import type { PopupImageProps } from "./PopupImage.types";
 
 export function PopupImage({
   className,
+  caption,
+  width: _,
+  height: __,
   ...thumbnailProps
 }: PopupImageProps): React.ReactElement {
-  const { width: _, height: __, fill: ___, ...detailProps } = thumbnailProps;
+  const { fill: ___, ...detailProps } = thumbnailProps;
   return (
-    <div className={twMerge("h-full w-fit max-w-full", className)}>
+    <div className={twMerge("h-full w-full max-w-full", className)}>
       <DialogTrigger>
-        <Button className="relative h-full w-full border border-textSecondary shadow-lg active:shadow-sm hover:shadow-2xl dark:border-textSecondaryDark">
+        <Button className="relative h-full w-full border border-stone-800 shadow-lg active:shadow-sm hover:shadow-2xl dark:border-textSecondaryDark">
           <Image {...thumbnailProps} fill />
         </Button>
         <ModalOverlay isDismissable>
           <Modal isDismissable className="w-fit p-0">
-            <Dialog className="mx-auto h-fit w-fit">
+            <Dialog className="mx-auto h-fit w-fit p-0">
               {({ close }) => (
-                <Image
-                  {...detailProps}
-                  sizes="100vw"
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                  }}
-                  className="p-4"
-                  width={500}
-                  height={300}
-                  onClick={close}
-                />
+                <figure>
+                  <Image
+                    {...detailProps}
+                    sizes="100vw"
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                    }}
+                    width={1200}
+                    height={300}
+                    onClick={close}
+                  />
+                  {!!caption && (
+                    <figcaption className="border-t border-stone-800 px-4 py-2 font-medium">
+                      {caption}
+                    </figcaption>
+                  )}
+                </figure>
               )}
             </Dialog>
           </Modal>

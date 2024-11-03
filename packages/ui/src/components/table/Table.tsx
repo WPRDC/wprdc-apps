@@ -44,7 +44,7 @@ export function Table<T extends Value = Value>({
 
       <tbody>
         {data.map((row, i) => (
-          <tr className="" key={`${String(rows?.[i])}-${String(row)}`}>
+          <tr className="" key={`${i}`}>
             {!!rows && (
               <th
                 className={twMerge(
@@ -61,7 +61,7 @@ export function Table<T extends Value = Value>({
             {data[i].map((cell, j) => (
               <Cell
                 globalFormat={format}
-                key={`${String(rows?.[i])}-${String(row)}-${String(cell)}`}
+                key={`${i}-${j}`}
                 value={cell}
                 inTotalRow={totalRow ? i === data.length - 1 : false}
                 inTotalCol={totalCol ? j === data[i].length - 1 : false}

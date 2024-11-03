@@ -38,7 +38,6 @@ export async function fetchAPI<T extends StrapiBase>(
     const requestUrl = `${getStrapiURL(
       `/api${path}${queryString ? `?${queryString}` : ""}`,
     )}`;
-
     // Make API call
     const response = await fetch(requestUrl, mergedOptions);
     return await response.json();
@@ -147,6 +146,7 @@ export async function getContentByID<T extends StrapiBase>(
   const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
   const queryParams = { locale: lang, populate };
   const options = { headers: { Authorization: `Bearer ${token}` } };
+
   return (await fetchAPI<T>(
     `${path}/${id}`,
     queryParams,

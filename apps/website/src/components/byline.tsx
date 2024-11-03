@@ -24,13 +24,15 @@ export function Byline({ author, timestamp }: BylineProps) {
 
       {!!author && (
         <>
-          <address className="inline">
+          <div className="inline not-italic">
             {WEEKNOTE_AUTHORS.includes(author.slug ?? "") ? (
-              <A href={`/team/${author.slug}`}>{author.name}</A>
+              <A href={`/team/${author.slug}`} className="hover:text-black">
+                {author.name}
+              </A>
             ) : (
               <span> {author.name}</span>
             )}
-          </address>
+          </div>
         </>
       )}
     </div>

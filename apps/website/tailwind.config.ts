@@ -5,11 +5,10 @@ const config: Pick<Config, "content" | "presets" | "plugins" | "theme"> = {
   content: [
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    // fixme: parcels-n-at doesn't need this - whats going on here?
     "../../packages/ui/src/**/*.tsx",
   ],
   presets: [sharedConfig],
-  plugins: [require("tailwindcss-react-aria-components")],
-
   theme: {
     extend: {
       backgroundImage: {

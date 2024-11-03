@@ -3,19 +3,21 @@ import { PageLayout } from "@/components/page-layout.tsx";
 import { Title } from "@/components/title.tsx";
 import { getContentByID } from "@wprdc/api";
 import { CMSWeeknote } from "@wprdc/types";
-import { Content } from "@wprdc/ui";
+import { Content, slugify } from "@wprdc/ui";
 import { Metadata } from "next";
 import React from "react";
 
+import { processContent } from "@/lib/parsing.ts";
+
 type Props = {
-  params: {
+  params: Promise<{
     lang: string;
     id: string;
-  };
+  }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id, lang } = params;
+  const { id, lang } = await params;
   const { data: weeknote } = await getContentByID<CMSWeeknote>(
     "/weeknotes",
     id,
@@ -30,15 +32,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogRoute({ params }: Props) {
-  const { id, lang } = params;
-  const { data: weeknote } = await getContentByID<CMSWeeknote>(
+  const { id, lang } = await params;
+  const { data: dispatch } = await getContentByID<CMSWeeknote>(
     "/weeknotes",
     id,
     lang,
     "*",
   );
 
-  const { article, author, publishedAt } = weeknote;
+  const { article, author, publishedAt } = dispatch;
 
   const dateString = new Date(publishedAt).toLocaleDateString("en-US", {
     month: "short",
@@ -54,8 +56,8 @@ export default async function BlogRoute({ params }: Props) {
     },
     {
       id: "2",
-      label: "Weeknotes",
-      href: "/weeknotes",
+      label: "Dispatches",
+      href: "/dispatches",
     },
     {
       id: "4",
@@ -68,7 +70,9 @@ export default async function BlogRoute({ params }: Props) {
     <PageLayout>
       <Breadcrumbs path={path} />
       <Title>Week of {dateString}</Title>
-      <Content>{article}</Content>
+      <Content
+        dangerouslySetInnerHTML={{ __html: processContent(article ?? "") }}
+      ></Content>
     </PageLayout>
   );
 }

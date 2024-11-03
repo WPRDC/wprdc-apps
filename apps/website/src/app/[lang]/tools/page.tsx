@@ -14,9 +14,9 @@ import React from "react";
 import { Subtitle } from "@/components/subtitle.tsx";
 
 type Props = {
-  params: {
+  params: Promise<{
     lang: string;
-  };
+  }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

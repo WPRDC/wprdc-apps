@@ -75,7 +75,7 @@ export default function Index({
   return (
     <div ref={ref} className="top-0 z-50 w-full dark:text-gray-100">
       {/* Navbar */}
-      <header className="w-full border-b-2 border-black bg-white dark:border-slate-800 dark:bg-black lg:flex px-4">
+      <header className="w-full border-b-2 border-black bg-white px-4 lg:flex dark:border-slate-800 dark:bg-black">
         <div
           className={classNames(
             "mx-auto w-full max-w-7xl lg:flex lg:items-center lg:justify-between",
@@ -126,14 +126,14 @@ export default function Index({
 
                   <ul
                     className={classNames(
-                      "border-textSecondary ml-4 bg-white dark:bg-black lg:ml-0 lg:w-full lg:border-b",
+                      "border-textSecondary ml-4 bg-white lg:ml-0 lg:w-full lg:border-b dark:bg-black",
                       currentMenuItem?.id === menuItem.id
                         ? "lg:absolute lg:left-0 lg:m-1 lg:pt-1"
                         : "hidden",
                     )}
                   >
                     <div className="w-full py-2 lg:mx-auto lg:flex lg:max-w-5xl">
-                      <div className="w-full lg:w-5/12">
+                      <div className="ml-auto w-full lg:w-5/12">
                         {menuItem.subMenu?.map((subMenuItem) => (
                           <li
                             key={subMenuItem.id}
@@ -159,22 +159,23 @@ export default function Index({
                                 </div>
                               )}
                             </Link>
+                            {!!subMenuItem.subItems && (
+                              <ul>
+                                {subMenuItem.subItems?.map((subItem) => (
+                                  <li key={subItem.id} className="pl-4">
+                                    <Link
+                                      onClick={closeMenu}
+                                      href={subItem.url ?? "#"}
+                                      className="hover:ring-primary dark:hover:bg-backgroundDark decoration-primary my-1 block p-2 hover:bg-amber-100 hover:ring-2"
+                                    >
+                                      {subItem.label}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
                           </li>
                         ))}
-                      </div>
-                      <div
-                        className="hidden lg:ml-4 lg:block lg:w-7/12"
-                        role="region"
-                        aria-live="polite"
-                        aria-disabled="true"
-                      >
-                        {!!currentMenuItem && (
-                          <Content>
-                            {currentDescription ??
-                              currentMenuItem.defaultDescription ??
-                              ""}
-                          </Content>
-                        )}
                       </div>
                     </div>
                   </ul>

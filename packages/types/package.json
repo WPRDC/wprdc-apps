@@ -20,9 +20,9 @@
     "react": "^18.3.11"
   },
   "dependencies": {
-    "@maplibre/maplibre-gl-style-spec": "^20.3.1",
+    "@maplibre/maplibre-gl-style-spec": "^21.0.0",
     "@react-types/shared": "^3.25.0",
-    "@strapi/strapi": "^5.0.3",
+    "@strapi/strapi": "^5.1.1",
     "maplibre-gl": "^4.7.1",
     "react-map-gl": "^7.1.7",
     "html-react-parser": "^5.1.18"
@@ -30,8 +30,8 @@
   "devDependencies": {
     "@react-types/shared": "^3.25.0",
     "@types/geojson": "^7946.0.14",
-    "@types/node": "^22.7.7",
-    "@types/react": "^18.3.11",
+    "@types/node": "^22.8.1",
+    "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@wprdc/eslint-config": "workspace:*",
     "@wprdc/tailwind-config": "workspace:*",

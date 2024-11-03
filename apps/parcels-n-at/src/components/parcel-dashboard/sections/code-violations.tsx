@@ -143,7 +143,7 @@ export function CodeViolationsSection({
                         value: details.violation_code_section,
                       },
                       {
-                        id: "code-section",
+                        id: "instructions",
                         label: "Instructions",
                         value: details.violation_spec_instructions,
                       },
@@ -166,7 +166,7 @@ export function CodeViolationsSection({
                           new Date(a[0]).getTime() - new Date(b[0]).getTime(),
                       )
                       .map(([date, investigationRecords]) => (
-                        <section key="date">
+                        <section key={date}>
                           <h5 className="mb-2 mt-4 text-lg font-bold">
                             {new Date(date).toLocaleDateString("en-US", {
                               timeZone: "UTC",

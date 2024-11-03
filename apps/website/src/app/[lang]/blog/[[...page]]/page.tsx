@@ -14,13 +14,13 @@ import React from "react";
 import { Subtitle } from "@/components/subtitle.tsx";
 
 type Props = {
-  params: {
+  params: Promise<{
     lang: string;
     page: string;
-  };
-  searchParams: {
+  }>;
+  searchParams: Promise<{
     [key: string]: string | string[] | undefined;
-  };
+  }>;
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -32,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function BlogHomeRoute({ params }: Props) {
-  const { page } = params;
+  const { page } = await params;
   const pageNum = parseInt(page ?? 1);
 
   const { data: posts, meta } = await getBlogPosts(pageNum, DEFAULT_PAGE_SIZE);

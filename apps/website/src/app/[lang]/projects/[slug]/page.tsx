@@ -14,16 +14,17 @@ import { CMSTool } from "@wprdc/types";
 import { Content } from "@wprdc/ui";
 import { Metadata } from "next";
 import React from "react";
+import { processContent } from "@/lib/parsing.ts";
 
 type Props = {
-  params: {
+  params: Promise<{
     lang: string;
     slug: string;
-  };
+  }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug, lang } = params;
+  const { slug, lang } = await params;
   const { data: projects } = await getContentBySlug<CMSTool>(
     "/projects",
     slug,
@@ -37,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProjectRoute({ params }: Props) {
-  const { slug, lang } = params;
+  const { slug, lang } = await params;
   const { data: projects } = await getContentBySlug<CMSTool>(
     "/projects",
     slug,
@@ -82,7 +83,11 @@ export default async function ProjectRoute({ params }: Props) {
       </HeroPanel>
       <Container solo>
         <MainPanel solo>
-          <Content>{description}</Content>
+          <Content
+            dangerouslySetInnerHTML={{
+              __html: processContent(description ?? ""),
+            }}
+          ></Content>
           <ScreenshotGrid screenshots={screenshots} pageTitle={title} />
         </MainPanel>
       </Container>

@@ -186,8 +186,8 @@ export async function autocompleteParcelSearch(
              address,
              geom,
              centroid,
-             parcel_index._full_text <-> '${searchTerm}' AS dist
-      FROM parcel_index
+            spacerat.parcel_index._full_text <-> '${searchTerm}' AS dist
+      FROM spacerat.parcel_index
       ORDER BY dist
       LIMIT ${limit}
       `.replace(/\s+/g, " ");

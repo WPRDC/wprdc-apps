@@ -21,7 +21,7 @@ export function TaxLiensSection({
       {records
         .sort((a, b) => Date.parse(b.filing_date) - Date.parse(a.filing_date))
         .map((record) => (
-          <Card key={record.dtd}>
+          <Card key={`${record.dtd}-${record.tax_year}`}>
             <article className="space-y-4">
               <h3 className="mb-1 text-2xl font-bold">
                 <span>Docket #:</span>{" "}

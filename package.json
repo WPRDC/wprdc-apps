@@ -13,12 +13,12 @@
     "release": "turbo run build --filter=docs^... && changeset publish"
   },
   "peerDependencies": {
-    "eslint": "8.57.1"
+    "eslint": "9.13.0"
   },
   "devDependencies": {
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
-    "turbo": "^2.1.3"
+    "turbo": "^2.2.3"
   },
   "packageManager": "pnpm@9.6.0",
   "engines": {

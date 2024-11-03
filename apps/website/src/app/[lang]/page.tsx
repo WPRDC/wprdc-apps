@@ -3,7 +3,7 @@ import { PageLayout } from "@/components/page-layout.tsx";
 import SearchBar from "@/components/search-bar.tsx";
 import { STRAPI_URL } from "@/lib/constants";
 import { getHomePage } from "@wprdc/api";
-import { A } from "@wprdc/ui";
+import { A, Content } from "@wprdc/ui";
 import Image from "next/image";
 import React from "react";
 
@@ -17,7 +17,7 @@ export default async function HomePage() {
 
   return (
     <PageLayout>
-      <div className="max-w-screen-lg mx-auto px-4 pt-12">
+      <div className="mx-auto max-w-screen-lg px-4 pt-12">
         <div className="md:mt-6 lg:mt-8">
           <h2
             className="mb-5 text-2xl font-bold leading-tight md:text-3xl lg:text-5xl"
@@ -30,9 +30,12 @@ export default async function HomePage() {
             aria-labelledby="search-label"
             placeholder="Search for data"
           />
-          <p className="my-8 py-2 leading-relaxed md:leading-relaxed lg:leading-relaxed font-sans text-lg md:text-xl lg:text-2xl">
-            {searchSection?.description}
-          </p>
+
+          <Content
+            variant="large"
+            className="my-8"
+            dangerouslySetInnerHTML={{ __html: searchSection?.description }}
+          />
           <div className="mt-4">
             {buttons.map((button) => (
               <A
@@ -40,7 +43,7 @@ export default async function HomePage() {
                 href={button.buttonUrl ?? "#"}
                 variant="button"
                 buttonVariant={button.highlight ? "primary" : "default"}
-                className="mb-6 mr-6 px-3.5 inline-block rounded-sm text-lg py-1"
+                className="mb-6 mr-6 inline-block rounded-sm px-3.5 py-1 text-lg"
               >
                 {button.buttonText}
               </A>
@@ -50,7 +53,7 @@ export default async function HomePage() {
 
         {/*Blurbs*/}
         <nav
-          className="border-text my-4 grid grid-cols-1 gap-x-8 gap-y-8 border-y-2 py-8 dark:border-gray-700 md:grid-cols-2 lg:grid-cols-3"
+          className="border-text my-4 grid grid-cols-1 gap-x-8 gap-y-8 border-y-2 py-8 md:grid-cols-2 lg:grid-cols-3 dark:border-gray-700"
           aria-label="site content"
         >
           {tiles.map((tile) => (

@@ -1,6 +1,5 @@
-import type { FilterSpecification } from "maplibre-gl";
+import type { FilterSpecification, ExpressionSpecification } from "maplibre-gl";
 import type { ReactNode } from "react";
-import type { ExpressionSpecification } from "@maplibre/maplibre-gl-style-spec";
 import type { GeoType, Identifiable, Publisher } from "../shared";
 import {
   type InteractiveSymbologyProps,

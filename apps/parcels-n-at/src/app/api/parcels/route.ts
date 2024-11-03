@@ -42,7 +42,7 @@ async function getParcelsInRegion(
 
   const records = await sql<ParcelSearchRecord[]>`
       SELECT parcel_id 
-      FROM parcel_index 
+      FROM spacerat.parcel_index 
       WHERE ST_Intersects(
         geom, 
         (
@@ -62,7 +62,7 @@ async function getParcelsUnderFeature(
   // todo: replace references to parcel_index table with env vars
   const records = await sql<ParcelSearchRecord[]>`
       SELECT parcel_id 
-      FROM parcel_index 
+      FROM spacerat.parcel_index 
       WHERE ST_Intersects(
         geom, 
         ST_GeomFromGeoJSON(${JSON.stringify(feature.geometry)})

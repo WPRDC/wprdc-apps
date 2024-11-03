@@ -1,5 +1,6 @@
 import type { APIResult } from "@wprdc/api";
 import type { DatastoreRecord, FieldRecord, ParcelIndex } from "@wprdc/types";
+import { ReactNode } from "react";
 
 export type SectionProps<
   T extends DatastoreRecord,
@@ -30,6 +31,8 @@ export type ResponseSet<T extends DatastoreRecordSet> = {
 export interface CommonSectionProps<T extends object> {
   parcelID: string;
   label: string;
+  description?: ReactNode;
+  defaultOpen?: boolean;
   className?: string;
   sectionProps?: T;
 }

@@ -73,32 +73,37 @@ export function PropertyDashboard({
 
       {/* Owner */}
       <ConnectedSection<PropertyAssessment>
-        getter={fetchAssessmentRecord}
         label="Owner"
+        description="Information about the owner of this parcel and their other holdings in Allegheny County."
+        getter={fetchAssessmentRecord}
+        defaultOpen={true}
         parcelID={parcelID}
         section={OwnerSection}
       />
 
       {/* Assessed Values */}
       <ConnectedSection<PropertyAssessment>
-        getter={fetchAssessmentRecord}
+        description="Comparison of this parcel's monetary value as assessed by various jurisdictions."
         label="Assessesd Values"
+        getter={fetchAssessmentRecord}
         parcelID={parcelID}
         section={AssessedValuesSection}
       />
 
       {/* Dwelling Characteristics*/}
       <ConnectedSection<PropertyAssessment>
-        getter={fetchAssessmentRecord}
         label="Dwelling Characteristics"
+        description="Information about the primary residential building on this parcel (if there is one)."
+        getter={fetchAssessmentRecord}
         parcelID={parcelID}
         section={DwellingSection}
       />
 
       {/* Condition */}
       <ConnectedSection<PropertyAssessment>
-        getter={fetchAssessmentRecord}
         label="Condition"
+        description="Ratings of the  about the primary residential building on this parcel (if there is one)."
+        getter={fetchAssessmentRecord}
         parcelID={parcelID}
         section={ConditionSection}
       />

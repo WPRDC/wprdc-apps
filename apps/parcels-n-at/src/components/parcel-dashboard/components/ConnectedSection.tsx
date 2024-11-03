@@ -12,12 +12,18 @@ import { Section } from "./Section.tsx";
 
 export function ConnectedSection<T extends DatastoreRecord>({
   label,
+  description,
   className,
+  defaultOpen = false,
   ...props
 }: ConnectedSectionProps<T>): React.ReactElement {
   return (
     <div className={className}>
-      <Section label={label}>
+      <Section
+        label={label}
+        description={description}
+        defaultOpen={defaultOpen}
+      >
         <Suspense fallback="loading..." key={props.parcelID}>
           <ConnectedSectionContent {...props} />
         </Suspense>
@@ -33,18 +39,19 @@ export async function ConnectedSectionContent<T extends DatastoreRecord>({
   sectionProps,
 }: Omit<ConnectedSectionProps<T>, "label">): Promise<React.ReactElement> {
   const { fields, records } = await getter(parcelID);
-  if (!records || !fields)
-    return <Typography.Note>Section empty</Typography.Note>;
+  if (!records || !fields || !records.length)
+    return <Typography.Note>Error getting data for {parcelID}</Typography.Note>;
   return <Section fields={fields} records={records} {...sectionProps} />;
 }
 
 export function MultiConnectedSection<T extends DatastoreRecordSet>({
   label,
+  description,
   className,
   ...props
 }: MultiConnectedSectionProps<T>): React.ReactElement {
   return (
-    <Section className={className} label={label}>
+    <Section className={className} label={label} description={description}>
       <Suspense fallback="loading..." key={props.parcelID}>
         <MultiConnectedSectionContent {...props} />
       </Suspense>
@@ -64,6 +71,13 @@ export async function MultiConnectedSectionContent<
   const results: APIResult<T[keyof T]>[] = await Promise.all(
     keys.map((k) => getters[k](parcelID)),
   );
+
+  for (const { records, fields } of results) {
+    if (!records || !fields || !records.length)
+      return (
+        <Typography.Note>Error getting data for {parcelID}</Typography.Note>
+      );
+  }
 
   const childProps: MultiSourceSectionProps<T> = keys.reduce<
     Partial<MultiSourceSectionProps<T>>

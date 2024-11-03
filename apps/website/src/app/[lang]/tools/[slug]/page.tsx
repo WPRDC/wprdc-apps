@@ -4,6 +4,7 @@ import {
   HeroPanel,
   MainPanel,
   PageLayout,
+  SidePanel,
 } from "@/components/page-layout.tsx";
 import { PrimaryLink } from "@/components/primary-link.tsx";
 import { ScreenshotGrid } from "@/components/screenshot-grid.tsx";
@@ -14,16 +15,18 @@ import { CMSProject } from "@wprdc/types";
 import { Content } from "@wprdc/ui";
 import { Metadata } from "next";
 import React from "react";
+import { processContent } from "@/lib/parsing.ts";
+import { Sidebar } from "@/components/sidebar.tsx";
 
 type Props = {
-  params: {
+  params: Promise<{
     lang: string;
     slug: string;
-  };
+  }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug, lang } = params;
+  const { slug, lang } = await params;
   const { data: tools } = await getContentBySlug<CMSProject>(
     "/tools",
     slug,
@@ -36,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogRoute({ params }: Props) {
-  const { slug, lang } = params;
+  const { slug, lang } = await params;
   const { data: tools } = await getContentBySlug<CMSProject>(
     "/tools",
     slug,
@@ -45,7 +48,7 @@ export default async function BlogRoute({ params }: Props) {
   );
 
   // todo: handle 404 if not posts
-  const { title, subtitle, description, url, githubURL, screenshots } =
+  const { title, subtitle, description, url, githubURL, screenshots, tags } =
     tools[0];
   const path: BreadcrumbItem[] = [
     {
@@ -67,13 +70,13 @@ export default async function BlogRoute({ params }: Props) {
 
   return (
     <PageLayout>
-      <Container solo>
+      <Container>
         <Breadcrumbs path={path} />
       </Container>
 
       <HeroPanel>
-        <Container solo>
-          <MainPanel solo>
+        <Container>
+          <MainPanel>
             <Title>{title}</Title>
             <Subtitle>{subtitle}</Subtitle>
             <PrimaryLink url={url} />
@@ -81,11 +84,18 @@ export default async function BlogRoute({ params }: Props) {
         </Container>
       </HeroPanel>
 
-      <Container solo>
-        <MainPanel solo>
-          <Content>{description}</Content>
+      <Container>
+        <MainPanel>
+          <Content
+            dangerouslySetInnerHTML={{
+              __html: processContent(description ?? ""),
+            }}
+          ></Content>
           <ScreenshotGrid screenshots={screenshots} pageTitle={title} />
         </MainPanel>
+        <SidePanel>
+          <Sidebar tags={tags} githubLinks={[githubURL]} />
+        </SidePanel>
       </Container>
     </PageLayout>
   );

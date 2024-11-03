@@ -12,12 +12,13 @@ import { Content } from "@wprdc/ui";
 import { Metadata } from "next";
 import React from "react";
 import { Breadcrumbs } from "@/components/breadcrumbs.tsx";
+import { processContent } from "@/lib/parsing.ts";
 
 type Props = {
-  params: {
+  params: Promise<{
     lang: string;
     slug: string;
-  };
+  }>;
 };
 
 const path = [
@@ -40,11 +41,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PageRoute({ params }: Props) {
-  const author = await getContentBySlug<CMSAuthor>(
-    "/authors",
-    params.slug,
-    params.lang,
-  );
+  const { slug, lang } = await params;
+
+  const author = await getContentBySlug<CMSAuthor>("/authors", slug, lang);
   const { name, email, bio } = author.data[0];
 
   return (
@@ -66,7 +65,9 @@ export default async function PageRoute({ params }: Props) {
       </HeroPanel>
       <Container solo>
         <MainPanel solo>
-          <Content>{bio ?? ""}</Content>
+          <Content
+            dangerouslySetInnerHTML={{ __html: processContent(bio ?? "") }}
+          ></Content>
         </MainPanel>
       </Container>
     </PageLayout>

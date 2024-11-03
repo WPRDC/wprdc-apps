@@ -5,7 +5,12 @@ import {
   SpaceRATResponse,
 } from "@wprdc/api";
 import type { PropertyAssessment } from "@wprdc/types";
-import { A, formatDollars, SingleValueVizCollection } from "@wprdc/ui";
+import {
+  A,
+  formatDollars,
+  SingleValueVizCollection,
+  Typography,
+} from "@wprdc/ui";
 import React from "react";
 import { SectionProps } from "@/components/parcel-dashboard/types.ts";
 import { TbCaretDown, TbCaretRight } from "react-icons/tb";
@@ -54,6 +59,7 @@ export async function OwnerInfo({
     /\s+/g,
     " ",
   )}%`;
+
   const response: QueryResponse = await fetchSpaceratQuery<QueriedStats>({
     question: ["fairmarkettotal"],
     region: ["county.42003"],
@@ -61,6 +67,7 @@ export async function OwnerInfo({
     filterArg: ownerSearch,
     queryRecords: true,
   });
+
   const { records, stats } = response.results;
   const mainStats = stats["county.42003"];
 
@@ -72,6 +79,8 @@ export async function OwnerInfo({
   ]
     .join("")
     .replace(/\s+/g, " ");
+
+  const otherPropertyRecords = records.filter((r) => r.region !== parcelID);
 
   return (
     <div>
@@ -88,16 +97,16 @@ export async function OwnerInfo({
           </div>
         </address>
         <section className="mt-4">
-          <h3 className="mb-1 text-2xl font-bold">Portfolio Summary</h3>
+          <h3 className="mb-1 text-2xl font-bold">Summary of Holdings</h3>
           <SingleValueVizCollection
             items={[
               {
-                id: "size",
+                id: "parcel-count",
                 label: "Number of Parcels",
                 value: mainStats?.fairmarkettotal.n,
               },
               {
-                id: "size",
+                id: "total-parcel-value",
                 label: "Total Assessed Value",
                 value: mainStats?.fairmarkettotal.sum,
                 format: formatDollars,
@@ -122,10 +131,9 @@ export async function OwnerInfo({
               </h4>
             </summary>
             <div className="ml-2 box-content border-l-4 border-stone-600 p-3.5 pr-0">
-              <ul className="max-h-64 w-fit overflow-auto rounded-sm border border-black bg-white p-2">
-                {records
-                  .filter((r) => r.parcel_id !== parcelID)
-                  .map(({ region: pid, address }) => (
+              {!!otherPropertyRecords.length ? (
+                <ul className="max-h-64 w-fit overflow-auto rounded-sm border border-black bg-white p-2">
+                  {otherPropertyRecords.map(({ region: pid, address }) => (
                     <li key={pid}>
                       <A
                         className="font-mono"
@@ -135,7 +143,10 @@ export async function OwnerInfo({
                       </A>
                     </li>
                   ))}
-              </ul>
+                </ul>
+              ) : (
+                <Typography.Note>No other properties</Typography.Note>
+              )}
             </div>
           </details>
         </section>

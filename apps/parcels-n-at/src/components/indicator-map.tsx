@@ -507,20 +507,25 @@ export function IndicatorMap({
                   type="vector"
                   url={tilejson}
                 >
-                  <Layer
-                    id="indicator/fill"
-                    key={tilejson}
-                    type="fill"
-                    source-layer={sourceLayer}
-                    paint={{
-                      "fill-color": [
-                        "step",
-                        ["get", `${questionTableID}__${selectedStatID ?? ""}`],
-                        chroma.brewer.GnBu[0],
-                        ...styleSteps,
-                      ],
-                    }}
-                  />
+                  {!!styleSteps && styleSteps.length && (
+                    <Layer
+                      id="indicator/fill"
+                      key={tilejson}
+                      type="fill"
+                      source-layer={sourceLayer}
+                      paint={{
+                        "fill-color": [
+                          "step",
+                          [
+                            "get",
+                            `${questionTableID}__${selectedStatID ?? ""}`,
+                          ],
+                          chroma.brewer.GnBu[0],
+                          ...styleSteps,
+                        ],
+                      }}
+                    />
+                  )}
                   <Layer
                     id="indicator/line"
                     type="line"

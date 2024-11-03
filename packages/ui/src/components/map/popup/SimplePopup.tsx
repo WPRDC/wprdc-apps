@@ -23,7 +23,7 @@ export function HoverPopup({
       )}
       <div className="py-2">
         {features.map((feature, i) => (
-          <div className="px-1" key={feature.id}>
+          <div className="px-1" key={i}>
             {!!i && (
               <div className="flex items-center">
                 <div className="w-8 border-t border-stone-700" />
@@ -67,7 +67,7 @@ export function ClickPopup({
       </div>
       <div className="flex flex-col items-stretch px-1 pt-2">
         {features.map((feature, i) => (
-          <div key={feature.id}>
+          <div key={`${i}`}>
             {!!i && (
               <div className="flex items-center">
                 <div className="w-8 flex-shrink border-t border-stone-700" />

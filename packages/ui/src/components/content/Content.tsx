@@ -5,18 +5,27 @@
  * Renders html or markdown content
  *
  **/
-import parse from "html-react-parser";
 import * as React from "react";
 import { twMerge } from "tailwind-merge";
 import type { ContentProps } from "./Content.types";
-import { defaultReplace } from "./lib.tsx";
 
-export function Content({ children, className, replacer, id }: ContentProps) {
+export function Content({
+  dangerouslySetInnerHTML,
+  className,
+  variant = "default",
+  id,
+}: ContentProps): React.ReactElement {
   return (
-    <div className={twMerge("font-sans text-lg", className)} id={id}>
-      {parse(children ?? "", {
-        replace: replacer ?? defaultReplace,
-      })}
-    </div>
+    <div
+      id={id}
+      className={twMerge(
+        "prose font-sans prose-a:font-sans",
+        variant === "default" && "prose-lg max-w-none",
+        variant === "blurb" && "prose-sm",
+        variant === "large" && "prose-2xl max-w-none",
+        className,
+      )}
+      dangerouslySetInnerHTML={dangerouslySetInnerHTML}
+    ></div>
   );
 }

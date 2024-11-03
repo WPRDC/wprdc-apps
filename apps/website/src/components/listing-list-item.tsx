@@ -1,7 +1,9 @@
-import { A, Content, excerptReplacer, makeReplacer } from "@wprdc/ui";
+import { A, Content } from "@wprdc/ui";
 import { CMSWeeknote, ListableContentType } from "@wprdc/types";
 
 import { convert } from "html-to-text";
+import React from "react";
+import { processContent } from "@/lib/parsing.ts";
 
 export interface ListItemProps<T extends ListableContentType> {
   item: T;
@@ -48,13 +50,13 @@ export function BlogListItem<T extends ListableContentType>({
     <li>
       <article
         key={slug}
-        className="border-textSecondary bg-white border-2 p-4 rounded-md flex flex-col items-stretch space-y-6"
+        className="border-textSecondary flex flex-col items-stretch space-y-6 rounded-md border-2 bg-white p-4"
       >
         <h3>
           <A
             variant="button"
             buttonVariant="borderless"
-            className="underline-none font-bold  text-xl lg:text-2xl xl:text-3xl  normal-case hover:underline p-0"
+            className="underline-none p-0 text-xl font-bold normal-case hover:underline lg:text-2xl xl:text-3xl"
             href={href}
           >
             {title}
@@ -74,17 +76,14 @@ export function BlogListItem<T extends ListableContentType>({
 
           <span className="px-2">•</span>
 
-          <address className="font-bold inline not-italic">
+          <address className="inline font-bold not-italic">
             {author?.name ?? "The WPRDC"}
           </address>
         </small>
         <div className="line-clamp-3">
           <Content
-            className="text-base"
-            replacer={makeReplacer(excerptReplacer)}
-          >
-            {text}
-          </Content>
+            dangerouslySetInnerHTML={{ __html: processContent(text ?? "") }}
+          />
         </div>
         <A variant="button" buttonVariant="primary" href={href}>
           Read More
@@ -99,7 +98,8 @@ export function BriefListItem({
   basePath = "",
 }: ListItemProps<CMSWeeknote>) {
   const {
-    slug,
+    slug: _slug,
+    id,
     title,
     publishedAt,
     excerpt,
@@ -110,6 +110,8 @@ export function BriefListItem({
     week,
   } = item;
 
+  const slug = _slug || id.toString();
+
   const href = `${basePath}/${slug}`;
 
   const weekStart = getLastSunday(week ?? publishedAt ?? "");
@@ -118,7 +120,7 @@ export function BriefListItem({
     <li>
       <article
         key={slug}
-        className="border-textSecondary bg-white border-2 p-4 rounded-md flex flex-col items-stretch space-y-6"
+        className="border-textSecondary flex flex-col items-stretch space-y-6 rounded-md border-2 bg-white p-4"
       >
         {!!weekStart && (
           <hgroup>
@@ -126,7 +128,7 @@ export function BriefListItem({
               <A
                 variant="button"
                 buttonVariant="borderless"
-                className="underline-none font-bold text-xl lg:text-2xl xl:text-3xl normal-case hover:underline p-0"
+                className="underline-none p-0 text-xl font-bold normal-case hover:underline lg:text-2xl xl:text-3xl"
                 href={href}
               >
                 <time
@@ -142,12 +144,14 @@ export function BriefListItem({
                 </time>
               </A>
             </h3>
-            {!!title && <p className="mt-3 font-bold italic bold">{title}</p>}
+            {!!title && <p className="bold mt-3 font-bold italic">{title}</p>}
           </hgroup>
         )}
 
         <div className="">
-          <Content className="text-base">{article}</Content>
+          <Content
+            dangerouslySetInnerHTML={{ __html: processContent(article ?? "") }}
+          />
         </div>
       </article>
     </li>

@@ -11,7 +11,7 @@ export function Tags({ tags, size = "M" }: TagsProps) {
   return (
     <ul
       className={classNames("space-x-2", {
-        "px-1.5 py-1 ": size === "S",
+        " ": size === "S",
         "px-2.5 py-2": ["M", "L"].includes(size),
       })}
     >

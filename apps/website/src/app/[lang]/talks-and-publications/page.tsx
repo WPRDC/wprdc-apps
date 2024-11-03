@@ -13,9 +13,9 @@ import { Card } from "@/components/card.tsx";
 import { getArtifacts } from "@wprdc/api";
 
 type Props = {
-  params: {
+  params: Promise<{
     lang: string;
-  };
+  }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
