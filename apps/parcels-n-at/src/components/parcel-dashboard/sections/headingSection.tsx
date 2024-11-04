@@ -29,15 +29,11 @@ export async function HeadingSection({
   );
 }
 
-export async function HeadingSkeleton(): Promise<React.ReactElement> {
+export function HeadingSkeleton(): React.ReactElement {
   return (
-    <div className="relative flex h-full w-full items-center overflow-hidden">
-      <div className="absolute z-20 flex h-full w-full flex-col justify-end bg-gradient-to-t from-black/80 to-transparent p-2 text-white">
-        <div>
-          <Bone className="mb-3 h-10 w-full max-w-96 bg-white/80 text-5xl xl:max-w-[26rem]" />
-          <Bone className="mb-1 h-5 w-60 bg-white/80 text-xl" />
-        </div>
-      </div>
+    <div className="w-full">
+      <Bone className="mb-3 h-12 w-full max-w-96 bg-white/80 text-5xl xl:max-w-[26rem]" />
+      <Bone className="h-5 w-60 bg-white/80 text-xl" />
     </div>
   );
 }

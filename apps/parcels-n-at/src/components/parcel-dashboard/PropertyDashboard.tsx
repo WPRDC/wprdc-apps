@@ -57,6 +57,7 @@ export function PropertyDashboard({
       <div className="h-64 w-full">
         <Hero parcelID={parcelID} />
       </div>
+
       <div className="sticky top-0 z-40 -mt-24 bg-black/40 px-4 py-2 backdrop-blur-md">
         <div className="flex-grow">
           <Suspense fallback={<HeadingSkeleton />} key={parcelID}>
