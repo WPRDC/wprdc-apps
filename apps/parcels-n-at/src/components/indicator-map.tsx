@@ -220,7 +220,6 @@ export function IndicatorMap({
           case "continuous":
             return [
               { id: "mean", name: "Mean" },
-              { id: "mode", name: "Mode" },
               { id: "min", name: "Min" },
               // { id: "first_quartile", name: "1Q" },
               { id: "median", name: "Median" },
