@@ -74,7 +74,7 @@ export function PropertyDashboard({
       {/* Owner */}
       <ConnectedSection<PropertyAssessment>
         label="Owner"
-        description="Information about the owner of this parcel and their other holdings in Allegheny County."
+        description="Information about the owner of this parcel and their other holdings in Allegheny County"
         getter={fetchAssessmentRecord}
         defaultOpen={true}
         parcelID={parcelID}
@@ -84,8 +84,8 @@ export function PropertyDashboard({
 
       {/* Assessed Values */}
       <ConnectedSection<PropertyAssessment>
-        description="Comparison of this parcel's monetary value as assessed by various jurisdictions."
         label="Assessesd Values"
+        description="Comparison of this parcel's monetary value as assessed by various jurisdictions"
         getter={fetchAssessmentRecord}
         parcelID={parcelID}
         section={AssessedValuesSection}
@@ -95,7 +95,7 @@ export function PropertyDashboard({
       {/* Dwelling Characteristics*/}
       <ConnectedSection<PropertyAssessment>
         label="Dwelling Characteristics"
-        description="Information about the primary residential building on this parcel (if there is one)."
+        description="Information about the primary residential building on this parcel (if there is one)"
         getter={fetchAssessmentRecord}
         parcelID={parcelID}
         section={DwellingSection}
@@ -105,7 +105,7 @@ export function PropertyDashboard({
       {/* Condition */}
       <ConnectedSection<PropertyAssessment>
         label="Condition"
-        description="Ratings of the  about the primary residential building on this parcel (if there is one)."
+        description="Ratings of the  about the primary residential building on this parcel (if there is one)"
         getter={fetchAssessmentRecord}
         parcelID={parcelID}
         section={ConditionSection}
@@ -114,15 +114,19 @@ export function PropertyDashboard({
 
       {/* Tax Context */}
       <ConnectedSection<PropertyAssessment>
+        label="Tax Details"
+        description="Information about taxable status and taxing bodies"
         className="col-span-6 row-span-2"
         getter={fetchAssessmentRecord}
-        label="Tax Context"
         parcelID={parcelID}
         section={TaxContextSection}
         datasetLinks={["https://data.wprdc.org/dataset/property-assessments"]}
       />
 
-      <Section label="Images">
+      <Section
+        label="Images"
+        description="Images of the property from the Allegheny County real estate portal"
+      >
         <div className="flex space-x-8">
           <PopupImage
             alt="Photo of property"
@@ -142,12 +146,13 @@ export function PropertyDashboard({
         sales: PropertySaleTransaction;
         assessment: PropertyAssessment;
       }>
+        label="Sales History"
+        description="Sales over time"
         className="col-span-8 row-span-1"
         getters={{
           sales: fetchPropertySaleTransactionsRecords,
           assessment: fetchAssessmentRecord,
         }}
-        label="Sales History"
         parcelID={parcelID}
         section={SalesSection}
         datasetLinks={[
@@ -161,11 +166,12 @@ export function PropertyDashboard({
         filed: FiledAssessmentAppeal;
         archive: ArchiveAssessmentAppeal;
       }>
+        label="Assessment Appeals"
+        description="Currently-filed and historical appeals of the assessed value."
         getters={{
           filed: fetchFiledAssessmentAppealsRecord,
           archive: fetchAssessmentAppealsRecords,
         }}
-        label="Assessment Appeals"
         parcelID={parcelID}
         section={AssessmentAppealsSection}
         datasetLinks={[
@@ -176,9 +182,10 @@ export function PropertyDashboard({
 
       {/* PLI Permits */}
       <ConnectedSection<PLIPermit>
+        label="PLI Permits"
+        description="City of Pittsburgh building permits"
         className="col-span-4 row-span-1"
         getter={fetchPLIPermitRecords}
-        label="PLI Permits"
         parcelID={parcelID}
         section={PLIPermitsSection}
         datasetLinks={["https://data.wprdc.org/dataset/pli-permits"]}
@@ -186,9 +193,10 @@ export function PropertyDashboard({
 
       {/* Code Violations*/}
       <ConnectedSection<CityViolation>
+        label="Pittsburgh Code Violations"
+        description="Code violations from various city departments: Permits Licensse and Inspections (PLI), Dept. of Mobility and Infrasturcture (DOMI) and Environmental Services (ES)"
         className="col-span-4 row-span-1"
         getter={fetchCityViolationsRecords}
-        label="Pittsburgh Code Violations"
         parcelID={parcelID}
         section={CodeViolationsSection}
         datasetLinks={[
@@ -198,9 +206,10 @@ export function PropertyDashboard({
 
       {/* Liens */}
       <ConnectedSection<TaxLienWithCurrentStatus>
+        label="Tax Liens"
+        description="Filed and satisfied liens against the property"
         className="col-span-6 row-span-1"
         getter={fetchTaxLiensWithCurrentStatusRecords}
-        label="Tax Liens"
         parcelID={parcelID}
         section={TaxLiensSection}
         datasetLinks={[
@@ -210,9 +219,10 @@ export function PropertyDashboard({
 
       {/* Foreclosures */}
       <ConnectedSection<ForeclosureFiling>
+        label="Foreclosure Filings"
+        description="Forecloure filing records"
         className="col-span-6 row-span-1"
         getter={fetchForeclosureFilingsRecords}
-        label="Foreclosure"
         parcelID={parcelID}
         section={ForeclosureFilingSection}
         datasetLinks={[
@@ -222,9 +232,10 @@ export function PropertyDashboard({
 
       {/* Conservatorship */}
       <ConnectedSection<ConservatorshipRecord>
+        label="Conservatorship Filings"
+        description="Petitions to put an abandoned property under coneservatorship to be brought back in productive use"
         className="col-span-6 row-span-1"
         getter={fetchConservatorshipRecordRecords}
-        label="Conservatorship"
         parcelID={parcelID}
         section={ConservatorshipRecordSection}
         datasetLinks={[

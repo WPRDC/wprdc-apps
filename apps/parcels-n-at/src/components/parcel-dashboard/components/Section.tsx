@@ -1,7 +1,7 @@
 import type { PropsWithChildren, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 import { TbCaretDown, TbCaretRight } from "react-icons/tb";
-import { A } from "@wprdc/ui";
+import { A, Typography } from "@wprdc/ui";
 
 export function Section(
   props: PropsWithChildren<
@@ -16,7 +16,7 @@ export function Section(
   return (
     <details
       className={twMerge("group/section mt-5 p-2", props.className)}
-      open={props.defaultOpen}
+      open={props.defaultOpen ?? true}
     >
       <summary className="group/sectionsummary cursor-pointer list-none decoration-2 hover:text-stone-800">
         <div className="flex w-fit items-center">
@@ -40,7 +40,7 @@ export function Section(
       </div>
       {!!props.datasetLinks && !!props.datasetLinks.length && (
         <section className="ml-2.5 box-content border-l-4 border-black p-4 pl-8 pr-0">
-          <h3 className="mb-1 text-2xl font-bold">
+          <h3 className="mb-1 text-xl font-bold">
             Source{props.datasetLinks?.length === 1 ? "" : "s"}
           </h3>
           <ul>
