@@ -11,7 +11,6 @@ services:
       - "3033:3000"
   website:
     container_name: website
-    network_mode: host
     build:
       context: .
       dockerfile: ./apps/website/Dockerfile

@@ -1,7 +1,7 @@
 FROM node:18-alpine AS alpine
 
 # setup pnpm on the alpine base
-FROM alpine as base
+FROM alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
@@ -15,6 +15,7 @@ RUN apk update
 # Set working directory
 WORKDIR /app
 COPY . .
+
 # use special prod config
 COPY apps/parcels-n-at/next.config.prod.js /app/apps/parcels-n-at/next.config.js
 RUN turbo prune --scope=parcels-n-at --docker

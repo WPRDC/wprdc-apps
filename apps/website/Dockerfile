@@ -1,7 +1,7 @@
-FROM node:18-alpine AS base
+FROM node:18-alpine AS alpine
 
 # setup pnpm on the alpine base
-FROM alpine as base
+FROM alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
@@ -37,7 +37,7 @@ RUN pnpm install
 # Build the project
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
-RUN turbo run build --filter=parcels-n-at
+RUN turbo run build --filter=website
 
 FROM alpine AS runner
 WORKDIR /app
@@ -47,8 +47,8 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 USER nextjs
 
-COPY --from=installer /app/apps/parcels-n-at/next.config.js .
-COPY --from=installer /app/apps/parcels-n-at/package.json .
+COPY --from=installer /app/apps/website/next.config.js .
+COPY --from=installer /app/apps/website/package.json .
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
