@@ -255,7 +255,6 @@ export async function getTools(
     filters,
     populate: toolsFields,
   };
-
   return requestListData<CMSTool>("/tools", queryParams);
 }
 
@@ -275,7 +274,6 @@ export async function getArtifacts(
     filters,
     populate: artifactFields,
   };
-
   return requestListData<CMSArtifact>("/artifacts", queryParams);
 }
 

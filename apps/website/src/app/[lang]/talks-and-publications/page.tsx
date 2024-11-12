@@ -38,7 +38,7 @@ export default async function ToolListingRoute({ params }: Props) {
     {
       id: "2",
       label: "Talks and Publications",
-      href: "#",
+      href: "/talks-and-publications",
     },
   ];
 

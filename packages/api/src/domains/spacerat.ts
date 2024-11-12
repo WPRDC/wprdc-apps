@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 export const HOST = process.env.SPACERAT_HOST ?? "http://127.0.0.1:5000";
 
 export type SpaceRATAggregateStats =
@@ -261,29 +259,6 @@ interface HookResult<T> {
   isLoading?: boolean;
   data?: T;
   error?: string;
-}
-
-export function useSpaceratModel<T extends SpaceRATObject>(
-  fetcher: (id: string) => Promise<T>,
-  id: string,
-): HookResult<T> {
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<T>();
-  const [error, setError] = useState<string>();
-
-  useEffect(() => {
-    setIsLoading(true);
-    fetcher(id).then((s: T) => {
-      setData(s);
-      setIsLoading(false);
-    }, console.error);
-  }, [id]);
-
-  return {
-    isLoading,
-    data,
-    error,
-  };
 }
 
 export function formatValue(
