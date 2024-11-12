@@ -40,7 +40,7 @@ export default async function HomePage() {
             {buttons.map((button) => (
               <A
                 key={button.id}
-                href={button.buttonUrl ?? "#"}
+                href={button.buttonURL ?? "#"}
                 variant="button"
                 buttonVariant={button.highlight ? "primary" : "default"}
                 className="mb-6 mr-6 inline-block rounded-sm px-3.5 py-1 text-lg"
@@ -114,7 +114,7 @@ export default async function HomePage() {
               <A
                 variant="button"
                 buttonVariant="primary"
-                href={publishers?.button.buttonUrl ?? "#"}
+                href={publishers?.button.buttonURL ?? "#"}
                 className="lg:ml-8"
               >
                 {publishers?.button?.buttonText}

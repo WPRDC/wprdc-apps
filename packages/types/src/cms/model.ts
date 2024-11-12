@@ -74,7 +74,7 @@ export interface CMSMetadata {
 export interface CMSButton {
   id: number;
   buttonText: string | null;
-  buttonUrl: string | null;
+  buttonURL: string | null;
   highlight: boolean;
 }
 
