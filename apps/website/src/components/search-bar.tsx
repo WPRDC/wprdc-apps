@@ -13,11 +13,13 @@ const SEARCH_URL = "https://data.wprdc.org/dataset";
 const PLACEHOLDERS = [
   "311 requests",
   "dog licenses",
-  "fishing spots",
-  "arrests",
+  "property assessments",
+  "budgets",
   "paving schedules",
   "asbestos permits",
   "playground equipment",
+  "parks",
+  "salaries",
 ];
 
 const INTERVAL = 120; //ms
@@ -60,12 +62,12 @@ export default function SearchBar(props: SearchBarProps) {
   return (
     <Form
       action={SEARCH_URL}
-      className="flex flex-col md:flex-row md:max-w-xl lg:max-w-2xl w-full items-stretch pt-2"
+      className="flex w-full flex-col items-stretch pt-2 md:max-w-xl md:flex-row lg:max-w-2xl"
     >
       <SearchField
         onSubmit={handleSearch}
         aria-label="dataset search"
-        className="group flex flex-grow items-center bg-white dark:bg-black border-2 border-primary group-focus-visible:outline-2 outline-blue-500 overflow-hidden gap-1 min-w-[300px] p-2 ring-4 ring-text"
+        className="border-primary ring-text group flex min-w-[300px] flex-grow items-center gap-1 overflow-hidden border-2 bg-white p-2 outline-blue-500 ring-4 group-focus-visible:outline-2 dark:bg-black"
       >
         <FaSearch className="ml-1 text-3xl" role="presentation" />
         <Input
@@ -73,16 +75,16 @@ export default function SearchBar(props: SearchBarProps) {
           placeholder={placeholder}
           aria-placeholder="Search for data"
           autoFocus
-          className="py-1 text-xl [&::-webkit-search-cancel-button]:hidden px-2 flex-1 min-w-0 outline outline-0 bg-white dark:bg-zinc-950 text-text dark:text-textDark disabled:text-gray-200 dark:disabled:text-zinc-600"
+          className="text-text dark:text-textDark min-w-0 flex-1 bg-white px-2 py-1 text-xl outline outline-0 disabled:text-gray-200 dark:bg-zinc-950 dark:disabled:text-zinc-600 [&::-webkit-search-cancel-button]:hidden"
         />
-        <Button variant="borderless" className="group-empty:hidden mr-1 w-6">
+        <Button variant="borderless" className="mr-1 w-6 group-empty:hidden">
           <FaTimes className="text-xl" />
         </Button>
       </SearchField>
       <Button
         variant="primary"
         type="submit"
-        className="rounded-sm my-2 md:my-0 md:ml-4 px-3.5 text-lg md:text-xl ring-1 ring-text shadow-md hover:shadow-xl"
+        className="ring-text my-2 rounded-sm px-3.5 text-lg shadow-md ring-1 hover:shadow-xl md:my-0 md:ml-4 md:text-xl"
       >
         Search
       </Button>
