@@ -270,7 +270,6 @@ export async function getArtifacts(
     : undefined;
 
   const queryParams = {
-    sort: { order: "asc" },
     filters,
     populate: artifactFields,
   };
