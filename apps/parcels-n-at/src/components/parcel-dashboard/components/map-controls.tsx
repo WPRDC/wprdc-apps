@@ -24,11 +24,12 @@ export function MapControls({ parcelID, bbox }: MapControlsProps) {
   const [shareURL, setShareURL] = useState<string>("");
   const [embedCode, setEmbedCode] = useState<string>("");
 
-  const { navMap: map } = useMap();
+  const { navMap, popupMap } = useMap();
   const pathname = usePathname();
 
   function handleZoomPan() {
-    if (map) map.fitBounds(bbox);
+    if (navMap) navMap.fitBounds(bbox);
+    if (popupMap) popupMap.fitBounds(bbox);
   }
 
   useEffect(() => {

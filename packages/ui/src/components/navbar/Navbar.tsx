@@ -91,7 +91,7 @@ export function Navbar({
           </div>
           <nav
             className={twMerge(
-              "block w-full flex-grow overflow-x-hidden",
+              "block w-full flex-grow overflow-hidden",
               isOpen ? "block" : "hidden lg:block",
             )}
           >

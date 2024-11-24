@@ -25,6 +25,7 @@ export interface NavMapProps {
   showOwnerOccupied?: boolean;
   classes?: string;
   isModal?: boolean;
+  mapID?: string;
 }
 
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -36,6 +37,7 @@ export function NavMap({
   showVacant,
   classes,
   isModal,
+  mapID = "navMap",
 }: NavMapProps): React.ReactElement {
   const mapRef = useRef<MapRef>(null);
   const modalState = React.useContext(OverlayTriggerStateContext)!;
@@ -125,7 +127,7 @@ export function NavMap({
 
   return (
     <Map
-      id="navMap"
+      id={mapID}
       initialViewState={{ zoom: 15.5 }}
       layers={[parcelLayer]}
       mapTilerAPIKey={API_KEY}
@@ -133,7 +135,7 @@ export function NavMap({
       minZoom={11}
       onLoad={handleMapLoad}
       onNavigate={(feature: MapGeoJSONFeature) => {
-        modalState.close();
+        if (modalState) modalState.close();
         router.push(
           `/explore?parcel=${feature.properties.parcel_id as string}`,
         );

@@ -32,17 +32,18 @@ export default async function Page({
         </div>
       )}
 
-      <div className="hidden h-96 lg:block xl:h-auto xl:w-1/2">
-        <NavMap
-          selectedParcel={parcelID}
-          ownerAddress={ownerAddress}
-          showOwnerOccupied={Boolean(ownerOccupied)}
-          showVacant={Boolean(ownerOccupied)}
-          classes={useClasses}
-        />
-      </div>
-
       <MapProvider>
+        <div className="hidden h-96 lg:block xl:h-auto xl:w-1/2">
+          <NavMap
+            mapID="popupMap"
+            selectedParcel={parcelID}
+            ownerAddress={ownerAddress}
+            showOwnerOccupied={Boolean(ownerOccupied)}
+            showVacant={Boolean(ownerOccupied)}
+            classes={useClasses}
+          />
+        </div>
+
         <div className="fixed bottom-4 right-4 z-40 flex flex-col lg:hidden">
           <MapPopup
             selectedParcel={parcelID}
