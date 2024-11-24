@@ -11,6 +11,7 @@ import {
   TbMathFunction,
   TbPackage,
 } from "react-icons/tb";
+import { twMerge } from "tailwind-merge";
 
 export const metadata: Metadata = {
   title: "Parcels N'at",
@@ -43,24 +44,28 @@ export default function RootLayout({
             </div>
           }
         >
-          <div className="flex space-x-4 px-8 text-xl font-semibold leading-none">
+          <div
+            className={twMerge(
+              "flex flex-col justify-end space-y-4 pb-4 pl-4 text-xl font-semibold leading-none lg:flex-row lg:space-x-4 lg:space-y-0 lg:px-8 lg:pb-0",
+            )}
+          >
             <a
-              className="hover:bg-primary flex items-center hover:underline"
+              className="hover:bg-primary flex items-center space-x-0.5 hover:underline"
               href="/explore"
             >
-              <TbCompass /> Explorer
+              <TbCompass /> <span>Explorer</span>
             </a>
             <a
-              className="hover:bg-primary flex items-center hover:underline"
+              className="hover:bg-primary flex items-center space-x-0.5 hover:underline"
               href="/bulk"
             >
-              <TbPackage /> Bulk&nbsp;Downloader
+              <TbPackage /> <span>Bulk&nbsp;Downloader</span>
             </a>
             <a
-              className="hover:bg-primary flex items-center hover:underline"
+              className="hover:bg-primary flex items-center space-x-0.5 hover:underline"
               href="/indicators?maps=assessments&geog=hood&variant=_default_&question=countytotal&stat=median&mapset=assessments"
             >
-              <TbMathFunction /> Indicators
+              <TbMathFunction /> <span>Indicators</span>
             </a>
           </div>
         </Navbar>

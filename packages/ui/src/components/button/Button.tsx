@@ -17,11 +17,11 @@ export const buttonBaseStyle = tw`cursor-pointer rounded border px-1 py-1 font-m
 export const buttonVariants: Record<ButtonVariant, string> = {
   primary: tw`border-2 border-text bg-primary text-black dark:border-text`,
   success: tw`"border-green-900 bg-green-800 text-white`,
-  secondary: tw`border-2 border-text bg-primary text-text`,
+  secondary: tw`border-2 border-text bg-cyan-200 text-text`,
   borderless: tw`border-none bg-transparent text-text shadow-none hover:shadow-none`,
   default: tw`border-stone-800 bg-white text-text`,
   warning: tw`border-warning-800 bg-warning-300 text-black`,
-  danger: tw`border-red-900 bg-red-800 text-white`,
+  danger: tw`border-red-900 bg-red-200 text-red-800`,
   info: tw`border-indigo-800 bg-indigo-300 text-black`,
 };
 

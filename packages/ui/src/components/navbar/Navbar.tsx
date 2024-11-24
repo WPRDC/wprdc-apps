@@ -56,11 +56,11 @@ export function Navbar({
   return (
     <div className="top-0 z-50 w-full dark:text-gray-100" ref={ref}>
       {/* Navbar */}
-      <div className="w-full border-b-2 border-black bg-white dark:border-slate-800 dark:bg-black lg:flex ">
+      <div className="w-full border-b-2 border-black bg-white dark:border-slate-800 dark:bg-black lg:flex">
         <div
           className={twMerge(
             "mx-auto w-full lg:flex lg:items-center lg:justify-between",
-            fullWidth ? "" : "max-w-7xl ",
+            fullWidth ? "" : "max-w-7xl",
           )}
         >
           <div className="flex w-full justify-between p-4 lg:w-fit">
@@ -89,7 +89,14 @@ export function Navbar({
               />
             </button>
           </div>
-          <nav className="flex-grow">{children}</nav>
+          <nav
+            className={twMerge(
+              "block w-full flex-grow overflow-x-hidden",
+              isOpen ? "block" : "hidden lg:block",
+            )}
+          >
+            {children}
+          </nav>
         </div>
       </div>
     </div>

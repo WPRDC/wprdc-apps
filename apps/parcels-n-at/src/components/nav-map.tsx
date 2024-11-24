@@ -1,6 +1,6 @@
 "use client";
 
-import { A, Map, parcelLayer } from "@wprdc/ui";
+import { A, Button, Map, parcelLayer } from "@wprdc/ui";
 import { useRouter } from "next/navigation";
 import React, { useMemo, useRef } from "react";
 import {
@@ -12,6 +12,8 @@ import {
 import { ParcelSearch } from "@/components/parcel-search";
 import { FillPaintSpec, LayerConfig } from "@wprdc/types";
 import { TbSquareLetterAFilled, TbSquareLetterBFilled } from "react-icons/tb";
+import { OverlayTriggerStateContext } from "react-aria-components";
+import { BiX } from "react-icons/bi";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 
@@ -22,6 +24,7 @@ export interface NavMapProps {
   showVacant?: boolean;
   showOwnerOccupied?: boolean;
   classes?: string;
+  isModal?: boolean;
 }
 
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -32,8 +35,10 @@ export function NavMap({
   showOwnerOccupied,
   showVacant,
   classes,
+  isModal,
 }: NavMapProps): React.ReactElement {
   const mapRef = useRef<MapRef>(null);
+  const modalState = React.useContext(OverlayTriggerStateContext)!;
 
   const router = useRouter();
 
@@ -128,6 +133,7 @@ export function NavMap({
       minZoom={11}
       onLoad={handleMapLoad}
       onNavigate={(feature: MapGeoJSONFeature) => {
+        modalState.close();
         router.push(
           `/explore?parcel=${feature.properties.parcel_id as string}`,
         );
@@ -137,10 +143,22 @@ export function NavMap({
         [parcelLayer.slug]: [selectedParcel ?? ""],
       }}
     >
-      <div className="absolute left-2.5 top-2.5 flex-col space-y-2">
-        <div className="mx-auto w-fit">
-          <ParcelSearch />
-        </div>
+      <div className="absolute bottom-12 right-3 z-50 block lg:hidden">
+        <Button
+          className="border-2 p-1 shadow-xl"
+          variant="danger"
+          onPress={() => modalState.close()}
+        >
+          <BiX className="size-6" />
+        </Button>
+      </div>
+
+      <div className="absolute left-2.5 top-2 flex-col space-y-2">
+        {!isModal && (
+          <div className="mx-auto w-fit">
+            <ParcelSearch />
+          </div>
+        )}
         <A
           variant="button"
           className="flex space-x-1"

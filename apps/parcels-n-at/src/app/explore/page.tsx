@@ -3,25 +3,19 @@ import { PropertyDashboard } from "@/components/parcel-dashboard";
 import { MapProvider } from "@/components/map-provider.tsx";
 import { ParcelSearch } from "@/components/parcel-search.tsx";
 import React from "react";
+import { MapPopup } from "@/components/map-popup.tsx";
 
 interface Params {
-  parcelID: string;
+  parcel: string;
   ownerAddr?: string;
-  highlightVacant?: string;
-  highlightOwnerOccupied?: string;
-  highlightAssessedValue?: string;
+  classes?: string;
+  ownerOccupied?: string | number;
 }
 
 export default async function Page({
   searchParams,
 }: {
-  params: Params;
-  searchParams: Promise<
-    Record<
-      "parcel" | "ownerAddr" | "classes" | "ownerOccupied",
-      string | number
-    >
-  >;
+  searchParams: Promise<Params>;
 }): Promise<React.ReactElement> {
   const { parcel, ownerAddr, classes, ownerOccupied } = await searchParams;
 
@@ -31,9 +25,26 @@ export default async function Page({
 
   return (
     <div className="h-full w-full xl:flex xl:content-stretch">
+      {!!parcel && (
+        <div className="mb-0.5 block p-4 text-xl font-semibold lg:hidden">
+          <p>Find information about a parcel</p>
+          <ParcelSearch />
+        </div>
+      )}
+
+      <div className="hidden h-96 lg:block xl:h-auto xl:w-1/2">
+        <NavMap
+          selectedParcel={parcelID}
+          ownerAddress={ownerAddress}
+          showOwnerOccupied={Boolean(ownerOccupied)}
+          showVacant={Boolean(ownerOccupied)}
+          classes={useClasses}
+        />
+      </div>
+
       <MapProvider>
-        <div className="h-96 xl:h-auto xl:w-1/2">
-          <NavMap
+        <div className="fixed bottom-4 right-4 z-40 flex flex-col lg:hidden">
+          <MapPopup
             selectedParcel={parcelID}
             ownerAddress={ownerAddress}
             showOwnerOccupied={Boolean(ownerOccupied)}
@@ -41,7 +52,7 @@ export default async function Page({
             classes={useClasses}
           />
         </div>
-        <div className="relative h-full border-l-2 border-stone-800 bg-stone-50 xl:w-1/2 xl:overflow-auto">
+        <div className="relative h-full border-t-2 border-stone-800 bg-stone-50 lg:border-l-2 xl:w-1/2 xl:overflow-auto xl:border-t-0">
           {parcel ? (
             <PropertyDashboard parcelID={String(parcel)} />
           ) : (
