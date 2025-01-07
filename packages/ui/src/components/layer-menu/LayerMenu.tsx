@@ -7,10 +7,8 @@
  * Menu for users to define style and data properties for a map layer.
  *
  **/
-import { GeoType, SymbologyMode, type LayerConfig } from "@wprdc/types";
-import * as React from "react";
-import { useId, useReducer, type Reducer } from "react";
-import { ColorPicker } from "../color-picker";
+import { type LayerConfig, SymbologyMode } from "@wprdc/types";
+import { useId, useReducer } from "react";
 import { Heading } from "../heading";
 import type { LayerMenuProps } from "./LayerMenu.types";
 import { SolidMenu } from "./symbology-menus/SolidMenu";
@@ -22,23 +20,23 @@ interface ClearAction {
   field: keyof LayerConfig;
 }
 
-interface ChangeAction<T> {
+interface ChangeAction {
   type: "changed";
   field: keyof LayerConfig;
-  value: T;
+  value: LayerConfig;
 }
 
-type Action<T = unknown> = ChangeAction<T> | ClearAction;
+type Action<T = unknown> = ChangeAction | ClearAction;
 
 export function LayerMenu({
   defaultConfig,
 }: LayerMenuProps): React.ReactElement {
   const id = useId();
 
-  const [layerConfig, dispatch] = useReducer<Reducer<LayerConfig, Action>>(
-    layerReducer,
-    defaultConfig,
-  );
+  const [layerConfig, dispatch] = useReducer<
+    LayerConfig,
+    [Action<LayerConfig>]
+  >(layerReducer, defaultConfig);
 
   function layerReducer(config: LayerConfig, action: Action): LayerConfig {
     switch (action.type) {
@@ -49,8 +47,8 @@ export function LayerMenu({
     }
   }
 
-  function updateField<T>(field: keyof LayerConfig) {
-    return (value: T) => {
+  function updateField(field: keyof LayerConfig) {
+    return (value: LayerConfig) => {
       dispatch({
         type: "changed",
         field,

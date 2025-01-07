@@ -7,7 +7,6 @@
  **/
 "use client";
 
-import * as React from "react";
 import { Input as RAInput } from "react-aria-components";
 import { twMerge } from "tailwind-merge";
 import type { InputProps } from "./Input.types";

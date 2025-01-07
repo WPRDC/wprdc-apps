@@ -5,10 +5,10 @@ import {
   SingleValueVizCollection,
   Typography,
 } from "@wprdc/ui";
-import type { SectionProps } from "../types.ts";
+import type { SectionProps } from "../types";
 import { TbCaretDown, TbCaretRight } from "react-icons/tb";
-import { CardList } from "@/components/parcel-dashboard/components/card-list.tsx";
-import { Card } from "@/components/parcel-dashboard/components/card.tsx";
+import { CardList } from "@/components/parcel-dashboard/components/card-list";
+import { Card } from "@/components/parcel-dashboard/components/card";
 
 export function TaxLiensSection({
   fields,

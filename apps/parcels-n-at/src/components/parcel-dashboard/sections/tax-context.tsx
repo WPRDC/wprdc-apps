@@ -1,6 +1,6 @@
 import type { PropertyAssessment } from "@wprdc/types";
 import { DataListViz, SingleValueVizCollection } from "@wprdc/ui";
-import type { SectionProps } from "../types.ts";
+import type { SectionProps } from "../types";
 
 export function TaxContextSection({
   fields,

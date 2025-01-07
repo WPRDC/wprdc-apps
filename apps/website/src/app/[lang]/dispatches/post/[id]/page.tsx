@@ -1,13 +1,13 @@
-import { BreadcrumbItem, Breadcrumbs } from "@/components/breadcrumbs.tsx";
-import { PageLayout } from "@/components/page-layout.tsx";
-import { Title } from "@/components/title.tsx";
+import { BreadcrumbItem, Breadcrumbs } from "@/components/breadcrumbs";
+import { PageLayout } from "@/components/page-layout";
+import { Title } from "@/components/title";
 import { getContentByID } from "@wprdc/api";
 import { CMSWeeknote } from "@wprdc/types";
 import { Content, slugify } from "@wprdc/ui";
 import { Metadata } from "next";
 import React from "react";
 
-import { processContent } from "@/lib/parsing.ts";
+import { processContent } from "@/lib/parsing";
 
 type Props = {
   params: Promise<{

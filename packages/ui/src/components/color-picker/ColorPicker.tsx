@@ -7,7 +7,6 @@
  * Composite interface for selecting colors
  *
  **/
-import * as React from "react";
 import {
   DialogTrigger,
   Popover,

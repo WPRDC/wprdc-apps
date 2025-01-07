@@ -7,7 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { HiExternalLink } from "react-icons/hi";
-import Logo from "./logo.tsx";
+import Logo from "./logo";
 import { Button } from "react-aria-components";
 import { CMSNavMenuItem } from "@wprdc/types";
 

@@ -4,7 +4,7 @@ import { useToast } from "@react-aria/toast";
 import { Button } from "react-aria-components";
 import React, { type ReactElement } from "react";
 import { BiX } from "react-icons/bi";
-import { type ToastProps } from "./Toast.types.ts";
+import { type ToastProps } from "./Toast.types";
 
 // Reuse the Button from your component library. See below for details.
 

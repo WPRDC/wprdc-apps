@@ -11,9 +11,9 @@ import {
 import {
   type MultiSourceSectionProps,
   SectionProps,
-} from "@/components/parcel-dashboard/types.ts";
+} from "@/components/parcel-dashboard/types";
 import { VisualizationSpec } from "@wprdc/types";
-import { CardList } from "@/components/parcel-dashboard/components/card-list.tsx";
+import { CardList } from "@/components/parcel-dashboard/components/card-list";
 import { Card } from "../components/card";
 
 export function AssessmentAppealsSection({

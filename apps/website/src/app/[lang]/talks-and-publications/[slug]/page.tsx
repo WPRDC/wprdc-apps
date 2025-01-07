@@ -8,15 +8,15 @@ import {
   MainPanel,
   PageLayout,
   SidePanel,
-} from "@/components/page-layout.tsx";
-import { BreadcrumbItem, Breadcrumbs } from "@/components/breadcrumbs.tsx";
-import { Title } from "@/components/title.tsx";
-import { Subtitle } from "@/components/subtitle.tsx";
-import { PrimaryLink } from "@/components/primary-link.tsx";
+} from "@/components/page-layout";
+import { BreadcrumbItem, Breadcrumbs } from "@/components/breadcrumbs";
+import { Title } from "@/components/title";
+import { Subtitle } from "@/components/subtitle";
+import { PrimaryLink } from "@/components/primary-link";
 import { Content } from "@wprdc/ui";
-import { ScreenshotGrid } from "@/components/screenshot-grid.tsx";
-import { Sidebar } from "@/components/sidebar.tsx";
-import { processContent } from "@/lib/parsing.ts";
+import { ScreenshotGrid } from "@/components/screenshot-grid";
+import { Sidebar } from "@/components/sidebar";
+import { processContent } from "@/lib/parsing";
 
 type Props = {
   params: Promise<{

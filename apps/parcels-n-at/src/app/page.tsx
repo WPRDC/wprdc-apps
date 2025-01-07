@@ -1,5 +1,4 @@
 import { TbCompass, TbDownload } from "react-icons/tb";
-import * as React from "react";
 
 export default function Home(): React.ReactElement {
   return (

@@ -1,17 +1,17 @@
-import { Breadcrumbs } from "@/components/breadcrumbs.tsx";
-import { CardGrid } from "@/components/card-grid.tsx";
-import { Card } from "@/components/card.tsx";
+import { Breadcrumbs } from "@/components/breadcrumbs";
+import { CardGrid } from "@/components/card-grid";
+import { Card } from "@/components/card";
 import {
   Container,
   HeroPanel,
   MainPanel,
   PageLayout,
-} from "@/components/page-layout.tsx";
-import { Title } from "@/components/title.tsx";
+} from "@/components/page-layout";
+import { Title } from "@/components/title";
 import { getTools } from "@wprdc/api";
 import { Metadata } from "next";
 import React from "react";
-import { Subtitle } from "@/components/subtitle.tsx";
+import { Subtitle } from "@/components/subtitle";
 
 type Props = {
   params: Promise<{

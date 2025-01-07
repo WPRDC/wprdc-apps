@@ -1,9 +1,9 @@
 import type { CityViolation } from "@wprdc/types";
 import { Chip, DataListViz, formatLongDate, Typography } from "@wprdc/ui";
-import { SectionProps } from "@/components/parcel-dashboard/types.ts";
+import { SectionProps } from "@/components/parcel-dashboard/types";
 import { TbCaretDown, TbCaretRight } from "react-icons/tb";
-import { CardList } from "@/components/parcel-dashboard/components/card-list.tsx";
-import { Card } from "@/components/parcel-dashboard/components/card.tsx";
+import { CardList } from "@/components/parcel-dashboard/components/card-list";
+import { Card } from "@/components/parcel-dashboard/components/card";
 
 const STATUSES = [
   "IN COURT",

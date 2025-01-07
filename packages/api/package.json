@@ -16,23 +16,23 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "peerDependencies": {
-    "react": "^18.3.1"
+    "react": "^19.0.0"
   },
   "dependencies": {
-    "@turbo/gen": "^2.2.3",
+    "@turbo/gen": "^2.3.3",
     "@wprdc/types": "workspace:*",
     "maplibre-gl": "^4.7.1",
-    "qs": "^6.13.0",
-    "react-aria": "^3.35.1"
+    "qs": "^6.13.1",
+    "react-aria": "^3.36.0"
   },
   "devDependencies": {
-    "@types/node": "^22.8.1",
-    "@types/qs": "^6.9.16",
-    "@types/react": "^18.3.12",
+    "@types/node": "^22.10.5",
+    "@types/qs": "^6.9.17",
+    "@types/react": "^19.0.3",
     "@wprdc/eslint-config": "workspace:*",
     "@wprdc/tailwind-config": "workspace:*",
     "@wprdc/typescript-config": "workspace:*",
     "tsup": "^8.3.5",
-    "typescript": "^5.6.3"
+    "typescript": "^5.7.2"
   }
 }

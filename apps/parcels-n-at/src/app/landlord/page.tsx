@@ -1,11 +1,11 @@
 import {
   fetchAssessmentRecord,
-  fetchCityViolationsRecords,
-  fetchOwnerName,
   fetchSpaceratQuery,
   type QuestionRecord,
   type SpaceRATResponse,
 } from "@wprdc/api";
+
+import { fetchOwnerName } from "@/actions";
 import { type ReactNode } from "react";
 import { type VisualizationSpec } from "@wprdc/types";
 import {

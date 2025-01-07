@@ -1,9 +1,9 @@
 import { NavMap } from "@/components/nav-map";
 import { PropertyDashboard } from "@/components/parcel-dashboard";
-import { MapProvider } from "@/components/map-provider.tsx";
-import { ParcelSearch } from "@/components/parcel-search.tsx";
+import { MapProvider } from "@/components/map-provider";
+import { ParcelSearch } from "@/components/parcel-search";
 import React from "react";
-import { MapPopup } from "@/components/map-popup.tsx";
+import { MapPopup } from "@/components/map-popup";
 
 interface Params {
   parcel: string;

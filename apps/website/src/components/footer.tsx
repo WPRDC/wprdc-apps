@@ -2,7 +2,7 @@ import { getStrapiMedia } from "@wprdc/api";
 import { CMSLink, CMSLogo } from "@wprdc/types";
 import { A } from "@wprdc/ui";
 import React from "react";
-import Logo from "./logo.tsx";
+import Logo from "./logo";
 
 export interface FooterProps {
   links: CMSLink[];
@@ -19,7 +19,7 @@ export default function Footer({
 }: FooterProps) {
   return (
     <footer className="border-textSecondary border-t-2 bg-white px-6 pb-16 pt-10 dark:bg-black">
-      <div className="container mx-auto max-w-screen-xl space-y-4 lg:flex ">
+      <div className="container mx-auto max-w-screen-xl space-y-4 lg:flex">
         <nav className="">
           <ul className="">
             <li>

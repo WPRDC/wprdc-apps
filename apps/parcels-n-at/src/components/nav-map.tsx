@@ -185,18 +185,6 @@ export function NavMap({
         url="https://data.wprdc.org/tiles/table.parcel_index.geom"
         minzoom={13}
       >
-        {/*<Layer*/}
-        {/*  type="fill"*/}
-        {/*  minzoom={15}*/}
-        {/*  source-layer="table.parcel_index.geom"*/}
-        {/*  paint={{*/}
-        {/*    "fill-opacity": ["case", ["get", "owner_occupied"], 0.5, 0],*/}
-        {/*    "fill-color": "blue",*/}
-        {/*  }}*/}
-        {/*/>*/}
-        {/* todo: add more curated layers, add legend items, fix vacant and owner-occupied queries in spacerat */}
-        {/* todo: add some boundaries for pittsburgh and the county */}
-
         {/* Class */}
         <Layer
           id="class/fill"

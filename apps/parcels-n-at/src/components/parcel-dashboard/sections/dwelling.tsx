@@ -1,6 +1,6 @@
 import type { PropertyAssessment, Value } from "@wprdc/types";
 import type { SectionProps } from "../types";
-import { ClassChip } from "@/components/parcel-dashboard/components/ClassChip.tsx";
+import { ClassChip } from "@/components/parcel-dashboard/components/ClassChip";
 import {
   SingleValueVizCollection,
   SingleValueVizProps,

@@ -1,7 +1,7 @@
 import type { PropertyAssessment } from "@wprdc/types";
 import { PositionViz, SingleValueVizCollection } from "@wprdc/ui";
 import type { SectionProps } from "../types";
-import { ClassChip } from "@/components/parcel-dashboard/components/ClassChip.tsx";
+import { ClassChip } from "@/components/parcel-dashboard/components/ClassChip";
 
 export function ConditionSection({
   fields,

@@ -1,7 +1,7 @@
 "use client";
 
 import { Dialog, DialogTrigger, Modal } from "react-aria-components";
-import { NavMap, NavMapProps } from "@/components/nav-map.tsx";
+import { NavMap, NavMapProps } from "@/components/nav-map";
 import React from "react";
 import { Button } from "@wprdc/ui";
 import { TbMap } from "react-icons/tb";

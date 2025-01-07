@@ -1,5 +1,5 @@
 import { geocodeParcel } from "@wprdc/api";
-import { MapControls } from "@/components/parcel-dashboard/components/map-controls.tsx";
+import { MapControls } from "@/components/parcel-dashboard/components/map-controls";
 
 export interface MapControlsSectionProps {
   parcelID: string;

@@ -23,7 +23,6 @@ export function ComboBox<T extends object>({
   isLoading,
   ...props
 }: ComboBoxProps<T>): React.ReactElement {
-  console.log();
   return (
     <RAComboBox
       {...props}

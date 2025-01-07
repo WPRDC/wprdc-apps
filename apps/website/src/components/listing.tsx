@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from "react";
-import { BlogListItem } from "./listing-list-item.tsx";
+import { BlogListItem } from "./listing-list-item";
 
 export { BlogListItem };
 

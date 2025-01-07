@@ -1,17 +1,17 @@
 import { Breadcrumbs } from "@/components/breadcrumbs";
-import { Listing, BlogListItem } from "@/components/listing.tsx";
+import { Listing, BlogListItem } from "@/components/listing";
 import {
   Container,
   HeroPanel,
   MainPanel,
   PageLayout,
-} from "@/components/page-layout.tsx";
-import { PaginationControl } from "@/components/pagination-control.tsx";
-import { Title } from "@/components/title.tsx";
+} from "@/components/page-layout";
+import { PaginationControl } from "@/components/pagination-control";
+import { Title } from "@/components/title";
 import { DEFAULT_PAGE_SIZE, getBlogPosts } from "@wprdc/api";
 import { Metadata } from "next";
 import React from "react";
-import { Subtitle } from "@/components/subtitle.tsx";
+import { Subtitle } from "@/components/subtitle";
 
 type Props = {
   params: Promise<{

@@ -6,7 +6,6 @@
  *
  **/
 import { DataType } from "@wprdc/types";
-import * as React from "react";
 import type { IconType } from "react-icons";
 import {
   TbAbc,

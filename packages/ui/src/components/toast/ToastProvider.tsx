@@ -3,7 +3,7 @@
 import { useToastState } from "@react-stately/toast";
 import { type ReactElement, type ReactNode } from "react";
 import { ToastRegion } from "./ToastRegion";
-import { type ToastProviderProps } from "./Toast.types.ts";
+import { type ToastProviderProps } from "./Toast.types";
 
 export function ToastProvider<T extends ReactNode>({
   children,

@@ -7,7 +7,6 @@
  **/
 "use client";
 
-import * as React from "react";
 import { ListBoxItem as RAListBoxItem } from "react-aria-components";
 import type { ListBoxItemProps } from "./ListBox.types";
 

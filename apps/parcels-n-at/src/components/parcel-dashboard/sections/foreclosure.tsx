@@ -1,6 +1,6 @@
 import type { ForeclosureFiling } from "@wprdc/types";
 import { DataListViz, Typography } from "@wprdc/ui";
-import type { SectionProps } from "../types.ts";
+import type { SectionProps } from "../types";
 import { Card } from "../components/card";
 import { CardList } from "../components/card-list";
 

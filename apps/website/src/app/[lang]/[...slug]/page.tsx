@@ -3,7 +3,7 @@ import {
   HeroPanel,
   MainPanel,
   PageLayout,
-} from "@/components/page-layout.tsx";
+} from "@/components/page-layout";
 import { Subtitle } from "@/components/subtitle";
 import { Title } from "@/components/title";
 import { getContentBySlug } from "@wprdc/api";
@@ -11,8 +11,8 @@ import { CMSPage } from "@wprdc/types";
 import { Content } from "@wprdc/ui";
 import { Metadata } from "next";
 import React from "react";
-import { Breadcrumbs } from "@/components/breadcrumbs.tsx";
-import { processContent } from "@/lib/parsing.ts";
+import { Breadcrumbs } from "@/components/breadcrumbs";
+import { processContent } from "@/lib/parsing";
 
 type Props = {
   params: Promise<{

@@ -1,6 +1,6 @@
 "use client";
 
-import { PageLayout } from "@/components/page-layout.tsx";
+import { PageLayout } from "@/components/page-layout";
 import { A } from "@wprdc/ui";
 
 export default function RootErrorBoundary() {

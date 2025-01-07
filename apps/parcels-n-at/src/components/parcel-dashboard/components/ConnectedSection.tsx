@@ -8,7 +8,7 @@ import type {
   MultiConnectedSectionProps,
   MultiSourceSectionProps,
 } from "../types";
-import { Section } from "./Section.tsx";
+import { Section } from "./Section";
 
 export function ConnectedSection<T extends DatastoreRecord>({
   label,

@@ -12,7 +12,7 @@ import {
   FaLink,
   FaPerson,
 } from "react-icons/fa6";
-import { Tags } from "./tags.tsx";
+import { Tags } from "./tags";
 import { CMSLink, CMSTag } from "@wprdc/types";
 import { twMerge } from "tailwind-merge";
 

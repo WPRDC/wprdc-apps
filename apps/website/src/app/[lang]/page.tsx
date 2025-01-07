@@ -1,6 +1,6 @@
 import { Blurb } from "@/components/blurb";
-import { PageLayout } from "@/components/page-layout.tsx";
-import SearchBar from "@/components/search-bar.tsx";
+import { PageLayout } from "@/components/page-layout";
+import SearchBar from "@/components/search-bar";
 import { STRAPI_URL } from "@/lib/constants";
 import { getHomePage } from "@wprdc/api";
 import { A, Content } from "@wprdc/ui";

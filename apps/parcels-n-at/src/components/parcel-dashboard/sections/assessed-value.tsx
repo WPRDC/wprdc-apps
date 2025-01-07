@@ -8,7 +8,7 @@ import {
   SingleValueVizProps,
   Table,
 } from "@wprdc/ui";
-import type { SectionProps } from "../types.ts";
+import type { SectionProps } from "../types";
 import { VisualizationSpec } from "@wprdc/types";
 import {
   TbBuilding,

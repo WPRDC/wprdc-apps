@@ -3,7 +3,7 @@ import { CMSWeeknote, ListableContentType } from "@wprdc/types";
 
 import { convert } from "html-to-text";
 import React from "react";
-import { processContent } from "@/lib/parsing.ts";
+import { processContent } from "@/lib/parsing";
 
 export interface ListItemProps<T extends ListableContentType> {
   item: T;

@@ -2,8 +2,8 @@
 
 import { useToastRegion } from "@react-aria/toast";
 import { type ReactElement, useRef } from "react";
-import { type ToastRegionProps } from "./Toast.types.ts";
-import { Toast } from "./Toast.tsx";
+import { type ToastRegionProps } from "./Toast.types";
+import { Toast } from "./Toast";
 
 export function ToastRegion<T extends React.ReactNode>({
   state,

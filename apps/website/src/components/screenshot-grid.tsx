@@ -1,4 +1,4 @@
-import { STRAPI_URL } from "@/lib/constants.ts";
+import { STRAPI_URL } from "@/lib/constants";
 import { CMSImage } from "@wprdc/types";
 import { PopupImage } from "@wprdc/ui";
 import React from "react";

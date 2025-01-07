@@ -1,6 +1,6 @@
 import { Content } from "@wprdc/ui";
 import React from "react";
-import { processContent } from "@/lib/parsing.ts";
+import { processContent } from "@/lib/parsing";
 
 export interface BlurbProps {
   header?: string | null;

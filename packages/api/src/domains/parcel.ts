@@ -14,6 +14,7 @@ import type {
   TaxLienWithCurrentStatus,
   RankedParcelIndex,
 } from "@wprdc/types";
+
 import { fetchFields, fetchSQLSearch, toFieldLookup } from "../fetch-util";
 import type { APIResult } from "../types";
 
@@ -148,25 +149,6 @@ export const fetchConservatorshipRecordRecords = (
     parcelID,
     ParcelTable.ConservatorshipRecord,
   );
-
-export async function fetchOwnerName(parcelID: string): Promise<string> {
-  try {
-    const requestURL = `https://tools.wprdc.org/property-whois/whois/${parcelID}/`;
-
-    const response = await fetch(requestURL);
-    const { name } = (await response.json()) as {
-      name: string;
-      success: boolean;
-    };
-    if (name) return name;
-
-    throw new Error(`Owner not found for ${parcelID}`);
-  } catch (error) {
-    // eslint-disable-next-line no-console -- rare but useful
-    console.error(`Owner not found for ${parcelID}`);
-    throw new Error(`Owner not found for ${parcelID}`);
-  }
-}
 
 export async function autocompleteParcelSearch(
   searchTerm: string,

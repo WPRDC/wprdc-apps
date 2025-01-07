@@ -1,6 +1,6 @@
 import { CMSTag, Size } from "@wprdc/types";
 import classNames from "classnames";
-import { Tag } from "./tag.tsx";
+import { Tag } from "./tag";
 
 export interface TagsProps {
   tags?: CMSTag[];

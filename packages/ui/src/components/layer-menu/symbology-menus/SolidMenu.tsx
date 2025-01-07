@@ -1,5 +1,4 @@
 import { GeoType } from "@wprdc/types";
-import * as React from "react";
 import { ColorPicker } from "../../color-picker";
 import { type SolidMenuProps } from "../LayerMenu.types";
 

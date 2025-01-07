@@ -165,6 +165,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       const features = extractFeatures(e);
       if (!!features && !!features.length) {
         setHoveredFeatures(features);
+        // @ts-ignore
         setHoveredPoint(e.point);
       } else clearHover();
       if (onHover) {
@@ -179,8 +180,10 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       const features = extractFeatures(e);
 
       setClickedFeatures(features);
-      if (!!features && features.length > 1) setClickedPoint(e.point);
-      else setClickedPoint(null);
+      if (!!features && features.length > 1) {
+        // @ts-ignore
+        setClickedPoint(e.point);
+      } else setClickedPoint(null);
       // if the map is used for navigation
       if (onNavigate && features && features.length === 1)
         handleNavigate(features[0]);

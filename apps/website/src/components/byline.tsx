@@ -1,4 +1,4 @@
-import { WEEKNOTE_AUTHORS } from "@/lib/constants.ts";
+import { WEEKNOTE_AUTHORS } from "@/lib/constants";
 import { CMSAuthor } from "@wprdc/types";
 import { A } from "@wprdc/ui";
 

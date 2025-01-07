@@ -5,12 +5,7 @@ import "./globals.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "@wprdc/ui/styles.css";
 import { Navbar } from "@wprdc/ui";
-import {
-  TbCompass,
-  TbDownload,
-  TbMathFunction,
-  TbPackage,
-} from "react-icons/tb";
+import { TbCompass, TbMathFunction, TbPackage } from "react-icons/tb";
 import { twMerge } from "tailwind-merge";
 
 export const metadata: Metadata = {

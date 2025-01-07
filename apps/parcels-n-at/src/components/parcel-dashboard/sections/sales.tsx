@@ -4,7 +4,7 @@ import type {
   Value,
 } from "@wprdc/types";
 import { formatDate, formatDollars, Table, Typography } from "@wprdc/ui";
-import type { MultiSourceSectionProps } from "../types.ts";
+import type { MultiSourceSectionProps } from "../types";
 
 interface SimpleSalesRecord {
   date: string;

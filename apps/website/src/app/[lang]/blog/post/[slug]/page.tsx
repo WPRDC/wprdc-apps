@@ -2,20 +2,20 @@ import { getContentBySlug } from "@wprdc/api";
 import { Metadata } from "next";
 import React from "react";
 import { CMSBlog } from "@wprdc/types";
-import { BreadcrumbItem, Breadcrumbs } from "@/components/breadcrumbs.tsx";
+import { BreadcrumbItem, Breadcrumbs } from "@/components/breadcrumbs";
 import {
   Container,
   MainPanel,
   PageLayout,
   SidePanel,
   HeroPanel,
-} from "@/components/page-layout.tsx";
+} from "@/components/page-layout";
 import { Content } from "@wprdc/ui";
-import { Title } from "@/components/title.tsx";
-import { Byline } from "@/components/byline.tsx";
-import { Subtitle } from "@/components/subtitle.tsx";
-import { Sidebar } from "@/components/sidebar.tsx";
-import { processContent } from "@/lib/parsing.ts";
+import { Title } from "@/components/title";
+import { Byline } from "@/components/byline";
+import { Subtitle } from "@/components/subtitle";
+import { Sidebar } from "@/components/sidebar";
+import { processContent } from "@/lib/parsing";
 
 type Props = {
   params: Promise<{

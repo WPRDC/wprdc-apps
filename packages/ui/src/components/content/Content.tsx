@@ -5,7 +5,6 @@
  * Renders html or markdown content
  *
  **/
-import * as React from "react";
 import { twMerge } from "tailwind-merge";
 import type { ContentProps } from "./Content.types";
 

@@ -1,9 +1,10 @@
 import {
-  fetchOwnerName,
   fetchSpaceratQuery,
   QuestionRecord,
   SpaceRATResponse,
 } from "@wprdc/api";
+import { fetchOwnerName } from "@/actions";
+
 import type { PropertyAssessment } from "@wprdc/types";
 import {
   A,
@@ -12,7 +13,7 @@ import {
   Typography,
 } from "@wprdc/ui";
 import React from "react";
-import { SectionProps } from "@/components/parcel-dashboard/types.ts";
+import { SectionProps } from "@/components/parcel-dashboard/types";
 import { TbCaretDown, TbCaretRight } from "react-icons/tb";
 
 export function OwnerSection({

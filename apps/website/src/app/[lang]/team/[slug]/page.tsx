@@ -3,16 +3,16 @@ import {
   HeroPanel,
   MainPanel,
   PageLayout,
-} from "@/components/page-layout.tsx";
-import { PrimaryLink } from "@/components/primary-link.tsx";
-import { Title } from "@/components/title.tsx";
+} from "@/components/page-layout";
+import { PrimaryLink } from "@/components/primary-link";
+import { Title } from "@/components/title";
 import { getContentBySlug } from "@wprdc/api";
 import { CMSAuthor } from "@wprdc/types";
 import { Content } from "@wprdc/ui";
 import { Metadata } from "next";
 import React from "react";
-import { Breadcrumbs } from "@/components/breadcrumbs.tsx";
-import { processContent } from "@/lib/parsing.ts";
+import { Breadcrumbs } from "@/components/breadcrumbs";
+import { processContent } from "@/lib/parsing";
 
 type Props = {
   params: Promise<{

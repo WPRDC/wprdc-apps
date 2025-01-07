@@ -1,20 +1,20 @@
-import { BreadcrumbItem, Breadcrumbs } from "@/components/breadcrumbs.tsx";
+import { BreadcrumbItem, Breadcrumbs } from "@/components/breadcrumbs";
 import {
   Container,
   HeroPanel,
   MainPanel,
   PageLayout,
-} from "@/components/page-layout.tsx";
-import { PrimaryLink } from "@/components/primary-link.tsx";
-import { ScreenshotGrid } from "@/components/screenshot-grid.tsx";
-import { Subtitle } from "@/components/subtitle.tsx";
-import { Title } from "@/components/title.tsx";
+} from "@/components/page-layout";
+import { PrimaryLink } from "@/components/primary-link";
+import { ScreenshotGrid } from "@/components/screenshot-grid";
+import { Subtitle } from "@/components/subtitle";
+import { Title } from "@/components/title";
 import { getContentBySlug } from "@wprdc/api";
 import { CMSTool } from "@wprdc/types";
 import { Content } from "@wprdc/ui";
 import { Metadata } from "next";
 import React from "react";
-import { processContent } from "@/lib/parsing.ts";
+import { processContent } from "@/lib/parsing";
 
 type Props = {
   params: Promise<{
