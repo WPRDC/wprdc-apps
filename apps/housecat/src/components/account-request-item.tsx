@@ -1,14 +1,16 @@
+"use client";
+
 import { UserProfile } from "@wprdc/types";
 import { Button } from "@wprdc/ui";
+import { reviewHouseCatAccount } from "@wprdc/api";
 
 export interface AccountRequestItemProps {
   userProfile: UserProfile;
-  onDeny: (profile: UserProfile) => void;
-  onApprove: (profile: UserProfile) => void;
+  token?: string;
 }
 
 export function AccountRequestItem(props: AccountRequestItemProps) {
-  const { userProfile, onApprove, onDeny } = props;
+  const { userProfile, token } = props;
   const {
     id,
     affiliation,
@@ -19,6 +21,11 @@ export function AccountRequestItem(props: AccountRequestItemProps) {
     expirationDate,
     ...fields
   } = userProfile;
+
+  async function handleReview(shouldApprove: boolean, email: string) {
+    const response = await reviewHouseCatAccount(shouldApprove, email, token);
+    console.log(response);
+  }
 
   return (
     <div className="">
@@ -41,10 +48,10 @@ export function AccountRequestItem(props: AccountRequestItemProps) {
       <div className="">
         <div></div>
         <div className="">
-          <Button className="" onPress={() => onApprove(userProfile)}>
+          <Button className="" onPress={() => handleReview(true, user.email)}>
             Approve
           </Button>
-          <Button className="" onPress={() => onDeny(userProfile)}>
+          <Button className="" onPress={() => handleReview(false, user.email)}>
             Deny
           </Button>
         </div>

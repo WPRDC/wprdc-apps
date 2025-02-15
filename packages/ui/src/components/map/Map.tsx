@@ -59,6 +59,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     selectedIDs,
     layers,
     initialViewState,
+    interactive = true,
     minZoom,
     maxZoom,
     useDrawControls = false,
@@ -278,7 +279,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
         zoom: initialViewState?.zoom ?? DEFAULT_ZOOM,
         ...initialViewState,
       }}
-      interactive
+      interactive={interactive}
       interactiveLayerIds={
         drawingMode === "simple_select" ? interactiveLayerIDs : []
       }

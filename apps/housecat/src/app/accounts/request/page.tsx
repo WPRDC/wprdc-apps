@@ -1,17 +1,18 @@
-import { Field, Form, Formik, FormikHelpers } from 'formik';
-import styles from '../../styles/Accounts.module.css';
-import { useRouter } from 'next/router';
-import { useMutation } from 'react-query';
-import { getCookie } from '@wprdc-components/util';
-import * as Yup from 'yup';
-import { ReactElement } from 'react';
-import Layout from '../../components/Layout';
+"use client";
+
+import { Field, Form, Formik, FormikHelpers } from "formik";
+import * as Yup from "yup";
+import { Button, getCookie, tw } from "@wprdc/ui";
+
+import { useRouter } from "next/navigation";
 
 const headers = {
-  'Content-Type': 'application/json',
-  'X-CSRFToken': getCookie('csrftoken') || '',
-  Accept: 'application/json',
+  "Content-Type": "application/json",
+  "X-CSRFToken": getCookie("csrftoken") || "",
+  Accept: "application/json",
 };
+
+const errorStyle = tw`italic text-red-700`;
 
 interface Values {
   email: string;
@@ -30,36 +31,36 @@ interface RequestMutationVariables {
   values: Values;
 }
 
-const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8000';
+const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:8000";
 
 const SignupSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required(),
+  email: Yup.string().email("Invalid email").required(),
   firstName: Yup.string()
-    .max(64, 'Cannot be more than 64 characters')
+    .max(64, "Cannot be more than 64 characters")
     .required(),
   lastName: Yup.string()
-    .max(64, 'Cannot be more than 64 characters')
+    .max(64, "Cannot be more than 64 characters")
     .required(),
   category: Yup.string().required(),
   affiliation: Yup.string()
-    .max(64, 'Cannot be more than 64 characters')
+    .max(64, "Cannot be more than 64 characters")
     .required(),
   intended_use: Yup.string().required(),
   conflicts: Yup.string(),
   agreed_to_terms: Yup.boolean().required(),
   password: Yup.string().required(),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .oneOf([Yup.ref("password"), undefined], "Passwords must match")
     .required(),
 });
 
-function AccountRequestPage() {
+export default function AccountRequestPage() {
   const router = useRouter();
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.innerWrapper}>
-        <h2>Request an Account</h2>
+    <div className="container mx-auto max-w-screen-lg pb-20 pt-12">
+      <div className="flex flex-col gap-2">
+        <h2 className="mb-8 text-5xl font-bold">Request an Account</h2>
         <p>
           To request access, please complete an access request and a member of
           Neighborhood Allies will be in touch.
@@ -68,8 +69,8 @@ function AccountRequestPage() {
           You must agree to the Terms of Use before you can request an account.
         </p>
 
-        <div className={styles.terms}>
-          <h3>Terms of Use</h3>
+        <div className="flex flex-col gap-3 border border-dashed border-black bg-gray-50 p-2 font-mono">
+          <h3 className="mb-2 text-3xl font-bold">Terms of Use</h3>
 
           <p>
             This tool was developed to provide people with information about
@@ -88,7 +89,7 @@ function AccountRequestPage() {
             of the Preservation Working Group.
           </p>
 
-          <ul>
+          <ul className="mb-4 list-inside list-disc">
             <li>
               Housing and community development-focused nonprofit organizations
             </li>
@@ -106,7 +107,7 @@ function AccountRequestPage() {
             for access.
           </p>
 
-          <ul>
+          <ul className="mb-4 list-inside list-disc">
             <li>Media organizations</li>
             <li>Students</li>
             <li>Researchers</li>
@@ -114,17 +115,21 @@ function AccountRequestPage() {
             <li>Financial institutions</li>
           </ul>
 
-          <h4>Permitted Uses</h4>
+          <h4 className="mb-2 text-3xl font-bold">Permitted Uses</h4>
 
-          <p>You are free and encouraged to use the data to:</p>
-          <ul>
+          <h5 className="text-xl font-bold">
+            You are free and encouraged to use the data to:
+          </h5>
+
+          <ul className="mb-4 list-inside list-disc">
             <li>Expand and preserve affordable housing</li>
             <li>Improve community and resident well-being</li>
             <li>Enhance your understanding of community dynamics</li>
           </ul>
 
-          <h4>As long as you:</h4>
-          <ul>
+          <h5 className="text-xl font-bold">As long as you:</h5>
+
+          <ul className="mb-4 list-inside list-disc">
             <li>
               Register for access in good faith, accurately representing your
               organizational status, eligibility, and intended use.
@@ -177,12 +182,12 @@ function AccountRequestPage() {
             </li>
           </ul>
 
-          <h4>Termination</h4>
+          <h4 className="mb-2 text-3xl font-bold">Termination</h4>
           <p>
             Users that fail to comply with the terms of use will have their
             rights to use the tool and access the data terminated.
           </p>
-          <h4>Disclaimer</h4>
+          <h4 className="mb-2 text-3xl font-bold">Disclaimer</h4>
           <p>
             The University of Pittsburgh, the City of Pittsburgh, Allegheny
             County (partners in the Western Pennsylvania Regional Data Center
@@ -198,7 +203,7 @@ function AccountRequestPage() {
             disclaimers and uses all of the data in the tool and WPRDC at its
             own risk and on an “as is” and “as available” basis.
           </p>
-          <h4>Indemnification</h4>
+          <h4 className="mb-2 text-3xl font-bold">Indemnification</h4>
           <p>
             User agrees to indemnify, release, and hold harmless the University
             of Pittsburgh, the City of Pittsburgh, Allegheny County - partners
@@ -210,19 +215,19 @@ function AccountRequestPage() {
             WPRDC.
           </p>
         </div>
-        <div className={styles.formSection}>
+        <div className="pb-16">
           <Formik
             validationSchema={SignupSchema}
             initialValues={{
-              email: '',
-              category: '',
-              firstName: '',
-              lastName: '',
-              affiliation: '',
-              intended_use: '',
-              conflicts: '',
-              password: '',
-              confirmPassword: '',
+              email: "",
+              category: "",
+              firstName: "",
+              lastName: "",
+              affiliation: "",
+              intended_use: "",
+              conflicts: "",
+              password: "",
+              confirmPassword: "",
               agreed_to_terms: false,
             }}
             onSubmit={(
@@ -231,100 +236,134 @@ function AccountRequestPage() {
             ) => {
               const { confirmPassword, ...sendValues } = values;
               fetch(`${API_HOST}/accounts/request/`, {
-                method: 'POST',
+                method: "POST",
                 headers,
                 body: JSON.stringify(sendValues),
               }).then((r) => {
                 if (r.status >= 200 && r.status < 300) {
-                  router.push('/accounts/submitted');
+                  router.push("/accounts/submitted");
                 }
               });
             }}
           >
             {({ errors, touched, isValidating, values }) => (
-              <Form className={styles.form}>
-                <div>
-                  <label>
+              <Form className="mt-8 border border-stone-800 p-2">
+                <div className="mt-2 flex w-fit flex-row-reverse items-center">
+                  <label className="pl-1 text-lg font-semibold">
                     I agree to the terms above.
-                    <Field
-                      id="agreed_to_terms"
-                      name="agreed_to_terms"
-                      type="checkbox"
-                    />
                   </label>
-                  {errors.agreed_to_terms && touched.agreed_to_terms && (
-                    <div className={styles.error}>{errors.agreed_to_terms}</div>
-                  )}
-                </div>
 
+                  <Field
+                    id="agreed_to_terms"
+                    name="agreed_to_terms"
+                    type="checkbox"
+                    className="size-5 rounded-sm border border-stone-700 px-1 py-0.5 font-mono"
+                  />
+                </div>
+                {errors.agreed_to_terms && touched.agreed_to_terms && (
+                  <div className={errorStyle}>{errors.agreed_to_terms}</div>
+                )}
                 <div>
-                  <label htmlFor="email">Email</label>
+                  <label
+                    className="mt-2 block text-lg font-semibold"
+                    htmlFor="email"
+                  >
+                    Email
+                  </label>
                   <Field
                     disabled={!values.agreed_to_terms}
                     id="email"
                     name="email"
                     placeholder="your@email.gov"
                     type="email"
+                    className="w-full max-w-sm rounded-sm border border-stone-700 px-1 py-0.5 font-mono disabled:cursor-not-allowed disabled:bg-gray-200"
                   />
                   {errors.email && touched.email && (
-                    <div className={styles.error}>{errors.email}</div>
+                    <div className={errorStyle}>{errors.email}</div>
                   )}
                 </div>
 
                 <div>
-                  <label htmlFor="password">Password</label>
+                  <label
+                    className="mt-2 block text-lg font-semibold"
+                    htmlFor="password"
+                  >
+                    Password
+                  </label>
                   <Field
                     disabled={!values.agreed_to_terms}
                     id="password"
                     name="password"
                     type="password"
+                    className="w-full max-w-sm rounded-sm border border-stone-700 px-1 py-0.5 font-mono disabled:cursor-not-allowed disabled:bg-gray-200"
                   />
                   {errors.password && touched.password && (
-                    <div className={styles.error}>{errors.password}</div>
+                    <div className={errorStyle}>{errors.password}</div>
                   )}
                 </div>
 
                 <div>
-                  <label htmlFor="confirmPassword">Confirm Password</label>
+                  <label
+                    className="mt-2 block text-lg font-semibold"
+                    htmlFor="confirmPassword"
+                  >
+                    Confirm Password
+                  </label>
                   <Field
                     disabled={!values.agreed_to_terms}
                     id="confirmPassword"
                     name="confirmPassword"
                     type="password"
+                    className="w-full max-w-sm rounded-sm border border-stone-700 px-1 py-0.5 font-mono disabled:cursor-not-allowed disabled:bg-gray-200"
                   />
                   {errors.confirmPassword && touched.confirmPassword && (
-                    <div className={styles.error}>{errors.confirmPassword}</div>
+                    <div className={errorStyle}>{errors.confirmPassword}</div>
                   )}
                 </div>
 
                 <div>
-                  <label htmlFor="firstName">First Name</label>
+                  <label
+                    className="mt-2 block text-lg font-semibold"
+                    htmlFor="firstName"
+                  >
+                    First Name
+                  </label>
                   <Field
                     disabled={!values.agreed_to_terms}
                     id="firstName"
                     name="firstName"
                     type="text"
+                    className="w-full max-w-sm rounded-sm border border-stone-700 px-1 py-0.5 font-mono disabled:cursor-not-allowed disabled:bg-gray-200"
                   />
                   {errors.firstName && touched.firstName && (
-                    <div className={styles.error}>{errors.firstName}</div>
+                    <div className={errorStyle}>{errors.firstName}</div>
                   )}
                 </div>
 
                 <div>
-                  <label htmlFor="lastName">Last Name</label>
+                  <label
+                    className="mt-2 block text-lg font-semibold"
+                    htmlFor="lastName"
+                  >
+                    Last Name
+                  </label>
                   <Field
                     disabled={!values.agreed_to_terms}
                     id="lastName"
                     name="lastName"
                     type="text"
+                    className="w-full max-w-sm rounded-sm border border-stone-700 px-1 py-0.5 font-mono disabled:cursor-not-allowed disabled:bg-gray-200"
                   />
                   {errors.lastName && touched.lastName && (
-                    <div className={styles.error}>{errors.lastName}</div>
+                    <div className={errorStyle}>{errors.lastName}</div>
                   )}
                 </div>
 
                 <div>
-                  <label htmlFor="email">
+                  <label
+                    className="mt-2 block text-lg font-semibold"
+                    htmlFor="email"
+                  >
                     What type of organization will you be using this data for?
                   </label>
                   <Field
@@ -332,11 +371,12 @@ function AccountRequestPage() {
                     id="category"
                     name="category"
                     as="select"
+                    className="w-full max-w-sm rounded-sm border border-stone-700 px-1 py-0.5 font-mono disabled:cursor-not-allowed disabled:bg-gray-200"
                   >
                     <option value="">-----</option>
                     <option value="nonprofit">
                       Housing and community development-focused nonprofit
-                      organizations{' '}
+                      organizations{" "}
                     </option>
                     <option value="government">
                       Local, state, and federal government agencies and
@@ -356,12 +396,15 @@ function AccountRequestPage() {
                     </option>
                   </Field>
                   {errors.category && touched.category && (
-                    <div className={styles.error}>{errors.category}</div>
+                    <div className={errorStyle}>{errors.category}</div>
                   )}
                 </div>
 
                 <div>
-                  <label htmlFor="affiliation">
+                  <label
+                    className="mt-2 block text-lg font-semibold"
+                    htmlFor="affiliation"
+                  >
                     What is the name of the organization?
                   </label>
                   <Field
@@ -369,14 +412,18 @@ function AccountRequestPage() {
                     id="affiliation"
                     name="affiliation"
                     type="text"
+                    className="w-full max-w-sm rounded-sm border border-stone-700 px-1 py-0.5 font-mono disabled:cursor-not-allowed disabled:bg-gray-200"
                   />
                   {errors.affiliation && touched.affiliation && (
-                    <div className={styles.error}>{errors.affiliation}</div>
+                    <div className={errorStyle}>{errors.affiliation}</div>
                   )}
                 </div>
 
                 <div>
-                  <label htmlFor="intended_use">
+                  <label
+                    className="mt-2 block text-lg font-semibold"
+                    htmlFor="intended_use"
+                  >
                     What is your intended use of the data?
                   </label>
                   <Field
@@ -384,14 +431,18 @@ function AccountRequestPage() {
                     name="intended_use"
                     component="textarea"
                     disabled={!values.agreed_to_terms}
+                    className="w-full max-w-lg rounded-sm border border-stone-700 px-1 py-0.5 font-mono disabled:cursor-not-allowed disabled:bg-gray-200"
                   />
                   {errors.intended_use && touched.intended_use && (
-                    <div className={styles.error}>{errors.intended_use}</div>
+                    <div className={errorStyle}>{errors.intended_use}</div>
                   )}
                 </div>
 
                 <div>
-                  <label htmlFor="conflicts">
+                  <label
+                    className="mt-2 block text-lg font-semibold"
+                    htmlFor="conflicts"
+                  >
                     List conflicts of interest that may arise with your use of
                     this data
                   </label>
@@ -400,19 +451,25 @@ function AccountRequestPage() {
                     name="conflicts"
                     component="textarea"
                     disabled={!values.agreed_to_terms}
+                    className="w-full max-w-lg rounded-sm border border-stone-700 px-1 py-0.5 font-mono disabled:cursor-not-allowed disabled:bg-gray-200"
                   />
-                  <div className={styles.example}>
+                  <div className="italic text-stone-800">
                     Example: for-profit real estate developer who is also on the
                     board of a community organization
                   </div>
                   {errors.conflicts && touched.conflicts && (
-                    <div className={styles.error}>{errors.conflicts}</div>
+                    <div className={errorStyle}>{errors.conflicts}</div>
                   )}
                 </div>
 
-                <button disabled={!values.agreed_to_terms} type="submit">
+                <Button
+                  isDisabled={!values.agreed_to_terms}
+                  type="submit"
+                  variant="primary"
+                  className="mb-8 mt-4 text-xl"
+                >
                   Submit
-                </button>
+                </Button>
               </Form>
             )}
           </Formik>
@@ -421,9 +478,3 @@ function AccountRequestPage() {
     </div>
   );
 }
-
-AccountRequestPage.getLayout = (page: ReactElement) => (
-  <Layout protect={false}>{page}</Layout>
-);
-
-export default AccountRequestPage;

@@ -1,75 +1,33 @@
-import styles from '../../styles/Accounts.module.css';
-import { useAccountList } from '@wprdc-connections/housecat';
-import { AccountRequestItem } from '../../components/AccountRequestItem';
-import { useMutation } from 'react-query';
-import { getCookie } from '@wprdc-components/util';
-import { ReactElement } from 'react';
-import Layout from '../../components/Layout';
+import { cookies } from "next/headers";
+import { fetchAccounts, fetchLoggedInToHousecat } from "@wprdc/api";
+import { AccountRequestItem } from "@/components/account-request-item.tsx";
+import { redirect } from "next/navigation";
 
-const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8000';
+export default async function AccountReviewPage() {
+  const cookieJar = await cookies();
+  const token = cookieJar.get("hct")?.value;
 
-const headers = {
-  'Content-Type': 'application/json',
-  'X-CSRFToken': getCookie('csrftoken') || '',
-};
+  const userList = await fetchAccounts(token, { approved: false });
 
-interface MutationVariables {
-  /** email for target user profile */
-  email: string;
-
-  /** True if the user with email `email` should be approved. */
-  shouldApprove: boolean;
-}
-
-export function AccountReviewPage() {
-  const {
-    data: userList,
-    error,
-    refetch: refecthAccountList,
-  } = useAccountList({ approved: false });
-
-  const approvalMutation = useMutation(
-    ({ email, shouldApprove }: MutationVariables) => {
-      return fetch(
-        `${API_HOST}/accounts/${shouldApprove ? 'approve' : 'revoke'}/`,
-        {
-          method: 'POST',
-          body: JSON.stringify({ user: email }),
-          headers,
-          credentials: 'include',
-        },
-      );
-    },
-    {
-      onSuccess: () => refecthAccountList(),
-    },
-  );
+  const loggedIn = await fetchLoggedInToHousecat(token);
+  if (!loggedIn) {
+    redirect("/accounts/login");
+  }
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.innerWrapper}>
+    <div className="">
+      <div className="">
         <h2>Accounts Pending Review</h2>
         {!!userList && !!userList.length ? (
           userList.map((user) => (
             <AccountRequestItem
               key={user.user.email}
               userProfile={user}
-              onApprove={() => {
-                approvalMutation.mutate({
-                  email: user.user.email,
-                  shouldApprove: true,
-                });
-              }}
-              onDeny={() =>
-                approvalMutation.mutate({
-                  email: user.user.email,
-                  shouldApprove: false,
-                })
-              }
+              token={token}
             />
           ))
         ) : (
-          <div className={styles.message}>
+          <div className="">
             <p>All done!</p>
             <p>There are currently no more accounts to review.</p>
           </div>
@@ -78,9 +36,3 @@ export function AccountReviewPage() {
     </div>
   );
 }
-
-AccountReviewPage.getLayout = (page: ReactElement) => (
-  <Layout protect={true}>{page}</Layout>
-);
-
-export default AccountReviewPage;

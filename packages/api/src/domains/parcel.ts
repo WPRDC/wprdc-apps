@@ -108,6 +108,7 @@ export const fetchPropertySaleTransactionsRecords = (
     parcelID,
     ParcelTable.PropertySaleTransactions,
   );
+
 export const fetchAssessmentAppealsRecords = (
   parcelID: string | string[],
 ): Promise<APIResult<ArchiveAssessmentAppeal>> =>

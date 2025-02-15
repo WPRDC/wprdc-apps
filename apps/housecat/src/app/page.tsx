@@ -1,85 +1,60 @@
-import Link from "next/link";
 import Image from "next/image";
 
 import CREATELogo from "../assets/logos/create_logo.png";
-import WPRDCLogo from "../assets/logos/wprdc-square.png";
-
-import { twMerge } from "tailwind-merge";
+import WPRDCLogo from "../assets/logos/wprdc-mark-light.png";
+import { A, Content } from "@wprdc/ui";
+import { BigButton } from "@/components/big-button";
 
 const signupLink = process.env.NEXT_PUBLIC_REQUEST_URL || "/accounts/request";
 
-interface BigButtonProps {
-  href: string;
-  title: string;
-  subtitle: string;
-  small?: boolean;
-}
-
-export function BigButton({
-  href,
-  title,
-  subtitle,
-  small = false,
-}: BigButtonProps) {
-  return (
-    <Link href={href} className="">
-      <div className="">{title}</div>
-      <div className="">{subtitle}</div>
-    </Link>
-  );
-}
-
 export default function HousecatHome() {
   return (
-    <div className="flex flex-row-reverse">
+    <div className="container mx-auto max-w-screen-lg pb-20 pt-12">
       <div>
-        <h2 className="">Find information on subsidized housing</h2>
-        <div className="flex flex-col-reverse lg:flex-col">
-          <div>
-            <div className="">
-              <BigButton
-                href="/map"
-                title="🗺 Map"
-                subtitle="Explore all the data on a map"
-              />
-              <BigButton
-                href="/search"
-                title="🔍 Search"
-                subtitle="Find information on subsidized housing"
-              />
-              <BigButton
-                href="/map"
-                title="🗺 Map"
-                subtitle="Explore all the data on a map"
-              />
-            </div>
-            <div className="">
-              <BigButton
-                href="https://profiles.wprdc.org/housing"
-                title="📊 Indicators"
-                subtitle=" Community-level housing statistics"
-                small
-              />
-              <BigButton
-                href="/map"
-                title="📜 About"
-                subtitle="Information about the data and process"
-              />
-              <BigButton
-                href="/map"
-                title="🗺 Map"
-                subtitle="Explore all the data on a map"
-              />
-            </div>
+        <h2 className="mb-8 text-5xl font-bold">
+          Find information on subsidized housing
+        </h2>
+
+        <div className="flex flex-col gap-4">
+          <div className="mx-auto flex w-fit gap-4">
+            <BigButton
+              href="/explore"
+              title="🗺 Explorer"
+              subtitle="Explore all the data on a map"
+            />
+            <BigButton
+              href="/map"
+              title="👀 Watchlist"
+              subtitle="Lists or projects based on search criteria"
+            />
+            <BigButton
+              href="/search"
+              title="🔍 Search"
+              subtitle="Find information on subsidized housing"
+            />
           </div>
-          <div>
-            <p className="">
-              <span>🗳</span>
-              <Link href={signupLink}>Click here to apply for access</Link>
-            </p>
+          <div className="mx-auto flex w-fit gap-4">
+            <BigButton
+              href="https://profiles.wprdc.org/housing"
+              title="📊 Indicators"
+              subtitle=" Community-level housing statistics"
+              small
+            />
+            <BigButton
+              href="/map"
+              title="📜 About"
+              subtitle="Information about the data and process"
+            />
           </div>
         </div>
-        <div className="">
+
+        <div className="py-8">
+          <p className="">
+            <span>🗳</span>
+            <A href={signupLink}>Click here to apply for access</A>
+          </p>
+        </div>
+        <Content className="">
           <p>
             <strong>
               Affordable housing is a growing issue of regional importance in
@@ -120,13 +95,13 @@ export default function HousecatHome() {
             whose affordability is at risk. Properties can be viewed on a map,
             with data associated with each property displayed on screen.
           </p>
-        </div>
-        <div className="">
+        </Content>
+        <div className="mt-8">
           <a href="https://www.wprdc.org">
-            <Image src={WPRDCLogo} alt="WPRDC" />
+            <Image src={WPRDCLogo} alt="WPRDC" height={60} />
           </a>
           <a href="https://cmucreatelab.org/">
-            <Image src={CREATELogo} alt="WPRDC" />
+            <Image src={CREATELogo} alt="WPRDC" height={120} />
           </a>
         </div>
       </div>

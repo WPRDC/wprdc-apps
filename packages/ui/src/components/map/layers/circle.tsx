@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Layer } from "react-map-gl/maplibre";
 import type { SymbologyLayerProps } from "../Map.types";
 import { parseConfig } from "../parse";
+import { FilterSpecification } from "@maplibre/maplibre-gl-style-spec";
 
 export function CircleLayer({
   layer,
@@ -14,9 +15,11 @@ export function CircleLayer({
     return parseConfig(layer, context);
   }, [layer, context]);
 
+  const filter: FilterSpecification | undefined = layer.renderOptions?.filter;
+
   return (
     <Layer
-      filter={layer.renderOptions?.filter ?? true}
+      filter={filter}
       id={`${slug}-circle`}
       layout={{}}
       paint={{

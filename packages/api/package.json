@@ -21,7 +21,7 @@
   "dependencies": {
     "@turbo/gen": "^2.3.3",
     "@wprdc/types": "workspace:*",
-    "maplibre-gl": "^4.7.1",
+    "maplibre-gl": "^5.1.0",
     "qs": "^6.13.1",
     "react-aria": "^3.36.0"
   },

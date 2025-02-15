@@ -1,7 +1,6 @@
 /** Primary index of housing projects **/
 
-import { SourceProps } from "react-map-gl/dist/esm/exports-maplibre";
-import { LayerProps } from "react-map-gl";
+import { LayerProps, SourceProps } from "react-map-gl/maplibre";
 import { LegendItemProps } from "./mapping";
 
 export interface Resource<K extends string | number = string | number> {
@@ -41,6 +40,8 @@ export interface ProjectIndex extends Resource {
   houseCatId?: string | null;
   status?: string | null;
   centroid?: [number, number];
+  groups: string[];
+  parcels: string[];
 }
 
 export interface ProjectIndexMapProperties {
@@ -80,6 +81,8 @@ export interface ProjectIndexDetails extends ProjectIndex {
   lihtcDataFromPhfa: LIHTCDataFromPHFA[];
   demographicsByHousingProjectFromPhfa: DemographicsByHousingProjectFromPHFA[];
   phfaStats: PHFAStats[];
+  longitude: string;
+  latitude: string;
 }
 
 export interface ActiveHUDMultifamilyInsuredMortgages {
@@ -332,7 +335,7 @@ export interface SubsidyExtractMultifamilyAssistanceAndSection8Contracts {
   propertyStreetAddress?: string | null;
   city?: string | null;
   state?: string | null;
-  zipCode?: number | null;
+  zipCode?: string | null;
   units?: number | null;
   propertyCategoryName?: string | null;
   ownerOrganizationName?: string | null;
@@ -540,7 +543,7 @@ export interface UserProfile {
 
 export interface APIMapBoxResponse {
   source: SourceProps;
-  layers: (LayerProps & { "source-layer": string; id: string })[];
+  layers: LayerProps[];
   extras: {
     legendItems: LegendItemProps[];
   };

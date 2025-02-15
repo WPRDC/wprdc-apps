@@ -13,6 +13,7 @@ export function Content({
   className,
   variant = "default",
   id,
+  children,
 }: ContentProps): React.ReactElement {
   return (
     <div
@@ -24,7 +25,9 @@ export function Content({
         variant === "large" && "prose-2xl max-w-none",
         className,
       )}
-      dangerouslySetInnerHTML={dangerouslySetInnerHTML}
-    ></div>
+      dangerouslySetInnerHTML={children ? dangerouslySetInnerHTML : undefined}
+    >
+      {children}
+    </div>
   );
 }

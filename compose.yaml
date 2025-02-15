@@ -9,6 +9,15 @@ services:
     restart: always
     ports:
       - "3033:3000"
+  housecat:
+    container_name: housecat
+    build:
+      context: .
+      dockerfile: ./apps/housecat/Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+
   website:
     container_name: website
     build:

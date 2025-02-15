@@ -40,7 +40,10 @@ export interface MapProps {
 
   children?: any;
   /** Override initial view state */
-  initialViewState?: Partial<ViewState>;
+  initialViewState?: Partial<ViewState> /** Override initial view state */;
+
+  /** Completely override viewState */
+  interactive?: boolean;
 
   /** Callback that's fired on click */
   onClick?: (

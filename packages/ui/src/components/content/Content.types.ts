@@ -11,4 +11,5 @@ export interface ContentProps {
 
   /** ONLY USE THIS WITH HTML WE GENERATE/CONTROL */
   dangerouslySetInnerHTML?: { __html: string | TrustedHTML };
+  children?: React.ReactNode;
 }

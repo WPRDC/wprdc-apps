@@ -134,7 +134,10 @@ export interface Project
   fhlbProjects: SchemaSection<FHLBProjects>;
 }
 
-export const affordableHousingSchema: Project = {
+export const affordableHousingSchema: Omit<
+  Project,
+  "latitude" | "longitude" | "groups" | "parcels"
+> = {
   activeHudMultifamilyInsuredMortgages: {
     title: "Active HUD Multifamily Insured Mortgages",
     items: [
