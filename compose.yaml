@@ -9,13 +9,14 @@ services:
     restart: always
     ports:
       - "3033:3000"
+
   housecat:
     container_name: housecat
     build:
       context: .
       dockerfile: ./apps/housecat/Dockerfile
     environment:
-      HOUSECAT_HOST: https://www.housecatpgh.org/api/
+      HOUSECAT_HOST: https://www.housecatpgh.org/api
     restart: always
     ports:
       - "3000:3000"
