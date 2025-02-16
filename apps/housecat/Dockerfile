@@ -4,6 +4,7 @@ FROM node:18-alpine AS alpine
 FROM alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+RUN npm install -g corepack@latest
 RUN corepack enable
 RUN pnpm install turbo --global
 
@@ -17,8 +18,8 @@ WORKDIR /app
 COPY . .
 
 # use special prod config
-COPY apps/parcels-n-at/next.config.prod.js /app/apps/parcels-n-at/next.config.js
-RUN turbo prune --scope=parcels-n-at --docker
+COPY apps/housecat/next.config.prod.js /app/apps/housecat/next.config.js
+RUN turbo prune --scope=housecat --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer

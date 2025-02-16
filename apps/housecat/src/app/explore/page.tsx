@@ -16,8 +16,6 @@ interface Params {
   id: string;
 }
 
-const HOST = process.env.HOUSECAT_HOST ?? "http://localhost:8000";
-
 export default async function MapPage({
   searchParams,
 }: {
