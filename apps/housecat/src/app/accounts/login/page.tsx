@@ -3,14 +3,8 @@
 import { Field, Form, Formik } from "formik";
 
 import { useRouter } from "next/navigation";
-import { housecatLogin } from "@wprdc/api";
 import { useState } from "react";
 import { Button } from "@wprdc/ui";
-
-interface Values {
-  username: string;
-  password: string;
-}
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:8000";
 

@@ -15,6 +15,8 @@ import { BiX } from "react-icons/bi";
 import { useContext, useRef } from "react";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
+const TILE_HOST =
+  process.env.NEXT_PUBLIC_TILE_SERVER_HOST ?? "https://housecatpgh.org/tiles";
 
 export interface NavMapProps {
   projectID?: string;
@@ -55,7 +57,7 @@ export function NavMap({
     {
       id: "all-public-housing-projects",
       type: "vector",
-      url: "http://127.0.0.1:3001/maps.all_public_housing_projects.json",
+      url: `${TILE_HOST}/maps.all_public_housing_projects.json`,
     },
   ];
 

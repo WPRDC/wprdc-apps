@@ -5,7 +5,10 @@ import {
   UserProfile,
 } from "@wprdc/types";
 
-const HOST = process.env.HOUSECAT_HOST ?? "http://localhost:8000";
+const HOST =
+  process.env.HOUSECAT_HOST ??
+  process.env.NEXT_PUBLIC_API_HOST ??
+  "http://localhost:8000";
 
 export enum Endpoint {
   PHProject = "data/project",
@@ -99,12 +102,9 @@ export async function fetchAffordableHousingProject(
   if (typeof id === "undefined") return null;
 
   const url = `${HOST}/data/project/${id}/?${new URLSearchParams(params).toString()}`;
-  console.log("URL", token, url);
   const headers = _headers(token);
   const response = await fetch(url, { credentials: "include", headers });
   const data = await response.json();
-
-  console.log(data);
 
   return data as ProjectIndexDetails;
 }

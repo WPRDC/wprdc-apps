@@ -53,8 +53,6 @@ export function Navbar({
     };
   }, []);
 
-  console.log(isOpen);
-
   return (
     <div className="top-0 z-50 w-full dark:text-gray-100" ref={ref}>
       {/* Navbar */}
