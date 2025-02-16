@@ -98,12 +98,15 @@ export async function fetchAffordableHousingProject(
 ) {
   if (typeof id === "undefined") return null;
 
-  const url = `${HOST}/data/project/${id}?${new URLSearchParams(params).toString()}`;
-
+  const url = `${HOST}/data/project/${id}/?${new URLSearchParams(params).toString()}`;
+  console.log("URL", token, url);
   const headers = _headers(token);
   const response = await fetch(url, { credentials: "include", headers });
+  const data = await response.json();
 
-  return (await response.json()) as ProjectIndexDetails;
+  console.log(data);
+
+  return data as ProjectIndexDetails;
 }
 
 /**

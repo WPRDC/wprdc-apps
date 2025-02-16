@@ -12,12 +12,32 @@ interface Values {
   password: string;
 }
 
+const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:8000";
+
 export default async function LoginPage({}) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const router = useRouter();
 
-  function onLogin(token: string | null): void {
+  async function handleLogin(
+    username: string,
+    password: string,
+  ): Promise<void> {
+    const response = await fetch(`${API_HOST}/api-token-auth/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    });
+
+    const {
+      token,
+    }: {
+      token: string;
+    } = await response.json();
+
     if (token) {
       document.cookie = `hct=${token}; path=/`;
       setErrorMessage(null);
@@ -42,7 +62,7 @@ export default async function LoginPage({}) {
           password: "",
         }}
         onSubmit={(values) => {
-          housecatLogin(values.username, values.password, onLogin);
+          handleLogin(values.username, values.password);
         }}
       >
         <Form className="mt-8">
