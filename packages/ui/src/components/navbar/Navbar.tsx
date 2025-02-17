@@ -92,7 +92,7 @@ export function Navbar({
           <nav
             className={twMerge(
               "block w-full flex-grow overflow-hidden",
-              isOpen ? "block" : "hidden lg:block",
+              isOpen ? "block" : "max-lg:hidden lg:block",
             )}
           >
             {children}
