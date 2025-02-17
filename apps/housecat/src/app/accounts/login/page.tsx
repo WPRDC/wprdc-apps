@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@wprdc/ui";
 
-const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:8000";
+const API_HOST =
+  process.env.NEXT_PUBLIC_HOUSECAT_HOST || "http://localhost:8000";
 
 export default async function LoginPage({}) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);

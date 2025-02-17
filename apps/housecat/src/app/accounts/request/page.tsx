@@ -31,7 +31,8 @@ interface RequestMutationVariables {
   values: Values;
 }
 
-const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:8000";
+const API_HOST =
+  process.env.NEXT_PUBLIC_HOUSECAT_HOST || "http://localhost:8000";
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required(),

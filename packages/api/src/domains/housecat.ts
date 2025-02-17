@@ -7,7 +7,7 @@ import {
 
 const HOST =
   process.env.HOUSECAT_HOST ??
-  process.env.NEXT_PUBLIC_API_HOST ??
+  process.env.NEXT_PUBLIC_HOUSECAT_HOST ??
   "http://localhost:8000";
 
 export enum Endpoint {
