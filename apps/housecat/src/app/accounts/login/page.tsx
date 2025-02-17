@@ -4,10 +4,16 @@ import { Field, Form, Formik } from "formik";
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Button } from "@wprdc/ui";
+import { Button, getCookie } from "@wprdc/ui";
 
 const API_HOST =
   process.env.NEXT_PUBLIC_HOUSECAT_HOST || "http://localhost:8000";
+
+const headers = {
+  "Content-Type": "application/json",
+  "X-CSRFToken": getCookie("csrftoken") || "",
+  Accept: "application/json",
+};
 
 export default function LoginPage({}) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -20,11 +26,12 @@ export default function LoginPage({}) {
   ): Promise<void> {
     const response = await fetch(`${API_HOST}/api-token-auth/`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify({
         username,
         password,
       }),
+      credentials: "include",
     });
 
     const {
