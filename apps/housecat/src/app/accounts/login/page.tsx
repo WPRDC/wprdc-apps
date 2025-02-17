@@ -9,7 +9,7 @@ import { Button } from "@wprdc/ui";
 const API_HOST =
   process.env.NEXT_PUBLIC_HOUSECAT_HOST || "http://localhost:8000";
 
-export default async function LoginPage({}) {
+export default function LoginPage({}) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const router = useRouter();
