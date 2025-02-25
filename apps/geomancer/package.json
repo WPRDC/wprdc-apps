@@ -17,7 +17,7 @@
     "@wprdc/ui": "workspace:*",
     "chroma-js": "^3.1.2",
     "maplibre-gl": "^5.1.0",
-    "next": "15.0.2",
+    "next": "15.1.7",
     "react": "^19.0.0",
     "react-aria-components": "^1.5.0",
     "react-dom": "^19.0.0",
@@ -29,7 +29,7 @@
     "tailwindcss-react-aria-components": "^1.2.0"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "^15.1.3",
+    "@next/eslint-plugin-next": "^15.1.7",
     "@types/chroma-js": "^2.4.5",
     "@types/node": "^22.10.5",
     "@types/react": "^19.0.3",
@@ -38,7 +38,7 @@
     "@wprdc/tailwind-config": "workspace:*",
     "@wprdc/typescript-config": "workspace:*",
     "autoprefixer": "^10.4.20",
-    "eslint-config-next": "15.0.2",
+    "eslint-config-next": "15.1.7",
     "postcss": "^8.4.49",
     "sharp": "^0.33.5",
     "tailwindcss": "^3.4.17",

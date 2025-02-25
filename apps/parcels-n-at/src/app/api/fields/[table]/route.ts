@@ -7,6 +7,8 @@ export async function GET<T extends DatastoreRecord = DatastoreRecord>(
   { params }: { params: Promise<{ table: string }> },
 ): Promise<Response> {
   const { table } = await params;
+  console.log(table);
+
   const fields = await fetchFields<T>(table);
 
   return Response.json({

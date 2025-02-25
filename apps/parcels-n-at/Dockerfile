@@ -1,9 +1,11 @@
-FROM node:18-alpine AS alpine
+FROM node:20-alpine AS alpine
 
 # setup pnpm on the alpine base
 FROM alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+
+RUN npm install -g corepack@latest
 RUN corepack enable
 RUN pnpm install turbo --global
 
@@ -15,6 +17,8 @@ RUN apk update
 # Set working directory
 WORKDIR /app
 COPY . .
+COPY /apps/parcels-n-at/.env.local /app/apps/parcels-n-at/.env.local
+COPY .env .env
 
 # use special prod config
 COPY apps/parcels-n-at/next.config.prod.js /app/apps/parcels-n-at/next.config.js
@@ -36,6 +40,9 @@ RUN pnpm install
 # Build the project
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
+COPY --from=builder /app/apps/parcels-n-at/.env.local /app/apps/parcels-n-at/.env.local
+COPY --from=builder /app/.env /app/.env
+
 RUN turbo run build --filter=parcels-n-at
 
 # use alpine as the thinest image

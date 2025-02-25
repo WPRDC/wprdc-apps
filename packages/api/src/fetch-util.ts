@@ -47,20 +47,20 @@ export async function fetchSQLSearch<T extends DatastoreRecord>(
     const requestUrl = `${HOST}/api/action/datastore_search_sql?${new URLSearchParams(
       { ...queryParams, sql },
     ).toString()}`;
+    console.log(requestUrl);
+
     // Trigger API call
     const response = await fetch(requestUrl, { ...defaultOptions, ...options });
-
+    console.log(response.statusText);
     const body: unknown = await response.json();
-    if (isValidCKANResponse<T>(body)) {
-      if (body.success) {
-        const { fields, records } = body.result;
-        return { fields, records };
-      }
+    if (isValidCKANResponse<T>(body) && body.success) {
+      const { fields, records } = body.result;
+      return { fields, records };
     }
-    throw new Error(response.statusText);
   } catch (error) {
-    throw new Error(String(error));
+    console.error(error);
   }
+  return {};
 }
 
 /**
@@ -88,16 +88,14 @@ export async function fetchDatastoreSearch<T extends DatastoreRecord>(
 
     const body: unknown = await response.json();
 
-    if (isValidCKANResponse<T>(body)) {
-      if (body.success) {
-        const { fields, records } = body.result;
-        return { fields, records };
-      }
+    if (isValidCKANResponse<T>(body) && body.success) {
+      const { fields, records } = body.result;
+      return { fields, records };
     }
-    return {};
   } catch (error) {
-    throw new Error(String(error));
+    console.error(error);
   }
+  return {};
 }
 
 /**

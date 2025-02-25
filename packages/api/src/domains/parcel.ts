@@ -193,6 +193,8 @@ export async function geocodeParcel(
   parcelID: string,
   init?: RequestInit,
 ): Promise<GeocodeResponse | null> {
+  console.log(parcelID);
+
   const sql = `
       SELECT "parcel_id",
              ST_AsGeoJSON(centroid) as centroid,

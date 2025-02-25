@@ -14,10 +14,9 @@ import { FillPaintSpec, LayerConfig } from "@wprdc/types";
 import { TbSquareLetterAFilled, TbSquareLetterBFilled } from "react-icons/tb";
 import { OverlayTriggerStateContext } from "react-aria-components";
 import { BiX } from "react-icons/bi";
-import { geocodeParcel, GeocodeResponse } from "@wprdc/api";
-import { CoordinatePair } from "@wprdc/types/src";
+import { GeocodeResponse } from "@wprdc/api";
 
-const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
+const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY ?? "missing";
 
 export interface NavMapProps {
   selectedParcel?: string;

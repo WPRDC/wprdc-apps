@@ -5,7 +5,6 @@ import { ParcelSearch } from "@/components/parcel-search";
 import React from "react";
 import { MapPopup } from "@/components/map-popup";
 import { geocodeParcel } from "@wprdc/api";
-import { useMap } from "react-map-gl/maplibre";
 
 interface Params {
   parcel: string;
