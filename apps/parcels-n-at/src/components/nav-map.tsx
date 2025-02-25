@@ -33,8 +33,6 @@ export interface NavMapProps {
 
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
-const BUFFER = 1.0001;
-
 export function NavMap({
   selectedParcel,
   ownerAddress,

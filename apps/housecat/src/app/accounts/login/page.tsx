@@ -9,12 +9,6 @@ import { Button, getCookie } from "@wprdc/ui";
 const API_HOST =
   process.env.NEXT_PUBLIC_HOUSECAT_HOST || "http://localhost:8000";
 
-const headers = {
-  "Content-Type": "application/json",
-  "X-CSRFToken": getCookie("csrftoken") || "",
-  Accept: "application/json",
-};
-
 export default function LoginPage({}) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -24,6 +18,12 @@ export default function LoginPage({}) {
     username: string,
     password: string,
   ): Promise<void> {
+    const headers = {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken") || "",
+      Accept: "application/json",
+    };
+
     const response = await fetch(`${API_HOST}/api-token-auth/`, {
       method: "POST",
       headers,

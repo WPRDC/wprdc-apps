@@ -51,11 +51,15 @@ export async function housecatLogout(
 export async function housecatLogin(
   username: string,
   password: string,
+  csrftoken: string,
   onComplete: (token: string | null) => void,
 ): Promise<void> {
   const response = await fetch(`${HOST}/api-token-auth/`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "X-CSRFToken": csrftoken,
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       username,
       password,
