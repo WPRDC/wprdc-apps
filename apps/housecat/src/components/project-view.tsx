@@ -124,7 +124,9 @@ export async function ProjectView({
         <ul>
           {project.parcels.map((parcel) => (
             <li key={parcel}>
-              <A href={`https://parcelsnat.org/explore?parcel=${parcel}`}>
+              <A
+                href={`https://parcelsnat.org/explore?parcel=${parcel}&zoompan=1`}
+              >
                 {parcel}
               </A>
             </li>

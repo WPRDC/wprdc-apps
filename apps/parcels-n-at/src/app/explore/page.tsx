@@ -4,12 +4,16 @@ import { MapProvider } from "@/components/map-provider";
 import { ParcelSearch } from "@/components/parcel-search";
 import React from "react";
 import { MapPopup } from "@/components/map-popup";
+import { geocodeParcel } from "@wprdc/api";
+import { useMap } from "react-map-gl/maplibre";
 
 interface Params {
   parcel: string;
   ownerAddr?: string;
   classes?: string;
   ownerOccupied?: string | number;
+  zoomPan?: number;
+  z?: number;
 }
 
 export default async function Page({
@@ -17,11 +21,21 @@ export default async function Page({
 }: {
   searchParams: Promise<Params>;
 }): Promise<React.ReactElement> {
-  const { parcel, ownerAddr, classes, ownerOccupied } = await searchParams;
+  const {
+    parcel,
+    ownerAddr,
+    classes,
+    ownerOccupied,
+    z,
+    zoomPan: _zoomPan,
+  } = await searchParams;
 
   const parcelID = parcel ? String(parcel) : undefined;
   const ownerAddress = ownerAddr ? String(ownerAddr) : undefined;
   const useClasses = classes ? String(classes) : undefined;
+
+  const zoomPan = _zoomPan ?? z;
+  const { bbox } = (await geocodeParcel(parcelID ?? "")) ?? { bbox: undefined };
 
   return (
     <div className="h-full w-full xl:flex xl:content-stretch">
@@ -41,6 +55,8 @@ export default async function Page({
             showOwnerOccupied={Boolean(ownerOccupied)}
             showVacant={Boolean(ownerOccupied)}
             classes={useClasses}
+            bbox={bbox}
+            zoomPan={!!zoomPan}
           />
         </div>
 

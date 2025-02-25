@@ -28,8 +28,8 @@ export function MapControls({ parcelID, bbox }: MapControlsProps) {
   const pathname = usePathname();
 
   function handleZoomPan() {
-    if (navMap) navMap.fitBounds(bbox);
-    if (popupMap) popupMap.fitBounds(bbox);
+    if (navMap) navMap.fitBounds(bbox, { padding: 30 });
+    if (popupMap) popupMap.fitBounds(bbox, { padding: 10 });
   }
 
   useEffect(() => {

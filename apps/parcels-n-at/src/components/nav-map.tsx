@@ -2,7 +2,7 @@
 
 import { A, Button, Map, parcelLayer } from "@wprdc/ui";
 import { useRouter } from "next/navigation";
-import React, { useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import {
   Layer,
   MapGeoJSONFeature,
@@ -14,6 +14,8 @@ import { FillPaintSpec, LayerConfig } from "@wprdc/types";
 import { TbSquareLetterAFilled, TbSquareLetterBFilled } from "react-icons/tb";
 import { OverlayTriggerStateContext } from "react-aria-components";
 import { BiX } from "react-icons/bi";
+import { geocodeParcel, GeocodeResponse } from "@wprdc/api";
+import { CoordinatePair } from "@wprdc/types/src";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 
@@ -26,9 +28,13 @@ export interface NavMapProps {
   classes?: string;
   isModal?: boolean;
   mapID?: string;
+  bbox?: GeocodeResponse["bbox"];
+  zoomPan?: boolean;
 }
 
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+const BUFFER = 1.0001;
 
 export function NavMap({
   selectedParcel,
@@ -37,12 +43,20 @@ export function NavMap({
   showVacant,
   classes,
   isModal,
+  bbox,
+  zoomPan,
   mapID = "navMap",
 }: NavMapProps): React.ReactElement {
   const mapRef = useRef<MapRef>(null);
   const modalState = React.useContext(OverlayTriggerStateContext)!;
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (zoomPan && bbox && mapRef.current) {
+      mapRef.current.fitBounds(bbox, { padding: 30 });
+    }
+  }, [bbox, zoomPan]);
 
   async function handleMapLoad() {
     if (mapRef.current) {
