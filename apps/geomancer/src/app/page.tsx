@@ -13,8 +13,6 @@ export default async function Home() {
     }),
   );
 
-  console.log(items);
-
   return (
     <div>
       <div>

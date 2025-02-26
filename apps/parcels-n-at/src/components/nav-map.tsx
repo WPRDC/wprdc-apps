@@ -51,7 +51,6 @@ export function NavMap({
 
   useEffect(() => {
     if (zoomPan && bbox && mapRef.current) {
-      console.log("zoomin");
       mapRef.current.fitBounds(bbox, { padding: 30 });
     }
   }, [bbox]);

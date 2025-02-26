@@ -59,6 +59,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     selectedIDs,
     layers,
     initialViewState,
+    viewState: _viewState,
     interactive = true,
     minZoom,
     maxZoom,
@@ -269,6 +270,10 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     ],
   );
 
+  const viewState = _viewState
+    ? { ..._viewState, height: 0, width: 0 }
+    : undefined;
+
   return (
     <ReactMapGL
       id={id}
@@ -279,6 +284,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
         zoom: initialViewState?.zoom ?? DEFAULT_ZOOM,
         ...initialViewState,
       }}
+      viewState={viewState}
       interactive={interactive}
       interactiveLayerIds={
         drawingMode === "simple_select" ? interactiveLayerIDs : []

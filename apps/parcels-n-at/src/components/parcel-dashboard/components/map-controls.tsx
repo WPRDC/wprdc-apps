@@ -38,7 +38,7 @@ export function MapControls({ parcelID, bbox }: MapControlsProps) {
     const url = `${scheme}://${host}${pathname}?parcel=${parcelID}`;
     setShareURL(url);
     setEmbedCode(
-      `<iframe width="800" height="600" src="${url}&zoompan=1"></iframe>`,
+      `<iframe width="800" height="600" src="${url}&zoomPan=1"></iframe>`,
     );
   }, []);
 

@@ -12,7 +12,8 @@ import {
 } from "react-map-gl/maplibre";
 import { OverlayTriggerStateContext } from "react-aria-components";
 import { BiX } from "react-icons/bi";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
+import { ViewState } from "react-map-gl/mapbox-legacy";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 

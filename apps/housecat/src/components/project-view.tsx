@@ -35,8 +35,6 @@ export async function ProjectView({
 
   const projectNames = project.name.split("|");
 
-  console.log(project);
-
   return (
     <article id="data-dashboard" className="flex flex-col gap-4">
       <div className="border-b border-dashed border-stone-600">
@@ -133,7 +131,7 @@ export async function ProjectView({
             <li key={parcel}>
               <A
                 className="font-mono"
-                href={`https://parcelsnat.org/explore?parcel=${parcel}&zoompan=1`}
+                href={`https://parcelsnat.org/explore?parcel=${parcel}&zoomPan=1`}
               >
                 {parcel}
               </A>
@@ -177,7 +175,7 @@ export async function ProjectView({
           if (!recordData || !recordData.length) return null;
 
           return (
-            <section id={key} key={key} className="mt-4">
+            <section id={key} key={key + section.title} className="mt-4">
               <div className="mb-1.5 flex gap-2">
                 <h4 className="text-xl font-bold">{section.title}</h4>
 

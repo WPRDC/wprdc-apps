@@ -24,7 +24,6 @@ export default async function WatchListPage({
   const token = cookieJar.get("hct")?.value;
 
   const loggedIn = await fetchLoggedInToHousecat(token);
-  console.log(loggedIn);
   if (!loggedIn) {
     redirect("/accounts/login");
   }

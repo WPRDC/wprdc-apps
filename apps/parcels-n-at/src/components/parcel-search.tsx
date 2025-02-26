@@ -33,7 +33,7 @@ export function ParcelSearch(): React.ReactElement {
 
   function handleSelectionChange(key: Key | null): void {
     list.setFilterText("");
-    if (key) router.push(`/explore?parcel=${key.toString()}&zoompan=1`);
+    if (key) router.push(`/explore?parcel=${key.toString()}&zoomPan=1`);
   }
 
   return (

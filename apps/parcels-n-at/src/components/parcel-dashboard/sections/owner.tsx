@@ -138,7 +138,7 @@ export async function OwnerInfo({
                     <li key={`${pid}-${i}`}>
                       <A
                         className="font-mono"
-                        href={`/explore?parcel=${pid}&zoompan=1`}
+                        href={`/explore?parcel=${pid}&zoomPan=1`}
                       >
                         {address} ({pid})
                       </A>

@@ -24,7 +24,6 @@ export function AccountRequestItem(props: AccountRequestItemProps) {
 
   async function handleReview(shouldApprove: boolean, email: string) {
     const response = await reviewHouseCatAccount(shouldApprove, email, token);
-    console.log(response);
   }
 
   return (
