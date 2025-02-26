@@ -37,7 +37,7 @@ export default async function Page({
 
   const zoomPan = _zoomPan ?? z;
   const response = await fetch(
-    `${BASE_URL}/api/parcels/geocode?pid=${parcelID}`,
+    `${BASE_URL}/api/parcels/geocode?pid=${parcelID ?? ""}`,
   );
   const data = (await response.json()) as GeocodeResponseBody;
   const { bbox } = (await geocodeParcel(parcelID ?? "")) ?? { bbox: undefined };

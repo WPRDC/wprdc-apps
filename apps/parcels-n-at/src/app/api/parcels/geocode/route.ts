@@ -20,6 +20,7 @@ export async function GET(
   request: NextRequest,
 ): Promise<NextResponse<GeocodeResponseBody>> {
   const parcelID = request.nextUrl.searchParams.get("pid");
+
   if (!parcelID)
     return new NextResponse(
       JSON.stringify({
