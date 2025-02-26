@@ -5,6 +5,7 @@ import { ParcelSearch } from "@/components/parcel-search";
 import React from "react";
 import { MapPopup } from "@/components/map-popup";
 import { geocodeParcel } from "@wprdc/api";
+import { GeocodeResponseBody } from "@/app/api/parcels/geocode/route.ts";
 
 interface Params {
   parcel: string;
@@ -14,6 +15,7 @@ interface Params {
   zoomPan?: number;
   z?: number;
 }
+const BASE_URL = process.env.BASE_URL ?? "";
 
 export default async function Page({
   searchParams,
@@ -34,6 +36,10 @@ export default async function Page({
   const useClasses = classes ? String(classes) : undefined;
 
   const zoomPan = _zoomPan ?? z;
+  const response = await fetch(
+    `${BASE_URL}/api/parcels/geocode?pid=${parcelID}`,
+  );
+  const data = (await response.json()) as GeocodeResponseBody;
   const { bbox } = (await geocodeParcel(parcelID ?? "")) ?? { bbox: undefined };
 
   return (

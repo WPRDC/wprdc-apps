@@ -106,7 +106,6 @@ export async function fetchAffordableHousingProject(
   if (typeof id === "undefined") return null;
 
   const url = `${HOST}/data/project/${id}/?${new URLSearchParams(params).toString()}`;
-  console.log(url);
 
   const headers = _headers(token);
   const response = await fetch(url, { credentials: "include", headers });
@@ -123,7 +122,6 @@ export async function fetchAffordableHousingProjects(
   params?: Record<string, string>,
 ) {
   const url = `${HOST}/data/project/?${new URLSearchParams(params).toString()}`;
-  console.log(url);
 
   const headers = _headers(token);
 
@@ -143,7 +141,6 @@ export async function fetchProjectMap(
   params?: Record<string, string>,
 ) {
   const url = `${HOST}/data/vector-map/?${new URLSearchParams(params).toString()}`;
-  console.log(url);
 
   const headers = _headers(token);
   const response = await fetch(url, { headers, cache: "force-cache" });
@@ -161,7 +158,6 @@ export async function fetchWatchlist(
   params?: Record<string, string>,
 ) {
   const url = `${HOST}/data/watchlist/${slug}?${new URLSearchParams(params).toString()}`;
-  console.log(url);
 
   const headers = _headers(token);
   const response = await fetch(url, { credentials: "include", headers });
@@ -175,7 +171,6 @@ export async function fetchWatchlists(
   params?: Record<string, string>,
 ) {
   const url = `${HOST}/data/watchlist?${new URLSearchParams(params).toString()}`;
-  console.log(url);
 
   const headers = _headers(token);
   const response = await fetch(url, { credentials: "include", headers });
@@ -190,7 +185,6 @@ export async function fetchAccount(
   params?: Record<string, any>,
 ) {
   const url = `${HOST}/accounts/profile/?${new URLSearchParams(params).toString()}`;
-  console.log(url);
 
   const headers = _headers(token);
   const response = await fetch(url, { credentials: "include", headers });
@@ -206,7 +200,6 @@ export async function fetchAccounts(
 ): Promise<UserProfile[]> {
   const headers = _headers(token);
   const url = `${HOST}/accounts/profile/?${new URLSearchParams(params).toString()}`;
-  console.log(url);
 
   const response = await fetch(url, { credentials: "include", headers });
   const results = await response.json();
@@ -220,8 +213,6 @@ export async function reviewHouseCatAccount(
 ): Promise<object> {
   const headers = _headers(token);
   const url = `${HOST}/accounts/${shouldApprove ? "approve" : "revoke"}/`;
-
-  console.log(url);
 
   const response = await fetch(url, {
     method: "POST",

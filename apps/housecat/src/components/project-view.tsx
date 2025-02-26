@@ -35,9 +35,7 @@ export async function ProjectView({
 
   const projectNames = project.name.split("|");
 
-  const { records } = await fetchAssessmentRecord(project.groups[0]);
-
-  const primaryParcelAssessmentData = records ? records[0] : undefined;
+  console.log(project);
 
   return (
     <article id="data-dashboard" className="flex flex-col gap-4">
@@ -81,7 +79,10 @@ export async function ProjectView({
             {
               id: "subsidy-exp",
               label: "Subsidy Expiration Date:",
-              value: String(project.subsidyExpirationDate).trim() ?? "N/A",
+              value:
+                typeof project.subsidyExpirationDate === "string"
+                  ? (String(project.subsidyExpirationDate).trim() ?? "N/A")
+                  : "N/A",
             },
             {
               id: "years-of-service",
@@ -105,7 +106,7 @@ export async function ProjectView({
       </section>
 
       <section id="parcels">
-        <h3 className="my-4 text-3xl font-black uppercase">Parcels</h3>
+        <h3 className="my-4 text-3xl font-black uppercase">Project Parcels</h3>
 
         <div className="h-72 w-full border border-black">
           <MapView
@@ -117,14 +118,21 @@ export async function ProjectView({
           />
         </div>
 
-        <p className="mt-4">
+        <p className="mt-4 text-2xl">
           See parcel details in{" "}
-          <span className="font-semibold">Parcels N'at</span>
+          <A href="https://parcelsnat.org">Parcels N'at</A>
         </p>
-        <ul>
+
+        <div className="mb-2 text-lg italic">
+          <span className="monospace font-bold">{project.parcels.length} </span>
+          <span>parcel{project.parcels.length === 1 ? "" : "s"}</span>
+        </div>
+
+        <ul className="grid max-h-[21ch] grid-cols-3 overflow-y-auto border p-1">
           {project.parcels.map((parcel) => (
             <li key={parcel}>
               <A
+                className="font-mono"
                 href={`https://parcelsnat.org/explore?parcel=${parcel}&zoompan=1`}
               >
                 {parcel}
@@ -135,7 +143,7 @@ export async function ProjectView({
       </section>
 
       <section id="all-data">
-        <h3 className="my-4 text-3xl font-black uppercase">All Data</h3>
+        <h3 className="my-4 text-3xl font-black uppercase">Project Data</h3>
         <div className="w-fit border border-dashed border-stone-600 p-2">
           <p className="text-xs font-semibold uppercase text-stone-800">
             Jump to a dataset:

@@ -23,14 +23,9 @@ export default function HousecatHome() {
               subtitle="Explore all the data on a map"
             />
             <BigButton
-              href="/map"
-              title="👀 Watchlist"
+              href="/watchlist"
+              title="👀 Watchlists"
               subtitle="Lists or projects based on search criteria"
-            />
-            <BigButton
-              href="/search"
-              title="🔍 Search"
-              subtitle="Find information on subsidized housing"
             />
           </div>
           <div className="mx-auto flex w-fit gap-4">

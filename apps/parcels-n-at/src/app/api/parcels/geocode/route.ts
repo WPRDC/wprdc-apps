@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { geocodeParcel } from "@wprdc/api";
 import type { CoordinatePair } from "@wprdc/types";
+import sql from "@/db.ts";
 
 export type GeocodeResponseBody =
   | {
@@ -31,9 +31,29 @@ export async function GET(
       },
     );
 
-  const response = await geocodeParcel(parcelID);
+  const result = await sql`
+      SELECT "parcel_id",
+             ST_AsGeoJSON(centroid) as centroid,
+             ST_AsGeoJSON(ST_Envelope(geom)) as bbox
+      FROM spacerat."parcel_index"
+      WHERE "parcel_id" = ${parcelID}
+      LIMIT 1
+  `;
+  const record = result[0];
 
-  if (!response)
+  const bboxPolygon: CoordinatePair[][] = (
+    JSON.parse(record.bbox) as {
+      coordinates: CoordinatePair[][];
+    }
+  ).coordinates;
+
+  const centroid: CoordinatePair = (
+    JSON.parse(record.centroid) as {
+      coordinates: CoordinatePair;
+    }
+  ).coordinates;
+
+  if (!result)
     return new NextResponse(
       JSON.stringify({
         status: "error",
@@ -46,7 +66,7 @@ export async function GET(
 
   return NextResponse.json<GeocodeResponseBody>({
     status: "success",
-    centroid: response.centroid,
-    bbox: response.bbox,
+    centroid,
+    bbox: [bboxPolygon[0][0], bboxPolygon[0][2]],
   });
 }

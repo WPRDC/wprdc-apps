@@ -1,8 +1,15 @@
 import _slugify from "slugify";
 
 export function getCookie(name: string): string | null {
-  if (typeof window === "undefined") return null;
+  "use client";
+  console.log("🍪", "getting cookie");
+  if (typeof window === "undefined") {
+    console.log("🔴", "no window");
+    return null;
+  }
   const value = `; ${document.cookie}`;
+  console.log("🔵", value);
+
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) {
     return parts.pop()?.split(";").shift() ?? null;

@@ -8,6 +8,8 @@ import { ComboBox } from "@wprdc/ui";
 import { useRouter } from "next/navigation";
 import { getClassificationColor } from "@/components/parcel-dashboard";
 
+const BASE_URL = process.env.BASE_URL ?? "";
+
 export function ParcelSearch(): React.ReactElement {
   const router = useRouter();
 
@@ -15,7 +17,7 @@ export function ParcelSearch(): React.ReactElement {
     useAsyncList<RankedParcelIndex>({
       async load({ signal, filterText }) {
         const response = await fetch(
-          `/api/parcels/search?q=${filterText ?? ""}`,
+          BASE_URL + `/api/parcels/search?q=${filterText ?? ""}`,
           {
             signal,
           },
