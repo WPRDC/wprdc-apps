@@ -6,18 +6,9 @@ import { SearchBox, SearchBoxItem } from "@/component/search-box";
 export default async function Home() {
   const catalog = await getTileLayerCatalog();
 
-  const items: SearchBoxItem[] = Object.entries(catalog).map(
-    ([key, value], i) => ({
-      name: value.description,
-      id: key + i,
-    }),
-  );
-
   return (
     <div>
-      <div>
-        <SearchBox items={items} />
-      </div>
+      <div></div>
 
       <div></div>
     </div>

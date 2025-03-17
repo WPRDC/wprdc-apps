@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${jetbrainsMono.variable} ${publicSans.variable} flex h-screen flex-col`}
+        className={`${jetbrainsMono.variable} ${publicSans.variable} md-block flex h-screen flex-col`}
       >
         <Navbar
           darkLogoSrc="/wprdc-mark-dark.png"

@@ -2,7 +2,8 @@
   "extends": ["//"],
   "tasks": {
     "build": {
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".next/**", "!.next/cache/**"],
+      "env": ["NEXT_PUBLIC_MAPTILER_API_KEY", "NEXT_PUBLIC_API_HOST"]
     }
   }
 }
