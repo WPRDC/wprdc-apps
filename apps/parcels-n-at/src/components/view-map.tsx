@@ -57,10 +57,12 @@ export function ViewMap() {
           type="fill"
           paint={{
             "fill-color": colorsExpression,
+            "fill-opacity": 0.7,
           }}
           source-layer="table.large_property_owners_map.geom"
-          minzoom={12}
+          minzoom={10}
         />
+
         <Layer
           type="line"
           source-layer="table.large_property_owners_map.geom"
@@ -69,37 +71,21 @@ export function ViewMap() {
               "interpolate",
               ["linear"],
               ["zoom"],
+              10,
+              0,
               12,
               1,
               13,
               1,
-              14,
+              15,
               2,
               18,
               4,
             ],
           }}
-          minzoom={12}
+          minzoom={10}
         />
       </Source>
     </Map>
   );
 }
-
-//upitt
-// city
-// ura
-// upmc
-// hacp
-// cmu
-// highmark
-[
-  "#66c2a5",
-  "#fc8d62",
-  "#8da0cb",
-  "#e78ac3",
-  "#a6d854",
-  "#ffd92f",
-  "#e5c494",
-  "#b3b3b3",
-];
