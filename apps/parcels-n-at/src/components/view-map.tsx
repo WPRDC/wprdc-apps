@@ -26,7 +26,13 @@ const colorsExpression: DataDrivenPropertyValueSpecification<string> = [
   "match",
   ["get", "owner"],
   ...items.reduce(
-    (finalColors, item) => [...finalColors, item.id, item.color],
+    (finalColors, item) => [
+      ...finalColors,
+      item.id,
+      item.color,
+      `${item.id}\r`,
+      item.color,
+    ],
     [] as string[],
   ),
   "#000",
