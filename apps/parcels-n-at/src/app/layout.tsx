@@ -64,7 +64,7 @@ export default function RootLayout({
             </a>
           </div>
         </Navbar>
-        <main className="xl:flex xl:h-full xl:overflow-hidden">{children}</main>
+        <main className="h-full xl:flex xl:overflow-hidden">{children}</main>
       </body>
     </html>
   );

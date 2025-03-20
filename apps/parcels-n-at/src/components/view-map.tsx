@@ -83,7 +83,7 @@ export function ViewMap() {
       mapTilerAPIKey={API_KEY}
       style={{ position: "relative" }}
       initialViewState={{ zoom: 12.5 }}
-      onHover={console.log}
+      onClick={console.log}
     >
       <div className="absolute left-3.5 top-2.5 max-w-96 rounded border-2 border-black border-opacity-60 bg-white/60 p-2 backdrop-blur-sm">
         <h1 className="mb-4 text-3xl font-bold leading-none">
