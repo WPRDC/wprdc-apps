@@ -9,7 +9,7 @@
 
 import { Menu as RAMenu } from "react-aria-components";
 import { twMerge } from "tailwind-merge";
-import type { MenuProps } from "./Menu.types";
+import { MenuProps } from "./Menu.types.ts";
 
 export function Menu<T extends object>({
   children,
@@ -17,7 +17,7 @@ export function Menu<T extends object>({
   ...props
 }: MenuProps<T>): React.ReactElement {
   return (
-    <RAMenu
+    <RAMenu<T>
       {...props}
       className={twMerge(
         "w-full bg-backgroundSecondary px-2 py-1 outline-0 dark:border-borderDark dark:bg-backgroundSecondaryDark dark:text-white",

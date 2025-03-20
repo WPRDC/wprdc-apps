@@ -9,12 +9,13 @@ import { type IconType } from "react-icons/lib";
 import { formatValue } from "../util";
 import { Typography } from "../components/typography";
 import { InfoTooltip } from "../components";
+import { Formatter } from "@wprdc/types";
 
 export interface DataListVizItem {
   id: number | string;
   label: ReactNode;
   value?: Value | ReactElement;
-  format?: (value: Value) => ReactNode;
+  format?: Formatter;
   info?: string;
 }
 

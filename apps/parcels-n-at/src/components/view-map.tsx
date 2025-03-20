@@ -2,7 +2,12 @@
 
 import { Map } from "@wprdc/ui";
 import { Layer, Source } from "react-map-gl/maplibre";
-import { DataDrivenPropertyValueSpecification } from "maplibre-gl";
+import {
+  DataDrivenPropertyValueSpecification,
+  ExpressionInputType,
+} from "maplibre-gl";
+import { ListBox, ListBoxItem, Selection } from "react-aria-components";
+import { useMemo, useState } from "react";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY ?? "missing";
 
@@ -39,32 +44,75 @@ const colorsExpression: DataDrivenPropertyValueSpecification<string> = [
 ];
 
 export function ViewMap() {
+  const [selectedLayers, setSelectedLayers] = useState<Set<string>>(
+    new Set(items.map((i) => i.id)),
+  );
+
+  function handleSelectionChange(selection: Selection) {
+    if (selection === "all") {
+      setSelectedLayers(new Set(items.map((i) => i.id)));
+    } else {
+      setSelectedLayers(selection as Set<string>);
+    }
+  }
+
+  const opacityExpression: DataDrivenPropertyValueSpecification<number> =
+    useMemo(() => {
+      const colorExpressionPart = items.reduce(
+        (acc, cur) => [
+          ...acc,
+          cur.id,
+          selectedLayers.has(cur.id) ? 0.7 : 0,
+          `${cur.id}\r`,
+          selectedLayers.has(cur.id) ? 0.7 : 0,
+        ],
+        [] as ExpressionInputType[],
+      );
+
+      // @ts-ignore
+      return [
+        "match",
+        ["get", "owner"],
+        ...colorExpressionPart,
+        1,
+      ] as DataDrivenPropertyValueSpecification<number>;
+    }, [selectedLayers]);
+
   return (
     <Map
       mapTilerAPIKey={API_KEY}
       style={{ position: "relative" }}
       initialViewState={{ zoom: 12.5 }}
+      onHover={console.log}
     >
-      <div className="absolute left-3.5 top-2.5 rounded border-2 border-black border-opacity-60 bg-white/60 p-2 backdrop-blur-sm">
-        <h1 className="text-3xl font-bold leading-none">
+      <div className="absolute left-3.5 top-2.5 max-w-96 rounded border-2 border-black border-opacity-60 bg-white/60 p-2 backdrop-blur-sm">
+        <h1 className="mb-4 text-3xl font-bold leading-none">
           Large Parcel Owners in Allegheny County
         </h1>
-      </div>
-      <aside className="absolute bottom-2.5 left-3.5 rounded border-2 border-black bg-white/90 p-2 backdrop-blur-sm">
-        <h1 className="mb-4 text-lg font-semibold leading-none">Legend</h1>
-        <div className="mb-2 text-base font-semibold">Parcel Owner</div>
-        <ul className="flex flex-col gap-2">
-          {items.map((item) => (
-            <li key={item.id} className="flex gap-1.5">
+        <p className="italic">Click to toggle layers</p>
+        <ListBox
+          className="flex flex-col gap-2"
+          onSelectionChange={handleSelectionChange}
+          selectedKeys={selectedLayers}
+          items={items}
+          aria-labelledby="legend-title"
+          selectionMode="multiple"
+        >
+          {(item) => (
+            <ListBoxItem
+              key={item.id}
+              className="group flex cursor-pointer gap-1.5"
+              textValue={item.label}
+            >
               <div
-                className="size-4 rounded-sm border border-black opacity-80"
+                className="group-selected:opacity-80 size-4 rounded-sm border border-black opacity-10"
                 style={{ background: item.color }}
               ></div>
               <div className="text-xs font-semibold">{item.label}</div>
-            </li>
-          ))}
-        </ul>
-      </aside>
+            </ListBoxItem>
+          )}
+        </ListBox>
+      </div>
 
       <Source
         type="vector"
@@ -72,9 +120,10 @@ export function ViewMap() {
       >
         <Layer
           type="fill"
+          id="owned-parcels/fill"
           paint={{
             "fill-color": colorsExpression,
-            "fill-opacity": 0.7,
+            "fill-opacity": opacityExpression,
           }}
           source-layer="table.large_property_owners_map.geom"
           minzoom={10}
@@ -98,6 +147,7 @@ export function ViewMap() {
               18,
               4,
             ],
+            "line-opacity": opacityExpression,
           }}
           minzoom={10}
         />
