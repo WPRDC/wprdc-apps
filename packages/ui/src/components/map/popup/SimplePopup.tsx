@@ -1,28 +1,46 @@
 "use client";
 
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useMemo } from "react";
 import { Button } from "react-aria-components";
 import { TbSquareRoundedChevronDown, TbX } from "react-icons/tb";
 import type { ClickPopupProps, PopupProps } from "../Map.types";
 import { PopupRow } from "./PopupRow";
+import { MapGeoJSONFeature } from "react-map-gl/maplibre";
 
 export function HoverPopup({
   features,
   point,
-  getPopupID,
+  getContent,
+  layers,
 }: PopupProps): React.ReactElement | null {
+  const filteredFeatures: MapGeoJSONFeature[] = useMemo(() => {
+    const filtered: Record<string, MapGeoJSONFeature> = {};
+
+    for (const feature of features) {
+      // find the layer the feature came from
+      const layer = layers?.find((l) => l.slug === feature.source);
+
+      // store using unique key
+      if (layer && layer.interaction) {
+        const featID = `${feature.source}/${feature.properties[layer.interaction.idField]}`;
+        filtered[featID] = feature;
+      }
+    }
+    return Object.values(filtered);
+  }, [features, layers]);
+
   return (
     <div
       className="pointer-events-none absolute border-2 border-black/40 bg-white/80 backdrop-blur-md"
       style={{ left: point.x + 12, top: point.y + 12 }}
     >
-      {features.length > 1 && (
+      {filteredFeatures.length > 1 && (
         <div className="px-2 pt-1 text-left text-xs font-bold">
           Click to open selection menu
         </div>
       )}
       <div className="py-2">
-        {features.map((feature, i) => (
+        {filteredFeatures.map((feature, i) => (
           <div className="px-1" key={i}>
             {!!i && (
               <div className="flex items-center">
@@ -34,7 +52,7 @@ export function HoverPopup({
               </div>
             )}
             <div className="w-full px-1 py-1 text-left hover:bg-primary/20 hover:backdrop-blur-md">
-              <PopupRow feature={feature} pID={getPopupID(feature)} />
+              <PopupRow content={getContent(feature)} />
             </div>
           </div>
         ))}
@@ -46,7 +64,7 @@ export function HoverPopup({
 export function ClickPopup({
   features,
   point,
-  getPopupID,
+  getContent,
   onClose,
   onNavigate,
 }: ClickPopupProps): React.ReactElement | null {
@@ -83,7 +101,7 @@ export function ClickPopup({
                 onNavigate(feature);
               }}
             >
-              <PopupRow feature={feature} pID={getPopupID(feature)} />
+              <PopupRow content={getContent(feature)} />
             </Button>
           </div>
         ))}

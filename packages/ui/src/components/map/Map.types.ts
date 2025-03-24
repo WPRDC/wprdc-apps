@@ -117,6 +117,8 @@ export interface MapProps {
   hoverPopup?: ReactNode;
 
   onLoad?: () => void;
+
+  defaultVisibleLayerCategories?: Record<string, Selection>;
 }
 
 export interface BasemapOptions {
@@ -157,6 +159,22 @@ export interface LegendRowProps {
   type: GeoType;
 }
 
+export interface ControlsLegendProps extends LegendProps {
+  /** Map of layer slugs to the selected sub-layers for that layer */
+  selectedLayers?: Record<string, Selection>;
+  onSelectionChange?: (layerSlug: string) => (selection: Selection) => void;
+}
+
+export interface ControlsLegendItemProps extends LegendItemProps {
+  /** List of category slugs that are selected for display */
+  selectedCategories?: Selection;
+  onSelectionChange?: (selection: Selection) => void;
+}
+
+export interface ControlsLegendRowProps extends LegendRowProps {
+  textValue: string;
+}
+
 export interface SymbologyLayerProps {
   layer: LayerConfig;
   sourceLayer: string;
@@ -192,7 +210,8 @@ export type DrawEvent =
 export interface PopupProps {
   features: MapGeoJSONFeature[];
   point: Point;
-  getPopupID: (feature: MapGeoJSONFeature) => string;
+  getContent: (feature: MapGeoJSONFeature) => string;
+  layers?: LayerConfig[];
 }
 
 export interface ClickPopupProps extends PopupProps {

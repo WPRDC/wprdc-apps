@@ -7,11 +7,7 @@
  **/
 "use client";
 
-import type {
-  InteractiveSymbologyProps,
-  LayerConfig,
-  MapState,
-} from "@wprdc/types";
+import type { LayerConfig, MapState } from "@wprdc/types";
 import { SymbologyMode } from "@wprdc/types";
 import {
   forwardRef,
@@ -29,17 +25,21 @@ import type {
   Point,
   ViewStateChangeEvent,
 } from "react-map-gl/maplibre";
-import { NavigationControl, Map as ReactMapGL } from "react-map-gl/maplibre";
+import { Map as ReactMapGL, NavigationControl } from "react-map-gl/maplibre";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../button";
 import { BasemapMenu } from "./BasemapMenu";
 import { basemaps } from "./basemaps";
 import DrawControl from "./DrawControl";
 import { LayerGroup } from "./LayerGroup";
-import { Legend } from "./Legend";
 import type { MapProps } from "./Map.types";
 import { ClickPopup, HoverPopup, SimplePopupWrapper } from "./popup";
 import { extractFeatures } from "./util";
+
+import { Selection } from "react-aria-components";
+
+import Mustache from "mustache";
+import { ControlsLegend } from "./ControlsLegend.tsx";
 
 const DEFAULT_MIN_ZOOM = 9;
 const DEFAULT_MAX_ZOOM = 22;
@@ -75,6 +75,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     onLoad,
     interactiveLayerIDs: manualInteractiveLayerIDs = [],
     hoverPopup: customHoverPopup,
+    defaultVisibleLayerCategories,
   },
   ref,
 ): React.ReactElement {
@@ -107,6 +108,15 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
   const [scrollZoomOverride, setScrollZoomOverride] =
     useState(defaultScrollZoom);
 
+  // if default selection not provided, show all layers by default
+  const _defaultLayerCategories: Record<string, Selection> =
+    defaultVisibleLayerCategories ??
+    Object.fromEntries((layers ?? []).map((l) => [l.slug, "all"]));
+
+  const [visibleLayerCategories, setVisibleLayerCategories] = useState<
+    Record<string, Selection>
+  >(_defaultLayerCategories);
+
   const mapState: MapState = useMemo(
     () => ({
       selectedIDs,
@@ -114,14 +124,21 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       clickedFeatures,
       hoveredPoint,
       clickedPoint,
+      visibleLayerCategories,
     }),
     [selectedIDs, hoveredFeatures, clickedFeatures, hoveredPoint, clickedPoint],
   );
 
-  /** Called when attempting to close a popup */
+  /** Clear click popup state thus removing the popup */
   const handlePopupClose = useCallback(() => {
     setClickedPoint(null);
     setClickedFeatures(null);
+  }, []);
+
+  /** Clear hover popup state thus removing the popup */
+  const clearHover = useCallback(() => {
+    setHoveredPoint(null);
+    setHoveredFeatures(null);
   }, []);
 
   /** Called when navigating using a feature */
@@ -133,17 +150,31 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     [handlePopupClose, mapState, onNavigate],
   );
 
-  /** Used by popups to determine which layout to use */
-  const getPopupID = useCallback(
-    (f: MapGeoJSONFeature) => {
-      const layer: LayerConfig<InteractiveSymbologyProps> | undefined =
-        layers?.find<LayerConfig<InteractiveSymbologyProps>>(
-          (l: LayerConfig): l is LayerConfig<InteractiveSymbologyProps> =>
-            l.slug === f.source &&
-            l.symbologyMode === SymbologyMode.Interactive,
+  /** Used by popups to determine what content to present */
+  const getPopupContent = useCallback(
+    (mode: "hover" | "click") =>
+      (feature: MapGeoJSONFeature): string => {
+        // find the source layer for the interactive feature
+        const layer: LayerConfig | undefined = layers?.find(
+          (l: LayerConfig) => l.slug === feature.source && !!l.interaction,
         );
-      return layer?.interaction.hoverPopupFormat ?? "";
-    },
+
+        if (!layer || !layer.interaction) return "";
+
+        let content = "";
+        if (mode === "hover")
+          content = Mustache.render(
+            layer.interaction.hoverPopupContent,
+            feature.properties,
+          );
+        else {
+          content = Mustache.render(
+            layer.interaction.clickPopupContent,
+            feature.properties,
+          );
+        }
+        return content;
+      },
     [layers],
   );
 
@@ -157,11 +188,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     [mapState, onZoom],
   );
 
-  const clearHover = useCallback(() => {
-    setHoveredPoint(null);
-    setHoveredFeatures(null);
-  }, []);
-
+  /** Called with each moouseover event within map */
   const handleHover = useCallback(
     (e: MapLayerMouseEvent) => {
       const features = extractFeatures(e);
@@ -177,6 +204,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     [mapState, onHover, clearHover],
   );
 
+  /** Called with each click event within the map */
   const handleClick = useCallback(
     (e: MapLayerMouseEvent): void => {
       const features = extractFeatures(e);
@@ -196,6 +224,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     [handleNavigate, mapState, onClick, onNavigate],
   );
 
+  /** Called with each key press within the map */
   const handleKeyDown = useCallback(
     (e: KeyboardEvent): void => {
       if ((onMac && e.key === "Meta") || (!onMac && e.key === "Control")) {
@@ -205,6 +234,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     [onMac],
   );
 
+  /** Clean up after key press effects on keyup */
   const handleKeyUp = useCallback(
     (e: KeyboardEvent): void => {
       if ((onMac && e.key === "Meta") || (!onMac && e.key === "Control")) {
@@ -212,6 +242,16 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       }
     },
     [onMac],
+  );
+
+  const handleLayerVisibilityChange = useCallback(
+    (layerSlug: string) => (selection: Selection) => {
+      setVisibleLayerCategories({
+        ...visibleLayerCategories,
+        [layerSlug]: selection,
+      });
+    },
+    [layers],
   );
 
   // listen to keystrokes - used for controlling scroll zoom
@@ -246,13 +286,15 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
 
   // IDs of layers that will pass data to map event handlers
   const interactiveLayerIDs = useMemo(() => {
-    const autoLayerIDs =
-      layers
-        ?.filter(
-          (l: LayerConfig) => l.symbologyMode === SymbologyMode.Interactive,
-        )
-        .map((l) => `${l.slug}-fill`) ?? [];
+    // filter to explicitly-interactive layergroups or data layergroups with basic interaction
+    function filterLayers(l: LayerConfig) {
+      return l.symbologyMode === SymbologyMode.Interactive || l.interaction;
+    }
 
+    // use fill layers for interaction
+    const autoLayerIDs =
+      layers?.filter(filterLayers).map((l) => `${l.slug}-fill`) ?? [];
+    // join with interactive ids provided in props
     return autoLayerIDs.concat(manualInteractiveLayerIDs);
   }, [layers, manualInteractiveLayerIDs]);
 
@@ -270,6 +312,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     ],
   );
 
+  // add height and width to prevent type errors (fixme: there should be another way around this)
   const viewState = _viewState
     ? { ..._viewState, height: 0, width: 0 }
     : undefined;
@@ -347,7 +390,11 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       ) : null}
 
       <div className="absolute bottom-10 right-2.5">
-        <Legend layers={layers} />
+        <ControlsLegend
+          layers={layers}
+          selectedLayers={visibleLayerCategories}
+          onSelectionChange={handleLayerVisibilityChange}
+        />
       </div>
 
       {withScrollZoomControl ? (
@@ -374,6 +421,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
               hoveredFeatures,
               hoveredPoint,
               clickedPoint,
+              visibleLayerCategories,
             }}
             key={layer.slug}
             layer={layer}
@@ -386,8 +434,9 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
         !(!!clickedFeatures?.length && !!clickedPoint) && (
           <HoverPopup
             features={hoveredFeatures}
-            getPopupID={getPopupID}
             point={hoveredPoint}
+            getContent={getPopupContent("hover")}
+            layers={layers}
           />
         )}
 
@@ -400,7 +449,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       {!!clickedFeatures?.length && !!clickedPoint && (
         <ClickPopup
           features={clickedFeatures}
-          getPopupID={getPopupID}
+          getContent={getPopupContent("click")}
           onClose={handlePopupClose}
           onNavigate={handleNavigate}
           point={clickedPoint}

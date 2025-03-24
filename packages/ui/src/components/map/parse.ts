@@ -165,10 +165,15 @@ export function parseOption<T extends StyleValue>(
   defaultValue: DataDrivenPropertyValueSpecification<T>,
 ): DataDrivenPropertyValueSpecification<T> {
   // if undefined or null, return default
-  if (!option && typeof option !== "number") return defaultValue;
+  if (!option) return defaultValue;
 
+  // if option is in zoom form
+  if (Array.isArray(option)) {
+    return parseZoomOption<T>(option, layer, context);
+  }
+
+  // if option is in interactive form
   if (typeof option === "object") {
-    // if option is in interactive form
     if ("default" in option) {
       return parseInteractiveOption<T>(
         option,
@@ -176,8 +181,6 @@ export function parseOption<T extends StyleValue>(
         context,
       );
     }
-    // if option is in zoom form
-    return parseZoomOption<T>(option, layer, context);
   }
   return option;
 }
@@ -195,8 +198,6 @@ export function parseZoomOption<T extends StyleValue>(
   layer: LayerConfig,
   context: MapState,
 ): ExpressionSpecification {
-  const minZoom = layer.tileSource.minZoom ?? 0.1;
-
   const parsedZoomOption = option.map(([zoom, value]) => [
     zoom,
     typeof value === "object"
@@ -213,6 +214,13 @@ export function parseZoomOption<T extends StyleValue>(
     | ExpressionSpecification
   )[];
 
+  // ignore minzoom default if style goes below it
+  const minZoom = layer.tileSource.minZoom ?? 0.1;
+  let minZoomArgs: [number, number] | never[] = [minZoom, 0];
+  if (minZoom >= option[0][0]) {
+    minZoomArgs = [];
+  }
+
   return [
     "interpolate",
     ["exponential", 0.5],
@@ -220,8 +228,7 @@ export function parseZoomOption<T extends StyleValue>(
     0,
     0,
     // start from minzoom
-    minZoom,
-    0,
+    ...minZoomArgs,
     ...remainder,
   ] as ExpressionSpecification;
 }

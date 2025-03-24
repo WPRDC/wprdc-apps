@@ -2,6 +2,8 @@ import { useMemo } from "react";
 import { Layer } from "react-map-gl/maplibre";
 import type { SymbologyLayerProps } from "../Map.types";
 import { parseConfig } from "../parse";
+import { Selection } from "react-aria-components";
+import { SymbologyMode } from "@wprdc/types";
 
 export function PolygonLayer({
   layer,
@@ -23,10 +25,26 @@ export function PolygonLayer({
     return parseConfig(layer, context);
   }, [layer, context]);
 
+  // hide layers if they are hidden in map state
+  const visibleCategories: Selection =
+    context.visibleLayerCategories[layer.slug];
+
+  let filter = layer.renderOptions?.filter;
+
+  if (visibleCategories !== "all") {
+    if (layer.symbologyMode === SymbologyMode.Qualitative) {
+      filter = [
+        "in",
+        ["get", layer.symbology.colors.field],
+        ["literal", Array.from(visibleCategories)],
+      ];
+    }
+  }
+
   return (
     <>
       <Layer
-        filter={layer.renderOptions?.filter ?? true}
+        filter={filter ?? true}
         id={`${slug}-fill`}
         maxzoom={layer.tileSource.maxZoom ?? 22}
         minzoom={layer.tileSource.minZoom ?? 0}
@@ -39,7 +57,7 @@ export function PolygonLayer({
         type="fill"
       />
       <Layer
-        filter={layer.renderOptions?.filter ?? true}
+        filter={filter ?? true}
         id={`${slug}-line`}
         layout={{
           "line-cap": "round",
@@ -59,6 +77,7 @@ export function PolygonLayer({
       />
       {textField ? (
         <Layer
+          filter={filter ?? true}
           type="symbol"
           id={`${slug}-label`}
           layout={{

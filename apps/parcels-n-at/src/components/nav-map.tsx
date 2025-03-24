@@ -38,6 +38,7 @@ export function NavMap({
   ownerAddress,
   showOwnerOccupied,
   showVacant,
+  layers = [],
   classes,
   isModal,
   bbox,
@@ -140,7 +141,7 @@ export function NavMap({
     <Map
       id={mapID}
       initialViewState={{ zoom: 15.5 }}
-      layers={[parcelLayer]}
+      layers={[parcelLayer, ...layers]}
       mapTilerAPIKey={API_KEY}
       maxZoom={19}
       minZoom={11}

@@ -57,8 +57,8 @@ export const pittsburghNeighborhoodLayer: LayerConfig<InteractiveSymbologyProps>
 
     interaction: {
       idField: "hood",
-      hoverPopupFormat: "neighborhood",
-      clickPopupFormat: "neighborhood",
+      hoverPopupContent: `<h1>{{hood}}</h1>`,
+      clickPopupContent: "",
     },
 
     renderOptions: {

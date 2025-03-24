@@ -1,5 +1,4 @@
 import { TbCompass, TbDownload } from "react-icons/tb";
-import { Checkbox, CheckboxGroup, Label } from "@/components/checkbox";
 
 export default function Home(): React.ReactElement {
   return (
@@ -36,14 +35,6 @@ export default function Home(): React.ReactElement {
           </div>
         </a>
       </div>
-
-      <CheckboxGroup>
-        <Label>Stuff</Label>
-        <Checkbox value="a" className="selected:bg-blue-500">
-          A
-        </Checkbox>
-        <Checkbox value="b">B</Checkbox>
-      </CheckboxGroup>
     </main>
   );
 }

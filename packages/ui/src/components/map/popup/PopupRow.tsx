@@ -1,18 +1,21 @@
-import type { MapGeoJSONFeature } from "react-map-gl/maplibre";
-import {
-  MunicipalityPopupRow,
-  NeighborhoodPopupRow,
-} from "./formats/admin-region";
-import { ParcelIndexPopupRow } from "./formats/parcel";
+import sanitizeHtml from "sanitize-html";
 
 export interface PopupRowProps {
-  pID: string;
-  feature: MapGeoJSONFeature;
+  content: string;
 }
 
-export function PopupRow({ pID, feature }: PopupRowProps): React.ReactElement {
-  if (pID === "parcel-index") return <ParcelIndexPopupRow feature={feature} />;
-  if (pID === "municipality") return <MunicipalityPopupRow feature={feature} />;
-  if (pID === "neighborhood") return <NeighborhoodPopupRow feature={feature} />;
-  return <div>Popup {pID} not found</div>;
+/**
+ * Renders a single row of popup content based on the layers under the cursor and the action being performed.
+ * @param content - content of popup
+ */
+export function PopupRow({
+  content: _content,
+}: PopupRowProps): React.ReactElement {
+  const content: string = sanitizeHtml(_content, {
+    allowedClasses: {
+      "*": false,
+    },
+  });
+
+  return <div dangerouslySetInnerHTML={{ __html: content }} />;
 }

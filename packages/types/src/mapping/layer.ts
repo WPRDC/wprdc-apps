@@ -1,4 +1,4 @@
-import type { FilterSpecification, ExpressionSpecification } from "maplibre-gl";
+import type { ExpressionSpecification, FilterSpecification } from "maplibre-gl";
 import type { ReactNode } from "react";
 import type { GeoType, Identifiable, Publisher } from "../shared";
 import {
@@ -71,8 +71,6 @@ export interface PopupFieldOptions {
 }
 
 export interface InteractionOptions {
-  clickPopupFormat?: string;
-  hoverPopupFormat?: string;
   /**
    * Property of layer feature that represents a unique ID.
    *  Used for selection and hover style states.
@@ -81,6 +79,24 @@ export interface InteractionOptions {
 
   /** Maplibre expression that indicates which features to ignore wrt interaction */
   ignoreCase?: ExpressionSpecification;
+
+  /**
+   *  Mustache template that renders the contents of the popup on hover
+   *
+   * todo: decide what data gets passed to template
+   */
+  hoverPopupContent: string;
+
+  /**
+   *  Mustache template that renders the contents of the popup on click
+   *
+   * todo: decide what data gets passed to template
+   */
+  clickPopupContent: string;
+
+  // DEPRECATED
+  clickPopupFormat?: string;
+  hoverPopupFormat?: string;
 }
 
 /** Add common options to a specific symbology layer type */
@@ -89,4 +105,6 @@ export type LayerConfig<T extends SymbologyProps = SymbologyProps> =
     ? CommonLayerOptions & {
         interaction: InteractionOptions;
       } & T
-    : CommonLayerOptions & T;
+    : CommonLayerOptions & {
+        interaction?: InteractionOptions;
+      } & T;

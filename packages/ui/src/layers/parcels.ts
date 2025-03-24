@@ -29,7 +29,6 @@ export const parcelLayer: LayerConfig<InteractiveSymbologyProps> = {
     color: { default: "#FFF", selected: "#FCEC52", hovered: "#bae6fd" },
 
     borderColor: { default: "#000", selected: "#000", hovered: "#bae6fd" },
-
     opacity: [
       [16, { default: 0.1, selected: 0.5, hovered: 0.6 }],
       [18, { default: 0.2, selected: 0.6, hovered: 0.7 }],
@@ -49,8 +48,20 @@ export const parcelLayer: LayerConfig<InteractiveSymbologyProps> = {
   // interaction
   interaction: {
     idField: "parcel_id",
-    hoverPopupFormat: "parcel-index",
-    clickPopupFormat: "parcel-index",
+    hoverPopupContent: `
+      <h1 class="text-lg font-bold">
+        <div class="font-sans leading-none">{{housenum}} {{street}}</div>
+        <div class="mb-1 font-sans text-xs leading-none">{{city}}, PA {{zip}}</div>
+      </h1>
+      <div class="font-mono text-xs leading-none">{{parcel_id}}</div>
+    `,
+    clickPopupContent: `
+      <h1 class="text-lg font-bold">
+        <div class="font-sans leading-none">{{address}}</div>
+        <div class="mb-1 font-sans text-xs leading-none">{{city}}</div>
+      </h1>
+      <div class="font-mono text-xs leading-none">{{parcel_id}}</div>
+    `,
     ignoreCase: ["==", ["get", "parcel_id"], "COMMON GROUND"],
   },
 

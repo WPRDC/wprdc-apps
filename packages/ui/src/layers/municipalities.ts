@@ -56,8 +56,8 @@ export const municipalities: LayerConfig<InteractiveSymbologyProps> = {
 
   interaction: {
     idField: "NAME",
-    hoverPopupFormat: "municipality",
-    clickPopupFormat: "municipality",
+    hoverPopupContent: "<h1>{{name}}</h1>",
+    clickPopupContent: "<h1>{{name}}</h1>",
   },
 
   renderOptions: {
