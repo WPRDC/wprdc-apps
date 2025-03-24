@@ -26,7 +26,7 @@ export const pittsburghBoundary: LayerConfig<SolidSymbologyProps> = {
   },
 
   symbology: {
-    color: "#000",
+    color: "rgba(0,0,0,0)",
     borderColor: "#000",
     opacity: 0,
     borderWidth: 4,
