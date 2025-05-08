@@ -5,13 +5,16 @@ import { CoordinatePair } from "@wprdc/types";
 import {
   Button,
   Dialog,
+  Menu,
+  MenuItem,
   Modal,
   ModalOverlay,
+  Popover,
   ToastProvider,
   ToastState,
 } from "@wprdc/ui";
 import { TbBorderCorners, TbCopy, TbShare2 } from "react-icons/tb";
-import { DialogTrigger } from "react-aria-components";
+import { DialogTrigger, MenuTrigger } from "react-aria-components";
 import { usePathname } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 
@@ -98,6 +101,16 @@ export function MapControls({ parcelID, bbox }: MapControlsProps) {
             </Modal>
           </ModalOverlay>
         </DialogTrigger>
+      </div>
+      <div>
+        <MenuTrigger>
+          <Button>Jump To Section</Button>
+          <Popover>
+            <Menu>
+              <MenuItem></MenuItem>
+            </Menu>
+          </Popover>
+        </MenuTrigger>
       </div>
     </div>
   );

@@ -3,16 +3,19 @@
  * Map types
  *
  **/
-import type {
-  DrawCreateEvent,
-  DrawDeleteEvent,
-  DrawModeChangeEvent,
-  DrawUpdateEvent,
-} from "@mapbox/mapbox-gl-draw";
 import type MapboxDraw from "@mapbox/mapbox-gl-draw";
+import {
+  type DrawCreateEvent,
+  type DrawDeleteEvent,
+  type DrawModeChangeEvent,
+  type DrawUpdateEvent,
+} from "@mapbox/mapbox-gl-draw";
+
 import type {
   ColorSpecification,
   DataDrivenPropertyValueSpecification,
+  ExpressionSpecification,
+  SourceFunctionSpecification,
 } from "@maplibre/maplibre-gl-style-spec";
 import type {
   GeoType,
@@ -20,6 +23,7 @@ import type {
   MapState,
   SelectionRecord,
 } from "@wprdc/types";
+import { StyleValue } from "@wprdc/types";
 import type * as React from "react";
 import { type ReactNode } from "react";
 import type { Selection } from "react-aria-components";
@@ -68,8 +72,14 @@ export interface MapProps {
   /** API key needed for MapTiler basemaps */
   mapTilerAPIKey?: string;
 
-  /** Layer configurations to be rendered in map */
+  /** Layer configurations to be rendered in map (controlled) */
   layers?: LayerConfig[];
+
+  /** Callback for controlled layer behavior */
+  onLayerChange?: (layer: LayerConfig) => void;
+
+  /** Layer configurations to be rendered in map */
+  defaultLayers?: LayerConfig[];
 
   /** Minimum zoom */
   minZoom?: number;
@@ -162,13 +172,23 @@ export interface LegendRowProps {
 export interface ControlsLegendProps extends LegendProps {
   /** Map of layer slugs to the selected sub-layers for that layer */
   selectedLayers?: Record<string, Selection>;
+
+  /** Fired when layer display is toggled */
   onSelectionChange?: (layerSlug: string) => (selection: Selection) => void;
+
+  /** Fired when symbology style modifications are submitted */
+  onStyleChange?: (layer: LayerConfig) => void;
 }
 
 export interface ControlsLegendItemProps extends LegendItemProps {
   /** List of category slugs that are selected for display */
   selectedCategories?: Selection;
+
+  /** Fired when layer display is toggled */
   onSelectionChange?: (selection: Selection) => void;
+
+  /** Fired when symbology style modifications are submitted */
+  onStyleChange?: (layer: LayerConfig) => void;
 }
 
 export interface ControlsLegendRowProps extends LegendRowProps {
@@ -179,17 +199,6 @@ export interface SymbologyLayerProps {
   layer: LayerConfig;
   sourceLayer: string;
   context: MapState;
-}
-
-export interface ParseResults {
-  color: DataDrivenPropertyValueSpecification<ColorSpecification>;
-  opacity: DataDrivenPropertyValueSpecification<number>;
-  borderColor: DataDrivenPropertyValueSpecification<ColorSpecification>;
-  borderOpacity: DataDrivenPropertyValueSpecification<number>;
-  borderWidth: DataDrivenPropertyValueSpecification<number>;
-  lineSortKey?: DataDrivenPropertyValueSpecification<number>;
-  textField?: DataDrivenPropertyValueSpecification<string>;
-  textSize?: DataDrivenPropertyValueSpecification<number>;
 }
 
 export type DrawControlProps = ConstructorParameters<typeof MapboxDraw>[0] & {

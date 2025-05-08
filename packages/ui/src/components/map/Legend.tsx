@@ -1,8 +1,9 @@
 import type { CategoryOptions, LayerConfig } from "@wprdc/types";
-import { GeoType, SymbologyMode } from "@wprdc/types";
+import { GeoType } from "@wprdc/types";
 import { PiLineSegmentsFill } from "react-icons/pi";
 import type { LegendItemProps, LegendProps, LegendRowProps } from "./Map.types";
 import { darken } from "./util";
+import { parseAsLegendProps } from "./parse.ts";
 
 export function Legend({ layers }: LegendProps): React.ReactElement | null {
   const filteredLayers = layers?.filter(
@@ -33,16 +34,15 @@ export function LegendItem({ layer }: LegendItemProps): React.ReactElement {
       <div className="pb-1 text-sm font-semibold text-gray-700">
         {layer.title}
       </div>
-      {layer.symbologyMode === SymbologyMode.Solid && (
+      {layer.symbology.mode === "simple" && (
         <LegendRow
-          borderColor={layer.symbology.borderColor}
-          color={layer.symbology.color}
+          {...parseAsLegendProps(layer)}
           label={layer.title}
           type={layer.type}
         />
       )}
-      {layer.symbologyMode === SymbologyMode.Qualitative &&
-        Object.entries<CategoryOptions>(layer.symbology.colors.categories).map(
+      {layer.symbology.mode === "category" &&
+        Object.entries<CategoryOptions>(layer.symbology.categories).map(
           ([k, record]) => <LegendRow key={k} {...record} type={layer.type} />,
         )}
     </div>

@@ -1,15 +1,10 @@
 import type { LayerConfig } from "@wprdc/types";
-import {
-  GeoType,
-  QualitativeSymbologyProps,
-  SymbologyMode,
-} from "@wprdc/types";
+import { GeoType } from "@wprdc/types";
 
-export const largeParcelPortfolios: LayerConfig<QualitativeSymbologyProps> = {
+export const largeParcelPortfolios: LayerConfig = {
   slug: "large-parcel-portfolios",
   title: "Large  Parcel Owners in Allegheny County",
   description: "",
-  symbologyMode: SymbologyMode.Qualitative,
   type: GeoType.Polygon,
   publisher: {
     name: "WPRDC",
@@ -32,41 +27,61 @@ export const largeParcelPortfolios: LayerConfig<QualitativeSymbologyProps> = {
   },
 
   symbology: {
-    colors: {
-      field: "owner",
-      categories: {
-        ACHA: { label: "ACHA", color: "#9f2d00", borderColor: "#000" },
-        Pittsburgh: {
-          label: "Pittsburgh",
-          color: "#facc15",
-          borderColor: "#000",
-        },
-        URA: { label: "URA", color: "#65a30d", borderColor: "#000" },
-        HACP: { label: "HACP", color: "#f472b6", borderColor: "#000" },
-        Pitt: { label: "Pitt", color: "#003594", borderColor: "#000" },
-        CMU: { label: "CMU", color: "#C41230", borderColor: "#000" },
-        UPMC: { label: "UPMC", color: "#771B61", borderColor: "#000" },
-        Highmark: { label: "Highmark", color: "#1290db", borderColor: "#000" },
+    mode: "category",
+    field: "owner",
+
+    categories: [
+      { value: "ACHA", label: "ACHA" },
+      { value: "Pittsburgh", label: "Pittsburgh" },
+      { value: "URA", label: "URA" },
+      { value: "HACP", label: "HACP" },
+      { value: "Pitt", label: "Pitt" },
+      { value: "CMU", label: "CMU" },
+      { value: "UPMC", label: "UPMC" },
+      { value: "Highmark", label: "Highmark" },
+    ],
+
+    color: {
+      mode: "category",
+      submode: "simple",
+      value: {
+        ACHA: "#9f2d00",
+        Pittsburgh: "#facc15",
+        URA: "#65a30d",
+        HACP: "#f472b6",
+        Pitt: "#003594",
+        CMU: "#C41230",
+        UPMC: "#771B61",
+        Highmark: "#1290db",
       },
     },
 
-    opacity: [
-      [9, 1],
-      [12, 0.8],
-    ],
+    opacity: {
+      mode: "zoom",
+      value: [
+        [9, 1],
+        [12, 0.8],
+      ],
+    },
 
-    borderOpacity: [
-      [9, 1],
-      [12, 0.8],
-    ],
+    borderOpacity: {
+      mode: "zoom",
+      value: [
+        [9, 1],
+        [12, 0.8],
+      ],
+    },
 
-    borderWidth: [
-      [10, 0],
-      [12, 1],
-      [13, 1],
-      [15, 2],
-      [18, 4],
-    ],
+    borderWidth: {
+      mode: "zoom",
+      value: [
+        [10, { default: 0, hovered: 1, selected: 4 }],
+        [12, { default: 1, hovered: 3, selected: 4 }],
+        [13, { default: 1, hovered: 3, selected: 4 }],
+        [15, { default: 2, hovered: 4, selected: 4 }],
+        [18, { default: 4, hovered: 6, selected: 8 }],
+      ],
+    },
   },
 
   // interaction

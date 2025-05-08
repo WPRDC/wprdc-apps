@@ -42,7 +42,10 @@ export function TextField({
           placeholder={placeholder}
         />
       ) : (
-        <Input placeholder={placeholder} />
+        <Input
+          placeholder={placeholder}
+          className="rounded-sm border border-stone-800 p-1"
+        />
       )}
     </RATextField>
   );

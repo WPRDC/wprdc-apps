@@ -55,4 +55,4 @@
 | idField          | string                             | Property of layer feature that represents a unique ID. Used for selection and hover style states. |
 | ignoreCase       | ExpressionSpecification (optional) | Maplibre expression that indicates which features to ignore with respect to interaction           |
 
-## LayerConfig Type
+

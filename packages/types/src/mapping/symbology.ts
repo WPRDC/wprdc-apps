@@ -1,5 +1,5 @@
 import type {
-  ColorSpecification,
+  DataDrivenPropertyValueSpecification,
   ExpressionSpecification,
 } from "@maplibre/maplibre-gl-style-spec";
 import type {
@@ -15,128 +15,169 @@ export type FillLayoutSpec = NonNullable<FillLayerSpecification["layout"]>;
 export type LinePaintSpec = NonNullable<LineLayerSpecification["paint"]>;
 export type LineLayoutSpec = NonNullable<LineLayerSpecification["layout"]>;
 
+export interface ParseResults {
+  color: DataDrivenPropertyValueSpecification<string>;
+  opacity: DataDrivenPropertyValueSpecification<number>;
+  borderColor: DataDrivenPropertyValueSpecification<string>;
+  borderOpacity: DataDrivenPropertyValueSpecification<number>;
+  borderWidth: DataDrivenPropertyValueSpecification<number>;
+  lineSortKey?: ExpressionSpecification;
+  textField?: ExpressionSpecification;
+  textSize?: ExpressionSpecification;
+}
+
 export type StyleValue = string | number;
 
-export type ZoomOption<T extends StyleValue | InteractiveOption<StyleValue>> = [
-  number,
+export type ZoomExpression<
+  T extends StyleValue | InteractiveExpression<StyleValue>,
+> = [
+  number, // zoom level
   T,
 ][];
 
-export interface InteractiveOption<T extends StyleValue> {
+export interface InteractiveExpression<T extends StyleValue> {
   default: T;
   selected: T;
   hovered: T;
 }
 
-export type InteractiveStyleOption<T extends StyleValue> =
-  | T
-  | InteractiveOption<T>
-  | ZoomOption<T>
-  | ZoomOption<InteractiveOption<T>>
-  | undefined;
-
-export type ZoomStyleOption<T extends StyleValue> =
-  | T
-  | ZoomOption<T>
-  | undefined;
-
-export type StyleOption<T extends StyleValue> =
-  | ZoomStyleOption<T>
-  | InteractiveStyleOption<T>;
-
-type ZoomConfig<T extends Record<string, StyleValue>> = Partial<{
-  [K in keyof T]: ZoomStyleOption<T[K]>;
-}>;
-
-type InteractiveConfig<T extends Record<string, StyleValue>> = {
-  [K in keyof T]: InteractiveStyleOption<T[K]>;
-};
-
-/** Possible ways of styling features */
-export enum SymbologyMode {
-  Solid = "solid",
-  Qualitative = "qualitative",
-  // Sequential = "sequential",
-  Interactive = "interactive",
-}
-
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- need to use type
-type DiscreteSymbologyProps = {
-  /** Color specification to apply to all features in layer */
-  color: ColorSpecification;
-  /** Color specification to apply to borders of all features */
-  borderColor: ColorSpecification;
-};
-
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- need to use type
-type ContinuousSymbologyProps = {
-  /** Override opacity settings */
-  opacity: number;
-  /** Override border width */
-  borderWidth: number;
-  /** Override border opacity */
-  borderOpacity: number;
-  /** Override font size for labels if they are present */
-  textSize: number;
-};
-
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions -- need to use type
-type TextSymbologyProps = {
-  /** Expression that returns a string to use as a label */
-  textField?: ExpressionSpecification;
-  /** Expression that returns a string to use as a subtitle to `textField` */
-  subtitleTextField?: ExpressionSpecification;
-};
-
-/** Category definition */
-export interface CategoryOptions {
+export type CategoryOptions = {
   /** Label for the category */
   label: string;
-  /** Color of the symbol for the category */
-  color: ColorSpecification;
-  /** Border color for symbol of the category */
-  borderColor?: ColorSpecification;
+};
+
+export interface CategoryValueRecord<T> {
+  value: T;
 }
 
-/** Props for layers with features styled the same */
-export interface SolidSymbologyProps {
-  symbologyMode: SymbologyMode.Solid;
-  symbology: TextSymbologyProps &
-    DiscreteSymbologyProps &
-    ZoomConfig<ContinuousSymbologyProps>;
+export interface CategoryOptionsRecord {
+  value: string;
+  label: string;
 }
 
-interface QualitativeColorOptions {
-  /** Maps categories to their colors */
-  colors: {
-    /** Field to check categories against from */
-    field: string;
-    /** Maps categories to colors */
-    categories: Record<string | number, CategoryOptions>;
-  };
+export type OptionallySimpleInteractive<T extends StyleValue = StyleValue> =
+  | T
+  | InteractiveExpression<T>;
+
+export type OptionallyZoomInteractive<T extends StyleValue = StyleValue> =
+  | ZoomExpression<T>
+  | ZoomExpression<InteractiveExpression<T>>;
+
+// Symbology Options
+
+export interface SimpleFixedSymbologyOptions<
+  T extends StyleValue = StyleValue,
+> {
+  mode: "fixed";
+  value: OptionallySimpleInteractive<T>;
 }
 
-/** Props for layers with features styled based on categorization using underlying data */
-export interface QualitativeSymbologyProps {
-  symbologyMode: SymbologyMode.Qualitative;
-  symbology: TextSymbologyProps &
-    QualitativeColorOptions &
-    ZoomConfig<ContinuousSymbologyProps>;
+export interface ZoomFixedSymbologyOptions {
+  mode: "zoom";
+  value: OptionallyZoomInteractive<number>;
 }
 
-export interface InteractiveSymbologyProps {
-  symbologyMode: SymbologyMode.Interactive;
-  symbology: TextSymbologyProps &
-    Partial<
-      InteractiveConfig<DiscreteSymbologyProps> &
-        InteractiveConfig<ContinuousSymbologyProps>
-    >;
+export interface SimpleCategorySymbologyOptions<
+  T extends StyleValue = StyleValue,
+> {
+  mode: "category";
+  submode: "simple";
+
+  /** Maps categories to value */
+  value: Record<string | number, OptionallySimpleInteractive<T>>;
 }
 
-/** Props for layers with features styled with ramps using underlying data */
-// export interface SequentialSymbologyProps extends BaseSymbologyProps {}
+// not really used yet
+export type ZoomCategorySymbologyOptions = {
+  mode: "category";
+  submode: "zoom";
 
-export type SymbologyProps =
-  | SolidSymbologyProps
-  | QualitativeSymbologyProps
-  | InteractiveSymbologyProps;
+  /** Field to check categories against from */
+  field: string;
+  /** Maps categories to value */
+  value: Record<string | number, OptionallyZoomInteractive>;
+};
+
+interface ExpressionSpecificationSymbologyOption {
+  mode: "expression";
+  expression: ExpressionSpecification;
+}
+
+export type DiscreteValueSymbologyOptions = SimpleFixedSymbologyOptions<string>;
+export type CategoryDiscreteValueSymbologyOptions =
+  | SimpleFixedSymbologyOptions<string>
+  | SimpleCategorySymbologyOptions<string>;
+
+// continuous values can also be controlled on zoom
+export type ContinuousValueSymbologyOptions =
+  | SimpleFixedSymbologyOptions<number>
+  | ZoomFixedSymbologyOptions;
+
+export type CategoryContinuousValueSymbologyOptions =
+  | SimpleFixedSymbologyOptions<number>
+  | ZoomFixedSymbologyOptions
+  | SimpleCategorySymbologyOptions<number>
+  | ZoomCategorySymbologyOptions;
+
+export interface SimpleSymbologyConfig {
+  mode: "simple";
+
+  categories?: undefined
+  field?: undefined
+
+  // Discrete Fields
+  /** Color specification to apply to all features in layer */
+  color?: DiscreteValueSymbologyOptions;
+  /** Color specification to apply to borders of all features */
+  borderColor?: DiscreteValueSymbologyOptions;
+
+  // Continuous Fields
+  /** Override opacity settings */
+  opacity?: ContinuousValueSymbologyOptions;
+  /** Override border width */
+  borderWidth?: ContinuousValueSymbologyOptions;
+  /** Override border opacity */
+  borderOpacity?: ContinuousValueSymbologyOptions;
+
+  // Text fields
+  /** Expression that returns a string to use as a label */
+  textField?: ExpressionSpecificationSymbologyOption;
+  /** Expression that returns a string to use as a subtitle to `textField` */
+  subtitleTextField?: ExpressionSpecificationSymbologyOption;
+  /** Override font size for labels if they are present */
+  textSize?: ContinuousValueSymbologyOptions;
+}
+
+export interface CategorySymbologyConfig {
+  mode: "category";
+
+  /** Field with categories */
+  field: string;
+
+  /** Category metadata */
+  categories: CategoryOptionsRecord[];
+
+  // Discrete Fields
+  /** Color specification to apply to all features in layer */
+  color?: CategoryDiscreteValueSymbologyOptions;
+  /** Color specification to apply to borders of all features */
+  borderColor?: CategoryDiscreteValueSymbologyOptions;
+
+  // Continuous Fields
+  /** Override opacity settings */
+  opacity?: CategoryContinuousValueSymbologyOptions;
+  /** Override border width */
+  borderWidth?: CategoryContinuousValueSymbologyOptions;
+  /** Override border opacity */
+  borderOpacity?: CategoryContinuousValueSymbologyOptions;
+
+  // Text fields
+  /** Expression that returns a string to use as a label */
+  textField?: ExpressionSpecificationSymbologyOption;
+  /** Expression that returns a string to use as a subtitle to `textField` */
+  subtitleTextField?: ExpressionSpecificationSymbologyOption;
+  /** Override font size for labels if they are present */
+  textSize?: CategoryContinuousValueSymbologyOptions;
+}
+
+export type SymbologyOptions = SimpleSymbologyConfig | CategorySymbologyConfig;

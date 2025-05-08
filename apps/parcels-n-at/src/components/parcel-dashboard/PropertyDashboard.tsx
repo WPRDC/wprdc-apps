@@ -2,22 +2,23 @@ import {
   fetchAssessmentAppealsRecords,
   fetchAssessmentRecord,
   fetchCityViolationsRecords,
+  fetchCondemnedStatusRecords,
+  fetchConservatorshipRecordRecords,
   fetchFiledAssessmentAppealsRecord,
+  fetchForeclosureFilingsRecords,
   fetchPLIPermitRecords,
   fetchPropertySaleTransactionsRecords,
   fetchTaxLiensWithCurrentStatusRecords,
-  fetchForeclosureFilingsRecords,
-  fetchConservatorshipRecordRecords,
 } from "@wprdc/api";
 import type {
   ArchiveAssessmentAppeal,
   CityViolation,
+  ConservatorshipRecord,
   FiledAssessmentAppeal,
+  ForeclosureFiling,
   PLIPermit,
   PropertyAssessment,
   TaxLienWithCurrentStatus,
-  ForeclosureFiling,
-  ConservatorshipRecord,
 } from "@wprdc/types";
 import { PropertySaleTransaction } from "@wprdc/types";
 import React, { Suspense } from "react";
@@ -42,6 +43,10 @@ import { MapControlsSection } from "./sections/map-controls";
 import { HeadingSection, HeadingSkeleton } from "./sections/headingSection";
 import { Section } from "./components/Section";
 import { PopupImage } from "@wprdc/ui";
+import { CondemnedPropertiesSection } from "@/components/parcel-dashboard/sections/condemned-properties-section.tsx";
+import dashboardSchema, {
+  SectionOptions,
+} from "@/components/parcel-dashboard/dashboardSchema.tsx";
 
 export interface PropertyDashboardProps {
   parcelID?: string;
@@ -186,9 +191,9 @@ export function PropertyDashboard({
         label="PLI Permits"
         description="City of Pittsburgh building permits"
         className="col-span-4 row-span-1"
+        section={PLIPermitsSection}
         getter={fetchPLIPermitRecords}
         parcelID={parcelID}
-        section={PLIPermitsSection}
         datasetLinks={["https://data.wprdc.org/dataset/pli-permits"]}
       />
 
@@ -197,12 +202,22 @@ export function PropertyDashboard({
         label="Pittsburgh Code Violations"
         description="Code violations from various city departments: Permits Licensse and Inspections (PLI), Dept. of Mobility and Infrasturcture (DOMI) and Environmental Services (ES)"
         className="col-span-4 row-span-1"
+        section={CodeViolationsSection}
         getter={fetchCityViolationsRecords}
         parcelID={parcelID}
-        section={CodeViolationsSection}
         datasetLinks={[
           "https://data.wprdc.org/dataset/pittsburgh-pli-violations-report",
         ]}
+      />
+
+      {/* Condemned or Dead-end Status */}
+      <ConnectedSection
+        label="Condemned Status"
+        description="Details about the parcel's possible condemned or dead-end status by the City of Pittsburgh."
+        section={CondemnedPropertiesSection}
+        getter={fetchCondemnedStatusRecords}
+        parcelID={parcelID}
+        datasetLinks={["https://data.wprdc.org/dataset/condemned-properties"]}
       />
 
       {/* Liens */}

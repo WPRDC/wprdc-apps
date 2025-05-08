@@ -1,11 +1,10 @@
-import type { LayerConfig, SolidSymbologyProps } from "@wprdc/types";
-import { GeoType, SymbologyMode } from "@wprdc/types";
+import type { LayerConfig } from "@wprdc/types";
+import { GeoType } from "@wprdc/types";
 
-export const alleghenyCountyBoundary: LayerConfig<SolidSymbologyProps> = {
+export const alleghenyCountyBoundary: LayerConfig = {
   slug: "allegheny-county-boundary",
   title: "Allegheny County Boundary",
   description: "Boundary of Allegheny County",
-  symbologyMode: SymbologyMode.Solid,
   type: GeoType.Polygon,
   publisher: {
     name: "Allegheny County",
@@ -25,10 +24,11 @@ export const alleghenyCountyBoundary: LayerConfig<SolidSymbologyProps> = {
   },
 
   symbology: {
-    color: "rgba(0,0,0,0)",
-    borderColor: "#000",
-    opacity: 0,
-    borderWidth: 4,
+    mode: "simple",
+    color: { mode: "fixed", value: "rgba(0,0,0,0)" },
+    borderColor: { mode: "fixed", value: "#000" },
+    opacity: { mode: "fixed", value: 0 },
+    borderWidth: { mode: "fixed", value: 4 },
   },
   renderOptions: {
     noLegend: true,

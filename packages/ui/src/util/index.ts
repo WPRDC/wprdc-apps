@@ -1,4 +1,5 @@
 import _slugify from "slugify";
+import EventTarget from "next/dist/compiled/@edge-runtime/primitives/events";
 
 export function getCookie(name: string): string | null {
   "use client";

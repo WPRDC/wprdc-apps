@@ -1,10 +1,7 @@
 import type { ExpressionSpecification, FilterSpecification } from "maplibre-gl";
 import type { ReactNode } from "react";
 import type { GeoType, Identifiable, Publisher } from "../shared";
-import {
-  type InteractiveSymbologyProps,
-  type SymbologyProps,
-} from "./symbology";
+import { CategoryOptions, type SymbologyOptions } from "./symbology";
 import type { LegendGroupOptions } from "./legend";
 
 export interface LayerSource extends Identifiable {
@@ -27,35 +24,6 @@ export interface TileSource {
 
   /** Override max zoom */
   maxZoom?: number;
-}
-
-/** Properties common among all layers */
-export interface CommonLayerOptions extends Identifiable {
-  /** Description of the layer/dataset */
-  description: string;
-
-  /** Type of geometry used in layer */
-  type: GeoType;
-
-  /** Data source being visualized by layer */
-  source: LayerSource;
-
-  /** Publisher details */
-  publisher: Publisher;
-
-  /** Tileserver details */
-  tileSource: TileSource;
-
-  /** Options that define the layer's legend item if one */
-  legend?: LegendGroupOptions;
-
-  renderOptions?: {
-    /** Filter dataset */
-    filter?: FilterSpecification;
-
-    /** Set to true to ignore layer when generating legend */
-    noLegend?: boolean;
-  };
 }
 
 /** Define how to visualize a field in a popup */
@@ -93,18 +61,38 @@ export interface InteractionOptions {
    * todo: decide what data gets passed to template
    */
   clickPopupContent: string;
-
-  // DEPRECATED
-  clickPopupFormat?: string;
-  hoverPopupFormat?: string;
 }
 
-/** Add common options to a specific symbology layer type */
-export type LayerConfig<T extends SymbologyProps = SymbologyProps> =
-  T extends InteractiveSymbologyProps
-    ? CommonLayerOptions & {
-        interaction: InteractionOptions;
-      } & T
-    : CommonLayerOptions & {
-        interaction?: InteractionOptions;
-      } & T;
+/** Properties common among all layers */
+export interface LayerConfig extends Identifiable {
+  /** Description of the layer/dataset */
+  description: string;
+
+  /** Type of geometry used in layer */
+  type: GeoType;
+
+  /** Data source being visualized by layer */
+  source: LayerSource;
+
+  /** Publisher details */
+  publisher: Publisher;
+
+  /** Tileserver details */
+  tileSource: TileSource;
+
+  /** Options that define the layer's legend item if one */
+  legend?: LegendGroupOptions;
+
+  renderOptions?: {
+    /** Filter dataset */
+    filter?: FilterSpecification;
+
+    /** Set to true to ignore layer when generating legend */
+    noLegend?: boolean;
+  };
+
+  symbology: SymbologyOptions;
+
+  /** Settings to control hover and click behavior */
+  interaction?: InteractionOptions;
+}

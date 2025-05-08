@@ -114,28 +114,16 @@ export async function OwnerInfo({
               },
             ]}
           />
-          <div className="flex flex-col space-y-4">
-            <A
-              variant="button"
-              buttonVariant="primary"
-              href={`/explore?parcel=${parcelID}&ownerAddr=${ownerAddr}`}
-            >
-              Highlight owner's properties on the map
-            </A>
-          </div>
-          <details className="group mt-4">
-            <summary className="group/summary flex w-fit cursor-pointer list-none items-center decoration-2 hover:text-stone-800">
-              <TbCaretRight className="block size-5 group-open:hidden"></TbCaretRight>
-              <TbCaretDown className="hidden size-5 group-open:block"></TbCaretDown>
-              <h4 className="group-hover/summary:bg-primary -ml-1 px-1 text-xl font-bold">
-                Other Properties
-              </h4>
-            </summary>
-            <div className="ml-2 box-content border-l-4 border-stone-600 p-3.5 pr-0">
+          <div className="mt-4">
+            <h4 className="-ml-1 px-1 text-xl font-bold">Other Properties</h4>
+            <div className="box-content border-stone-600 py-3.5 pr-0">
               {!!otherPropertyRecords.length ? (
-                <ul className="max-h-64 w-fit overflow-auto rounded-sm border border-black bg-white p-2">
+                <ul className="max-h-64 w-fit overflow-auto rounded-sm border border-black bg-white">
                   {otherPropertyRecords.map(({ region: pid, address }, i) => (
-                    <li key={`${pid}-${i}`}>
+                    <li
+                      key={`${pid}-${i}`}
+                      className="border-t px-2 py-0.5 first:border-t-0 even:bg-gray-100"
+                    >
                       <A
                         className="font-mono"
                         href={`/explore?parcel=${pid}&zoomPan=1`}
@@ -149,7 +137,16 @@ export async function OwnerInfo({
                 <Typography.Note>No other properties</Typography.Note>
               )}
             </div>
-          </details>
+            <div className="flex flex-col space-y-4">
+              <A
+                variant="button"
+                buttonVariant="primary"
+                href={`/explore?parcel=${parcelID}&ownerAddr=${ownerAddr}`}
+              >
+                Highlight owner's properties on the map
+              </A>
+            </div>
+          </div>
         </section>
       </div>
     </div>

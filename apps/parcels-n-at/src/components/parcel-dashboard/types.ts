@@ -36,6 +36,7 @@ export interface CommonSectionProps<T extends object> {
   defaultOpen?: boolean;
   className?: string;
   sectionProps?: T;
+  id?: string;
 }
 
 export interface ConnectedSectionProps<

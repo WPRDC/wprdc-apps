@@ -267,3 +267,14 @@ export interface PLIPermit extends DatastoreRecord {
   parcel_num: string;
   address: string;
 }
+
+export interface CondemnedStatus extends DatastoreRecord {
+  parcel_id: string;
+  address: string;
+  owner: string;
+  property_type: string;
+  date: string;
+  latest_inspection_result: string;
+  latest_inspection_score: string;
+  inspection_status: string;
+}

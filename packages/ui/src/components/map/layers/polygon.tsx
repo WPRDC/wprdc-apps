@@ -3,7 +3,6 @@ import { Layer } from "react-map-gl/maplibre";
 import type { SymbologyLayerProps } from "../Map.types";
 import { parseConfig } from "../parse";
 import { Selection } from "react-aria-components";
-import { SymbologyMode } from "@wprdc/types";
 
 export function PolygonLayer({
   layer,
@@ -32,10 +31,10 @@ export function PolygonLayer({
   let filter = layer.renderOptions?.filter;
 
   if (visibleCategories !== "all") {
-    if (layer.symbologyMode === SymbologyMode.Qualitative) {
+    if (layer.symbology.mode === "category") {
       filter = [
         "in",
-        ["get", layer.symbology.colors.field],
+        ["get", layer.symbology.field],
         ["literal", Array.from(visibleCategories)],
       ];
     }

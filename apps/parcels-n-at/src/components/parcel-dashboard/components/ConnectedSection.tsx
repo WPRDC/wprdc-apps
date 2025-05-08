@@ -15,7 +15,7 @@ export function ConnectedSection<T extends DatastoreRecord>({
   description,
   datasetLinks,
   className,
-  defaultOpen = false,
+  defaultOpen = true,
   ...props
 }: ConnectedSectionProps<T>): React.ReactElement {
   return (

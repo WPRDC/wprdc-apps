@@ -17,6 +17,7 @@ import type {
 
 import { fetchFields, fetchSQLSearch, toFieldLookup } from "../fetch-util";
 import type { APIResult } from "../types";
+import { CondemnedStatus } from "@wprdc/types/src";
 
 export enum ParcelTable {
   Assessment = "property_assessments",
@@ -29,6 +30,7 @@ export enum ParcelTable {
   TaxLiensWithCurrentStatus = "tax_liens_with_current_status",
   ConservatorshipRecord = "conservatorship_record",
   ParcelBoundaries = "parcel_boundaries",
+  CondemnedStatus = "0a963f26-eb4b-4325-bbbc-3ddf6a871410",
 }
 
 export const parcelIDFields: Record<ParcelTable, string> = {
@@ -42,6 +44,7 @@ export const parcelIDFields: Record<ParcelTable, string> = {
   [ParcelTable.ForeclosureFilings]: "pin",
   [ParcelTable.TaxLiensWithCurrentStatus]: "pin",
   [ParcelTable.ConservatorshipRecord]: "pin",
+  [ParcelTable.CondemnedStatus]: "parcel_id",
 };
 
 async function _fetchParcelRecords<T extends DatastoreRecord>(
@@ -150,6 +153,11 @@ export const fetchConservatorshipRecordRecords = (
     parcelID,
     ParcelTable.ConservatorshipRecord,
   );
+
+export const fetchCondemnedStatusRecords = (
+  parcelID: string | string[],
+): Promise<APIResult<CondemnedStatus>> =>
+  fetchParcelRecords<CondemnedStatus>(parcelID, ParcelTable.CondemnedStatus);
 
 export async function autocompleteParcelSearch(
   searchTerm: string,

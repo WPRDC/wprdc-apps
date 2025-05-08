@@ -1,11 +1,11 @@
-import type { InteractiveSymbologyProps, LayerConfig } from "@wprdc/types";
-import { GeoType, SymbologyMode } from "@wprdc/types";
+import type { LayerConfig } from "@wprdc/types";
+import { GeoType } from "@wprdc/types";
 
-export const parcelLayer: LayerConfig<InteractiveSymbologyProps> = {
+export const parcelLayer: LayerConfig = {
+  // immutable properties
   slug: "parcels",
   title: "Parcels",
   description: "",
-  symbologyMode: SymbologyMode.Interactive,
   type: GeoType.Polygon,
   publisher: {
     name: "Allegheny County",
@@ -26,23 +26,36 @@ export const parcelLayer: LayerConfig<InteractiveSymbologyProps> = {
   },
 
   symbology: {
-    color: { default: "#FFF", selected: "#FCEC52", hovered: "#bae6fd" },
+    mode: "simple",
+    color: {
+      mode: "fixed",
+      value: { default: "#FFF", selected: "#FCEC52", hovered: "#bae6fd" },
+    },
 
-    borderColor: { default: "#000", selected: "#000", hovered: "#bae6fd" },
-    opacity: [
-      [16, { default: 0.1, selected: 0.5, hovered: 0.6 }],
-      [18, { default: 0.2, selected: 0.6, hovered: 0.7 }],
-    ],
+    borderColor: {
+      mode: "fixed",
+      value: { default: "#000", selected: "#000", hovered: "#bae6fd" },
+    },
+    opacity: {
+      mode: "zoom",
+      value: [
+        [16, { default: 0.1, selected: 0.5, hovered: 0.6 }],
+        [18, { default: 0.2, selected: 0.6, hovered: 0.7 }],
+      ],
+    },
 
-    borderOpacity: [[16, 1]],
+    borderOpacity: { mode: "zoom", value: [[16, 1]] },
 
-    textField: ["get", "housenum"],
-    textSize: [
-      [16, 6],
-      [16.5, 10],
-      [17.5, 10],
-      [21, 18],
-    ],
+    textField: { mode: "expression", expression: ["get", "housenum"] },
+    textSize: {
+      mode: "zoom",
+      value: [
+        [16, 6],
+        [16.5, 10],
+        [17.5, 10],
+        [21, 18],
+      ],
+    },
   },
 
   // interaction
@@ -64,7 +77,6 @@ export const parcelLayer: LayerConfig<InteractiveSymbologyProps> = {
     `,
     ignoreCase: ["==", ["get", "parcel_id"], "COMMON GROUND"],
   },
-
   renderOptions: {
     noLegend: true,
   },

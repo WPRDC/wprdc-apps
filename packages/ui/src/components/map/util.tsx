@@ -1,9 +1,5 @@
 import type { DataDrivenPropertyValueSpecification } from "@maplibre/maplibre-gl-style-spec";
-import type {
-  InteractiveSymbologyProps,
-  LayerConfig,
-  MapState,
-} from "@wprdc/types";
+import type { LayerConfig, MapState } from "@wprdc/types";
 import { GeoType } from "@wprdc/types";
 import chroma from "chroma-js";
 import type {
@@ -62,19 +58,20 @@ export function getInteractiveLayerID(layer: LayerConfig): string {
 }
 
 export function getSelectedID(
-  layer: LayerConfig<InteractiveSymbologyProps>,
+  layer: LayerConfig,
   context: MapState,
 ): string | undefined {
   return (context.selectedIDs?.[layer.slug] ?? [])[0];
 }
 
 export function getPrimaryHoveredID(
-  layer: LayerConfig<InteractiveSymbologyProps>,
+  layer: LayerConfig,
   context: MapState,
 ): string | undefined {
   const { hoveredFeatures } = context;
-  if (!hoveredFeatures) return undefined;
+  if (!hoveredFeatures || !layer.interaction) return undefined;
   const primaryFeature = hoveredFeatures.find((f) => f.source === layer.slug);
+
   return primaryFeature?.properties[layer.interaction.idField] as
     | string
     | undefined;

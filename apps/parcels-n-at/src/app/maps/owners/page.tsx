@@ -12,7 +12,7 @@ export default function Page() {
   return (
     <div className="h-full w-full xl:flex xl:content-stretch">
       <Map
-        layers={[largeParcelPortfolios]}
+        defaultLayers={[largeParcelPortfolios]}
         mapTilerAPIKey={API_KEY}
         onNavigate={(feature: MapGeoJSONFeature) => {
           router.push(`/explore?parcel=${feature.properties.parid as string}`);

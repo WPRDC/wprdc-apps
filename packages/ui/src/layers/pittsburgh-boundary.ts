@@ -1,11 +1,10 @@
-import type { LayerConfig, SolidSymbologyProps } from "@wprdc/types";
-import { GeoType, SymbologyMode } from "@wprdc/types";
+import type { LayerConfig } from "@wprdc/types";
+import { GeoType } from "@wprdc/types";
 
-export const pittsburghBoundary: LayerConfig<SolidSymbologyProps> = {
+export const pittsburghBoundary: LayerConfig = {
   slug: "pittsburgh-boundary",
   title: "Pittsburgh Boundary",
   description: "Boundary of the City of Pittsburgh",
-  symbologyMode: SymbologyMode.Solid,
   type: GeoType.Polygon,
   publisher: {
     name: "City of Pittsburgh",
@@ -26,10 +25,11 @@ export const pittsburghBoundary: LayerConfig<SolidSymbologyProps> = {
   },
 
   symbology: {
-    color: "rgba(0,0,0,0)",
-    borderColor: "#000",
-    opacity: 0,
-    borderWidth: 4,
+    mode: "simple",
+    color: { mode: "fixed", value: "rgba(0,0,0,0)" },
+    borderColor: { mode: "fixed", value: "#000" },
+    opacity: { mode: "fixed", value: 0 },
+    borderWidth: { mode: "fixed", value: 4 },
   },
 
   renderOptions: {

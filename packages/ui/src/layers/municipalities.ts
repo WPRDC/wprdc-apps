@@ -1,11 +1,10 @@
-import type { InteractiveSymbologyProps, LayerConfig } from "@wprdc/types";
-import { GeoType, SymbologyMode } from "@wprdc/types";
+import type { LayerConfig } from "@wprdc/types";
+import { GeoType } from "@wprdc/types";
 
-export const municipalities: LayerConfig<InteractiveSymbologyProps> = {
+export const municipalities: LayerConfig = {
   slug: "allegheny-county-municipalities",
   title: "Allegheny County Municipalities",
   description: "Towns, Cities, Boroughs, etc. in Allegheny County",
-  symbologyMode: SymbologyMode.Interactive,
   type: GeoType.Polygon,
   publisher: {
     name: "Allegheny County",
@@ -29,29 +28,51 @@ export const municipalities: LayerConfig<InteractiveSymbologyProps> = {
   },
 
   symbology: {
-    color: { default: "#FFF", selected: "#FCEC52", hovered: "#bae6fd" },
-    borderColor: { default: "#000", selected: "#000", hovered: "#bae6fd" },
-    opacity: [
-      [8, { default: 0.2, selected: 0.4, hovered: 0.7 }],
-      [14.5, { default: 0.2, selected: 0.4, hovered: 0.7 }],
-      [15, { default: 0, selected: 0, hovered: 0 }],
-    ],
-    borderOpacity: [
-      [8, 1],
-      [14.5, 1],
-      [15, 0],
-    ],
-    borderWidth: [
-      [8, { default: 1, selected: 2, hovered: 2.5 }],
-      [12, { default: 1, selected: 2, hovered: 2.5 }],
-      [14.5, { default: 4, selected: 8, hovered: 10 }],
-    ],
-    textField: ["get", "NAME"],
-    textSize: [
-      [8, 6],
-      [12, 12],
-      [15, 12],
-    ],
+    mode: "simple",
+    color: {
+      mode: "fixed",
+      value: { default: "#FFF", selected: "#FCEC52", hovered: "#bae6fd" },
+    },
+    borderColor: {
+      mode: "fixed",
+      value: { default: "#000", selected: "#000", hovered: "#bae6fd" },
+    },
+    opacity: {
+      mode: "zoom",
+      value: [
+        [8, { default: 0.2, selected: 0.4, hovered: 0.7 }],
+        [14.5, { default: 0.2, selected: 0.4, hovered: 0.7 }],
+        [15, { default: 0, selected: 0, hovered: 0 }],
+      ],
+    },
+    borderOpacity: {
+      mode: "zoom",
+      value: [
+        [8, 1],
+        [14.5, 1],
+        [15, 0],
+      ],
+    },
+    borderWidth: {
+      mode: "zoom",
+      value: [
+        [8, { default: 1, selected: 2, hovered: 2.5 }],
+        [12, { default: 1, selected: 2, hovered: 2.5 }],
+        [14.5, { default: 4, selected: 8, hovered: 10 }],
+      ],
+    },
+    textField: {
+      mode: "expression",
+      expression: ["get", "NAME"],
+    },
+    textSize: {
+      mode: "zoom",
+      value: [
+        [8, 6],
+        [12, 12],
+        [15, 12],
+      ],
+    },
   },
 
   interaction: {

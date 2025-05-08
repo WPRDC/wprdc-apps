@@ -8,7 +8,6 @@
 "use client";
 
 import type { LayerConfig, MapState } from "@wprdc/types";
-import { SymbologyMode } from "@wprdc/types";
 import {
   forwardRef,
   useCallback,
@@ -35,7 +34,7 @@ import { LayerGroup } from "./LayerGroup";
 import type { MapProps } from "./Map.types";
 import { ClickPopup, HoverPopup, SimplePopupWrapper } from "./popup";
 import { extractFeatures } from "./util";
-
+import { throttle, debounce } from "lodash";
 import { Selection } from "react-aria-components";
 
 import Mustache from "mustache";
@@ -57,7 +56,9 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     onHover,
     mapTilerAPIKey,
     selectedIDs,
-    layers,
+    layers: propsLayers,
+    onLayerChange: propsOnLayerChange,
+    defaultLayers,
     initialViewState,
     viewState: _viewState,
     interactive = true,
@@ -81,6 +82,28 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
 ): React.ReactElement {
   const _mapRef = useRef<MapRef>(null);
   const mapRef = ref ?? _mapRef;
+
+  const [innerLayers, setInnerLayers] = useState<LayerConfig[]>(
+    defaultLayers ?? [],
+  );
+
+  const layers = useMemo(
+    () => propsLayers ?? innerLayers,
+    [propsLayers, innerLayers],
+  );
+
+  const handleLayerChange = useMemo(() => {
+    const defaultOnLayerChange = (layer: LayerConfig) => {
+      setInnerLayers(
+        layers.map((l) => {
+          if (l.slug === layer.slug) return layer;
+          return l;
+        }),
+      );
+    };
+
+    return propsOnLayerChange ?? defaultOnLayerChange;
+  }, [propsOnLayerChange]);
 
   const [basemap, setBasemap] = useState<keyof typeof basemaps>("basic");
   const [zoomText, setZoomText] = useState<string>(
@@ -190,7 +213,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
 
   /** Called with each moouseover event within map */
   const handleHover = useCallback(
-    (e: MapLayerMouseEvent) => {
+    throttle((e: MapLayerMouseEvent) => {
       const features = extractFeatures(e);
       if (!!features && !!features.length) {
         setHoveredFeatures(features);
@@ -200,7 +223,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       if (onHover) {
         onHover(features ?? [], mapState, e);
       }
-    },
+    }, 20),
     [mapState, onHover, clearHover],
   );
 
@@ -251,6 +274,13 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
         [layerSlug]: selection,
       });
     },
+    [layers, visibleLayerCategories],
+  );
+
+  const handleLayerStyleChange = useCallback(
+    (layer: LayerConfig) => {
+      const layerSlug: string = layer.slug;
+    },
     [layers],
   );
 
@@ -286,14 +316,9 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
 
   // IDs of layers that will pass data to map event handlers
   const interactiveLayerIDs = useMemo(() => {
-    // filter to explicitly-interactive layergroups or data layergroups with basic interaction
-    function filterLayers(l: LayerConfig) {
-      return l.symbologyMode === SymbologyMode.Interactive || l.interaction;
-    }
-
     // use fill layers for interaction
     const autoLayerIDs =
-      layers?.filter(filterLayers).map((l) => `${l.slug}-fill`) ?? [];
+      layers?.filter((l) => !!l.interaction).map((l) => `${l.slug}-fill`) ?? [];
     // join with interactive ids provided in props
     return autoLayerIDs.concat(manualInteractiveLayerIDs);
   }, [layers, manualInteractiveLayerIDs]);
@@ -316,6 +341,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
   const viewState = _viewState
     ? { ..._viewState, height: 0, width: 0 }
     : undefined;
+
 
   return (
     <ReactMapGL
@@ -394,6 +420,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
           layers={layers}
           selectedLayers={visibleLayerCategories}
           onSelectionChange={handleLayerVisibilityChange}
+          onStyleChange={handleLayerChange}
         />
       </div>
 

@@ -71,7 +71,6 @@ export function ColorPicker({
                 yChannel="brightness"
               />
               <ColorSlider colorSpace="hsb" channel="hue" />
-              <ColorSlider colorSpace="hsb" channel="alpha" />
               <ColorField label="Hex" />
               <ColorSwatchPicker
                 className="max-w-40"

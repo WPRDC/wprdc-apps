@@ -1,11 +1,7 @@
 "use client";
 
 import type { DrawMode } from "@mapbox/mapbox-gl-draw";
-import type {
-  GeoJSONFeature,
-  InteractiveSymbologyProps,
-  LayerConfig,
-} from "@wprdc/types";
+import type { GeoJSONFeature, LayerConfig } from "@wprdc/types";
 import type { Polygon } from "geojson";
 import { useCallback, useEffect, useState } from "react";
 import type { MapGeoJSONFeature } from "react-map-gl/maplibre";
@@ -13,8 +9,8 @@ import { twMerge } from "tailwind-merge";
 import type { DrawEvent } from "../../components";
 import { Map } from "../../components";
 import {
-  municipalities as _municipalities,
   alleghenyCountyBoundary,
+  municipalities as _municipalities,
   parcelLayer,
   pittsburghBoundary,
   pittsburghNeighborhoodLayer,
@@ -26,7 +22,7 @@ import type {
   ParcelSelectionOptions,
 } from "./ParcelPicker.types";
 
-const municipalities: LayerConfig<InteractiveSymbologyProps> = {
+const municipalities: LayerConfig = {
   ..._municipalities,
   renderOptions: {
     ..._municipalities.renderOptions,
@@ -34,7 +30,7 @@ const municipalities: LayerConfig<InteractiveSymbologyProps> = {
   },
 };
 
-const layerLookup: Record<string, LayerConfig<InteractiveSymbologyProps>> = {
+const layerLookup: Record<string, LayerConfig> = {
   [parcelLayer.slug]: parcelLayer,
   [pittsburghNeighborhoodLayer.slug]: pittsburghNeighborhoodLayer,
   [municipalities.slug]: municipalities,
@@ -107,15 +103,14 @@ export function ParcelPicker({
           ].includes(primaryFeature.source)
         ) {
           const layerID: string = primaryFeature.source;
-          const regionLayerConfig: LayerConfig<InteractiveSymbologyProps> =
-            layerLookup[layerID];
+          const regionLayerConfig: LayerConfig = layerLookup[layerID];
 
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- maplibre uses any
-          const regionID: string =
-            primaryFeature.properties[regionLayerConfig.interaction.idField];
-
-          // toggle the region IDs presence in the selected list
-          const oldSelection: string[] = selectedFeatures[layerID];
+          const regionID: string = regionLayerConfig.interaction
+              ? primaryFeature.properties[regionLayerConfig.interaction.idField]
+              : "",
+            // toggle the region IDs presence in the selected list
+            oldSelection: string[] = selectedFeatures[layerID];
           setSelectedFeatures({
             ...selectedFeatures,
             [layerID]: oldSelection.includes(regionID)
