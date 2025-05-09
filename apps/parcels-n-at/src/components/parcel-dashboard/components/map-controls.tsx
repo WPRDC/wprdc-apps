@@ -17,6 +17,7 @@ import { TbBorderCorners, TbCopy, TbShare2 } from "react-icons/tb";
 import { DialogTrigger, MenuTrigger } from "react-aria-components";
 import { usePathname } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
+import {useRouter} from "next/navigation";
 
 export interface MapControlsProps {
   parcelID: string;
@@ -27,6 +28,8 @@ export function MapControls({ parcelID, bbox }: MapControlsProps) {
   const [shareURL, setShareURL] = useState<string>("");
   const [embedCode, setEmbedCode] = useState<string>("");
 
+
+  const router = useRouter();
   const { navMap, popupMap } = useMap();
   const pathname = usePathname();
 
@@ -106,8 +109,21 @@ export function MapControls({ parcelID, bbox }: MapControlsProps) {
         <MenuTrigger>
           <Button>Jump To Section</Button>
           <Popover>
-            <Menu>
-              <MenuItem></MenuItem>
+            <Menu onAction={(key) => router.push(`#${key}`)}>
+              <MenuItem id="owner">Owner</MenuItem>
+              <MenuItem id="assessed-value">Assessed Value</MenuItem>
+              <MenuItem id="dwelling">Dwelling Characteristics</MenuItem>
+              <MenuItem id="condition">Condition</MenuItem>
+              <MenuItem id="tax-context">Tax Details</MenuItem>
+              <MenuItem id="images">Images</MenuItem>
+              <MenuItem id="sales">Sales</MenuItem>
+              <MenuItem id="assessment-appeals">Assessment Appeals</MenuItem>
+              <MenuItem id="pli-permits">Pli Permits</MenuItem>
+              <MenuItem id="code-violations">Code Violations</MenuItem>
+              <MenuItem id="condemned-properties-section">Condemned Status              </MenuItem>
+              <MenuItem id="tax-liens">Tax Liens</MenuItem>
+              <MenuItem id="foreclosure">Foreclosure</MenuItem>
+              <MenuItem id="conservatorship">Conservatorship</MenuItem>
             </Menu>
           </Popover>
         </MenuTrigger>

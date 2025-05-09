@@ -11,6 +11,7 @@ import type {
 import { Section } from "./Section";
 
 export function ConnectedSection<T extends DatastoreRecord>({
+  id,
   label,
   description,
   datasetLinks,
@@ -21,6 +22,7 @@ export function ConnectedSection<T extends DatastoreRecord>({
   return (
     <div className={className}>
       <Section
+        id={id}
         label={label}
         description={description}
         datasetLinks={datasetLinks}
@@ -47,6 +49,7 @@ export async function ConnectedSectionContent<T extends DatastoreRecord>({
 }
 
 export function MultiConnectedSection<T extends DatastoreRecordSet>({
+  id,
   label,
   description,
   datasetLinks,
@@ -55,6 +58,7 @@ export function MultiConnectedSection<T extends DatastoreRecordSet>({
 }: MultiConnectedSectionProps<T>): React.ReactElement {
   return (
     <Section
+      id={id}
       className={className}
       label={label}
       description={description}

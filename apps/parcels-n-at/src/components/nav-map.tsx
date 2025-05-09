@@ -2,7 +2,7 @@
 
 import { A, Button, Map, parcelLayer } from "@wprdc/ui";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Layer,
   MapGeoJSONFeature,
@@ -15,6 +15,8 @@ import { TbSquareLetterAFilled, TbSquareLetterBFilled } from "react-icons/tb";
 import { OverlayTriggerStateContext } from "react-aria-components";
 import { BiX } from "react-icons/bi";
 import { GeocodeResponse } from "@wprdc/api";
+
+import {Selection} from "react-stately"
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY ?? "missing";
 
@@ -29,6 +31,7 @@ export interface NavMapProps {
   mapID?: string;
   bbox?: GeocodeResponse["bbox"];
   zoomPan?: boolean;
+  availableLayers?: LayerConfig[];
 }
 
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -38,7 +41,8 @@ export function NavMap({
   ownerAddress,
   showOwnerOccupied,
   showVacant,
-  layers = [],
+  availableLayers = [],
+    layers = [],
   classes,
   isModal,
   bbox,
@@ -49,6 +53,8 @@ export function NavMap({
   const modalState = React.useContext(OverlayTriggerStateContext)!;
 
   const router = useRouter();
+
+  const [selectedLayers, setSelectedLayers] = useState<Selection>(new Set(["large-parcel-portfolios"]))
 
   useEffect(() => {
     if (zoomPan && bbox && mapRef.current) {
@@ -137,11 +143,21 @@ export function NavMap({
     };
   }, [classes]);
 
+
+  const contextLayers = useMemo(() => {
+    if (!selectedLayers) {
+      return []
+    }
+    if (selectedLayers === 'all')
+      return availableLayers;
+    return availableLayers.filter(l => selectedLayers.has(l.slug))
+  }, [availableLayers, selectedLayers]);
+
   return (
     <Map
       id={mapID}
       initialViewState={{ zoom: 15.5 }}
-      layers={[parcelLayer, ...layers]}
+      layers={[ ...contextLayers, parcelLayer, ...layers,]}
       mapTilerAPIKey={API_KEY}
       maxZoom={19}
       minZoom={11}

@@ -14,11 +14,11 @@ export function Section(
   >,
 ): React.ReactElement {
   return (
-    <details
-      className={twMerge("group/section mt-5 p-2", props.className)}
-      open={props.defaultOpen ?? true}
+    <div
+      id={props.id}
+      className={twMerge("group/section mt-5 p-2 scroll-mt-24", props.className)}
     >
-      <summary className="group/sectionsummary cursor-pointer list-none decoration-2 hover:text-stone-800">
+      <div className="group/sectionsummary cursor-pointer list-none decoration-2 hover:text-stone-800">
         <div className="flex w-fit items-center">
           <TbCaretRight className="block size-6 group-open/section:hidden"></TbCaretRight>
           <TbCaretDown className="hidden size-6 group-open/section:block"></TbCaretDown>
@@ -33,7 +33,7 @@ export function Section(
             {props.description}
           </p>
         )}
-      </summary>
+      </div>
 
       <div className="ml-2.5 box-content border-l-4 border-black p-4 pl-8 pr-0">
         {props.children}
@@ -54,6 +54,6 @@ export function Section(
           </ul>
         </section>
       )}
-    </details>
+    </div>
   );
 }

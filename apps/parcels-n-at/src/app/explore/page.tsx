@@ -7,6 +7,8 @@ import { MapPopup } from "@/components/map-popup";
 import { geocodeParcel } from "@wprdc/api";
 import { GeocodeResponseBody } from "@/app/api/parcels/geocode/route.ts";
 
+import { largeParcelPortfolios } from "@/layers/large-parcel-portfolios.ts";
+
 interface Params {
   parcel: string;
   ownerAddr?: string;
@@ -15,6 +17,7 @@ interface Params {
   zoomPan?: number;
   z?: number;
 }
+
 const BASE_URL = process.env.BASE_URL ?? "";
 
 export default async function Page({
@@ -62,6 +65,7 @@ export default async function Page({
             classes={useClasses}
             bbox={bbox}
             zoomPan={!!zoomPan}
+            availableLayers={[largeParcelPortfolios]}
           />
         </div>
 
