@@ -65,7 +65,6 @@ export default async function Page({
             classes={useClasses}
             bbox={bbox}
             zoomPan={!!zoomPan}
-            availableLayers={[largeParcelPortfolios]}
           />
         </div>
 
