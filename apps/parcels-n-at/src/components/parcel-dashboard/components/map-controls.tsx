@@ -107,7 +107,7 @@ export function MapControls({ parcelID, bbox }: MapControlsProps) {
         <MenuTrigger>
           <Button>Jump To Section</Button>
           <Popover>
-            <Menu onAction={(key) => router.push(`#${key}`)}>
+            <Menu onAction={(key) => router.push(`#${key}`)} className="border border-black">
               <MenuItem id="owner">Owner</MenuItem>
               <MenuItem id="assessed-value">Assessed Value</MenuItem>
               <MenuItem id="dwelling">Dwelling Characteristics</MenuItem>
