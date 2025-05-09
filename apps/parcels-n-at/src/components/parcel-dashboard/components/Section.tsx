@@ -1,7 +1,7 @@
 import type { PropsWithChildren, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
-import { TbCaretDown, TbCaretRight } from "react-icons/tb";
-import { A, Typography } from "@wprdc/ui";
+import { A, Button } from "@wprdc/ui";
+import { BiChevronUpCircle, } from "react-icons/bi";
 
 export function Section(
   props: PropsWithChildren<
@@ -16,30 +16,33 @@ export function Section(
   return (
     <div
       id={props.id}
-      className={twMerge("group/section mt-5 p-2 scroll-mt-24", props.className)}
+      className={twMerge(
+        "group/section mt-5 scroll-mt-24 px-4 pt-2 pb-8",
+        props.className,
+      )}
     >
-      <div className="group/sectionsummary cursor-pointer list-none decoration-2 hover:text-stone-800">
-        <div className="flex w-fit items-center">
-          <TbCaretRight className="block size-6 group-open/section:hidden"></TbCaretRight>
-          <TbCaretDown className="hidden size-6 group-open/section:block"></TbCaretDown>
-          {!!props.label && (
-            <h2 className="group-hover/sectionsummary:bg-primary px-1 text-3xl font-bold">
-              {props.label}
-            </h2>
-          )}
+      <div className="cursor-pointer list-none decoration-2 hover:text-stone-800 border-t-4 border-black">
+        <div className="w-full flex items-center justify-between">
+
+        {!!props.label && (
+          <h2 className="text-3xl font-bold">
+            {props.label}
+          </h2>
+        )}
+          <a href="#menu"><Button className="flex items-center"><BiChevronUpCircle/><div className="pl-">Back to Top</div></Button></a>
         </div>
         {!!props.description && (
-          <p className="ml-2.5 border-l-4 border-transparent pl-3.5 italic group-open/section:border-black">
+          <p className="italic group-open/section:border-black">
             {props.description}
           </p>
         )}
       </div>
 
-      <div className="ml-2.5 box-content border-l-4 border-black p-4 pl-8 pr-0">
+      <div className="ml-2.5 box-content py-4 px-0">
         {props.children}
       </div>
       {!!props.datasetLinks && !!props.datasetLinks.length && (
-        <section className="ml-2.5 box-content border-l-4 border-black p-4 pl-8 pr-0">
+        <section className="ml-2.5 box-content   p-4  pr-0">
           <h3 className="mb-1 text-xl font-bold">
             Source{props.datasetLinks?.length === 1 ? "" : "s"}
           </h3>

@@ -15,9 +15,8 @@ import {
 } from "@wprdc/ui";
 import { TbBorderCorners, TbCopy, TbShare2 } from "react-icons/tb";
 import { DialogTrigger, MenuTrigger } from "react-aria-components";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
-import {useRouter} from "next/navigation";
 
 export interface MapControlsProps {
   parcelID: string;
@@ -27,7 +26,6 @@ export interface MapControlsProps {
 export function MapControls({ parcelID, bbox }: MapControlsProps) {
   const [shareURL, setShareURL] = useState<string>("");
   const [embedCode, setEmbedCode] = useState<string>("");
-
 
   const router = useRouter();
   const { navMap, popupMap } = useMap();
@@ -54,7 +52,7 @@ export function MapControls({ parcelID, bbox }: MapControlsProps) {
   };
 
   return (
-    <div className="flex space-x-2">
+    <div className="flex space-x-2 scroll-mt-28" id="menu">
       <div>
         <Button icon={TbBorderCorners} onPress={handleZoomPan}>
           Center on Map
@@ -120,7 +118,9 @@ export function MapControls({ parcelID, bbox }: MapControlsProps) {
               <MenuItem id="assessment-appeals">Assessment Appeals</MenuItem>
               <MenuItem id="pli-permits">Pli Permits</MenuItem>
               <MenuItem id="code-violations">Code Violations</MenuItem>
-              <MenuItem id="condemned-properties-section">Condemned Status              </MenuItem>
+              <MenuItem id="condemned-properties-section">
+                Condemned Status
+              </MenuItem>
               <MenuItem id="tax-liens">Tax Liens</MenuItem>
               <MenuItem id="foreclosure">Foreclosure</MenuItem>
               <MenuItem id="conservatorship">Conservatorship</MenuItem>

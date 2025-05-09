@@ -109,12 +109,13 @@ export async function OwnerInfo({
               Highlight owner's properties on the map
             </A>
           </div>
+
           <details className="group mt-4">
             <summary className="group/summary flex w-fit cursor-pointer list-none items-center decoration-2 hover:text-stone-800">
               <TbCaretRight className="block size-5 group-open:hidden"></TbCaretRight>
               <TbCaretDown className="hidden size-5 group-open:block"></TbCaretDown>
               <h4 className="group-hover/summary:bg-primary -ml-1 px-1 text-xl font-bold">
-                Other Properties
+                Explore Other Properties
               </h4>
             </summary>
             <div className="ml-2 box-content border-l-4 border-stone-600 p-3.5 pr-0">
