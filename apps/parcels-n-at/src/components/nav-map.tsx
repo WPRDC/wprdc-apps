@@ -1,8 +1,16 @@
 "use client";
 
-import { A, Button, Map, parcelLayer } from "@wprdc/ui";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import {
+  A,
+  Button,
+  Map,
+  Menu,
+  MenuItem,
+  parcelLayer,
+  Popover,
+} from "@wprdc/ui";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useMemo, useRef } from "react";
 import {
   Layer,
   MapGeoJSONFeature,
@@ -12,11 +20,11 @@ import {
 import { ParcelSearch } from "@/components/parcel-search";
 import { FillPaintSpec, LayerConfig } from "@wprdc/types";
 import { TbSquareLetterAFilled, TbSquareLetterBFilled } from "react-icons/tb";
-import { OverlayTriggerStateContext } from "react-aria-components";
-import { BiX } from "react-icons/bi";
+import { MenuTrigger, OverlayTriggerStateContext } from "react-aria-components";
+import { BiCheck, BiMapAlt, BiX } from "react-icons/bi";
 import { GeocodeResponse } from "@wprdc/api";
 
-import {Selection} from "react-stately"
+import { Selection } from "react-stately";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY ?? "missing";
 
@@ -32,6 +40,7 @@ export interface NavMapProps {
   bbox?: GeocodeResponse["bbox"];
   zoomPan?: boolean;
   availableLayers?: LayerConfig[];
+  selectedLayers?: string | string[];
 }
 
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -42,7 +51,8 @@ export function NavMap({
   showOwnerOccupied,
   showVacant,
   availableLayers = [],
-    layers = [],
+  selectedLayers = [],
+  layers = [],
   classes,
   isModal,
   bbox,
@@ -53,8 +63,15 @@ export function NavMap({
   const modalState = React.useContext(OverlayTriggerStateContext)!;
 
   const router = useRouter();
+  const pathName = usePathname();
+  const searchParams = useSearchParams();
 
-  const [selectedLayers, setSelectedLayers] = useState<Selection>(new Set(["large-parcel-portfolios"]))
+  const layerSelection = useMemo(() => {
+    if (typeof selectedLayers === "string") {
+      return new Set([selectedLayers]);
+    }
+    return new Set(selectedLayers ?? []);
+  }, [selectedLayers]);
 
   useEffect(() => {
     if (zoomPan && bbox && mapRef.current) {
@@ -73,6 +90,23 @@ export function NavMap({
       if (!map.hasImage("stripe") && !!image) {
         map.addImage("stripe", image.data, {});
       }
+    }
+  }
+
+  function handleMenuSelection(selection: Selection) {
+    function nav(slugs: string[]) {
+      const params = new URLSearchParams(searchParams);
+      params.delete("selectedLayers");
+      slugs.forEach((slug) => {
+        params.append("selectedLayers", slug);
+      });
+      router.replace(`${pathName}?${params.toString()}`);
+    }
+
+    if (selection === "all") {
+      nav(availableLayers?.map((l) => l.slug));
+    } else {
+      nav(Array.from(selection) as string[]);
     }
   }
 
@@ -143,21 +177,18 @@ export function NavMap({
     };
   }, [classes]);
 
-
   const contextLayers = useMemo(() => {
-    if (!selectedLayers) {
-      return []
+    if (!layerSelection.size) {
+      return [];
     }
-    if (selectedLayers === 'all')
-      return availableLayers;
-    return availableLayers.filter(l => selectedLayers.has(l.slug))
-  }, [availableLayers, selectedLayers]);
+    return availableLayers.filter((l) => layerSelection.has(l.slug));
+  }, [availableLayers, layerSelection]);
 
   return (
     <Map
       id={mapID}
       initialViewState={{ zoom: 15.5 }}
-      layers={[ ...contextLayers, parcelLayer, ...layers,]}
+      layers={[...contextLayers, parcelLayer, ...layers]}
       mapTilerAPIKey={API_KEY}
       maxZoom={19}
       minZoom={11}
@@ -173,6 +204,7 @@ export function NavMap({
         [parcelLayer.slug]: [selectedParcel ?? ""],
       }}
     >
+      {/* Mobile close button */}
       <div className="absolute bottom-12 right-3 z-50 block lg:hidden">
         <Button
           className="border-2 p-1 shadow-xl"
@@ -183,6 +215,7 @@ export function NavMap({
         </Button>
       </div>
 
+      {/* Mobile controls */}
       <div className="absolute left-2.5 top-2 flex-col space-y-2">
         {!isModal && (
           <div className="mx-auto w-fit">
@@ -206,6 +239,35 @@ export function NavMap({
           <TbSquareLetterBFilled />
         </A>
       </div>
+
+      {/* Layer menu */}
+      {!!availableLayers && (
+        <div className="absolute right-12 top-12">
+          <MenuTrigger>
+            <Button icon={BiMapAlt}>Select Layers</Button>
+            <Popover>
+              <Menu
+                selectionMode="multiple"
+                onSelectionChange={handleMenuSelection}
+                selectedKeys={layerSelection}
+                disallowEmptySelection={false}
+              >
+                {availableLayers.map((l) => (
+                  <MenuItem
+                    className="group-selected:font-bold group flex items-center border-t first:border-t-0"
+                    key={l.slug}
+                    id={l.slug}
+                  >
+                    <BiCheck  className="group-selected:block hidden size-5"/>
+                    <div className="size-5 group-selected:hidden block"/>
+                    <div>{l.title}</div>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Popover>
+          </MenuTrigger>
+        </div>
+      )}
 
       <Source
         type="vector"

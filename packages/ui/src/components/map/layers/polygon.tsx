@@ -25,20 +25,10 @@ export function PolygonLayer({
   }, [layer, context]);
 
   // hide layers if they are hidden in map state
-  const visibleCategories: Selection =
-    context.visibleLayerCategories[layer.slug];
+
 
   let filter = layer.renderOptions?.filter;
 
-  if (visibleCategories !== "all") {
-    if (layer.symbology.mode === "category") {
-      filter = [
-        "in",
-        ["get", layer.symbology.field],
-        ["literal", Array.from(visibleCategories)],
-      ];
-    }
-  }
 
   return (
     <>

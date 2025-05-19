@@ -47,7 +47,7 @@ export function ControlsLegend({
           layer={item}
           selectedCategories={selectedLayers?.[item.slug]}
           onSelectionChange={
-            onSelectionChange ? onSelectionChange(item.slug) : undefined
+            onSelectionChange ? onSelectionChange(item.title) : undefined
           }
           onStyleChange={onStyleChange}
         />
@@ -144,7 +144,7 @@ export function ControlsLegendRow({
     >
       {type === GeoType.Polygon && (
         <div
-          className="h-4 w-4 rounded-sm border-2 opacity-10 group-selected:opacity-90"
+          className="h-4 w-4 rounded-sm border-2 opacity-90"
           style={{
             background: color,
             borderColor: borderColor ?? darken(20)(color ?? "black"),

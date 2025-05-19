@@ -2,12 +2,12 @@ import { NavMap } from "@/components/nav-map";
 import { PropertyDashboard } from "@/components/parcel-dashboard";
 import { MapProvider } from "@/components/map-provider";
 import { ParcelSearch } from "@/components/parcel-search";
-import React from "react";
+import React, { useMemo } from "react";
 import { MapPopup } from "@/components/map-popup";
 import { geocodeParcel } from "@wprdc/api";
 import { GeocodeResponseBody } from "@/app/api/parcels/geocode/route.ts";
 
-import { largeParcelPortfolios } from "@/layers/large-parcel-portfolios.ts";
+import {availableLayers} from '@/layers';
 
 interface Params {
   parcel: string;
@@ -16,6 +16,7 @@ interface Params {
   ownerOccupied?: string | number;
   zoomPan?: number;
   z?: number;
+  selectedLayers?: string | string[];
 }
 
 const BASE_URL = process.env.BASE_URL ?? "";
@@ -32,6 +33,7 @@ export default async function Page({
     ownerOccupied,
     z,
     zoomPan: _zoomPan,
+    selectedLayers
   } = await searchParams;
 
   const parcelID = parcel ? String(parcel) : undefined;
@@ -44,6 +46,8 @@ export default async function Page({
   );
   const data = (await response.json()) as GeocodeResponseBody;
   const { bbox } = (await geocodeParcel(parcelID ?? "")) ?? { bbox: undefined };
+
+  console.log(selectedLayers);
 
   return (
     <div className="h-full w-full xl:flex xl:content-stretch">
@@ -65,6 +69,8 @@ export default async function Page({
             classes={useClasses}
             bbox={bbox}
             zoomPan={!!zoomPan}
+            availableLayers={availableLayers}
+            selectedLayers={selectedLayers}
           />
         </div>
 

@@ -14,7 +14,7 @@ export function Section(
   >,
 ): React.ReactElement {
   return (
-    <div
+    <section
       id={props.id}
       className={twMerge(
         "group/section mt-5 scroll-mt-24 px-4 pt-2 pb-8",
@@ -29,20 +29,23 @@ export function Section(
             {props.label}
           </h2>
         )}
+
           <a href="#menu"><Button className="flex items-center"><BiChevronUpCircle/><div className="pl-">Back to Top</div></Button></a>
+
         </div>
         {!!props.description && (
-          <p className="italic group-open/section:border-black">
+          <p className="mt-2 mb-3">
             {props.description}
           </p>
         )}
       </div>
 
-      <div className="ml-2.5 box-content py-4 px-0">
+      <div className=" box-content py-4 px-0">
         {props.children}
       </div>
+
       {!!props.datasetLinks && !!props.datasetLinks.length && (
-        <section className="ml-2.5 box-content   p-4  pr-0">
+        <div className="py-4 pr-0">
           <h3 className="mb-1 text-xl font-bold">
             Source{props.datasetLinks?.length === 1 ? "" : "s"}
           </h3>
@@ -55,8 +58,8 @@ export function Section(
               </li>
             ))}
           </ul>
-        </section>
+        </div>
       )}
-    </div>
+    </section>
   );
 }

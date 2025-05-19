@@ -116,7 +116,7 @@ export function MapControls({ parcelID, bbox }: MapControlsProps) {
               <MenuItem id="images">Images</MenuItem>
               <MenuItem id="sales">Sales</MenuItem>
               <MenuItem id="assessment-appeals">Assessment Appeals</MenuItem>
-              <MenuItem id="pli-permits">Pli Permits</MenuItem>
+              <MenuItem id="pli-permits">PLI Permits</MenuItem>
               <MenuItem id="code-violations">Code Violations</MenuItem>
               <MenuItem id="condemned-properties-section">
                 Condemned Status

@@ -9,6 +9,7 @@
 
 import { MenuItem as RAMenuItem } from "react-aria-components";
 import type { MenuItemProps } from "./Menu.types";
+import { twMerge } from "tailwind-merge";
 
 export function MenuItem<T extends object>(
   props: MenuItemProps<T>,
@@ -16,7 +17,9 @@ export function MenuItem<T extends object>(
   return (
     <RAMenuItem
       {...props}
-      className="cursor-pointer px-2 py-1 outline-0 focus:bg-primary focus:font-medium focus:text-text"
+      className={
+        twMerge("cursor-pointer px-2 py-1 outline-0 focus:bg-primary focus:font-medium focus:text-text", props.className)
+      }
     >
       {props.children}
     </RAMenuItem>

@@ -13,5 +13,8 @@ export interface MenuProps<T extends object> extends RAMenuProps<T> {
   className?: string;
 }
 
-export type MenuItemProps<T extends object = object> = RAMenuItemProps<T>;
+export interface MenuItemProps<T extends object = object> extends RAMenuItemProps<T>{
+  className?: string;
+}
+
 export type MenuSectionProps<T extends object> = RASectionProps<T>;
