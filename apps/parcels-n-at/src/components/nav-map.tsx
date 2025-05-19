@@ -195,8 +195,11 @@ export function NavMap({
       onLoad={handleMapLoad}
       onNavigate={(feature: MapGeoJSONFeature) => {
         if (modalState) modalState.close();
+        const params = new URLSearchParams(searchParams);
+        params.set("parcel", feature.properties.parcel_id as string);
+
         router.push(
-          `/explore?parcel=${feature.properties.parcel_id as string}`,
+          `/explore?${params.toString()}`,
         );
       }}
       ref={mapRef}
