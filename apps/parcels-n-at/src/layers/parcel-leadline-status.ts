@@ -20,8 +20,7 @@ export const parcelLeadlineStatus: LayerConfig = {
   },
 
   tileSource: {
-    tileJSONSource:
-      "https://data.wprdc.org/tiles/map.lead_by_spatial.boundary",
+    tileJSONSource: "https://data.wprdc.org/tiles/map.lead_by_spatial.boundary",
     sourceLayer: "map.lead_by_spatial.boundary",
     minZoom: 10,
   },
@@ -103,5 +102,28 @@ export const parcelLeadlineStatus: LayerConfig = {
         [18, 4],
       ],
     },
+  },
+
+  interaction: {
+    idField: "parcel_id",
+
+    hoverPopupContent: `
+      <h1 class="text-lg font-bold">
+        <div class="font-sans leading-none">{{address}}</div>
+      </h1>
+      <div class="font-mono text-xs leading-none">{{parcel_id}}</div>
+      <div class="font-bold text-lg leading-none mt-2"><b>Public Side:</b> {{public_status}}</div>
+      <div class="font-bold text-lg leading-none mt-2"><b>Private Side:</b> {{private_status}}</div>
+      <div class="italic mt-2">Click to see details  in Explorer</div>
+    `,
+    clickPopupContent: `
+      <h1 class="text-lg font-bold">
+        <div class="font-sans leading-none">{{address}}</div>
+      </h1>
+      <div class="font-mono text-xs leading-none">{{parcel_id}}</div>
+      <div class="font-bold text-lg leading-none mt-2"><b>Public Side:</b> {{public_status}}</div>
+      <div class="font-bold text-lg leading-none mt-2"><b>Private Side:</b> {{private_status}}</div>   
+         <div class="italic mt-2">Click to see details  in Explorer</div>
+    `,
   },
 };
