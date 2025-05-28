@@ -15,7 +15,7 @@ export default function Page() {
         defaultLayers={[parcelLeadlineStatus]}
         mapTilerAPIKey={API_KEY}
         onNavigate={(feature: MapGeoJSONFeature) => {
-          router.push(`/explore?parcel=${feature.properties.parid as string}`);
+          router.push(`/explore?parcel=${feature.properties.parcel_id as string}`);
         }}
       />
     </div>

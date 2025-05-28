@@ -106,7 +106,6 @@ export const parcelLeadlineStatus: LayerConfig = {
 
   interaction: {
     idField: "parcel_id",
-
     hoverPopupContent: `
       <h1 class="text-lg font-bold">
         <div class="font-sans leading-none">{{address}}</div>
