@@ -21,9 +21,12 @@ export async function Hero({
     <>
       <div
         className={`h-full w-full bg-cover bg-center`}
-        style={{ backgroundImage: !noImage ? `url(${imgURL})` : "" }}
+        style={{
+          backgroundImage: !noImage
+            ? `url(${imgURL})`
+            : "  linear-gradient(#FCEC52, #000)",
+        }}
       >
-        {/*<div className="h-full w-full flex-col justify-end bg-gradient-to-t from-black/80 to-transparent text-white"></div>*/}
       </div>
     </>
   );

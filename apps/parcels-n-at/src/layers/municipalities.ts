@@ -38,12 +38,8 @@ export const municipalities: LayerConfig = {
       value: "#000",
     },
     opacity: {
-      mode: "zoom",
-      value: [
-        [8, 0.2],
-        [14.5, 0.2],
-        [15, 0],
-      ],
+      mode: "fixed",
+      value: 0
     },
     borderOpacity: {
       mode: "zoom",

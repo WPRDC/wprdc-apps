@@ -19,19 +19,25 @@ import { Button } from "../button";
 import { Modal, ModalOverlay } from "../modal";
 import { LayerMenu } from "../layer-menu";
 import { parseAsLegendProps } from "./parse.ts";
+import { useMap } from "react-map-gl/maplibre";
+import { useMemo } from "react";
 
 export function ControlsLegend({
   layers,
   selectedLayers,
   onSelectionChange,
   onStyleChange,
+  children
 }: ControlsLegendProps): React.ReactElement | null {
+
+  const { navMap, popupMap } = useMap();
+
   const filteredLayers = layers?.filter(
     (l: LayerConfig) => !l.renderOptions?.noLegend,
   );
 
-  // hide layer when empty
-  if (!filteredLayers?.length) {
+  // hide legend when empty
+  if (!filteredLayers?.length && !children) {
     return null;
   }
 
@@ -41,7 +47,7 @@ export function ControlsLegend({
         Legend
       </div>
 
-      {filteredLayers.map((item) => (
+      {!!filteredLayers?.length && filteredLayers.map((item) => (
         <ControlsLegendItem
           key={item.slug}
           layer={item}
@@ -52,6 +58,8 @@ export function ControlsLegend({
           onStyleChange={onStyleChange}
         />
       ))}
+
+      {!!children && <div>{children}</div>}
     </div>
   );
 }

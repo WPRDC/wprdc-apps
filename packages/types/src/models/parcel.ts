@@ -11,7 +11,7 @@ export interface ParcelIndex extends DatastoreRecord {
   state: string;
   zip: string;
   address: string;
-
+  owner_address: string;
   geom: string;
   centroid: string;
 }
@@ -19,6 +19,12 @@ export interface ParcelIndex extends DatastoreRecord {
 export type RankedParcelIndex = ParcelIndex & {
   dist: number;
 };
+
+export interface OwnerSearchRow  {
+  ownerAddress: string;
+  count: number;
+}
+
 
 export interface PropertyAssessment extends DatastoreRecord {
   PARID: string;

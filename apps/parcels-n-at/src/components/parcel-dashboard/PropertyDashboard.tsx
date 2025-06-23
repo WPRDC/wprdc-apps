@@ -27,7 +27,6 @@ import {
   MultiConnectedSection,
 } from "./components/ConnectedSection";
 import { DwellingSection } from "./sections/dwelling";
-import { Hero } from "./sections/hero";
 import { AssessedValuesSection } from "./sections/assessed-value";
 import { OwnerSection } from "./sections/owner";
 import { AssessmentAppealsSection } from "./sections/assessment-appeals";
@@ -39,12 +38,10 @@ import { TaxContextSection } from "./sections/tax-context";
 import { TaxLiensSection } from "./sections/tax-liens";
 import { ForeclosureFilingSection } from "./sections/foreclosure";
 import { ConservatorshipRecordSection } from "./sections/conservatoriship";
-import { MapControlsSection } from "./sections/map-controls";
 import { HeadingSection, HeadingSkeleton } from "./sections/headingSection";
 import { Section } from "./components/Section";
 import { PopupImage } from "@wprdc/ui";
 import { CondemnedPropertiesSection } from "@/components/parcel-dashboard/sections/condemned-properties-section.tsx";
-
 
 export interface PropertyDashboardProps {
   parcelID?: string;
@@ -56,24 +53,11 @@ export function PropertyDashboard({
   const parcelID = _parcelID ?? "0027S00125000000";
 
   return (
-    <article className="mx-auto mb-24">
-      <div className="h-64 w-full">
-        <Hero parcelID={parcelID} />
-      </div>
+    <article className="mx-auto mb-24" id="parcel-dashboard">
+      <Suspense fallback={<HeadingSkeleton />} key={parcelID}>
+        <HeadingSection parcelID={parcelID} />
+      </Suspense>
 
-      <div className="sticky top-0 z-40 -mt-24 bg-black/40 px-4 py-2 backdrop-blur-md">
-        <div className="flex-grow">
-          <Suspense fallback={<HeadingSkeleton />} key={parcelID}>
-            <HeadingSection parcelID={parcelID} />
-          </Suspense>
-        </div>
-      </div>
-
-      <div className="p-4">
-        <Suspense fallback="Loading..." key={parcelID}>
-          <MapControlsSection parcelID={parcelID} />
-        </Suspense>
-      </div>
 
       {/* Owner */}
       <ConnectedSection<PropertyAssessment>
@@ -86,6 +70,7 @@ export function PropertyDashboard({
         section={OwnerSection}
         datasetLinks={["https://data.wprdc.org/dataset/property-assessments"]}
       />
+
 
       {/* Assessed Values */}
       <ConnectedSection<PropertyAssessment>

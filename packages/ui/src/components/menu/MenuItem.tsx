@@ -17,9 +17,10 @@ export function MenuItem<T extends object>(
   return (
     <RAMenuItem
       {...props}
-      className={
-        twMerge("cursor-pointer px-2 py-1 outline-0 focus:bg-primary focus:font-medium focus:text-text", props.className)
-      }
+      className={twMerge(
+        "cursor-pointer px-2 py-1 font-medium outline-0 focus:bg-primary focus:text-text",
+        props.className,
+      )}
     >
       {props.children}
     </RAMenuItem>

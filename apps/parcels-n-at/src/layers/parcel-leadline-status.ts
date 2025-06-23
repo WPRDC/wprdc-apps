@@ -113,7 +113,7 @@ export const parcelLeadlineStatus: LayerConfig = {
       <div class="font-mono text-xs leading-none">{{parcel_id}}</div>
       <div class="font-bold text-lg leading-none mt-2"><b>Public Side:</b> {{public_status}}</div>
       <div class="font-bold text-lg leading-none mt-2"><b>Private Side:</b> {{private_status}}</div>
-      <div class="italic mt-2">Click to see details  in Explorer</div>
+      <div class="italic mt-2">Click to see details in Explorer</div>
     `,
     clickPopupContent: `
       <h1 class="text-lg font-bold">
@@ -122,7 +122,7 @@ export const parcelLeadlineStatus: LayerConfig = {
       <div class="font-mono text-xs leading-none">{{parcel_id}}</div>
       <div class="font-bold text-lg leading-none mt-2"><b>Public Side:</b> {{public_status}}</div>
       <div class="font-bold text-lg leading-none mt-2"><b>Private Side:</b> {{private_status}}</div>   
-         <div class="italic mt-2">Click to see details  in Explorer</div>
+         <div class="italic mt-2">Click to see details in Explorer</div>
     `,
   },
 };

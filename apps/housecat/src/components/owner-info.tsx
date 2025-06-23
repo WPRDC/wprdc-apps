@@ -104,6 +104,7 @@ export async function OwnerInfo({
             <A
               variant="button"
               buttonVariant="primary"
+              replace
               href={`/explore?parcel=${parcelID}&ownerAddr=${ownerAddr}`}
             >
               Highlight owner's properties on the map

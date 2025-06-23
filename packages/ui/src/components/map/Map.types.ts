@@ -129,6 +129,8 @@ export interface MapProps {
   onLoad?: () => void;
 
   defaultVisibleLayerCategories?: Record<string, Selection>;
+
+  legendExtras?: ReactNode;
 }
 
 export interface BasemapOptions {
@@ -178,6 +180,9 @@ export interface ControlsLegendProps extends LegendProps {
 
   /** Fired when symbology style modifications are submitted */
   onStyleChange?: (layer: LayerConfig) => void;
+  
+  /** Optional extra content passed as children */
+  children?: ReactNode;
 }
 
 export interface ControlsLegendItemProps extends LegendItemProps {

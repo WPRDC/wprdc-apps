@@ -34,7 +34,7 @@ import { LayerGroup } from "./LayerGroup";
 import type { MapProps } from "./Map.types";
 import { ClickPopup, HoverPopup, SimplePopupWrapper } from "./popup";
 import { extractFeatures } from "./util";
-import { throttle, debounce } from "lodash";
+import { throttle } from "lodash";
 import { Selection } from "react-aria-components";
 
 import Mustache from "mustache";
@@ -77,6 +77,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     interactiveLayerIDs: manualInteractiveLayerIDs = [],
     hoverPopup: customHoverPopup,
     defaultVisibleLayerCategories,
+    legendExtras,
   },
   ref,
 ): React.ReactElement {
@@ -342,7 +343,6 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     ? { ..._viewState, height: 0, width: 0 }
     : undefined;
 
-
   return (
     <ReactMapGL
       id={id}
@@ -421,7 +421,9 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
           selectedLayers={visibleLayerCategories}
           onSelectionChange={handleLayerVisibilityChange}
           onStyleChange={handleLayerChange}
-        />
+        >
+          {legendExtras}
+        </ControlsLegend>
       </div>
 
       {withScrollZoomControl ? (
@@ -482,7 +484,6 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
           point={clickedPoint}
         />
       )}
-
       {children}
     </ReactMapGL>
   );
