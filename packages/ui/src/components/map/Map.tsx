@@ -39,6 +39,7 @@ import { Selection } from "react-aria-components";
 
 import Mustache from "mustache";
 import { ControlsLegend } from "./ControlsLegend.tsx";
+import { GeolocateControl } from "react-map-gl/maplibre";
 
 const DEFAULT_MIN_ZOOM = 9;
 const DEFAULT_MAX_ZOOM = 22;
@@ -202,6 +203,21 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     [layers],
   );
 
+  /** Called when centering on location */
+  const handleCenterOnMyLocation = useCallback(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        if (typeof mapRef !== "function" && mapRef.current) {
+          const map = mapRef.current.getMap();
+          map.panTo({
+            lng: position.coords.longitude,
+            lat: position.coords.latitude,
+          });
+        }
+      });
+    }
+  }, [mapRef]);
+
   const handleZoom = useCallback(
     (e: ViewStateChangeEvent) => {
       // set zoom for showing on map
@@ -276,13 +292,6 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       });
     },
     [layers, visibleLayerCategories],
-  );
-
-  const handleLayerStyleChange = useCallback(
-    (layer: LayerConfig) => {
-      const layerSlug: string = layer.slug;
-    },
-    [layers],
   );
 
   // listen to keystrokes - used for controlling scroll zoom
@@ -371,6 +380,8 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       style={{ position: "relative", ...style }}
     >
       <NavigationControl showCompass visualizePitch />
+      <GeolocateControl fitBoundsOptions={{maxZoom: 18}} />
+
 
       <div className="absolute right-12 top-2 flex flex-col items-end space-y-2">
         <div>

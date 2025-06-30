@@ -9,11 +9,13 @@
 
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
-import { FaChevronUp } from "react-icons/fa6";
+import { FaX } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { twMerge } from "tailwind-merge";
 import { Logo } from "./Logo";
 import type { NavbarProps } from "./Navbar.types";
+import { Button } from "react-aria-components";
+import { TbX } from "react-icons/tb";
 
 export function Navbar({
   logoSrc,
@@ -63,7 +65,25 @@ export function Navbar({
             fullWidth ? "" : "max-w-7xl",
           )}
         >
-          <div className="flex w-full justify-between p-4 lg:w-fit">
+          <div className="flex w-full py-4 max-lg:pl-2 max-lg:pr-4 lg:w-fit lg:p-4">
+
+            <Button
+              aria-hidden
+              className="mr-4 flex flex-col px-2 lg:hidden"
+              onPress={() => {
+                setIsOpen(!isOpen);
+              }}
+              type="button"
+            >
+              <GiHamburgerMenu
+                className={classNames("size-10", isOpen ? "hidden" : "block")}
+              />
+              <TbX
+                className={classNames("size-10", isOpen ? "block" : "hidden")}
+              />
+              <div className="text-sm font-bold uppercase">Menu</div>
+            </Button>
+
             <div>
               <Logo
                 component={logoComponent}
@@ -71,28 +91,15 @@ export function Navbar({
                 imageProps={logoProps}
                 src={logoSrc}
               />
+
               <div className="mt-2">{projectTitle}</div>
             </div>
-            <button
-              aria-hidden
-              className={classNames("p-2 lg:hidden")}
-              onClick={() => {
-                setIsOpen(!isOpen);
-              }}
-              type="button"
-            >
-              <GiHamburgerMenu
-                className={classNames("text-2xl", isOpen ? "hidden" : "block")}
-              />
-              <FaChevronUp
-                className={classNames("text-2xl", isOpen ? "block" : "hidden")}
-              />
-            </button>
           </div>
+
           <nav
             className={twMerge(
-              "block w-full flex-grow overflow-hidden",
-              isOpen ? "block" : "max-lg:hidden lg:block",
+              "w-full flex-grow overflow-hidden bg-white",
+              isOpen ? "max-lg:absolute lg:block max-lg:border-b-4 border-b-black" : "max-lg:hidden lg:block",
             )}
           >
             {children}
