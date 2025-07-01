@@ -54,6 +54,8 @@ export interface SpaceRATResponse<T extends QuestionRecord = QuestionRecord> {
     stats: StatsResult<T>;
     /** Subgeog record-level data used to calculate `stats` */
     records: SpaceRATRecord[];
+    /** Error message if there is was an issue */
+    error?: string;
   };
 }
 
@@ -122,9 +124,20 @@ export async function fetchSpaceratQuery<
   T extends QuestionRecord = QuestionRecord,
 >(params: SpaceRATParams): Promise<SpaceRATResponse<T>> {
   const url = `${HOST}/answer?${new URLSearchParams(parseParams(params)).toString()}`;
-  const response = await fetch(url);
+  try {
+    const response = await fetch(url);
+    return (await response.json()) as SpaceRATResponse<T>;
+  } catch (error) {
+    console.error("SpaceRAT error", error, { url });
+    return {
+      results: {
+        stats: {},
+        records: [],
+        error: String(error),
+      },
+    };
+  }
 
-  return (await response.json()) as SpaceRATResponse<T>;
 }
 
 export interface SpaceRATRESTResponse<
