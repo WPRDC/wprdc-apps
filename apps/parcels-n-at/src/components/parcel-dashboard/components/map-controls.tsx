@@ -61,7 +61,7 @@ export function MapControls({
   useEffect(() => {
     const host = window.location.host;
     const scheme = window.location.protocol === "https:" ? "https" : "http";
-    const url = `${scheme}://${host}${pathname}?parcel=${parcelID}`;
+    const url = `${scheme}://${host}${pathname}?parcel=${parcelID}&zoomPan=1`;
     setShareURL(url);
     setEmbedCode(
       `<iframe width="800" height="600" src="${url}&zoomPan=1"></iframe>`,

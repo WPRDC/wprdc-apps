@@ -8,7 +8,7 @@ import {
   ComboBox as RAComboBox,
   Text,
 } from "react-aria-components";
-import { BiLoader, BiSearchAlt2 } from "react-icons/bi";
+import { BiSearchAlt2 } from "react-icons/bi";
 import { twMerge } from "tailwind-merge";
 import { Typography } from "../typography";
 import type { ComboBoxProps } from "./ComboBox.types";
@@ -26,6 +26,7 @@ export function ComboBox<T extends object>({
   return (
     <RAComboBox
       {...props}
+
       aria-label={label}
       className={twMerge("relative", className)}
     >

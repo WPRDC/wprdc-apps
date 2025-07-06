@@ -1,20 +1,20 @@
 export function getClassificationColor(classification: string): string {
   switch (classification) {
     case "RESIDENTIAL":
-      return "#facc15";
+      return "#14532d";
     case "COMMERCIAL":
-      return "#f87171";
+      return "#1e40af";
     case "INDUSTRIAL":
-      return "#a78bfa";
+      return "#92400e";
     case "AGRICULTURAL":
-      return "#22c55e";
+      return "#987606";
     case "GOVERNMENT":
-      return "#60a5fa";
+      return "#a21caf";
     case "OTHER":
-      return "#BEBEBE";
+      return "#44403c";
     case "UTILITIES":
-      return "#22d3ee";
+      return "#5b21b6";
     default:
-      return "#FFF";
+      return "#44403c";
   }
 }

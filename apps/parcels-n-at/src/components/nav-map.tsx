@@ -1,12 +1,23 @@
 "use client";
 
-import { A, Button, ListBox, ListBoxItem, Map, parcelLayer, Popover, } from "@wprdc/ui";
+import {
+  Button,
+  ListBox,
+  ListBoxItem,
+  Map,
+  parcelLayer,
+  Popover,
+} from "@wprdc/ui";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useRef } from "react";
-import { Layer, MapGeoJSONFeature, MapRef, Source, } from "react-map-gl/maplibre";
+import {
+  Layer,
+  MapGeoJSONFeature,
+  MapRef,
+  Source,
+} from "react-map-gl/maplibre";
 import { ParcelSearch } from "@/components/parcel-search";
 import { LayerConfig } from "@wprdc/types";
-import { TbSquareLetterAFilled, TbSquareLetterBFilled } from "react-icons/tb";
 import { MenuTrigger, OverlayTriggerStateContext } from "react-aria-components";
 import { BiCheck, BiMapAlt, BiX } from "react-icons/bi";
 import { GeocodeResponse } from "@wprdc/api";
@@ -209,6 +220,9 @@ export function NavMap({
           </MenuTrigger>
         </div>
       )}
+      <div className="absolute max-lg:hidden top-4 left-4">
+        <ParcelSearch />
+      </div>
 
       <Source
         type="vector"

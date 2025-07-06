@@ -12,7 +12,6 @@ export function ScrollTopButton({ containerID }: ScrollTopButtonProps) {
     const elem = document.getElementById(containerID);
 
     if (elem) {
-    console.log(containerID, elem);
       elem.scrollIntoView({behavior: 'smooth'});
     }
   }

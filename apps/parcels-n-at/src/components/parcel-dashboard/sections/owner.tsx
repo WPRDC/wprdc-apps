@@ -55,7 +55,7 @@ export async function OwnerInfo({
   assessmentRecord,
 }: OwnerInfoProps): Promise<React.ReactElement> {
   const owner = await fetchOwnerName(parcelID);
-  const ownerSearch = `${(assessmentRecord.CHANGENOTICEADDRESS1 ?? "").replace(
+  const ownerSearch = `${(assessmentRecord.CHANGENOTICEADDRESS1 ?? "").trim().replace(
     /\s+/g,
     " ",
   )}%`;
@@ -97,7 +97,7 @@ export async function OwnerInfo({
           </div>
         </address>
         <section className="mt-4">
-          <h3 className="mb-1 text-2xl font-bold">Summary of Holdings</h3>
+          <h3 className="mb-1 text-2xl font-bold">Summary of Holdings in Allegheny County</h3>
           {(!!error || !mainStats) ? (
             <Typography.Note>
               There was an error getting aggregate statistics. If this error
@@ -125,7 +125,7 @@ export async function OwnerInfo({
             />
 
             <div className="mt-4">
-              <h4 className="-ml-1 px-1 text-xl font-bold">Other Properties</h4>
+              <h4 className="-ml-1 px-1 text-xl font-bold">Other Properties in Allegheny County</h4>
               <div className="box-content border-stone-600 py-3.5 pr-0">
                 {!!otherPropertyRecords.length ? (
                   <ul className="max-h-64 w-fit overflow-auto rounded-sm border border-black bg-white">

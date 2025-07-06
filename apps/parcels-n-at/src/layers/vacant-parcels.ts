@@ -27,7 +27,6 @@ export const vacantParcels: LayerConfig = {
   },
   renderOptions: {
     filter: ["==", "is_vacant", true],
-    noLegend: true,
   },
   symbology: {
     mode: "simple",

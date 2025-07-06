@@ -47,8 +47,6 @@ export default async function Page({
   const data = (await response.json()) as GeocodeResponseBody;
   const { bbox } = (await geocodeParcel(parcelID ?? "")) ?? { bbox: undefined };
 
-  console.log(selectedLayers);
-
   return (
     <div className="h-full w-full xl:flex xl:content-stretch">
       {!!parcel && (

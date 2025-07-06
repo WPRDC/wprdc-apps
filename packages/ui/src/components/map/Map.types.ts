@@ -13,9 +13,6 @@ import {
 
 import type {
   ColorSpecification,
-  DataDrivenPropertyValueSpecification,
-  ExpressionSpecification,
-  SourceFunctionSpecification,
 } from "@maplibre/maplibre-gl-style-spec";
 import type {
   GeoType,
@@ -23,7 +20,6 @@ import type {
   MapState,
   SelectionRecord,
 } from "@wprdc/types";
-import { StyleValue } from "@wprdc/types";
 import type * as React from "react";
 import { type ReactNode } from "react";
 import type { Selection } from "react-aria-components";
