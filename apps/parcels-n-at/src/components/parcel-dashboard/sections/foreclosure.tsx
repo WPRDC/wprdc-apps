@@ -14,7 +14,7 @@ export function ForeclosureFilingSection({
   return (
     <CardList>
       {records.map((record) => (
-        <Card>
+        <Card key={`${record.case_id}${record.docket_type}${record.filing_date}`}>
           <article>
             <h3 className="mb-1 text-2xl font-bold">
               <span>Case #:</span>{" "}

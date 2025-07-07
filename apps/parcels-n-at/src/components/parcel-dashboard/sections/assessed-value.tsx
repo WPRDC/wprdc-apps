@@ -1,4 +1,5 @@
 import type { PropertyAssessment } from "@wprdc/types";
+import { VisualizationSpec } from "@wprdc/types";
 import { useMemo } from "react";
 import {
   ChartViz,
@@ -9,7 +10,6 @@ import {
   Table,
 } from "@wprdc/ui";
 import type { SectionProps } from "../types";
-import { VisualizationSpec } from "@wprdc/types";
 import {
   TbBuilding,
   TbHomeHeart,
@@ -105,40 +105,65 @@ export function AssessedValuesSection({
       </div>
 
       <section>
-        <h3 className="mb-1 mt-3.5 text-lg font-bold">Subsidies</h3>
-        <Chip
-          className="ml-1 inline-flex first:ml-0"
-          icon={record.HOMESTEADFLAG === "HOM" ? TbHomeHeart : TbX}
-          info={fields.HOMESTEADFLAG.info?.notes}
-          label="Homestead"
-          color={record.HOMESTEADFLAG === "HOM" ? "#fdcdac" : "#CCC"}
-          textColor={record.HOMESTEADFLAG === "HOM" ? "#000" : "#999"}
-        />
+        <h3 className="mb-1 mt-3.5 text-lg font-bold">County Tax Exemptions</h3>
 
-        <Chip
-          className="ml-1 inline-flex first:ml-0"
-          icon={record.FARMSTEADFLAG === "FRM" ? GiFarmTractor : TbX}
-          info={fields.FARMSTEADFLAG.info?.notes}
-          label="Farmstead"
-          color={record.FARMSTEADFLAG === "FRM" ? "#cbd5e8" : "#CCC"}
-          textColor={record.HOMESTEADFLAG === "FRM" ? "#000" : "#999"}
-        />
-        <Chip
-          className="ml-1 inline-flex first:ml-0"
-          icon={record.HOMESTEADFLAG === "Y" ? TbLeaf : TbX}
-          info={fields.CLEANGREEN.info?.notes}
-          label="Clean & Green"
-          color={record.HOMESTEADFLAG === "Y" ? "#b3e2cd" : "#CCC"}
-          textColor={record.HOMESTEADFLAG === "Y" ? "#000" : "#999"}
-        />
-        <Chip
-          className="ml-1 inline-flex first:ml-0"
-          icon={record.HOMESTEADFLAG === "Y" ? TbPigMoney : TbX}
-          info={fields.ABATEMENTFLAG.info?.notes}
-          label="Receives Abatement"
-          color={record.HOMESTEADFLAG === "Y" ? "#f4cae4" : "#CCC"}
-          textColor={record.HOMESTEADFLAG === "Y" ? "#000" : "#999"}
-        />
+        {record.HOMESTEADFLAG === "HOM" && (
+          <Chip
+            className="ml-1 inline-flex first:ml-0"
+            icon={record.HOMESTEADFLAG === "HOM" ? TbHomeHeart : TbX}
+            info={fields.HOMESTEADFLAG.info?.notes}
+            label="Homestead"
+            color={record.HOMESTEADFLAG === "HOM" ? "#fdcdac" : "#CCC"}
+            textColor={record.HOMESTEADFLAG === "HOM" ? "#000" : "#999"}
+          />
+        )}
+
+        {record.FARMSTEADFLAG === "FRM" && (
+          <Chip
+            className="ml-1 inline-flex first:ml-0"
+            icon={record.FARMSTEADFLAG === "FRM" ? GiFarmTractor : TbX}
+            info={fields.FARMSTEADFLAG.info?.notes}
+            label="Farmstead"
+            color={record.FARMSTEADFLAG === "FRM" ? "#cbd5e8" : "#CCC"}
+            textColor={record.FARMSTEADFLAG === "FRM" ? "#000" : "#999"}
+          />
+        )}
+        {record.CLEANGREEN === "Y" && (
+          <Chip
+            className="ml-1 inline-flex first:ml-0"
+            icon={record.CLEANGREEN === "Y" ? TbLeaf : TbX}
+            info={fields.CLEANGREEN.info?.notes}
+            label="Clean & Green"
+            color={record.CLEANGREEN === "Y" ? "#b3e2cd" : "#CCC"}
+            textColor={record.CLEANGREEN === "Y" ? "#000" : "#999"}
+          />
+        )}
+        {record.ABATEMENTFLAG === "Y" && (
+          <Chip
+            className="ml-1 inline-flex first:ml-0"
+            icon={record.ABATEMENTFLAG === "Y" ? TbPigMoney : TbX}
+            info={fields.ABATEMENTFLAG.info?.notes}
+            label="Receives Abatement"
+            color={record.ABATEMENTFLAG === "Y" ? "#f4cae4" : "#CCC"}
+            textColor={record.ABATEMENTFLAG === "Y" ? "#000" : "#999"}
+          />
+        )}
+
+        <div className="mt-4">
+          <SingleValueVizCollection
+            items={[
+              {
+                id: "county-bldg-exempt",
+                label: "Other Exemption Amount",
+                icon: TbReportMoney,
+                value: record.COUNTYEXEMPTBLDG,
+                info: fields.COUNTYEXEMPTBLDG.info?.notes,
+                format: formatDollars,
+              },
+            ]}
+          />
+        </div>
+
       </section>
 
       <section className="max-w-lg">

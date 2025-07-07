@@ -14,6 +14,7 @@ import {
   TabPanel,
   Tabs,
 } from "@wprdc/ui";
+
 import { useCallback, useMemo, useRef, useState } from "react";
 import type { Key } from "react-stately";
 import { TbCodeDots, TbDownload, TbList, TbMap } from "react-icons/tb";
@@ -41,6 +42,8 @@ export default function Page(): React.ReactElement {
       drawnAreas: [],
     });
 
+  const [downloading, setDownloading] = useState(false);
+
   const [fieldSelection, setFieldSelection] = useState<
     Record<string, "all" | Key[]>
   >({});
@@ -51,7 +54,7 @@ export default function Page(): React.ReactElement {
       drawnAreas: JSON.stringify(parcelSelection.drawnAreas),
       fieldSelection: JSON.stringify(fieldSelection),
     });
-
+    setDownloading(true);
     fetch(`/api/parcels/?${params.toString()}`)
       .then((response) => response.blob())
       .then((blob) => {
@@ -69,6 +72,9 @@ export default function Page(): React.ReactElement {
       .catch((err: unknown) => {
         // eslint-disable-next-line no-console -- for debugging
         console.error(err);
+      })
+      .finally(() => {
+        setDownloading(false);
       });
   }
 
@@ -306,12 +312,18 @@ export default function Page(): React.ReactElement {
               {/* eslint-disable-next-line jsx-a11y/anchor-has-content,jsx-a11y/anchor-is-valid -- workaround used for download triggered by button  */}
               <a className="hidden" ref={linkRef} />
               <Button
-                className="mx-0 mt-2 flex min-w-52 items-center justify-center space-x-1 p-2"
+                variant="primary"
+                className="min-w-52 mx-0 mt-2 p-0"
                 isDisabled={!downloadEnabled}
                 onPress={handleDownload}
               >
-                <TbDownload className="size-6" />
-                <div className="text-2xl">Download</div>
+                <div className="flex items-center justify-center space-x-1 pt-1">
+                  <TbDownload className="size-6" />
+                  <div className="text-2xl">Download</div>
+                </div>
+                <div className="h-[4px]">
+                  {downloading && <Spinner color="#0e7490" className="w-full" line />}
+                </div>
               </Button>
 
               <div className="min-h-5">

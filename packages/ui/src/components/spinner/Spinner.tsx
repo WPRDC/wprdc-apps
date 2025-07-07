@@ -7,10 +7,12 @@
  */
 
 import ScaleLoader from "react-spinners/ScaleLoader";
+import BarLoader from "react-spinners/BarLoader";
 import type { SpinnerProps } from "./Spinner.types";
 
 export function Spinner({
   size = "M",
+  line,
   ...props
 }: SpinnerProps): React.ReactElement {
   let height = 35;
@@ -30,6 +32,11 @@ export function Spinner({
     case "M":
     default:
   }
+
+  if (line) {
+    return <BarLoader width="100%"></BarLoader>;
+  }
+
   return (
     <>
       <div className="block dark:hidden">

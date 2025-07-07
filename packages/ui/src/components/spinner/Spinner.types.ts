@@ -11,6 +11,7 @@ import type {
 
 export interface SpinnerProps extends LoaderHeightWidthRadiusProps {
   size?: Size;
+  line?: boolean;
 }
 
 export interface LoaderProps extends LoaderHeightWidthProps {

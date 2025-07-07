@@ -22,10 +22,10 @@ import { CondemnedStatus } from "@wprdc/types/src";
 export enum ParcelTable {
   Assessment = "property_assessments",
   PropertySaleTransactions = "5bbe6c55-bce6-4edb-9d04-68edeb6bf7b1",
-  AssessmentAppeals = "8e92a566-b52b-4d10-9fb5-c18b883cd926",
-  FiledAssessmentAppeals = "12e00874-bdca-46c2-89ab-bd0e9272b3cb",
+  AssessmentAppeals = "8a7607fb-c93e-4d7a-9b23-528b5c25b1de",
+  FiledAssessmentAppeals = "90432617-9b09-4084-919b-02aa002b6512",
   PLIPermit = "f4d1177a-f597-4c32-8cbf-7885f56253f6",
-  CityViolations = "city_violations",
+  CityViolations = "70c06278-92c5-4040-ab28-17671866f81c",
   ForeclosureFilings = "foreclosure_filings",
   TaxLiensWithCurrentStatus = "tax_liens_with_current_status",
   ConservatorshipRecord = "conservatorship_record",

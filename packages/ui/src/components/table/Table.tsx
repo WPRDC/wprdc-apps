@@ -1,18 +1,28 @@
 import type { FormattedValue, Formatter, Value } from "@wprdc/types";
-import type { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 import type { TableProps } from "./Table.types";
+import { InfoTooltip } from "../tooltip";
 
 export function Table<T extends Value = Value>({
   label,
-  columns,
+  columns: _columns,
   rows,
   data,
   format,
   totalRow = false,
   totalCol = false,
-  rowLabel,
+  rowLabel: _rowLabel,
 }: TableProps): null | React.ReactElement {
+  const [rowLabel, rowLabelInfo] =
+    typeof _rowLabel === "string"
+      ? [_rowLabel, null]
+      : [_rowLabel?.label, _rowLabel?.info];
+
+  let columns: { label: string; info?: string }[] | undefined = _columns?.map((col) =>
+    typeof col === "string" ? { label: col } : col,
+  );
+
   return (
     <table className="w-full table-fixed border border-black font-mono text-sm">
       {!!label && <caption className="italic">{label}</caption>}
@@ -21,7 +31,10 @@ export function Table<T extends Value = Value>({
         <thead>
           <tr className="bg-black">
             {rows ? (
-              <th className="px-3 text-left text-white">{rowLabel}</th>
+              <th className="px-3 text-left text-white">
+                {rowLabel}
+                {!!rowLabelInfo && <InfoTooltip size="S" info={rowLabelInfo} />}
+              </th>
             ) : null}
 
             {columns.map((col, c) => (
@@ -32,15 +45,17 @@ export function Table<T extends Value = Value>({
                     ? "border-l-2 text-primary"
                     : "text-white",
                 )}
-                key={col}
+                key={col.label}
                 scope="col"
               >
-                {col}
+                {col.label}
+                {!!col.info && <InfoTooltip size="S" info={col.info} />}
               </th>
             ))}
           </tr>
         </thead>
       )}
+
 
       <tbody>
         {data.map((row, i) => (

@@ -12,6 +12,7 @@ interface SimpleSalesRecord {
   type?: string;
 }
 
+
 export function SalesSection({
   sales,
   assessment,
@@ -64,9 +65,6 @@ export function SalesSection({
     }
   }
 
-  if (!recordSales.length)
-    return <Typography.Note>No transactions found</Typography.Note>;
-
   const orderedSales = recordSales
     .sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
     .reverse();
@@ -74,9 +72,15 @@ export function SalesSection({
   return (
     <div className="max-w-lg">
       <Table
-        columns={["Price", "Type"]}
+        columns={[
+          { label: "Price", info: assessment.fields.SALEPRICE.info?.notes },
+          { label: "Type", info: assessment.fields.SALEDESC.info?.notes },
+        ]}
         rows={orderedSales.map(({ date }) => formatDate(date) as string)}
-        rowLabel={"Sale Date"}
+        rowLabel={{
+          label: "Sale Date",
+          info: assessment.fields.SALEDATE.info?.notes,
+        }}
         data={orderedSales.map(({ date, price, type }) => [
           formatDollars(price),
           {

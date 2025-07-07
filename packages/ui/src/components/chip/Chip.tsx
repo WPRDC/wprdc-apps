@@ -6,6 +6,7 @@ import {
 } from "react-icons/pi";
 import { twMerge } from "tailwind-merge";
 import type { ChipProps } from "./Chip.types";
+import { InfoTooltip } from "../tooltip";
 
 export function Chip({
   label,
@@ -49,6 +50,7 @@ export function Chip({
         {!Icon && variant === "danger" && <PiWarningOctagonDuotone />}
         <span>{label}</span>
       </span>
+      {!!info && <InfoTooltip info={info} />}
     </Elem>
   );
 }

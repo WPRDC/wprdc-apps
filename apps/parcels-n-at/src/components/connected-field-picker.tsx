@@ -1,6 +1,6 @@
 "use client";
 
-import { FieldPicker } from "@wprdc/ui";
+import { FieldPicker, Spinner } from "@wprdc/ui";
 import type { DatastoreField, DatastoreRecord } from "@wprdc/types";
 import type { ParcelTable } from "@wprdc/api";
 import type { Selection } from "react-aria-components";
@@ -42,7 +42,15 @@ export function ConnectedFieldPicker<
       });
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div>
+        <div>
+          <Spinner size="L" />
+        </div>
+        <div>Loading...</div>
+      </div>
+    );
   if (fields) {
     return (
       <FieldPicker

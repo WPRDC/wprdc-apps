@@ -16,7 +16,7 @@ export function FieldPickerItem<T extends DatastoreRecord = DatastoreRecord>({
     <ListBoxItem
       {...props}
       className={
-        "flex border border-transparent px-1.5 py-1.5 hover:bg-stone-100 focus:border-blue-600 focus:bg-stone-100 focus:ring-1 focus:ring-blue-600 selected:border-gray-400 selected:bg-sky-300/30 selected:hover:bg-sky-300/50 selected:focus:border-blue-600 selected:focus:bg-sky-300/70"
+        "flex border cursor-default border-transparent px-1.5 py-1.5 hover:bg-stone-100 focus:border-blue-600 focus:bg-stone-100 focus:ring-1 focus:ring-blue-600 selected:border-gray-400 selected:bg-sky-300/30 selected:hover:bg-sky-300/50 selected:focus:border-blue-600 selected:focus:bg-sky-300/70"
       }
       textValue={fieldName}
     >
