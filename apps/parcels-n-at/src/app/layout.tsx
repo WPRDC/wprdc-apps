@@ -35,7 +35,7 @@ export default function RootLayout({
           logoSrc="/wprdc-mark-light.png"
           projectTitle={
             <div className="bg-primary w-fit rounded-sm border border-stone-400 px-1.5 py-0 font-mono text-lg font-black">
-              Parcels n&apos;at
+              Parcels N&apos;at
             </div>
           }
         >
