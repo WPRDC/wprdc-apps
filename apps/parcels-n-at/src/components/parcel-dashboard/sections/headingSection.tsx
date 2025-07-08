@@ -6,6 +6,7 @@ import { PropertyAssessment } from "@wprdc/types";
 import { GeocodeResponseBody } from "@/app/api/parcels/geocode/route.ts";
 import { Hero } from "@/components/parcel-dashboard/sections/hero.tsx";
 import { MapControls } from "@/components/parcel-dashboard/components/map-controls.tsx";
+import { ClassChip } from "@/components/parcel-dashboard/components/ClassChip.tsx";
 
 const BASE_URL = process.env.BASE_URL ?? "";
 
@@ -33,9 +34,13 @@ export async function HeadingSection({
 
   return (
     <div>
-      <div className="h-64 w-full" id="dashboard-top">
+      <div className="relative h-64 w-full" id="dashboard-top">
         <Hero parcelID={parcelID} />
-        <div className="sticky top-0 z-40 -mt-24 bg-black/40 px-4 py-2 backdrop-blur-md">
+        <div className="absolute left-4 top-4 flex flex-col space-y-2">
+          <ClassChip parcelClass={assessmentRecord?.CLASSDESC} />
+          <ClassChip parcelClass={assessmentRecord?.USEDESC} />
+        </div>
+        <div className="top-0 z-40 -mt-28 bg-black/40 px-4 py-2 backdrop-blur-md">
           <div className="flex-grow">
             <h1 className="">
               <div className={twMerge(baseTextStyle, "mb-1 text-5xl")}>
@@ -44,11 +49,13 @@ export async function HeadingSection({
               <div className={twMerge(baseTextStyle, "text-xl")}>
                 {cityLine}
               </div>
+              <div className="mono text-sm text-white">{parcelID}</div>
             </h1>
           </div>
         </div>
       </div>
-      <div className="py-2 px-4">
+
+      <div className="px-4 pt-4">
         <MapControls
           address={`${addressLine} ${cityLine}`}
           bbox={bbox}

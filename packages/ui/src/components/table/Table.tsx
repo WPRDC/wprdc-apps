@@ -33,7 +33,7 @@ export function Table<T extends Value = Value>({
             {rows ? (
               <th className="px-3 text-left text-white">
                 {rowLabel}
-                {!!rowLabelInfo && <InfoTooltip size="S" info={rowLabelInfo} />}
+                {!!rowLabelInfo && <InfoTooltip dark size="S" info={rowLabelInfo} />}
               </th>
             ) : null}
 
@@ -49,7 +49,7 @@ export function Table<T extends Value = Value>({
                 scope="col"
               >
                 {col.label}
-                {!!col.info && <InfoTooltip size="S" info={col.info} />}
+                {!!col.info && <InfoTooltip dark size="S" info={col.info} />}
               </th>
             ))}
           </tr>

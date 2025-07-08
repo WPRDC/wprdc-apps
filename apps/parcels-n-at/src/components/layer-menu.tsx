@@ -7,6 +7,7 @@ import {
   A,
   Button,
   Dialog,
+  InfoTooltip,
   ListBox,
   ListBoxItem,
   Modal,
@@ -154,14 +155,19 @@ export function LayerMenu({
                               <BiCheck className="group-selected:block hidden size-5 text-green-900" />
                               <div className="group-selected:hidden block size-5" />
                               <div className="font-semibold">{l.title}</div>
+                              {!!l.source.url && (
+                                <InfoTooltip
+                                  info={
+                                    <A external href={l.source.url}>
+                                      Source Dataset
+                                    </A>
+                                  }
+                                />
+                              )}
                             </div>
                             <div className="ml-5 text-xs italic">
                               {l.description}
                             </div>
-
-                            <A className="ml-5" external href={l.source.url}>
-                              Learn More
-                            </A>
                           </ListBoxItem>
                         ))}
                       </ListBox>

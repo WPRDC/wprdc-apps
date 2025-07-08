@@ -57,7 +57,7 @@ export function SingleValueViz<T extends Value>({
           </dt>
         </div>
         <div className="py-0.5 leading-none">
-          {!!info && <InfoTooltip size="S" info={info} />}
+          {!!info && <InfoTooltip dark size="S" info={info} />}
         </div>
       </div>
 

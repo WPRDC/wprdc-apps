@@ -26,22 +26,17 @@ export function PopupImage({
     <div className={twMerge("h-full w-full max-w-full", className)}>
       <DialogTrigger>
         <Button className="relative h-full w-full border border-stone-800 shadow-lg active:shadow-sm hover:shadow-2xl dark:border-textSecondaryDark">
-          <Image {...thumbnailProps} fill />
+          <Image {...thumbnailProps} fill  objectFit="cover"/>
         </Button>
         <ModalOverlay isDismissable>
-          <Modal isDismissable className="w-fit p-0">
-            <Dialog className="mx-auto h-fit w-fit p-0">
+          <Modal isDismissable className="p-0 h-3/4 aspect-4/3">
+            <Dialog className="mx-auto p-0  relative h-full">
               {({ close }) => (
                 <figure>
                   <Image
                     {...detailProps}
-                    sizes="100vw"
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                    }}
-                    width={1200}
-                    height={300}
+                    fill={true}
+                    objectFit="contain"
                     onClick={close}
                   />
                   {!!caption && (

@@ -16,7 +16,7 @@ export const parcelUseClasses: LayerConfig = {
   source: {
     slug: "use-classes-sc",
     title: "Parcel Use Class",
-    url: "",
+    url: "https://data.wprdc.org/dataset/property-assessments",
     resourceID: "",
   },
 

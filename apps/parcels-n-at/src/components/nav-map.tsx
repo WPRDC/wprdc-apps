@@ -60,11 +60,13 @@ export function NavMap({
     return new Set(selectedLayers ?? []);
   }, [selectedLayers]);
 
+  // fit bounds on props change
   useEffect(() => {
     if (zoomPan && bbox && mapRef.current) {
       mapRef.current.fitBounds(bbox, { padding: 30 });
     }
-  }, [bbox]);
+  }, [bbox, zoomPan]);
+
 
   async function handleMapLoad() {
     if (mapRef.current) {
@@ -76,6 +78,10 @@ export function NavMap({
 
       if (!map.hasImage("stripe") && !!image) {
         map.addImage("stripe", image.data, {});
+      }
+      // fit bounds on map load
+      if (zoomPan && bbox) {
+        mapRef.current.fitBounds(bbox, { padding: 30 });
       }
     }
   }
@@ -97,7 +103,7 @@ export function NavMap({
     <Map
       id={mapID}
       initialViewState={{ zoom: 15.5 }}
-      layers={[ ...contextLayers, ...layers, parcelLayer]}
+      layers={[ ...contextLayers, parcelLayer, ...layers]}
       mapTilerAPIKey={API_KEY}
       maxZoom={19}
       minZoom={11}
@@ -105,6 +111,7 @@ export function NavMap({
       onNavigate={(feature: MapGeoJSONFeature) => {
         if (modalState) modalState.close();
         const params = new URLSearchParams(searchParams);
+        params.delete('zoomPan')
         params.set("parcel", feature.properties.parcel_id as string);
 
         router.push(`/explore?${params.toString()}`);

@@ -15,7 +15,7 @@ export const vacantParcels: LayerConfig = {
   source: {
     slug: "vacant-parcels",
     title: "Vacant Parcels",
-    url: "",
+    url: "https://data.wprdc.org/dataset/property-assessments",
     resourceID: "",
   },
 

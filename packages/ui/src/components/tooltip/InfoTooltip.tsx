@@ -6,18 +6,20 @@ import { BiInfoCircle } from "react-icons/bi";
 import { TiInfoLarge as InfoIcon } from "react-icons/ti";
 import type { InfoTooltipProps } from "./InfoTooltip.types";
 import { Popover } from "./Popover";
+import { FaInfo } from "react-icons/fa6";
 
 export function InfoTooltip({
   info,
   size = "S",
+  dark = false
 }: InfoTooltipProps): React.ReactElement {
   return (
     <DialogTrigger>
-      <Button className="text-cyan-600 hover:text-cyan-400">
+      <Button className="">
         {size === "S" ? (
-          <InfoIcon className="size-3" />
+          <FaInfo className="size-3" style={{color: dark ? "#22d3ee": "#0e7490"}} />
         ) : (
-          <BiInfoCircle className="size-5" />
+          <BiInfoCircle className="size-5" style={{color: dark ? "#22d3ee": "#0e7490"}} />
         )}
       </Button>
       <Popover>

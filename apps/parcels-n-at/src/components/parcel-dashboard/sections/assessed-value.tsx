@@ -8,6 +8,7 @@ import {
   SingleValueVizCollection,
   SingleValueVizProps,
   Table,
+  Typography,
 } from "@wprdc/ui";
 import type { SectionProps } from "../types";
 import {
@@ -106,6 +107,12 @@ export function AssessedValuesSection({
 
       <section>
         <h3 className="mb-1 mt-3.5 text-lg font-bold">County Tax Exemptions</h3>
+        {record.HOMESTEADFLAG !== "HOM" &&
+          record.FARMSTEADFLAG !== "FRM" &&
+          record.CLEANGREEN !== "Y" &&
+          record.ABATEMENTFLAG !== "Y" && (
+            <Typography.Note>No standard exemptions</Typography.Note>
+          )}
 
         {record.HOMESTEADFLAG === "HOM" && (
           <Chip
@@ -163,7 +170,6 @@ export function AssessedValuesSection({
             ]}
           />
         </div>
-
       </section>
 
       <section className="max-w-lg">
