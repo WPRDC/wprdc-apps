@@ -13,7 +13,7 @@ import {
   SearchField,
   Text,
 } from "react-aria-components";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getClassificationColor } from "@/components/parcel-dashboard";
 import { useCallback } from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
@@ -23,6 +23,8 @@ const BASE_URL = process.env.BASE_URL ?? "";
 
 export function ParcelSearch(): React.ReactElement {
   const router = useRouter();
+  const pathName = usePathname();
+  const searchParams = useSearchParams();
 
   const list: AsyncListData<RankedParcelIndex> =
     useAsyncList<RankedParcelIndex>({
@@ -54,10 +56,18 @@ export function ParcelSearch(): React.ReactElement {
       // clear search
       list.setFilterText("");
 
+      const params = new URLSearchParams(searchParams);
+      params.delete("zoomPan");
+      params.append("zoomPan", 1)
+
       // extract selected key and navigate
       const key =
         typeof keys === "string" ? list.items[0] : Array.from(keys)[0];
-      if (key) router.push(`/explore?parcel=${key.toString()}&zoomPan=1`);
+
+      params.delete("parcel")
+      params.append('parcel', key.toString());
+
+      if (key) router.push(`/explore?${params.toString()}`);
     },
     [list],
   );
