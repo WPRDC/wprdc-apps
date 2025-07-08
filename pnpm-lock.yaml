@@ -61,8 +61,8 @@ importers:
         specifier: ^8.0.1
         version: 8.0.1(mapbox-gl@3.10.0)(maplibre-gl@5.2.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react-stately:
-        specifier: ^3.36.1
-        version: 3.36.1(react@19.0.0)
+        specifier: ^3.39.0
+        version: 3.39.0(react@19.0.0)
       server-only:
         specifier: ^0.0.1
         version: 0.0.1
@@ -158,8 +158,8 @@ importers:
         specifier: ^8.0.1
         version: 8.0.1(mapbox-gl@3.10.0)(maplibre-gl@5.2.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react-stately:
-        specifier: ^3.36.1
-        version: 3.36.1(react@19.0.0)
+        specifier: ^3.39.0
+        version: 3.39.0(react@19.0.0)
       tailwind-merge:
         specifier: ^2.6.0
         version: 2.6.0
@@ -650,6 +650,9 @@ importers:
       react-map-gl:
         specifier: ^8.0.4
         version: 8.0.4(mapbox-gl@3.10.0)(maplibre-gl@5.6.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      react-markdown:
+        specifier: ^10.1.0
+        version: 10.1.0(@types/react@19.0.12)(react@19.0.0)
       react-querybuilder:
         specifier: ^7.7.1
         version: 7.7.1(@types/react@19.0.12)(react@19.0.0)(redux@5.0.1)
@@ -3195,11 +3198,6 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
-  '@react-stately/data@3.12.2':
-    resolution: {integrity: sha512-u0yQkISnPyR5RjpNJCSxyC28bx/UvUKtVYRH5yx/MtXbP+2Byn7ItQ+evRqpJB5XsWFlyohGebgbXvL3JSBVsg==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
   '@react-stately/data@3.13.1':
     resolution: {integrity: sha512-hKEvHCM/nHM6FFJz3gT6Ms85H+qNhXfHDYP/TU7XiDoeVHzUpj2Yc3xGsIty6/K2k7jrblUj+LuKmdvidd9mug==}
     peerDependencies:
@@ -3380,11 +3378,6 @@ packages:
 
   '@react-stately/tabs@3.8.3':
     resolution: {integrity: sha512-FujQCHppXyeHs2v5FESekxodsBJ5T0k1f7sm0ViNYqgrnE5XwqX8Y4/tdr0fqGF6S+BBllH+Q9yKWipDc6OM8g==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/toast@3.0.0':
-    resolution: {integrity: sha512-g7e4hNO9E6kOqyBeLRAfZBihp1EIQikmaH3Uj/OZJXKvIDKJlNlpvwstUIcmEuEzqA1Uru78ozxIVWh3pg9ubg==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
@@ -9181,6 +9174,12 @@ packages:
       maplibre-gl:
         optional: true
 
+  react-markdown@10.1.0:
+    resolution: {integrity: sha512-qKxVopLT/TyA6BX3Ue5NwabOsAzm0Q7kAPwq6L+wWDwisYs7R8vZ0nRXqq6rkueboxpkjvLGU9fWifiX/ZZFxQ==}
+    peerDependencies:
+      '@types/react': '>=18'
+      react: '>=18'
+
   react-markdown@9.1.0:
     resolution: {integrity: sha512-xaijuJB0kzGiUdG7nc2MOMDUDBWPyGAjZtUrow9XxUeua8IqeP+VlIfAZ3bphpcLTnSZXz6z9jcVC/TCwbfgdw==}
     peerDependencies:
@@ -9303,11 +9302,6 @@ packages:
     peerDependencies:
       react: ^16.0.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
-
-  react-stately@3.36.1:
-    resolution: {integrity: sha512-H9kiGAylNec/iE5qk7qQLV1cvtSAIVq3mgt87zx2EA+f+/sYy2oBtchFPaDiBf/m7xMEKf0Fr9zSLU6G99xQ8g==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
   react-stately@3.39.0:
     resolution: {integrity: sha512-/8JC3Tmj7G8fHn47F88c6t5kFNhQAufwqjEKxYeNi7TPz9UL+35BeoH1poMmDHJsPz8qM/z4sWMzaW5AwYK8lQ==}
@@ -12102,7 +12096,7 @@ snapshots:
 
   '@koa/router@12.0.2':
     dependencies:
-      debug: 4.3.4
+      debug: 4.4.0(supports-color@5.5.0)
       http-errors: 2.0.0
       koa-compose: 4.1.0
       methods: 1.1.2
@@ -14942,12 +14936,6 @@ snapshots:
       '@swc/helpers': 0.5.15
       react: 19.0.0
 
-  '@react-stately/data@3.12.2(react@19.0.0)':
-    dependencies:
-      '@react-types/shared': 3.30.0(react@19.0.0)
-      '@swc/helpers': 0.5.15
-      react: 19.0.0
-
   '@react-stately/data@3.13.1(react@19.0.0)':
     dependencies:
       '@react-types/shared': 3.30.0(react@19.0.0)
@@ -15259,12 +15247,6 @@ snapshots:
       '@react-types/tabs': 3.3.16(react@19.0.0)
       '@swc/helpers': 0.5.15
       react: 19.0.0
-
-  '@react-stately/toast@3.0.0(react@19.0.0)':
-    dependencies:
-      '@swc/helpers': 0.5.15
-      react: 19.0.0
-      use-sync-external-store: 1.4.0(react@19.0.0)
 
   '@react-stately/toast@3.1.1(react@19.0.0)':
     dependencies:
@@ -21871,7 +21853,7 @@ snapshots:
   koa-session@6.4.0:
     dependencies:
       crc: 3.8.0
-      debug: 4.3.4
+      debug: 4.4.0(supports-color@5.5.0)
       is-type-of: 1.4.0
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -21893,7 +21875,7 @@ snapshots:
       content-disposition: 0.5.4
       content-type: 1.0.5
       cookies: 0.9.1
-      debug: 4.3.4
+      debug: 4.4.0(supports-color@5.5.0)
       delegates: 1.0.0
       depd: 2.0.0
       destroy: 1.2.0
@@ -23642,7 +23624,7 @@ snapshots:
       react: 19.0.0
       react-aria: 3.38.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react-dom: 19.0.0(react@19.0.0)
-      react-stately: 3.36.1(react@19.0.0)
+      react-stately: 3.39.0(react@19.0.0)
       use-sync-external-store: 1.4.0(react@19.0.0)
 
   react-aria@3.38.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
@@ -23831,6 +23813,24 @@ snapshots:
     optionalDependencies:
       mapbox-gl: 3.10.0
       maplibre-gl: 5.6.1
+
+  react-markdown@10.1.0(@types/react@19.0.12)(react@19.0.0):
+    dependencies:
+      '@types/hast': 3.0.4
+      '@types/mdast': 4.0.4
+      '@types/react': 19.0.12
+      devlop: 1.1.0
+      hast-util-to-jsx-runtime: 2.3.6
+      html-url-attributes: 3.0.1
+      mdast-util-to-hast: 13.2.0
+      react: 19.0.0
+      remark-parse: 11.0.0
+      remark-rehype: 11.1.1
+      unified: 11.0.5
+      unist-util-visit: 5.0.0
+      vfile: 6.0.3
+    transitivePeerDependencies:
+      - supports-color
 
   react-markdown@9.1.0(@types/react@19.0.3)(react@19.0.0):
     dependencies:
@@ -24027,36 +24027,6 @@ snapshots:
     dependencies:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
-
-  react-stately@3.36.1(react@19.0.0):
-    dependencies:
-      '@react-stately/calendar': 3.7.1(react@19.0.0)
-      '@react-stately/checkbox': 3.6.12(react@19.0.0)
-      '@react-stately/collections': 3.12.2(react@19.0.0)
-      '@react-stately/color': 3.8.3(react@19.0.0)
-      '@react-stately/combobox': 3.10.3(react@19.0.0)
-      '@react-stately/data': 3.12.2(react@19.0.0)
-      '@react-stately/datepicker': 3.13.0(react@19.0.0)
-      '@react-stately/disclosure': 3.0.2(react@19.0.0)
-      '@react-stately/dnd': 3.5.2(react@19.0.0)
-      '@react-stately/form': 3.1.2(react@19.0.0)
-      '@react-stately/list': 3.12.0(react@19.0.0)
-      '@react-stately/menu': 3.9.2(react@19.0.0)
-      '@react-stately/numberfield': 3.9.10(react@19.0.0)
-      '@react-stately/overlays': 3.6.14(react@19.0.0)
-      '@react-stately/radio': 3.10.11(react@19.0.0)
-      '@react-stately/searchfield': 3.5.10(react@19.0.0)
-      '@react-stately/select': 3.6.11(react@19.0.0)
-      '@react-stately/selection': 3.20.0(react@19.0.0)
-      '@react-stately/slider': 3.6.2(react@19.0.0)
-      '@react-stately/table': 3.14.0(react@19.0.0)
-      '@react-stately/tabs': 3.8.0(react@19.0.0)
-      '@react-stately/toast': 3.0.0(react@19.0.0)
-      '@react-stately/toggle': 3.8.2(react@19.0.0)
-      '@react-stately/tooltip': 3.5.2(react@19.0.0)
-      '@react-stately/tree': 3.8.8(react@19.0.0)
-      '@react-types/shared': 3.28.0(react@19.0.0)
-      react: 19.0.0
 
   react-stately@3.39.0(react@19.0.0):
     dependencies:

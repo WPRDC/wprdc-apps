@@ -79,30 +79,6 @@ export function ControlsLegendItem({
         >
           {layer.title}
         </div>
-        {/*{!!onStyleChange && (*/}
-        {/*  <DialogTrigger>*/}
-        {/*    <Button*/}
-        {/*      dense*/}
-        {/*      className="rounded-md p-1"*/}
-        {/*      aria-label="symbology settings"*/}
-        {/*    >*/}
-        {/*      <TbAdjustmentsAlt className="size-4" />*/}
-        {/*    </Button>*/}
-        {/*    <ModalOverlay>*/}
-        {/*      <Modal>*/}
-        {/*        <Dialog>*/}
-        {/*          {({ close }) => (*/}
-        {/*            <LayerMenu*/}
-        {/*              defaultConfig={layer}*/}
-        {/*              onSubmit={onStyleChange}*/}
-        {/*              onClose={close}*/}
-        {/*            />*/}
-        {/*          )}*/}
-        {/*        </Dialog>*/}
-        {/*      </Modal>*/}
-        {/*    </ModalOverlay>*/}
-        {/*  </DialogTrigger>*/}
-        {/*)}*/}
       </div>
 
       <ListBox

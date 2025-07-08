@@ -68,6 +68,9 @@ export interface LayerConfig extends Identifiable {
   /** Description of the layer/dataset */
   description: string;
 
+  /** Warning */
+  warning?: string;
+
   /** Type of geometry used in layer */
   type: GeoType;
 

@@ -5,4 +5,5 @@ export interface InfoTooltipProps {
   info?: ReactNode;
   size?: Size;
   dark?: boolean;
+  warning?: boolean;
 }

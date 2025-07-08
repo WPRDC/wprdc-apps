@@ -13,7 +13,7 @@ export function Popover(props: PopoverProps): React.ReactElement {
   return (
     <RAPopover
       className={({ isEntering, isExiting }) =>
-        `group rounded-sm bg-white p-3 shadow-xl ring-2 ring-black placement-top:mb-2 placement-bottom:mt-2 ${
+        `group rounded-sm bg-white p-3 shadow-xl ring-2 ring-black placement-top:mb-2 placement-bottom:mt-2 overflow-auto ${
           isEntering
             ? "duration-200 ease-out animate-in fade-in placement-top:slide-in-from-bottom-1 placement-bottom:slide-in-from-top-1"
             : ""
@@ -24,15 +24,7 @@ export function Popover(props: PopoverProps): React.ReactElement {
         }`
       }
     >
-      {/*<OverlayArrow>*/}
-      {/*  <svg*/}
-      {/*    className="block h-4 w-4 fill-white stroke-black stroke-2 group-placement-bottom:rotate-180"*/}
-      {/*    viewBox="0 0 12 12"*/}
-      {/*  >*/}
-      {/*    <path d="M0 0L6 6L12 0" />*/}
-      {/*  </svg>*/}
-      {/*</OverlayArrow>*/}
-      <Dialog className="max-w-sm">{props.children}</Dialog>
+      <Dialog className="max-w-screen-md h-full flex flex-col">{props.children}</Dialog>
     </RAPopover>
   );
 }

@@ -6,6 +6,7 @@ import { DialogTrigger, Heading, Label } from "react-aria-components";
 import {
   A,
   Button,
+  Content,
   Dialog,
   InfoTooltip,
   ListBox,
@@ -153,7 +154,7 @@ export function LayerMenu({
                               <BiCheck className="group-selected:block hidden size-5 text-green-900" />
                               <div className="group-selected:hidden block size-5" />
                               <div className="font-semibold">{l.title}</div>
-                              {!!l.source.url && (
+                              {!!l.source.url && !l.warning && (
                                 <InfoTooltip
                                   info={
                                     <A external href={l.source.url}>
@@ -161,6 +162,25 @@ export function LayerMenu({
                                     </A>
                                   }
                                 />
+                              )}
+                              {!!l.warning && (
+                                <div className="ml-0.5">
+                                  <InfoTooltip
+                                  warning
+                                  info={
+                                    <div className="overflow-auto">
+                                      <Content className="text-sm" markdown={l.warning}></Content>
+                                      <div>
+                                        {!!l.source.url && (
+                                          <A external href={l.source.url}>
+                                            Source Dataset
+                                          </A>
+                                        )}
+                                      </div>
+                                    </div>
+                                  }
+                                />
+                                </div>
                               )}
                             </div>
                             <div className="ml-5 text-xs italic">

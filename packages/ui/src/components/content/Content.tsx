@@ -7,6 +7,7 @@
  **/
 import { twMerge } from "tailwind-merge";
 import type { ContentProps } from "./Content.types";
+import Markdown from "react-markdown";
 
 export function Content({
   dangerouslySetInnerHTML,
@@ -14,6 +15,7 @@ export function Content({
   variant = "default",
   id,
   children,
+  markdown,
 }: ContentProps): React.ReactElement {
   return (
     <div
@@ -27,7 +29,7 @@ export function Content({
       )}
       dangerouslySetInnerHTML={children ? dangerouslySetInnerHTML : undefined}
     >
-      {children}
+      {!markdown ? children : <Markdown>{markdown}</Markdown>}
     </div>
   );
 }
