@@ -68,7 +68,7 @@ export function NavMap({
       const map = mapRef.current.getMap();
       map.fitBounds(bbox, { padding: 30 });
     }
-  }, [bbox, zoomPan, mapRef.current]);
+  }, [bbox, zoomPan, mapRef.current, selectedParcel]);
 
 
   async function handleMapLoad() {
@@ -83,7 +83,7 @@ export function NavMap({
         map.addImage("stripe", image.data, {});
       }
       // fit bounds on map load
-      console.log('map loaded')
+      console.log('map loaded', zoomPan, bbox);
       if (zoomPan && bbox) {
         map.fitBounds(bbox, { padding: 30 });
       }
