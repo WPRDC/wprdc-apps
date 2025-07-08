@@ -71,7 +71,7 @@ export function NavMap({
     }
   }, [bbox, zoomPan, mapRef.current, selectedParcel]);
 
-
+  console.log(bbox)
   async function handleMapLoad() {
     if (mapRef.current) {
       const map = mapRef.current.getMap();
