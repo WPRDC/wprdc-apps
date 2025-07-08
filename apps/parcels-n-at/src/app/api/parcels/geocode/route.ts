@@ -11,7 +11,6 @@ export type GeocodeResponseBody =
     }
   | {
       status: "error";
-      message: string;
       centroid: undefined;
       bbox: undefined;
     };
@@ -26,6 +25,8 @@ export async function GET(
       JSON.stringify({
         status: "error",
         message: `Parcel ID missing!`,
+        bbox: undefined,
+        centroid: undefined,
       }),
       {
         status: 400,
@@ -41,7 +42,19 @@ export async function GET(
       LIMIT 1
   `;
   const record = result[0];
-
+  if (!record) {
+    return new NextResponse(
+      JSON.stringify({
+        status: "error",
+        message: `Parcel ID missing!`,
+        bbox: undefined,
+        centroid: undefined,
+      }),
+      {
+        status: 400,
+      },
+    );
+  }
   const bboxPolygon: CoordinatePair[][] = (
     JSON.parse(record.bbox) as {
       coordinates: CoordinatePair[][];
