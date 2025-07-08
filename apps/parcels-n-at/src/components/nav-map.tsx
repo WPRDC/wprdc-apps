@@ -62,11 +62,12 @@ export function NavMap({
 
   // fit bounds on props change
   useEffect(() => {
+    console.log('props change', zoomPan, bbox);
+
     if (zoomPan && bbox && mapRef.current) {
-      console.log('props change', zoomPan, bbox);
 
       const map = mapRef.current.getMap();
-      map.fitBounds(bbox, { padding: 30 });
+      map.fitBounds(bbox, { padding: 30 });s
     }
   }, [bbox, zoomPan, mapRef.current, selectedParcel]);
 
