@@ -7,6 +7,7 @@ import { MapPopup } from "@/components/map-popup";
 import { geocodeParcel } from "@wprdc/api";
 
 import {availableLayers} from '@/layers';
+import { GeocodeResponseBody } from "@/app/api/parcels/geocode/route.ts";
 
 interface Params {
   parcel: string;
@@ -40,13 +41,12 @@ export default async function Page({
   const useClasses = classes ? String(classes) : undefined;
 
   const zoomPan = _zoomPan ?? z;
-  const response = await fetch(
-    `${BASE_URL}/api/parcels/geocode?pid=${parcelID ?? ""}`,
+  const geocodeResponse = await fetch(
+    `${BASE_URL}/api/parcels/geocode?pid=${parcelID}`,
   );
-  const { bbox } = await geocodeParcel(parcelID ?? "");
+  const {  bbox } =
+    (await geocodeResponse.json()) as GeocodeResponseBody;
 
-
-  console.log(bbox)
   return (
     <div className="h-full w-full xl:flex xl:content-stretch">
       {!!parcel && (
