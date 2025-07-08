@@ -56,14 +56,12 @@ export function LayerMenu({
 
   // on open, reset state
   useEffect(() => {
-    console.log(dialogIsOpen);
     if (dialogIsOpen) {
       setCurrentSelection(
         new Set(
           Array.isArray(selectedLayers) ? selectedLayers : [selectedLayers],
         ),
       );
-      console.log(ownerAddress);
       setCurrentOwnerAddress(ownerAddress);
     }
   }, [dialogIsOpen]);
