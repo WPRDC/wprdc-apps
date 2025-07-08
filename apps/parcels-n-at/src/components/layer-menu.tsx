@@ -4,6 +4,7 @@ import { LayerConfig } from "@wprdc/types";
 import type { Selection } from "react-stately";
 import { DialogTrigger, Heading, Label } from "react-aria-components";
 import {
+  A,
   Button,
   Dialog,
   ListBox,
@@ -54,20 +55,20 @@ export function LayerMenu({
 
   // on open, reset state
   useEffect(() => {
-    console.log(dialogIsOpen)
+    console.log(dialogIsOpen);
     if (dialogIsOpen) {
       setCurrentSelection(
         new Set(
           Array.isArray(selectedLayers) ? selectedLayers : [selectedLayers],
         ),
       );
-      console.log(ownerAddress)
+      console.log(ownerAddress);
       setCurrentOwnerAddress(ownerAddress);
     }
   }, [dialogIsOpen]);
 
   /** When submitting the form, generate query params and update the history  */
-  const handleSubmit =  (close: () => void) => () => {
+  const handleSubmit = (close: () => void) => () => {
     // owner address
     const params = new URLSearchParams(searchParams);
     params.delete("ownerAddr");
@@ -140,7 +141,7 @@ export function LayerMenu({
                         onSelectionChange={handleMenuSelection}
                         selectedKeys={currentSelection}
                         disallowEmptySelection={false}
-                        className="grid grid-cols-1 gap-1.5 p-1"
+                        className="grid grid-cols-1 gap-1.5 p-1 pr-2"
                         shouldFocusOnHover
                       >
                         {availableLayers.map((l) => (
@@ -154,9 +155,13 @@ export function LayerMenu({
                               <div className="group-selected:hidden block size-5" />
                               <div className="font-semibold">{l.title}</div>
                             </div>
-                            <div className="pl-5 text-xs italic">
+                            <div className="ml-5 text-xs italic">
                               {l.description}
                             </div>
+
+                            <A className="ml-5" external href={l.source.url}>
+                              Learn More
+                            </A>
                           </ListBoxItem>
                         ))}
                       </ListBox>

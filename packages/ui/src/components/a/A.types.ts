@@ -22,4 +22,5 @@ export interface AProps extends LinkProps {
   className?: string;
   variant?: AnchorVariant;
   buttonVariant?: ButtonVariant;
+  external?: boolean;
 }

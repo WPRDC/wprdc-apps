@@ -29,9 +29,10 @@ export function A({
   className,
   variant,
   buttonVariant,
+  external,
   ...props
 }: AProps): React.ReactElement {
-  const isExternal = isExternalLink(href);
+  const isExternal = external || isExternalLink(href);
 
   const link = (
     <Link

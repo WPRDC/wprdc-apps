@@ -91,7 +91,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
 
   const layers = useMemo(
     () => propsLayers ?? innerLayers,
-    [propsLayers, innerLayers],
+    [innerLayers, propsLayers],
   );
 
   const handleLayerChange = useMemo(() => {

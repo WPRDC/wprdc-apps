@@ -97,7 +97,7 @@ export function NavMap({
     <Map
       id={mapID}
       initialViewState={{ zoom: 15.5 }}
-      layers={[...contextLayers, parcelLayer, ...layers]}
+      layers={[ ...contextLayers, ...layers, parcelLayer]}
       mapTilerAPIKey={API_KEY}
       maxZoom={19}
       minZoom={11}
