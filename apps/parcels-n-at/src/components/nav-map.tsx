@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Button,
-  ListBox,
-  ListBoxItem,
-  Map,
-  parcelLayer,
-  Popover,
-} from "@wprdc/ui";
+import { Button, Map, parcelLayer } from "@wprdc/ui";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useRef } from "react";
 import {
@@ -18,12 +11,10 @@ import {
 } from "react-map-gl/maplibre";
 import { ParcelSearch } from "@/components/parcel-search";
 import { LayerConfig } from "@wprdc/types";
-import { MenuTrigger, OverlayTriggerStateContext } from "react-aria-components";
-import { BiCheck, BiMapAlt, BiX } from "react-icons/bi";
+import { OverlayTriggerStateContext } from "react-aria-components";
+import { BiX } from "react-icons/bi";
 import { GeocodeResponse } from "@wprdc/api";
-
-import { Selection } from "react-stately";
-import { OwnerSearch } from "@/components/owner-search.tsx";
+import { LayerMenu } from "@/components/layer-menu.tsx";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY ?? "missing";
 
@@ -89,35 +80,18 @@ export function NavMap({
     }
   }
 
-  function handleOwnerClear() {
-    const params = new URLSearchParams(searchParams);
-    params.delete("ownerAddr");
-    router.push(`${pathName}?${params.toString()}`);
-  }
-
-  function handleMenuSelection(selection: Selection) {
-    function nav(slugs: string[]) {
-      const params = new URLSearchParams(searchParams);
-      params.delete("selectedLayers");
-      slugs.forEach((slug) => {
-        params.append("selectedLayers", slug);
-      });
-      router.replace(`${pathName}?${params.toString()}`);
-    }
-
-    if (selection === "all") {
-      nav(availableLayers?.map((l) => l.slug));
-    } else {
-      nav(Array.from(selection) as string[]);
-    }
-  }
-
   const contextLayers = useMemo(() => {
     if (!layerSelection.size) {
       return [];
     }
     return availableLayers.filter((l) => layerSelection.has(l.slug));
   }, [availableLayers, layerSelection]);
+
+  function handleOwnerClear() {
+    const params = new URLSearchParams(searchParams);
+    params.delete("ownerAddr");
+    router.push(`${pathName}?${params.toString()}`);
+  }
 
   return (
     <Map
@@ -147,6 +121,9 @@ export function NavMap({
               <div className="size-3 rounded border border-black bg-[#14b8a6]"></div>
               <div>{ownerAddress}</div>
             </div>
+            <Button dense icon={BiX} onPress={handleOwnerClear}>
+              Clear
+            </Button>
           </div>
         ) : undefined
       }
@@ -162,66 +139,17 @@ export function NavMap({
         </Button>
       </div>
 
-      {/* Layer menu */}
-      {!!availableLayers && (
-        <div className="absolute right-12 top-12">
-          <MenuTrigger>
-            <Button icon={BiMapAlt}>Select Layers</Button>
-
-            <Popover className="rounded-sm border border-black bg-white p-2">
-              <article>
-                <h1 className="mb-4">Layer Options</h1>
-
-                <div className="mb-4">
-                  <h2 className="text-xs font-bold uppercase">
-                    Highlight parcels by owner
-                  </h2>
-                  {!!ownerAddress && (
-                    <div className="text-sm">
-                      <div>Currently highlighting</div>
-                      <div className="border bg-stone-100 p-0.5 font-mono">
-                        {ownerAddress}
-                      </div>
-                      <Button dense icon={BiX} onPress={handleOwnerClear}>
-                        Clear
-                      </Button>
-                    </div>
-                  )}
-                  <OwnerSearch />
-                </div>
-
-                <div>
-                  <h2 className="text-xs font-bold uppercase">
-                    Toggle extra map layers
-                  </h2>
-                  <ListBox
-                    selectionMode="multiple"
-                    onSelectionChange={handleMenuSelection}
-                    selectedKeys={layerSelection}
-                    disallowEmptySelection={false}
-                  >
-                    {availableLayers.map((l) => (
-                      <ListBoxItem
-                        className="group-selected:font-bold group border-t first:border-t-0"
-                        key={l.slug}
-                        id={l.slug}
-                      >
-                        <div className="flex items-center hover:cursor-pointer hover:bg-gray-100">
-                          <BiCheck className="group-selected:block hidden size-5 text-green-600" />
-                          <div className="group-selected:hidden block size-5" />
-                          <div>{l.title}</div>
-                        </div>
-                      </ListBoxItem>
-                    ))}
-                  </ListBox>
-                </div>
-              </article>
-            </Popover>
-          </MenuTrigger>
-        </div>
-      )}
-      <div className="absolute max-lg:hidden top-4 left-4">
+      {/* Parcel Search*/}
+      <div className="absolute left-4 top-4 max-lg:hidden">
         <ParcelSearch />
+      </div>
+
+      <div className="absolute right-12 top-12">
+        <LayerMenu
+          availableLayers={availableLayers}
+          selectedLayers={selectedLayers}
+          ownerAddress={ownerAddress}
+        />
       </div>
 
       <Source

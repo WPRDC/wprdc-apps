@@ -1,10 +1,11 @@
 import type { LayerConfig } from "@wprdc/types";
 import { GeoType } from "@wprdc/types";
+import { getClassificationColor } from "@/components/parcel-dashboard";
 
 export const parcelUseClasses: LayerConfig = {
   slug: "parcel-use-classes",
   title: "Parcel Use Class",
-  description: "",
+  description: "Color parcels based on use category.",
   type: GeoType.Polygon,
   publisher: {
     name: "WPRDC",
@@ -44,13 +45,13 @@ export const parcelUseClasses: LayerConfig = {
       mode: "category",
       submode: "simple",
       value: {
-        RESIDENTIAL: "#14532d",
-        COMMERCIAL: "#1e40af",
-        INDUSTRIAL: "#92400e",
-        AGRICULTURAL: "#eab308",
-        GOVERNMENT: "#a21caf",
-        UTILITIES: "#5b21b6",
-        OTHER: "#44403c",
+        RESIDENTIAL: getClassificationColor("RESIDENTIAL"),
+        COMMERCIAL: getClassificationColor("COMMERCIAL"),
+        INDUSTRIAL: getClassificationColor("INDUSTRIAL"),
+        AGRICULTURAL: getClassificationColor("AGRICULTURAL"),
+        GOVERNMENT: getClassificationColor("GOVERNMENT"),
+        UTILITIES: getClassificationColor("UTILITIES"),
+        OTHER: getClassificationColor("OTHER"),
       },
     },
 

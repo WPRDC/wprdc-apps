@@ -2,6 +2,7 @@ import type { PropsWithChildren } from "react";
 import { Chip } from "@wprdc/ui";
 import { twMerge } from "tailwind-merge";
 import { Size } from "@wprdc/types";
+import { getClassificationColor } from "@/components/parcel-dashboard";
 
 interface ClassChipProps extends PropsWithChildren {
   parcelClass?: string;
@@ -19,30 +20,8 @@ export function ClassChip({
   let color = "#eee";
   const textColor = "#000";
   if (!parcelClass) return null;
+  color = getClassificationColor(parcelClass)
 
-  switch (parcelClass) {
-    case "RESIDENTIAL":
-      color = "#facc15";
-      break;
-    case "COMMERCIAL":
-      color = "#f87171";
-      break;
-    case "INDUSTRIAL":
-      color = "#a78bfa";
-      break;
-    case "AGRICULTURAL":
-      color = "#22c55e";
-      break;
-    case "GOVERNMENT":
-      color = "#60a5fa";
-      break;
-    case "OTHER":
-      color = "#BEBEBE";
-      break;
-    case "UTILITIES":
-      color = "#22d3ee";
-      break;
-  }
 
   return (
     <Chip

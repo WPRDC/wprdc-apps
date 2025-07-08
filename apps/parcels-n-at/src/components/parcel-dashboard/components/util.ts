@@ -1,20 +1,40 @@
-export function getClassificationColor(classification: string): string {
+import chroma from "chroma-js";
+
+export function getClassificationColor(
+  classification: string,
+  dark: boolean = false,
+): string {
+  let color: string;
   switch (classification) {
     case "RESIDENTIAL":
-      return "#14532d";
+      color = "#facc15";
+      break;
     case "COMMERCIAL":
-      return "#1e40af";
+      color = "#f87171";
+      break;
     case "INDUSTRIAL":
-      return "#92400e";
+      color = "#a78bfa";
+      break;
     case "AGRICULTURAL":
-      return "#987606";
+      color = "#22c55e";
+      break;
     case "GOVERNMENT":
-      return "#a21caf";
-    case "OTHER":
-      return "#44403c";
+      color = "#60a5fa";
+      break;
     case "UTILITIES":
-      return "#5b21b6";
+      color = "#22d3ee";
+      break;
+    case "OTHER":
+      color = "#BEBEBE";
+      break;
     default:
-      return "#44403c";
+      color = "#BEBEBE";
+      break;
   }
+
+  if (dark) {
+    return chroma(color).darken(2).hex();
+  }
+  return color;
 }
+

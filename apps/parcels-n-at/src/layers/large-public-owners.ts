@@ -1,10 +1,10 @@
 import type { LayerConfig } from "@wprdc/types";
 import { GeoType } from "@wprdc/types";
 
-export const largeParcelPortfolios: LayerConfig = {
+export const largePublicOwners: LayerConfig = {
   slug: "large-parcel-portfolios",
-  title: "Large  Parcel Owners in Allegheny County",
-  description: "",
+  title: "Large Public-Owner Portfolios",
+  description: "Highlight large parcel portfolios owned by governments.",
   type: GeoType.Polygon,
   publisher: {
     name: "WPRDC",
@@ -14,7 +14,7 @@ export const largeParcelPortfolios: LayerConfig = {
 
   source: {
     slug: "large-parcel-portfolios",
-    title: "Large  Parcel Owners in Allegheny County",
+    title: "Large Public-Owner Portfolios",
     url: "",
     resourceID: "",
   },

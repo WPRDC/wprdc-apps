@@ -4,7 +4,7 @@ import { GeoType } from "@wprdc/types";
 export const vacantParcels: LayerConfig = {
   slug: "vacant-parcels",
   title: "Vacant Parcels",
-  description: "",
+  description: "Highlight parcels with building value < $1000",
   type: GeoType.Polygon,
   publisher: {
     name: "WPRDC",

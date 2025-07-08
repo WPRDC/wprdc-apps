@@ -4,7 +4,7 @@ import { GeoType } from "@wprdc/types";
 export const pittsburghNeighborhoods: LayerConfig = {
   slug: "pittsburgh-neighborhoods",
   title: "Pittsburgh Neighborhoods",
-  description: "Neighborhoods in the City of Pittsburgh",
+  description: "Boundaries and labels of Pittsburgh neighborhoods",
   type: GeoType.Polygon,
   publisher: {
     name: "City of Pittsburgh",

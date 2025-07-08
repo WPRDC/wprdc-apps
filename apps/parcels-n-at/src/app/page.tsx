@@ -4,7 +4,7 @@ export default function Home(): React.ReactElement {
   return (
     <main className="mx-auto max-w-screen-lg space-y-12 px-12 pt-24">
       <h1 className="text-center text-5xl font-bold">
-        Welcome to the Parcel&apos;s N&apos;at early access.
+        Welcome to the Parcel&apos;s N&apos;at!
       </h1>
       <div className="text-center text-3xl font-bold">Select a tool</div>
 

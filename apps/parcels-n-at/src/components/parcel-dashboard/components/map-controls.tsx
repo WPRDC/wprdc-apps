@@ -134,6 +134,32 @@ export function MapControls({
           </DialogTrigger>
         </div>
 
+
+        {/* Links */}
+        <div>
+          <MenuTrigger>
+            <Button icon={TbExternalLink}>Other Sites&hellip;</Button>
+            <Popover>
+              <Menu className="flex flex-col border border-black">
+                <MenuItem href={acRealEstatePortalLink} target="_blank" className="flex gap-0.5 underline items-center">
+                  <div>County Real Estate Portal</div> <TbExternalLink />
+                </MenuItem>
+                <MenuItem href={googleMapsLink} target="_blank" className="flex gap-0.5 underline items-center">
+                  <div>Google Maps</div> <TbExternalLink />
+                </MenuItem>
+                <MenuItem href={appleMapsLink} target="_blank" className="flex gap-0.5 underline items-center">
+                  <div>Apple Maps </div>
+                  <TbExternalLink />
+                </MenuItem>
+                <MenuItem href={streetViewLink} target="_blank" className="flex gap-0.5 underline items-center">
+                  <div>Google Street View</div> <TbExternalLink />
+                </MenuItem>
+              </Menu>
+            </Popover>
+          </MenuTrigger>
+        </div>
+
+
         {/* Nav Menu */}
         <nav id="dashboard-navigation">
           <MenuTrigger>
@@ -163,30 +189,6 @@ export function MapControls({
             </Popover>
           </MenuTrigger>
         </nav>
-
-        {/* Links */}
-        <div>
-          <MenuTrigger>
-            <Button icon={TbExternalLink}>Other Sites&hellip;</Button>
-            <Popover>
-              <Menu className="flex flex-col border border-black">
-                <MenuItem href={acRealEstatePortalLink} target="_blank" className="flex gap-0.5 underline items-center">
-                  <div>County Real Estate Portal</div> <TbExternalLink />
-                </MenuItem>
-                <MenuItem href={googleMapsLink} target="_blank" className="flex gap-0.5 underline items-center">
-                  <div>Google Maps</div> <TbExternalLink />
-                </MenuItem>
-                <MenuItem href={appleMapsLink} target="_blank" className="flex gap-0.5 underline items-center">
-                  <div>Apple Maps </div>
-                  <TbExternalLink />
-                </MenuItem>
-                <MenuItem href={streetViewLink} target="_blank" className="flex gap-0.5 underline items-center">
-                  <div>Google Street View</div> <TbExternalLink />
-                </MenuItem>
-              </Menu>
-            </Popover>
-          </MenuTrigger>
-        </div>
       </div>
     </div>
   );

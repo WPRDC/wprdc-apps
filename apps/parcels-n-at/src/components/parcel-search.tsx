@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { getClassificationColor } from "@/components/parcel-dashboard";
 import { useCallback } from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
+import { darken } from "@wprdc/ui";
 
 const BASE_URL = process.env.BASE_URL ?? "";
 
@@ -122,7 +123,7 @@ export function ParcelSearch(): React.ReactElement {
                     <div
                       className="mx-2 mt-1 flex size-8 items-center rounded-sm border border-black"
                       style={{
-                        backgroundColor: getClassificationColor(item.class),
+                        backgroundColor: getClassificationColor(item.class, true),
                       }}
                     >
                       <div className="w-full text-center font-mono text-xl font-bold text-white">

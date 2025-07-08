@@ -17,7 +17,7 @@ export function Section(
     <section
       id={props.id}
       className={twMerge(
-        "group/section mt-5 scroll-mt-24 px-4 pb-8 pt-2",
+        "group/section mt-5 scroll-mt-24 px-4 pb-2 pt-2",
         props.className,
       )}
     >
@@ -38,7 +38,7 @@ export function Section(
       <div className="box-content px-0 py-4">{props.children}</div>
 
       {!!props.datasetLinks && !!props.datasetLinks.length && (
-        <div className="py-4 pr-0">
+        <div className="pt-4 pr-0">
           <h3 className="mb-1 text-xl font-bold">
             Source{props.datasetLinks?.length === 1 ? "" : "s"}
           </h3>
