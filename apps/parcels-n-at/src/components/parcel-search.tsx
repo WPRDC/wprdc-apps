@@ -8,8 +8,6 @@ import {
   Input,
   ListBox,
   ListBoxItem,
-  Menu,
-  MenuItem,
   SearchField,
   Text,
 } from "react-aria-components";
@@ -17,7 +15,6 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getClassificationColor } from "@/components/parcel-dashboard";
 import { useCallback } from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
-import { darken } from "@wprdc/ui";
 
 const BASE_URL = process.env.BASE_URL ?? "";
 
@@ -58,7 +55,7 @@ export function ParcelSearch(): React.ReactElement {
 
       const params = new URLSearchParams(searchParams);
       params.delete("zoomPan");
-      params.append("zoomPan", 1)
+      params.append("zoomPan", '1')
 
       // extract selected key and navigate
       const key =

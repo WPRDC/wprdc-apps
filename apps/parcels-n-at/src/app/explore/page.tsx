@@ -5,7 +5,6 @@ import { ParcelSearch } from "@/components/parcel-search";
 import React, { useMemo } from "react";
 import { MapPopup } from "@/components/map-popup";
 import { geocodeParcel } from "@wprdc/api";
-import { GeocodeResponseBody } from "@/app/api/parcels/geocode/route.ts";
 
 import {availableLayers} from '@/layers';
 
@@ -44,9 +43,10 @@ export default async function Page({
   const response = await fetch(
     `${BASE_URL}/api/parcels/geocode?pid=${parcelID ?? ""}`,
   );
-  const data = (await response.json()) as GeocodeResponseBody;
-  const { bbox } = (await geocodeParcel(parcelID ?? "")) ?? { bbox: undefined };
+  const { bbox } = await geocodeParcel(parcelID ?? "");
 
+
+  console.log(bbox)
   return (
     <div className="h-full w-full xl:flex xl:content-stretch">
       {!!parcel && (

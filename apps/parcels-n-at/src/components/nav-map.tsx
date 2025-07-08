@@ -67,7 +67,7 @@ export function NavMap({
     if (zoomPan && bbox && mapRef.current) {
 
       const map = mapRef.current.getMap();
-      map.fitBounds(bbox, { padding: 30 });s
+      map.fitBounds(bbox, { padding: 30 });
     }
   }, [bbox, zoomPan, mapRef.current, selectedParcel]);
 

@@ -193,14 +193,14 @@ export async function autocompleteParcelSearch(
 }
 
 export interface GeocodeResponse {
-  centroid: CoordinatePair;
-  bbox: [CoordinatePair, CoordinatePair];
+  centroid?: CoordinatePair;
+  bbox?: [CoordinatePair, CoordinatePair];
 }
 
 export async function geocodeParcel(
   parcelID: string,
   init?: RequestInit,
-): Promise<GeocodeResponse | null> {
+): Promise<GeocodeResponse> {
   const sql = `
       SELECT "parcel_id",
              ST_AsGeoJSON(centroid) as centroid,
@@ -216,7 +216,7 @@ export async function geocodeParcel(
     bbox: string;
   }>(sql, undefined, init);
 
-  if (!records?.length) return null;
+  if (!records?.length) return {centroid: undefined, bbox: undefined};
   const record = records[0];
 
   const bboxPolygon: CoordinatePair[][] = (
