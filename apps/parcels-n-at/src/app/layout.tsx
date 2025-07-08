@@ -7,6 +7,7 @@ import "@wprdc/ui/styles.css";
 import { Navbar } from "@wprdc/ui";
 import { TbCompass, TbMathFunction, TbPackage } from "react-icons/tb";
 import { twMerge } from "tailwind-merge";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Parcels N'at",
@@ -28,6 +29,23 @@ export default function RootLayout({
 }>): React.ReactElement {
   return (
     <html className={`${jetbrainsMono.variable} `} lang="en">
+    <Script>
+      {`
+      <!-- Matomo -->
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="https://analytics.wprdc.org/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '4']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+<!-- End Matomo Code -->
+`}
+    </Script>
       <body className="flex h-screen flex-col overflow-auto xl:overflow-hidden">
         <Navbar
           darkLogoSrc="/wprdc-mark-dark.png"
