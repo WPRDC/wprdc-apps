@@ -29,8 +29,7 @@ export default function RootLayout({
 }>): React.ReactElement {
   return (
     <html className={`${jetbrainsMono.variable} `} lang="en">
-    <Script>
-      {`
+      <Script>{`
       <!-- Matomo -->
     var _paq = window._paq = window._paq || [];
     /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
@@ -44,8 +43,8 @@ export default function RootLayout({
       g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
     })();
 <!-- End Matomo Code -->
-`}
-    </Script>
+    `}
+      </Script>
       <body className="flex h-screen flex-col overflow-auto xl:overflow-hidden">
         <Navbar
           darkLogoSrc="/wprdc-mark-dark.png"

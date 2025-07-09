@@ -2,7 +2,7 @@ import { TbCompass, TbDownload } from "react-icons/tb";
 
 export default function Home(): React.ReactElement {
   return (
-    <main className="mx-auto max-w-screen-lg space-y-12 px-12 pt-24">
+    <main className="mx-auto max-w-screen-lg space-y-12 px-12 pt-24 overflow-auto">
       <h1 className="text-center text-5xl font-bold">
         Welcome to the Parcel&apos;s N&apos;at!
       </h1>

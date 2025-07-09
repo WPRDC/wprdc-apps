@@ -75,7 +75,7 @@ export function MapControls({
 
   return (
     <div>
-      <div className="flex scroll-mt-28 space-x-2" id="menu">
+      <div className="grid grid-cols-2 gap-2 md:flex scroll-mt-28 space-x-2" id="menu">
         {/* Map Menu */}
         <div>
           <Button
@@ -86,7 +86,6 @@ export function MapControls({
             Center on Map
           </Button>
         </div>
-
         {/* Share menu*/}
         <div>
           <DialogTrigger>
@@ -133,8 +132,6 @@ export function MapControls({
             </ModalOverlay>
           </DialogTrigger>
         </div>
-
-
         {/* Links */}
         <div>
           <MenuTrigger>
@@ -158,8 +155,6 @@ export function MapControls({
             </Popover>
           </MenuTrigger>
         </div>
-
-
         {/* Nav Menu */}
         <nav id="dashboard-navigation">
           <MenuTrigger>

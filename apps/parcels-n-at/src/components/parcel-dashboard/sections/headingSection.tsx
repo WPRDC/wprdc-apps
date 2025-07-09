@@ -40,10 +40,10 @@ export async function HeadingSection({
           <ClassChip parcelClass={assessmentRecord?.CLASSDESC} />
           <ClassChip parcelClass={assessmentRecord?.USEDESC} />
         </div>
-        <div className="top-0 z-40 -mt-28 bg-black/40 px-4 py-2 backdrop-blur-md">
+        <div className="top-0 z-40 -mt-24 lg:-mt-28 bg-black/40 px-4 py-2 backdrop-blur-md">
           <div className="flex-grow">
             <h1 className="">
-              <div className={twMerge(baseTextStyle, "mb-1 text-5xl")}>
+              <div className={twMerge(baseTextStyle, "mb-1 text-xl md:text-3xl lg:text-5xl")}>
                 {addressLine}
               </div>
               <div className={twMerge(baseTextStyle, "text-xl")}>

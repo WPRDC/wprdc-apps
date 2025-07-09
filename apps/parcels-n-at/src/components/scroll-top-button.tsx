@@ -20,7 +20,7 @@ export function ScrollTopButton({ containerID }: ScrollTopButtonProps) {
     <Button
       onPress={handleScroll}
       icon={TbChevronsUp}
-      className="flex items-center"
+      className="flex items-center text-xs md:text-base"
     >
       Back to Top
     </Button>
