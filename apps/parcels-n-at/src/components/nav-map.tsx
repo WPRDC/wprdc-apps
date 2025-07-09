@@ -152,7 +152,7 @@ export function NavMap({
       </div>
 
       {/* Parcel Search*/}
-      <div className="absolute left-4 top-4 max-lg:hidden">
+      <div className="absolute w-96 left-4 top-4 max-lg:hidden">
         <ParcelSearch />
       </div>
 

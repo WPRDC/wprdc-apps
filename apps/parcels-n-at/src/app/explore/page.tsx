@@ -2,11 +2,10 @@ import { NavMap } from "@/components/nav-map";
 import { PropertyDashboard } from "@/components/parcel-dashboard";
 import { MapProvider } from "@/components/map-provider";
 import { ParcelSearch } from "@/components/parcel-search";
-import React, { useMemo } from "react";
+import React from "react";
 import { MapPopup } from "@/components/map-popup";
-import { geocodeParcel } from "@wprdc/api";
 
-import {availableLayers} from '@/layers';
+import { availableLayers } from "@/layers";
 import { GeocodeResponseBody } from "@/app/api/parcels/geocode/route.ts";
 
 interface Params {
@@ -33,7 +32,7 @@ export default async function Page({
     ownerOccupied,
     z,
     zoomPan: _zoomPan,
-    selectedLayers
+    selectedLayers,
   } = await searchParams;
 
   const parcelID = parcel ? String(parcel) : undefined;
@@ -44,8 +43,7 @@ export default async function Page({
   const geocodeResponse = await fetch(
     `${BASE_URL}/api/parcels/geocode?pid=${parcelID}`,
   );
-  const {  bbox } =
-    (await geocodeResponse.json()) as GeocodeResponseBody;
+  const { bbox } = (await geocodeResponse.json()) as GeocodeResponseBody;
 
   return (
     <div className="h-full w-full xl:flex xl:content-stretch">
@@ -62,9 +60,6 @@ export default async function Page({
             mapID="popupMap"
             selectedParcel={parcelID}
             ownerAddress={ownerAddress}
-            showOwnerOccupied={Boolean(ownerOccupied)}
-            showVacant={Boolean(ownerOccupied)}
-            classes={useClasses}
             bbox={bbox}
             zoomPan={!!zoomPan}
             availableLayers={availableLayers}
@@ -72,13 +67,14 @@ export default async function Page({
           />
         </div>
 
-        <div className="fixed bottom-4 right-4 z-40 flex flex-col lg:hidden">
+        <div className="fixed bottom-12 right-4 z-40 flex flex-col lg:hidden">
           <MapPopup
             selectedParcel={parcelID}
             ownerAddress={ownerAddress}
-            showOwnerOccupied={Boolean(ownerOccupied)}
-            showVacant={Boolean(ownerOccupied)}
-            classes={useClasses}
+            bbox={bbox}
+            zoomPan={!!zoomPan}
+            availableLayers={availableLayers}
+            selectedLayers={selectedLayers}
           />
         </div>
         <div className="relative h-full border-t-2 border-stone-800 bg-stone-50 lg:border-l-2 xl:w-1/2 xl:overflow-auto xl:border-t-0">
@@ -104,7 +100,7 @@ export default async function Page({
                 </div>
               </div>
 
-              <div className="pb-8">
+              <div className="mr-4 w-full pb-8">
                 <ParcelSearch />
               </div>
 

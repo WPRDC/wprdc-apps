@@ -70,12 +70,12 @@ export function ParcelSearch(): React.ReactElement {
   );
 
   return (
-    <div className="relative w-fit">
+    <div className="relative w-full">
       <Autocomplete
         inputValue={list.filterText}
         onInputChange={handleInputChange}
       >
-        <SearchField className="flex w-96 min-w-52 text-lg">
+        <SearchField className="flex min-w-48 text-lg">
           <div className="flex h-12 items-center rounded-l-md border-r border-stone-800 bg-stone-900">
             <BiSearchAlt2 className="mx-1 size-8 text-white" />
           </div>

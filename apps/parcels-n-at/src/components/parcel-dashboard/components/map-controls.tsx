@@ -50,6 +50,7 @@ export function MapControls({
   const googleMapsLink = `https://www.google.com/maps/?q=${address}`;
   const streetViewLink = `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${lat},${lng}`;
   const acRealEstatePortalLink = `https://realestate.alleghenycounty.us/GeneralInfo?ID=${parcelID}`;
+  const oneStopPGHInsights = `https://experience.arcgis.com/experience/89d500285ecd4804ae9945d93d424569/page/Map`;
 
   function handleZoomPan() {
     if (bbox) {
@@ -140,6 +141,9 @@ export function MapControls({
               <Menu className="flex flex-col border border-black">
                 <MenuItem href={acRealEstatePortalLink} target="_blank" className="flex gap-0.5 underline items-center">
                   <div>County Real Estate Portal</div> <TbExternalLink />
+                </MenuItem>
+                <MenuItem href={oneStopPGHInsights} target="_blank" className="flex gap-0.5 underline items-center">
+                  <div>OneStopPGH Insights</div> <TbExternalLink />
                 </MenuItem>
                 <MenuItem href={googleMapsLink} target="_blank" className="flex gap-0.5 underline items-center">
                   <div>Google Maps</div> <TbExternalLink />
