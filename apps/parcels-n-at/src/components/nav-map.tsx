@@ -141,7 +141,7 @@ export function NavMap({
       }
     >
       {/* Mobile close button */}
-      <div className="absolute bottom-12 right-3 z-50 block lg:hidden">
+      <div className="absolute bottom-12 right-4 z-50 block lg:hidden">
         <Button
           className="border-2 p-1 shadow-xl"
           variant="danger"

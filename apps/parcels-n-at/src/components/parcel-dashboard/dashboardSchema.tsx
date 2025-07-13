@@ -54,7 +54,7 @@ export default [
   },
 
   {
-    label: "Assessesd Values",
+    label: "Assessed Values",
     description:
       "Comparison of this parcel's monetary value as assessed by various jurisdictions",
     getter: fetchAssessmentRecord,

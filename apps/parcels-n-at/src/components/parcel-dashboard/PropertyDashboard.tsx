@@ -75,7 +75,7 @@ export function PropertyDashboard({
       {/* Assessed Values */}
       <ConnectedSection<PropertyAssessment>
         id="assessed-value"
-        label="Assessesd Values"
+        label="Assessed Values"
         description="Comparison of this parcel's monetary value as assessed by various jurisdictions"
         getter={fetchAssessmentRecord}
         parcelID={parcelID}
