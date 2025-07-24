@@ -55,10 +55,9 @@ export async function OwnerInfo({
   assessmentRecord,
 }: OwnerInfoProps): Promise<React.ReactElement> {
   const owner = await fetchOwnerName(parcelID);
-  const ownerSearch = `${(assessmentRecord.CHANGENOTICEADDRESS1 ?? "").trim().replace(
-    /\s+/g,
-    " ",
-  )}%`;
+  const ownerSearch = `${(assessmentRecord.CHANGENOTICEADDRESS1 ?? "")
+    .trim()
+    .replace(/\s+/g, " ")}%`;
 
   const response: QueryResponse = await fetchSpaceratQuery<QueriedStats>({
     question: ["fairmarkettotal"],
@@ -97,8 +96,10 @@ export async function OwnerInfo({
           </div>
         </address>
         <section className="mt-4">
-          <h3 className="mb-1 text-2xl font-bold">Summary of Holdings in Allegheny County</h3>
-          {(!!error || !mainStats) ? (
+          <h3 className="mb-1 text-2xl font-bold">
+            Summary of Holdings in Allegheny County
+          </h3>
+          {!!error || !mainStats ? (
             <Typography.Note>
               There was an error getting aggregate statistics. If this error
               persists{" "}
@@ -107,57 +108,63 @@ export async function OwnerInfo({
               </A>
               .
             </Typography.Note>
-          ) : <>
-            <SingleValueVizCollection
-              items={[
-                {
-                  id: "parcel-count",
-                  label: "Number of Parcels",
-                  value: mainStats?.fairmarkettotal.n,
-                },
-                {
-                  id: "total-parcel-value",
-                  label: "Total Assessed Value",
-                  value: mainStats?.fairmarkettotal.sum,
-                  format: formatDollars,
-                },
-              ]}
-            />
+          ) : (
+            <>
+              <SingleValueVizCollection
+                items={[
+                  {
+                    id: "parcel-count",
+                    label: "Number of Parcels",
+                    value: mainStats?.fairmarkettotal.n,
+                  },
+                  {
+                    id: "total-parcel-value",
+                    label: "Total Assessed Value",
+                    value: mainStats?.fairmarkettotal.sum,
+                    format: formatDollars,
+                  },
+                ]}
+              />
 
-            <div className="mt-4">
-              <h4 className="-ml-1 px-1 text-xl font-bold">Other Properties in Allegheny County</h4>
-              <div className="box-content border-stone-600 py-3.5 pr-0">
-                {!!otherPropertyRecords.length ? (
-                  <ul className="max-h-64 w-fit overflow-auto rounded-sm border border-black bg-white">
-                    {otherPropertyRecords.map(({ region: pid, address }, i) => (
-                      <li
-                        key={`${pid}-${i}`}
-                        className="border-t px-2 py-0.5 first:border-t-0 even:bg-gray-100"
-                      >
-                        <A
-                          className="font-mono"
-                          href={`/explore?parcel=${pid}&zoomPan=1`}
-                        >
-                          {address} ({pid})
-                        </A>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <Typography.Note>No other properties</Typography.Note>
-                )}
+              <div className="mt-4">
+                <h4 className="-ml-1 px-1 text-xl font-bold">
+                  Other Properties in Allegheny County
+                </h4>
+                <div className="box-content border-stone-600 py-3.5 pr-0">
+                  {!!otherPropertyRecords.length ? (
+                    <ul className="max-h-64 w-fit overflow-auto rounded-sm border border-black bg-white">
+                      {otherPropertyRecords.map(
+                        ({ region: pid, address }, i) => (
+                          <li
+                            key={`${pid}-${i}`}
+                            className="border-t px-2 py-0.5 first:border-t-0 even:bg-gray-100"
+                          >
+                            <A
+                              className="font-mono"
+                              href={`/explore?parcel=${pid}&zoomPan=1`}
+                            >
+                              {address} ({pid})
+                            </A>
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  ) : (
+                    <Typography.Note>No other properties</Typography.Note>
+                  )}
+                </div>
+                <div className="flex flex-col space-y-4">
+                  <A
+                    variant="button"
+                    buttonVariant="primary"
+                    href={`/explore?parcel=${parcelID}&ownerAddr=${ownerAddr}`}
+                  >
+                    Highlight owner's properties on the map
+                  </A>
+                </div>
               </div>
-              <div className="flex flex-col space-y-4">
-                <A
-                  variant="button"
-                  buttonVariant="primary"
-                  href={`/explore?parcel=${parcelID}&ownerAddr=${ownerAddr}`}
-                >
-                  Highlight owner's properties on the map
-                </A>
-              </div>
-            </div>
-          </>}
+            </>
+          )}
         </section>
       </div>
     </div>
