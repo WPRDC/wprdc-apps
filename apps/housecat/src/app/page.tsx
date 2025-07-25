@@ -36,7 +36,7 @@ export default function HousecatHome() {
               small
             />
             <BigButton
-              href="/map"
+              href="/about"
               title="📜 About"
               subtitle="Information about the data and process"
             />

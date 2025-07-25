@@ -1,48 +1,27 @@
+import { A } from "@wprdc/ui";
+
 function About() {
   return (
-    <div className="">
-      <div className="">
-        <h3>On this page:</h3>
-        <ul>
-          <li>
-            <a href="#intro">About Affordable Housing</a>
-          </li>
-          <li>
-            <a href="#about-the-data">About the data</a>
-          </li>
-          <li>
-            <a href="#tracking-threats-to-affordability">
-              Tracking threats to affordability
-            </a>
-          </li>
-          <li>
-            <a href="#from-data-to-action">From data to action</a>
-          </li>
-          <li>
-            <a href="#sources">Sources</a>
-          </li>
-        </ul>
-      </div>
-
-      <div className="">
-        <h2>About</h2>
-        <section id="intro">
-          <h3>About Affordable Housing</h3>
+    <div className="container max-w-screen-lg px-4 mx-auto">
+      <div className="mt-4 pb-12 prose-lg">
+        <h1 className="text-4xl font-bold">About</h1>
+        <section className="mt-6 mb-2 text-lg" id="intro">
+          <h2 className="text-2xl font-bold">About Affordable Housing</h2>
           <p>
             Affordable housing is a growing issue of regional importance in our
             community.
             {"  "}
             In May, 2016, the City of Pittsburgh&rsquo;s Affordable Housing Task
             Force released{" "}
-            <a href="https://apps.pittsburghpa.gov/mayorpeduto/FinalReport_5_31_16.pdf">
+            <A href="https://apps.pittsburghpa.gov/mayorpeduto/FinalReport_5_31_16.pdf">
               its report
-            </a>{" "}
+            </A>{" "}
             to the Mayor and City Council. The report called for the creation of
             a centralized, publicly-accessible repository of affordable housing
             data to be hosted by the{" "}
-            <a href="https://www.wprdc.org">
+            <A href="https://www.wprdc.org">
               Western Pennsylvania Regional Data Center
-            </a>
+            </A>
             . In addition to including lists of deed and income-restricted
             properties, the Task Force also sought to use data to track
             compliance, monitor housing conditions, and establish an
@@ -54,7 +33,7 @@ function About() {
             To support this goal of using data to proactively monitor threats to
             affordability, the Western Pennsylvania Regional Data Center at the
             University of Pittsburgh and the{" "}
-            <a href="https://cmucreatelab.org/">Carnegie Mellon CREATE Lab</a>{" "}
+            <A href="https://cmucreatelab.org/">Carnegie Mellon CREATE Lab</A>{" "}
             partnered to develop a frequently-updated collection of data about
             subsidized properties in Allegheny County from approximately 20
             different databases provided by HUD and the Pennsylvania Housing
@@ -68,15 +47,15 @@ function About() {
           </p>
         </section>
 
-        <section id="about-the-data">
-          <h3>About the Data</h3>
+        <section className="mt-6 mb-2 text-lg" id="about-the-data">
+          <h2 className="text-2xl font-bold">About the Data</h2>
           <p>
             Data in this tool describing subsidized properties has been
             assembled from data shared by HUD and the Pennsylvania Housing
             Finance Agency. It includes data about subsidized properties from
             three major federal housing finance programs:
           </p>
-          <ul>
+          <ul className="list-disc ">
             <li>
               HUD&rsquo;s Multifamily Program supports the development and
               preservation of affordable housing units through direct subsidies,
@@ -86,9 +65,9 @@ function About() {
               insured/guaranteed mortgage programs, including 207, 213, 220,
               221(d)(4), 223(f), 223(a)(7), 231, 231, 234(d), 241(a), 542(b),
               542(c). More detailed information for each Multifamily Program is{" "}
-              <a href="https://www.google.com/url?q=https://www.hud.gov/program_offices/housing/mfh/progdesc&amp;sa=D&amp;source=editors&amp;ust=1649794639877094&amp;usg=AOvVaw1KrJXRhbkvIuxEHf8p_1e3">
+              <A href="https://www.google.com/url?q=https://www.hud.gov/program_offices/housing/mfh/progdesc&amp;sa=D&amp;source=editors&amp;ust=1649794639877094&amp;usg=AOvVaw1KrJXRhbkvIuxEHf8p_1e3">
                 available from HUD
-              </a>
+              </A>
               .
             </li>
             <li>
@@ -142,8 +121,8 @@ function About() {
           </p>
         </section>
 
-        <section id="tracking-threats-to-affordability">
-          <h3>Tracking Threats to Affordability</h3>
+        <section className="mt-6 mb-2 text-lg" id="tracking-threats-to-affordability">
+          <h2 className="text-2xl font-bold">Tracking Threats to Affordability</h2>
           <p>
             Members of the Preservation Working Group have helped design filters
             that can be used to identify properties that may be at risk of
@@ -162,30 +141,30 @@ function About() {
               compliance period, and those in their subsequent 15-year extended
               use period. While LIHTC is designed to provide subsidized housing
               for a thirty year term,{" "}
-              <a href="https://www.google.com/url?q=https://www.huduser.gov/portal/pdredge/pdr_edge_research_081712.html&amp;sa=D&amp;source=editors&amp;ust=1649794639879200&amp;usg=AOvVaw0OWjuOQpR3Bm63V47nnSE_">
+              <A href="https://www.google.com/url?q=https://www.huduser.gov/portal/pdredge/pdr_edge_research_081712.html&amp;sa=D&amp;source=editors&amp;ust=1649794639879200&amp;usg=AOvVaw0OWjuOQpR3Bm63V47nnSE_">
                 It&rsquo;s possible for properties to exit the program during
                 the extended use period (between years 15-30) through a relief
                 process
-              </a>
+              </A>
               . Data on LIHTC expirations are measured from the date the
               property was initially placed into service.
             </li>
             <li>
               Keep an eye on HUD multifamily and public housing properties
               receiving low inspection scores using the{" "}
-              <a href="https://www.google.com/url?q=https://www.hud.gov/topics/REAC_Inspections&amp;sa=D&amp;source=editors&amp;ust=1649794639879702&amp;usg=AOvVaw1YnKcEL1zw4qJeftyx07uz">
+              <A href="https://www.google.com/url?q=https://www.hud.gov/topics/REAC_Inspections&amp;sa=D&amp;source=editors&amp;ust=1649794639879702&amp;usg=AOvVaw1YnKcEL1zw4qJeftyx07uz">
                 Real Estate Assessment Center&rsquo;s
-              </a>{" "}
+              </A>{" "}
               &nbsp;inspection standard.{" "}
-              <a href="https://www.google.com/url?q=https://www.hud.gov/sites/dfiles/PIH/documents/inspectionfrequencypassmf_ph.pdf&amp;sa=D&amp;source=editors&amp;ust=1649794639880044&amp;usg=AOvVaw3OiYNljq9CEu_HsL4bigHk">
+              <A href="https://www.google.com/url?q=https://www.hud.gov/sites/dfiles/PIH/documents/inspectionfrequencypassmf_ph.pdf&amp;sa=D&amp;source=editors&amp;ust=1649794639880044&amp;usg=AOvVaw3OiYNljq9CEu_HsL4bigHk">
                 Properties are inspected roughly once every one to three years,
                 with properties scoring lower inspected more-frequently
-              </a>{" "}
+              </A>{" "}
               . Properties whose inspection score falls below 60 are classified
               as &ldquo;troubled&rdquo; and are at risk of losing their subsidy.{" "}
-              <a href="https://www.google.com/url?q=https://www.wesa.fm/politics-government/2021-11-10/forced-out-study-examines-impact-of-displacement-on-former-bethesda-homewood-tenants&amp;sa=D&amp;source=editors&amp;ust=1649794639880405&amp;usg=AOvVaw0j70WJoO2s-Pr9rPmfPBmr">
+              <A href="https://www.google.com/url?q=https://www.wesa.fm/politics-government/2021-11-10/forced-out-study-examines-impact-of-displacement-on-former-bethesda-homewood-tenants&amp;sa=D&amp;source=editors&amp;ust=1649794639880405&amp;usg=AOvVaw0j70WJoO2s-Pr9rPmfPBmr">
                 Approximately 100 families in Homewood recently were displaced
-              </a>{" "}
+              </A>{" "}
               due to a loss of subsidy triggered by poor inspections. To provide
               as much of an early warning as possible, we have attempted to
               provide inspection updates within 24 hours of new data being
@@ -198,9 +177,9 @@ function About() {
                   Multifamily, Public Housing, and Housing Choice Voucher
                   programs. Data from the LIHTC compliance process is reported
                   in{" "}
-                  <a href="https://www.google.com/url?q=https://www.irs.gov/pub/irs-access/f8823_accessible.pdf&amp;sa=D&amp;source=editors&amp;ust=1649794639880990&amp;usg=AOvVaw0j0B15Y2eR00Z38p5Jac8D">
+                  <A href="https://www.google.com/url?q=https://www.irs.gov/pub/irs-access/f8823_accessible.pdf&amp;sa=D&amp;source=editors&amp;ust=1649794639880990&amp;usg=AOvVaw0j0B15Y2eR00Z38p5Jac8D">
                     IRS Form 8823
-                  </a>
+                  </A>
                   , and is not made publicly-available.
                 </li>
               </ul>
@@ -208,76 +187,76 @@ function About() {
           </ul>
         </section>
 
-        <section id="sources">
-          <h3>Sources</h3>
+        <section className="mt-6 mb-2 text-lg" id="sources">
+          <h2 className="text-2xl font-bold">Sources</h2>
           <p>
             This tool compiles a broad list of available data from a number of
             different locations, including:{" "}
           </p>
-          <h4>HUD Multifamily</h4>
-          <ul>
+          <h4 className="font-bold">HUD Multifamily</h4>
+          <ul className="list-disc list-inside">
             <li>
-              <a href="https://www.hud.gov/program_offices/housing/comp/rpts/mfh/mf_f47">
+              <A href="https://www.hud.gov/program_offices/housing/comp/rpts/mfh/mf_f47">
                 Active HUD Multifamily Insured Mortgages
-              </a>
+              </A>
             </li>
 
             <li>
-              <a href="https://www.huduser.gov/portal/datasets/pis.html">
+              <A href="https://www.huduser.gov/portal/datasets/pis.html">
                 HUD Inspection Scores
-              </a>
+              </A>
             </li>
 
             <li>
-              <a href="https://www.hud.gov/program_offices/housing/mfh/rems/remsinspecscores/remsphysinspscores">
+              <A href="https://www.hud.gov/program_offices/housing/mfh/rems/remsinspecscores/remsphysinspscores">
                 HUD Multifamily Inspection Scores
-              </a>
+              </A>
             </li>
 
             <li>
-              <a href="https://hudgis-hud.opendata.arcgis.com/datasets/hud-insured-multifamily-properties">
+              <A href="https://hudgis-hud.opendata.arcgis.com/datasets/hud-insured-multifamily-properties">
                 HUD Insured Multifamily Properties
-              </a>
+              </A>
             </li>
 
             <li>
-              <a href="https://www.hud.gov/program_offices/housing/mfh/mfdata/mfproduction">
+              <A href="https://www.hud.gov/program_offices/housing/mfh/mfdata/mfproduction">
                 HUD Multifamily Fiscal Year Production
-              </a>
+              </A>
             </li>
 
             <li>
-              <a href="https://www.hud.gov/program_offices/housing/mfh/exp/mfhdiscl">
+              <A href="https://www.hud.gov/program_offices/housing/mfh/exp/mfhdiscl">
                 HUD Multifamily Assistance and Section 8 Contracts
-              </a>
+              </A>
             </li>
           </ul>
-          <h4>LIHTC</h4>
-          <ul>
+          <h4 className="font-bold">LIHTC</h4>
+          <ul className="list-disc list-inside">
             <li>
-              <a href="https://www.phfa.org/forms/multifamily_inventory/dv_allegheny.pdf">
+              <A href="https://www.phfa.org/forms/multifamily_inventory/dv_allegheny.pdf">
                 Funded Projects (PHFA) List emailed, but similar format to
                 online data
-              </a>
+              </A>
             </li>
             <li>
-              <a href="https://lihtc.huduser.gov/">
+              <A href="https://lihtc.huduser.gov/">
                 Projects and Buildings (HUD)
-              </a>
+              </A>
             </li>
           </ul>
-          <h4>Public Housing</h4>
-          <ul>
+          <h4 className="font-bold">Public Housing</h4>
+          <ul className="list-disc list-inside">
             <li>
-              <a href="https://hudgis-hud.opendata.arcgis.com/datasets/public-housing-developments">
+              <A href="https://hudgis-hud.opendata.arcgis.com/datasets/public-housing-developments">
                 HUD Public Housing Developments
-              </a>
+              </A>
             </li>
 
             <li>
-              <a href="https://hudgis-hud.opendata.arcgis.com/datasets/public-housing-buildings">
+              <A href="https://hudgis-hud.opendata.arcgis.com/datasets/public-housing-buildings">
                 HUD Public Housing Buildings
-              </a>
+              </A>
             </li>
           </ul>
         </section>
