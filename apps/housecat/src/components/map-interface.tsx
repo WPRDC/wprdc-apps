@@ -216,6 +216,28 @@ export function NavMap({
           filter={["in", ["get", "parcel_id"], ["literal", parcelIDs]]}
         />
       </Source>
+
+      <div className="absolute bottom-12 right-3 z-50 rounded-sm border-2 border-black bg-white p-2">
+        <div className="font-bold text-sm text-stone-700 uppercase">Legend</div>
+        <div className="italic text-xs">Point size based on unit count.</div>
+        <div className="italic text-xs">Red stroke indicates closed.</div>
+        <div className="flex items-center gap-1">
+          <div className="size-4 rounded-full border border-stone-800 bg-[#7F3C8D]"></div>
+          <div>HUD Multifamily</div>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="size-4 rounded-full border border-stone-800 bg-[#11A579]"></div>
+          <div>LIHTC</div>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="size-4 rounded-full border border-stone-800 bg-[#3969AC]"></div>
+          <div>Public Housing</div>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="size-4 rounded-full border border-stone-800 bg-[#F2B701]"></div>
+          <div>Multiple</div>
+        </div>
+      </div>
     </Map>
   ) as React.ReactElement<unknown, string | React.JSXElementConstructor<any>>;
 }

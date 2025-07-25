@@ -17,7 +17,7 @@
     "@wprdc/ui": "workspace:*",
     "chroma-js": "^3.1.2",
     "maplibre-gl": "^5.2.0",
-    "next": "15.1.7",
+    "next": "15.4.4",
     "react": "^19.0.0",
     "react-aria-components": "^1.7.1",
     "react-dom": "^19.0.0",
