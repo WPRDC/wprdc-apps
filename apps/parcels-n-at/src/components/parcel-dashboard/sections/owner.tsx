@@ -14,6 +14,10 @@ import {
 } from "@wprdc/ui";
 import React from "react";
 import { SectionProps } from "@/components/parcel-dashboard/types";
+import { TbAlertTriangle } from "react-icons/tb"; // list of addresses that should not be used in owner aggregation for legal reasons only (i.e. legislated privacy requirements)
+
+// list of addresses that should not be used in owner aggregation for legal reasons only (i.e. legislated privacy requirements)
+const OWNER_AGG_BLACKLIST = (process.env.OWNER_AGG_BLACKLIST ?? "").split(",");
 
 export function OwnerSection({
   records,
@@ -81,6 +85,8 @@ export async function OwnerInfo({
 
   const otherPropertyRecords = records.filter((r) => r.region !== parcelID);
 
+  const inBlackList = OWNER_AGG_BLACKLIST.includes(ownerAddr);
+
   return (
     <div>
       <div>
@@ -99,7 +105,7 @@ export async function OwnerInfo({
           <h3 className="mb-1 text-2xl font-bold">
             Summary of Holdings in Allegheny County
           </h3>
-          {!!error || !mainStats ? (
+          {inBlackList || !!error || !mainStats ? (
             <Typography.Note>
               There was an error getting aggregate statistics. If this error
               persists{" "}
@@ -109,7 +115,22 @@ export async function OwnerInfo({
               .
             </Typography.Note>
           ) : (
-            <>
+            <div>
+              <div className="mb-4 flex items-center">
+                <div>
+                  <TbAlertTriangle className="text-warning-600 mr-2 size-8" />
+                </div>
+                <div>
+                  <Typography.Note>
+                    A parcel's owner is determined by the owner address and not
+                    actual owning party. This due an Allegheny County ordinance
+                    (48-07) which places limitations on searching for parcel
+                    data by owner address.
+                  </Typography.Note>
+                </div>
+              </div>
+
+
               <SingleValueVizCollection
                 items={[
                   {
@@ -163,7 +184,7 @@ export async function OwnerInfo({
                   </A>
                 </div>
               </div>
-            </>
+            </div>
           )}
         </section>
       </div>

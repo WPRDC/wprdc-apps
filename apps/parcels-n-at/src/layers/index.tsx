@@ -8,6 +8,7 @@ import { largeInstitutionalOwners } from "@/layers/large-institutional-owners";
 import { largePublicOwners } from "@/layers/large-public-owners";
 import {countyMVA} from "@/layers/ac-mva";
 import {pittsburghHOLC} from "@/layers/pittsburgh-holc";
+import {pre78parcels} from "@/layers/pre-78-parcels";
 
 export const availableLayers = [
   parcelUseClasses,
@@ -19,6 +20,8 @@ export const availableLayers = [
 
   alleghenyCountyBoundary,
   pittsburghBoundary,
+
+  pre78parcels,
 
   // largeInstitutionalOwners,
   // largePublicOwners,
