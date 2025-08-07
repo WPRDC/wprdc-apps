@@ -17,7 +17,7 @@ import { SectionProps } from "@/components/parcel-dashboard/types";
 import { TbAlertTriangle } from "react-icons/tb"; // list of addresses that should not be used in owner aggregation for legal reasons only (i.e. legislated privacy requirements)
 
 // list of addresses that should not be used in owner aggregation for legal reasons only (i.e. legislated privacy requirements)
-const OWNER_AGG_BLACKLIST = (process.env.OWNER_AGG_BLACKLIST ?? "").split(",");
+const OWNER_AGG_BLACKLIST = (process.env.NEXT_PUBLIC_OWNER_AGG_BLACKLIST ?? "").split(",");
 
 export function OwnerSection({
   records,
