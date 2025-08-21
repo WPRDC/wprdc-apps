@@ -21,8 +21,8 @@ export const largeParcelPortfolios: LayerConfig = {
 
   tileSource: {
     tileJSONSource:
-      "https://data.wprdc.org/tiles/table.large_parcel_portfolios.geom",
-    sourceLayer: "table.large_parcel_portfolios.geom",
+      "https://data.wprdc.org/tiles/map.large_parcel_portfolios.geom",
+    sourceLayer: "map.large_parcel_portfolios.geom",
     minZoom: 10,
   },
 
@@ -31,28 +31,28 @@ export const largeParcelPortfolios: LayerConfig = {
     field: "owner",
 
     categories: [
-      { value: "ACHA", label: "ACHA" },
-      { value: "Pittsburgh", label: "Pittsburgh" },
-      { value: "URA", label: "URA" },
-      { value: "HACP", label: "HACP" },
-      { value: "Pitt", label: "Pitt" },
-      { value: "CMU", label: "CMU" },
-      { value: "UPMC", label: "UPMC" },
-      { value: "Highmark", label: "Highmark" },
+      { value: "acha", label: "ACHA" },
+      { value: "city", label: "Pittsburgh" },
+      { value: "ura", label: "URA" },
+      { value: "hacp", label: "HACP" },
+      { value: "pitt", label: "Pitt" },
+      { value: "cmu", label: "CMU" },
+      { value: "upmc", label: "UPMC" },
+      { value: "highmark", label: "Highmark" },
     ],
 
     color: {
       mode: "category",
       submode: "simple",
       value: {
-        ACHA: "#9f2d00",
-        Pittsburgh: "#facc15",
-        URA: "#65a30d",
-        HACP: "#f472b6",
-        Pitt: "#003594",
-        CMU: "#C41230",
-        UPMC: "#771B61",
-        Highmark: "#1290db",
+        acha: "#9f2d00",
+        city: "#facc15",
+        ura: "#65a30d",
+        hacp: "#f472b6",
+        pitt: "#003594",
+        cmu: "#C41230",
+        upmc: "#771B61",
+        highmark: "#1290db",
       },
     },
 
