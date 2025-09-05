@@ -32,7 +32,7 @@ export default function Page(): React.ReactElement {
 
   const [drawnCount, setDrawnCount] = useState<number>(0);
   const [drawLoading, setDrawLoading] = useState<boolean>(false);
-  const [parcelSelection, setParcelSelection] =
+  const [mapSelection, setMapSelection] =
     useState<ParcelSelectionOptions>({
       selectedFeatures: {
         [parcelLayer.slug]: [],
@@ -42,6 +42,10 @@ export default function Page(): React.ReactElement {
       drawnAreas: [],
     });
 
+
+  const [listSelection, setListSelection] = useState<string[]>([]);
+
+
   const [downloading, setDownloading] = useState(false);
 
   const [fieldSelection, setFieldSelection] = useState<
@@ -50,10 +54,12 @@ export default function Page(): React.ReactElement {
 
   function handleDownload(): void {
     const params = new URLSearchParams({
-      selectedFeatures: JSON.stringify(parcelSelection.selectedFeatures),
-      drawnAreas: JSON.stringify(parcelSelection.drawnAreas),
+      selectedFeatures: JSON.stringify(mapSelection.selectedFeatures),
+      drawnAreas: JSON.stringify(mapSelection.drawnAreas),
+      listSelection: JSON.stringify(listSelection),
       fieldSelection: JSON.stringify(fieldSelection),
     });
+
     setDownloading(true);
     fetch(`/api/parcels/?${params.toString()}`)
       .then((response) => response.blob())
@@ -85,14 +91,15 @@ export default function Page(): React.ReactElement {
     }
   }, []);
 
+  // lists of selected geogrpahies
   const [selectedParcels, selectedNeighborhoods, selectedMunicipalities] =
     useMemo(
       () => [
-        parcelSelection.selectedFeatures[parcelLayer.slug],
-        parcelSelection.selectedFeatures[pittsburghNeighborhoodLayer.slug],
-        parcelSelection.selectedFeatures[municipalities.slug],
+        mapSelection.selectedFeatures[parcelLayer.slug].concat(listSelection),
+        mapSelection.selectedFeatures[pittsburghNeighborhoodLayer.slug],
+        mapSelection.selectedFeatures[municipalities.slug],
       ],
-      [parcelSelection.selectedFeatures],
+      [mapSelection.selectedFeatures, listSelection],
     );
 
   const parcelsSelected = useMemo(
@@ -200,8 +207,8 @@ export default function Page(): React.ReactElement {
                   className="aspect-4/3 w-full rounded-md border-2 border-black lg:aspect-video"
                   mapTilerAPIKey={API_KEY}
                   onDrawCountChange={handleDrawing}
-                  onSelectionChange={setParcelSelection}
-                  selection={parcelSelection}
+                  onSelectionChange={setMapSelection}
+                  selection={mapSelection}
                 />
               </TabPanel>
 
@@ -214,7 +221,7 @@ export default function Page(): React.ReactElement {
                   previous search.
                 </div>
 
-                <ParcelListForm />
+                <ParcelListForm onChange={setListSelection}/>
               </TabPanel>
               <TabPanel
                 id="upload selection"

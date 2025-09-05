@@ -109,9 +109,13 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     searchParams.get("fieldSelection") ?? "{}",
   ) as Record<string, "all" | Key[]>;
 
+  const listSelection = JSON.parse(
+    searchParams.get("listSelection") ?? "[]",
+  ) as string[];
+
   // Get set of selected parcels
-  // directly-selected parcels
-  const selectedParcels = selectedFeatures.parcels;
+  // directly-selected parcels and list-entered parcels
+  const selectedParcels = selectedFeatures.parcels.concat(listSelection);
 
   // get parcels under the selected admin regions
   const regionParcelLists: string[][] = await Promise.all(

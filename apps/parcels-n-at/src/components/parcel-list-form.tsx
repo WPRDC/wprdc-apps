@@ -5,8 +5,7 @@ import { useCallback, useState } from "react";
 import { isValidParcelIDForm } from "@/util";
 
 export interface ParcelListFormProps {
-  onClose?: () => void;
-  onSubmit?: (parcelIDs?: string[]) => void;
+  onChange: (parcelIDs: string[]) => void
 }
 
 function extractIDs(text: string): [string[], string | undefined] {
@@ -29,7 +28,7 @@ function extractIDs(text: string): [string[], string | undefined] {
   return [parcelIDs, error];
 }
 
-export function ParcelListForm(): React.ReactElement {
+export function ParcelListForm({onChange}: ParcelListFormProps): React.ReactElement {
   const [value, setValue] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
 
@@ -48,6 +47,15 @@ export function ParcelListForm(): React.ReactElement {
     [value],
   );
 
+  const handleChange = useCallback(
+    (text: string) => {
+      setValue(text);
+      const [ids, _] = extractIDs(text);
+      onChange(ids);
+    },
+    [],
+  );
+
   return (
     <div className="flex space-x-7">
       <div className="w-1/2">
@@ -58,7 +66,7 @@ export function ParcelListForm(): React.ReactElement {
           rows={5}
           placeholder={"PARCELID1\nPARCELID2\nPARCELID3"}
           value={value}
-          onChange={setValue}
+          onChange={handleChange}
           onBlur={handleValidation}
         />
         <div className="h-3 text-xs text-red-800">{error}</div>
