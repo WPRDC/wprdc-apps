@@ -5,7 +5,7 @@ import { useCallback, useState } from "react";
 import { isValidParcelIDForm } from "@/util";
 
 export interface ParcelListFormProps {
-  onChange: (parcelIDs: string[]) => void
+  onChange: (parcelIDs: string[]) => void;
 }
 
 function extractIDs(text: string): [string[], string | undefined] {
@@ -28,15 +28,19 @@ function extractIDs(text: string): [string[], string | undefined] {
   return [parcelIDs, error];
 }
 
-export function ParcelListForm({onChange}: ParcelListFormProps): React.ReactElement {
+export function ParcelListForm({
+  onChange,
+}: ParcelListFormProps): React.ReactElement {
   const [value, setValue] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
 
   const handleFileChange = useCallback(async function handleFileChange(
     f: File,
   ): Promise<void> {
+    console.log("file change!");
     const text = await f.text();
     setValue(text);
+    handleChange(text);
   }, []);
 
   const handleValidation = useCallback(
@@ -47,14 +51,11 @@ export function ParcelListForm({onChange}: ParcelListFormProps): React.ReactElem
     [value],
   );
 
-  const handleChange = useCallback(
-    (text: string) => {
-      setValue(text);
-      const [ids, _] = extractIDs(text);
-      onChange(ids);
-    },
-    [],
-  );
+  const handleChange = useCallback((text: string) => {
+    setValue(text);
+    const [ids, _] = extractIDs(text);
+    onChange(ids);
+  }, []);
 
   return (
     <div className="flex space-x-7">
@@ -74,7 +75,7 @@ export function ParcelListForm({onChange}: ParcelListFormProps): React.ReactElem
       <div className="w-1/2">
         <Typography.Label>Upload a list</Typography.Label>
         <Upload
-          onFileChange={() => void handleFileChange}
+          onFileChange={handleFileChange}
           dropLabel="Drag & Drop to Load List from File"
         />
       </div>
