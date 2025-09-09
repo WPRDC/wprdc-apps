@@ -9,6 +9,7 @@ import { largePublicOwners } from "@/layers/large-public-owners";
 import {countyMVA} from "@/layers/ac-mva";
 import {pittsburghHOLC} from "@/layers/pittsburgh-holc";
 import {pre78parcels} from "@/layers/pre-78-parcels";
+import {waterSuppliers} from '@/layers/water-suppliers.ts'
 
 export const availableLayers = [
   parcelUseClasses,
@@ -22,7 +23,7 @@ export const availableLayers = [
   pittsburghBoundary,
 
   pre78parcels,
-
+  waterSuppliers,
   // largeInstitutionalOwners,
   // largePublicOwners,
 ];
