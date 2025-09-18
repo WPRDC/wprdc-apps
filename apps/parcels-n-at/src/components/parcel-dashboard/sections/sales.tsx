@@ -69,6 +69,7 @@ export function SalesSection({
     .sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
     .reverse();
 
+
   return (
     <div className="max-w-lg">
       <Table

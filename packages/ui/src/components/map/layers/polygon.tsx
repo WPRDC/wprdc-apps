@@ -30,6 +30,9 @@ export function PolygonLayer({
   let filter = layer.renderOptions?.filter;
 
 
+  console.log(color)
+
+
   return (
     <>
       <Layer

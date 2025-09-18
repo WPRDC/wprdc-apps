@@ -9,6 +9,7 @@ export interface LegendGroupOptions extends Identifiable {
 export interface LegendItemProps extends Identifiable {
   /** geometry type of associated map layer - used to select an icon **/
   geoType: GeoType;
+
   /* style props */
   strokeColor?: string;
   strokeOpacity?: number;

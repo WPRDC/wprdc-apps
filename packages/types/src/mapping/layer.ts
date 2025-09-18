@@ -1,7 +1,7 @@
 import type { ExpressionSpecification, FilterSpecification } from "maplibre-gl";
 import type { ReactNode } from "react";
 import type { GeoType, Identifiable, Publisher } from "../shared";
-import { CategoryOptions, type SymbologyOptions } from "./symbology";
+import { SymbologyConfig } from "./symbology";
 import type { LegendGroupOptions } from "./legend";
 
 export interface LayerSource extends Identifiable {
@@ -10,11 +10,14 @@ export interface LayerSource extends Identifiable {
 
   /** CKAN resource ID for CKAN resources */
   resourceID: string;
+
+  /** Publisher details */
+  publisher: Publisher;
 }
 
 export interface TileSource {
   /** URL of tile JSON to override as source */
-  tileJSONSource: string;
+  source: string;
 
   /** Override source-layer  */
   sourceLayer: string;
@@ -64,37 +67,35 @@ export interface InteractionOptions {
 }
 
 /** Properties common among all layers */
-export interface LayerConfig extends Identifiable {
-  /** Description of the layer/dataset */
+export interface LayerConfig<S extends SymbologyConfig = SymbologyConfig> extends Identifiable {
+  /** Description of the layer/dataset. Can be markdown */
   description: string;
 
-  /** Warning */
+  /** Warning text. Can be markdown */
   warning?: string;
-
-  /** Type of geometry used in layer */
-  type: GeoType;
 
   /** Data source being visualized by layer */
   source: LayerSource;
 
-  /** Publisher details */
-  publisher: Publisher;
-
   /** Tileserver details */
-  tileSource: TileSource;
+  tiles: TileSource;
 
-  /** Options that define the layer's legend item if one */
-  legend?: LegendGroupOptions;
+  /** Configuration for the layer's feature symbology */
+  symbology: S;
 
+  /**
+   * Options that define the layer's legend items.
+   * Legend is automatically configured if omitted and using a simplified symbology config.
+   * If using a raw symbology configuration, a legend must be manually configured to be rendered.
+   * If using a simplified symbology configuration, pass `false` to skip legend generation.
+   * */
+  legend?: Omit<LegendGroupOptions, "geoType"> | false;
+
+  /** Layer-wide render options */
   renderOptions?: {
-    /** Filter dataset */
+    /** Filter dataset before rendering */
     filter?: FilterSpecification;
-
-    /** Set to true to ignore layer when generating legend */
-    noLegend?: boolean;
   };
-
-  symbology: SymbologyOptions;
 
   /** Settings to control hover and click behavior */
   interaction?: InteractionOptions;

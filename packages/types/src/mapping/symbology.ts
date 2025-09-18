@@ -1,4 +1,4 @@
-import type {
+import {
   DataDrivenPropertyValueSpecification,
   ExpressionSpecification,
 } from "@maplibre/maplibre-gl-style-spec";
@@ -7,6 +7,7 @@ import type {
   FillLayerSpecification,
   LineLayerSpecification,
 } from "maplibre-gl";
+import { GeoType } from "../shared.ts";
 
 export type CirclePaintSpec = NonNullable<CircleLayerSpecification["paint"]>;
 export type CircleLayoutSpec = NonNullable<CircleLayerSpecification["layout"]>;
@@ -51,6 +52,7 @@ export interface CategoryValueRecord<T> {
 }
 
 export interface CategoryOptionsRecord {
+  /** Value expression for the category. Simple values are compared directly (. Expression specifications are  */
   value: string;
   label: string;
 }
@@ -65,79 +67,118 @@ export type OptionallyZoomInteractive<T extends StyleValue = StyleValue> =
 
 // Symbology Options
 
-export interface SimpleFixedSymbologyOptions<
-  T extends StyleValue = StyleValue,
-> {
+/** Configuration used for fixed/static data layers */
+export interface FixedSymbologyOptions<T extends StyleValue = StyleValue> {
   mode: "fixed";
-  value: OptionallySimpleInteractive<T>;
+
+  style: OptionallySimpleInteractive<T> | OptionallyZoomInteractive<T>;
 }
 
-export interface ZoomFixedSymbologyOptions {
-  mode: "zoom";
-  value: OptionallyZoomInteractive<number>;
-}
-
-export interface SimpleCategorySymbologyOptions<
-  T extends StyleValue = StyleValue,
-> {
+/** Configuration used for categorical data layers */
+export interface CategorySymbologyOptions<T extends StyleValue = StyleValue> {
   mode: "category";
-  submode: "simple";
 
-  /** Maps categories to value */
-  value: Record<string | number, OptionallySimpleInteractive<T>>;
-}
-
-// not really used yet
-export type ZoomCategorySymbologyOptions = {
-  mode: "category";
-  submode: "zoom";
-
-  /** Field to check categories against from */
+  /** Field from which categories are derived */
   field: string;
+
   /** Maps categories to value */
-  value: Record<string | number, OptionallyZoomInteractive>;
-};
+  value: {
+    /** The label for this category */
+    label: string;
+    /** The value found in `field` that signifies this category */
+    category: string | number;
+    /** The style used for this category */
+    style: OptionallySimpleInteractive<T> | OptionallyZoomInteractive<T>;
+  }[];
+
+  /** Style used when no category is matched */
+  defaultStyle: OptionallySimpleInteractive<T> | OptionallyZoomInteractive<T>;
+}
+
+export type DecisionOperator = "==" | "!=" | ">" | "<" | "<=" | ">=";
+
+/** Configuration used for conditionally-styled data layers */
+export interface CaseSymbologyOptions<T extends StyleValue = StyleValue> {
+  mode: "case";
+
+  /** Field from which categories are derived */
+  field: string;
+
+  /** Cases and their associated style values */
+  value: {
+    /** Optional label, otherwise generated from operator and value */
+    label?: string;
+    /** The operator comparing the field's value against `operand` */
+    operator: DecisionOperator;
+    /** The value to compare the field's value against */
+    operand: number;
+    /** The style used in this case */
+    style: OptionallySimpleInteractive<T> | OptionallyZoomInteractive<T>;
+  }[];
+}
+
+export type RampType =
+  | "step"
+  | "linear"
+  | "square"
+  | "log"
+  | "ease-in"
+  | "ease-out"
+  | "ease-in-out";
+
+/** Configuration used for value controlled on interpolation on data (e.g. choropleth) */
+export interface RampSymbologyOptions<T extends StyleValue = StyleValue> {
+  mode: "ramp";
+
+  /** Field from which values are interpolated for the ramp */
+  field: string;
+
+  /** The type of interpolation used.  Step uses discrete steps */
+  type: RampType;
+
+  /** Ramp points and their associated style values */
+  value: {
+    /** The label placed at this point in the ramp.  Usually used for first and last steps */
+    label?: string;
+    /** The value compared against `field` that defines this point in the ramp */
+    value?: number;
+    /** The style used at this point in the ramp */
+    style: OptionallySimpleInteractive<T> | OptionallyZoomInteractive<T>;
+  }[];
+}
 
 interface ExpressionSpecificationSymbologyOption {
   mode: "expression";
   expression: ExpressionSpecification;
 }
 
-export type DiscreteValueSymbologyOptions = SimpleFixedSymbologyOptions<string>;
-export type CategoryDiscreteValueSymbologyOptions =
-  | SimpleFixedSymbologyOptions<string>
-  | SimpleCategorySymbologyOptions<string>;
+export type SymbologyOptions<T extends StyleValue = StyleValue> =
+  | FixedSymbologyOptions<T>
+  | CategorySymbologyOptions<T>
+  | CaseSymbologyOptions<T>
+  | RampSymbologyOptions<T>
+  | ExpressionSpecificationSymbologyOption;
 
-// continuous values can also be controlled on zoom
-export type ContinuousValueSymbologyOptions =
-  | SimpleFixedSymbologyOptions<number>
-  | ZoomFixedSymbologyOptions;
+/** Simplified configuration should cover most cases */
+export interface SimplifiedSymbologyConfig {
+  mode: "simplified";
+  /** The type of geometry being styled */
+  geoType: GeoType;
 
-export type CategoryContinuousValueSymbologyOptions =
-  | SimpleFixedSymbologyOptions<number>
-  | ZoomFixedSymbologyOptions
-  | SimpleCategorySymbologyOptions<number>
-  | ZoomCategorySymbologyOptions;
-
-export interface SimpleSymbologyConfig {
-  mode: "simple";
-
-  categories?: undefined
-  field?: undefined
 
   // Discrete Fields
   /** Color specification to apply to all features in layer */
-  color?: DiscreteValueSymbologyOptions;
+  color?: SymbologyOptions<string>;
   /** Color specification to apply to borders of all features */
-  borderColor?: DiscreteValueSymbologyOptions;
+  borderColor?: SymbologyOptions<string>;
 
   // Continuous Fields
   /** Override opacity settings */
-  opacity?: ContinuousValueSymbologyOptions;
+  opacity?: SymbologyOptions<number>;
   /** Override border width */
-  borderWidth?: ContinuousValueSymbologyOptions;
+  borderWidth?: SymbologyOptions<number>;
   /** Override border opacity */
-  borderOpacity?: ContinuousValueSymbologyOptions;
+  borderOpacity?: SymbologyOptions<number>;
 
   // Text fields
   /** Expression that returns a string to use as a label */
@@ -145,39 +186,32 @@ export interface SimpleSymbologyConfig {
   /** Expression that returns a string to use as a subtitle to `textField` */
   subtitleTextField?: ExpressionSpecificationSymbologyOption;
   /** Override font size for labels if they are present */
-  textSize?: ContinuousValueSymbologyOptions;
+  textSize?: SymbologyOptions<number>;
 }
 
-export interface CategorySymbologyConfig {
-  mode: "category";
-
-  /** Field with categories */
-  field: string;
-
-  /** Category metadata */
-  categories: CategoryOptionsRecord[];
-
-  // Discrete Fields
-  /** Color specification to apply to all features in layer */
-  color?: CategoryDiscreteValueSymbologyOptions;
-  /** Color specification to apply to borders of all features */
-  borderColor?: CategoryDiscreteValueSymbologyOptions;
-
-  // Continuous Fields
-  /** Override opacity settings */
-  opacity?: CategoryContinuousValueSymbologyOptions;
-  /** Override border width */
-  borderWidth?: CategoryContinuousValueSymbologyOptions;
-  /** Override border opacity */
-  borderOpacity?: CategoryContinuousValueSymbologyOptions;
-
-  // Text fields
-  /** Expression that returns a string to use as a label */
-  textField?: ExpressionSpecificationSymbologyOption;
-  /** Expression that returns a string to use as a subtitle to `textField` */
-  subtitleTextField?: ExpressionSpecificationSymbologyOption;
-  /** Override font size for labels if they are present */
-  textSize?: CategoryContinuousValueSymbologyOptions;
+// Allow for manually defining a layer's symbology in rare cases.
+export interface RawCircleSymbologyConfig {
+  mode: "raw";
+  geoType: GeoType.Point;
+  paint?: CirclePaintSpec;
+  layout?: CircleLayoutSpec;
 }
+export interface RawLineSymbologyConfig {
+  mode: "raw";
+  geoType: GeoType.Line;
+  paint?: LinePaintSpec;
+  layout?: LineLayoutSpec;
+}
+export interface RawPolygonSymbologyConfig {
+  mode: "raw";
+  geoType: GeoType.Polygon;
+  paint?: FillPaintSpec & LinePaintSpec;
+  layout?: FillLayoutSpec & LineLayoutSpec;
+}
+/** Manually provided symbology configuration using maplibre style specification */
+export type RawSymbologyConfig =
+  | RawCircleSymbologyConfig
+  | RawLineSymbologyConfig
+  | RawPolygonSymbologyConfig;
 
-export type SymbologyOptions = SimpleSymbologyConfig | CategorySymbologyConfig;
+export type SymbologyConfig = SimplifiedSymbologyConfig | RawSymbologyConfig;

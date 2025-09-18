@@ -9,8 +9,8 @@ import {
   type LayerConfig,
   type MapState,
   type ParseResults,
+  type SimplifiedSymbologyConfig,
   type StyleValue,
-  type SymbologyOptions,
   ZoomExpression,
 } from "@wprdc/types";
 import {
@@ -32,13 +32,11 @@ import {
  *                    Provides context on selected features, hover state and click state.
  */
 export function parseConfig(
-  layer: LayerConfig,
+  layer: LayerConfig<SimplifiedSymbologyConfig>,
   context: MapState,
 ): ParseResults {
-  // todo: check if categories are defined. if so, then
-  //  - make sure any field using cateogories uses the same ones,
-  //  - and that at least one field is style by category (otherwise how would users see them?)
 
+  // colors
   const color: DataDrivenPropertyValueSpecification<string> =
     parseOption<string>(
       "color",
@@ -54,6 +52,27 @@ export function parseConfig(
       "#000",
     ) as DataDrivenPropertyValueSpecification<string>;
 
+  // numeric values
+  const opacity: DataDrivenPropertyValueSpecification<number> = parseOption(
+    "opacity",
+    layer,
+    context,
+    DEFAULT_FILL_OPACITY,
+  ) as DataDrivenPropertyValueSpecification<number>;
+  const borderOpacity = parseOption(
+    "borderOpacity",
+    layer,
+    context,
+    DEFAULT_LINE_OPACITY,
+  ) as DataDrivenPropertyValueSpecification<number>;
+  const borderWidth = parseOption(
+    "borderWidth",
+    layer,
+    context,
+    layer.symbology.geoType === GeoType.Polygon ? DEFAULT_BORDER_WIDTH : DEFAULT_LINE_WIDTH,
+  ) as DataDrivenPropertyValueSpecification<number>;
+
+  // make sure interactive features are above others
   let lineSortKey: ExpressionSpecification | undefined = undefined;
   if (!!layer.interaction) {
     lineSortKey = [
@@ -73,26 +92,6 @@ export function parseConfig(
       0,
     ];
   }
-
-  // numeric values
-  const opacity: DataDrivenPropertyValueSpecification<number> = parseOption(
-    "opacity",
-    layer,
-    context,
-    DEFAULT_FILL_OPACITY,
-  ) as DataDrivenPropertyValueSpecification<number>;
-  const borderOpacity = parseOption(
-    "borderOpacity",
-    layer,
-    context,
-    DEFAULT_LINE_OPACITY,
-  ) as DataDrivenPropertyValueSpecification<number>;
-  const borderWidth = parseOption(
-    "borderWidth",
-    layer,
-    context,
-    layer.type === GeoType.Polygon ? DEFAULT_BORDER_WIDTH : DEFAULT_LINE_WIDTH,
-  ) as DataDrivenPropertyValueSpecification<number>;
 
   // todo: improve typing and avoid these "as" statements
   const textSize: ExpressionSpecification = parseOption(
@@ -187,7 +186,6 @@ export function parseOptionAsLegendProp(
 ): string | number | undefined {
   const record = layer.symbology[option];
 
-
   if (!record) return undefined;
   switch (record.mode) {
     case "fixed":
@@ -200,9 +198,7 @@ export function parseOptionAsLegendProp(
       switch (record.submode) {
         case "simple":
           const sValue = record.value[category];
-          return parseInteractiveExpressionForLegend(
-            sValue,
-          );
+          return parseInteractiveExpressionForLegend(sValue);
         case "zoom":
           const zValue = record.value[category];
           // gets value from a step near the middle
@@ -213,7 +209,7 @@ export function parseOptionAsLegendProp(
 }
 
 /**
- * Generates mapbox expression for most configuration options.
+ * Generates mapbox expression for symbology configuration options.
  *
  * @param option        - The value of the configuration option being parsed
  * @param layer         - The layer object the option is from
@@ -222,8 +218,8 @@ export function parseOptionAsLegendProp(
  * @param defaultValue  - Value to use in default cases.
  */
 export function parseOption<T extends StyleValue>(
-  option: keyof Omit<SymbologyOptions, "mode" | "field" | "categories">,
-  layer: LayerConfig,
+  option: keyof Omit<SimplifiedSymbologyConfig, "mode" | "geoType">,
+  layer: LayerConfig<SimplifiedSymbologyConfig>,
   context: MapState,
   defaultValue: DataDrivenPropertyValueSpecification<T>,
 ):
@@ -236,19 +232,12 @@ export function parseOption<T extends StyleValue>(
 
   const symbologyRecord = layer.symbology[option];
 
+  // generate maplibre paint expression depending on the style mode,
   switch (symbologyRecord.mode) {
     case "fixed":
+      // todo check if it's zoomed
       return parseInteractiveExpression<T>(
-        symbologyRecord.value as T | InteractiveExpression<T>,
-        layer,
-        context,
-      );
-
-    case "zoom":
-      return parseZoomExpression<T>(
-        symbologyRecord.value as
-          | ZoomExpression<T>
-          | ZoomExpression<InteractiveExpression<T>>,
+        symbologyRecord.style,
         layer,
         context,
       );
@@ -377,7 +366,7 @@ export function parseZoomExpression<T extends StyleValue>(
   )[];
 
   // ignore minzoom default if style goes below it
-  const minZoom = layer.tileSource.minZoom ?? 0.1;
+  const minZoom = layer.tiles.minZoom ?? 0.1;
   let minZoomArgs: [number, number] | never[] = [minZoom, 0];
   if (minZoom >= expression[0][0]) {
     minZoomArgs = [];
