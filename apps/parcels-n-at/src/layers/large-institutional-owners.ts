@@ -5,76 +5,73 @@ export const largeInstitutionalOwners: LayerConfig = {
   slug: "large-institutional-owners",
   title: "Large Institutional-Owner Portfolios",
   description: "Highlight large parcel portfolios owned by local institutions.",
-  type: GeoType.Polygon,
-  publisher: {
-    name: "WPRDC",
-    homepage: "https://wprdc.org/",
-    org: "wprdc",
-  },
 
   source: {
     slug: "large-institutional-owners",
     title: "Large Institutional-Owner Portfolios",
     url: "",
     resourceID: "",
+    publisher: {
+      name: "WPRDC",
+      homepage: "https://wprdc.org/",
+      org: "wprdc",
+    },
   },
 
-  tileSource: {
-    tileJSONSource:
-      "https://data.wprdc.org/tiles/table.large_parcel_portfolios.geom",
+  tiles: {
+    source: "https://data.wprdc.org/tiles/table.large_parcel_portfolios.geom",
     sourceLayer: "table.large_parcel_portfolios.geom",
     minZoom: 10,
   },
 
   symbology: {
-    mode: "category",
-    field: "owner",
-
-    categories: [
-      { value: "ACHA", label: "ACHA" },
-      { value: "Pittsburgh", label: "Pittsburgh" },
-      { value: "URA", label: "URA" },
-      { value: "HACP", label: "HACP" },
-      { value: "Pitt", label: "Pitt" },
-      { value: "CMU", label: "CMU" },
-      { value: "UPMC", label: "UPMC" },
-      { value: "Highmark", label: "Highmark" },
-    ],
-
-    color: {
+    mode: "simplified",
+    geoType: GeoType.Polygon,
+    fillColor: {
       mode: "category",
-      submode: "simple",
-      value: {
-        ACHA: "#9f2d00",
-        Pittsburgh: "#facc15",
-        URA: "#65a30d",
-        HACP: "#f472b6",
-        Pitt: "#003594",
-        CMU: "#C41230",
-        UPMC: "#771B61",
-        Highmark: "#1290db",
-      },
+      field: "owner",
+      style: [
+        { slug: "acha", value: "ACHA", label: "ACHA", style: "#9f2d00" },
+        {
+          slug: "pittsburgh",
+          value: "Pittsburgh",
+          label: "Pittsburgh",
+          style: "#facc15",
+        },
+        { slug: "ura", value: "URA", label: "URA", style: "#65a30d" },
+        { slug: "hacp", value: "HACP", label: "HACP", style: "#f472b6" },
+        { slug: "pitt", value: "Pitt", label: "Pitt", style: "#003594" },
+        { slug: "cmu", value: "CMU", label: "CMU", style: "#C41230" },
+        { slug: "upmc", value: "UPMC", label: "UPMC", style: "#771B61" },
+        {
+          slug: "highmark",
+          value: "Highmark",
+          label: "Highmark",
+          style: "#1290db",
+        },
+      ],
+      defaultStyle: "#000",
     },
 
-    opacity: {
-      mode: "zoom",
-      value: [
+    fillOpacity: {
+      mode: "fixed",
+      style: [
         [9, 1],
         [12, 0.8],
       ],
     },
 
-    borderOpacity: {
-      mode: "zoom",
-      value: [
+    strokeOpacity: {
+      mode: "fixed",
+      style: [
         [9, 1],
         [12, 0.8],
       ],
     },
 
-    borderWidth: {
-      mode: "zoom",
-      value: [
+    strokeWidth: {
+      mode: "fixed",
+      style: [
         [10, 0],
         [12, 1],
         [13, 1],

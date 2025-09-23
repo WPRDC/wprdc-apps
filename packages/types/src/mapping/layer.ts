@@ -1,8 +1,8 @@
 import type { ExpressionSpecification, FilterSpecification } from "maplibre-gl";
 import type { ReactNode } from "react";
-import type { GeoType, Identifiable, Publisher } from "../shared";
+import type { Identifiable, Publisher } from "../shared";
 import { SymbologyConfig } from "./symbology";
-import type { LegendGroupOptions } from "./legend";
+import type { LegendOptions } from "./legend";
 
 export interface LayerSource extends Identifiable {
   /** URL to source or to information about it.  Used in links. */
@@ -67,7 +67,8 @@ export interface InteractionOptions {
 }
 
 /** Properties common among all layers */
-export interface LayerConfig<S extends SymbologyConfig = SymbologyConfig> extends Identifiable {
+export interface LayerConfig<S extends SymbologyConfig = SymbologyConfig>
+  extends Identifiable {
   /** Description of the layer/dataset. Can be markdown */
   description: string;
 
@@ -89,7 +90,7 @@ export interface LayerConfig<S extends SymbologyConfig = SymbologyConfig> extend
    * If using a raw symbology configuration, a legend must be manually configured to be rendered.
    * If using a simplified symbology configuration, pass `false` to skip legend generation.
    * */
-  legend?: Omit<LegendGroupOptions, "geoType"> | false;
+  legend?: LegendOptions | false;
 
   /** Layer-wide render options */
   renderOptions?: {

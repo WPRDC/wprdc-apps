@@ -184,6 +184,7 @@ export function MapControls({
                 <MenuItem id="tax-liens">Tax Liens</MenuItem>
                 <MenuItem id="foreclosure">Foreclosure</MenuItem>
                 <MenuItem id="conservatorship">Conservatorship</MenuItem>
+                <MenuItem id="lead-risk">Lead Exposure Risks</MenuItem>
               </Menu>
             </Popover>
           </MenuTrigger>

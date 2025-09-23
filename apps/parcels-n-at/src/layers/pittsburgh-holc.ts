@@ -3,7 +3,7 @@ import { GeoType } from "@wprdc/types";
 
 export const pittsburghHOLC: LayerConfig = {
   slug: "pittsburgh-holc",
-  title: "HOLC \"Redline\" Grades",
+  title: 'HOLC "Redline" Grades',
   description:
     "Redlining Maps from the Home Owners Loan Corporation (HOLC), 1937",
   warning: `In the 1930’s the Home Owners’ Loan Corporation (a U.S. Government Agency) developed maps for many cities around the country depicting housing investment risk. The maps graded communities on a four-part scale ranging from “A” to “D,” with the riskiest communities depicted using the color red on maps. While there is no evidence these neighborhood descriptions or maps were used to approve or deny loans, the grades and assessments were a reflection of racist attitudes and prejudices, and shaped perceptions of communities for generations.
@@ -22,22 +22,21 @@ In 2021, to center our work to develop housing data products in racial equity an
 - Lack of inclusive affordable housing and design requirements;
 - Displacement and gentrification, including urban renewal; and
 - Voting rights limitations and other forms of excluding community residents from decision-making processes.`,
-  type: GeoType.Polygon,
-  publisher: {
-    name: "Allegheny County",
-    homepage: "https://www.alleghenycounty.us/",
-    org: "allegheny-county",
-  },
 
   source: {
     slug: "pittsburgh-holc",
     title: "Redlining",
     url: "https://data.wprdc.org/dataset/redlining-maps-from-the-home-owners-loan-corporation",
     resourceID: "9f67567a-a4d8-455f-804e-d22db49318a0",
+    publisher: {
+      name: "Allegheny County",
+      homepage: "https://www.alleghenycounty.us/",
+      org: "allegheny-county",
+    },
   },
 
-  tileSource: {
-    tileJSONSource:
+  tiles: {
+    source:
       "https://data.wprdc.org/tiles/table.9f67567a-a4d8-455f-804e-d22db49318a0._geom",
     sourceLayer: "table.9f67567a-a4d8-455f-804e-d22db49318a0._geom",
     minZoom: 7,
@@ -45,45 +44,42 @@ In 2021, to center our work to develop housing data products in racial equity an
   },
 
   symbology: {
-    mode: "category",
-    field: "holc_grade",
-    categories: [
-      { value: "A", label: "A" },
-      { value: "B", label: "B" },
-      { value: "C", label: "C" },
-      { value: "D", label: "D" },
-    ],
+    mode: "simplified",
+    geoType: GeoType.Polygon,
 
-    color: {
+    fillColor: {
       mode: "category",
-      submode: "simple",
-      value: {
-        A: "#537f4d",
-        B: "#53818c",
-        C: "#c6bd63",
-        D: "#a95861",
-      },
+      field: "holc_grade",
+
+      style: [
+        { slug: "a", value: "A", label: "A", style: "#537f4d" },
+        { slug: "b", value: "B", label: "B", style: "#53818c" },
+        { slug: "c", value: "C", label: "C", style: "#c6bd63" },
+        { slug: "d", value: "D", label: "D", style: "#a95861" },
+      ],
+
+      defaultStyle: "#000",
     },
 
-    borderColor: {
+    strokeColor: {
       mode: "fixed",
-      value: "#000",
+      style: "#000",
     },
-    opacity: {
+    fillOpacity: {
       mode: "fixed",
-      value: 0.8
+      style: 0.8,
     },
-    borderOpacity: {
-      mode: "zoom",
-      value: [
+    strokeOpacity: {
+      mode: "fixed",
+      style: [
         [8, 1],
         [14.5, 1],
         [15, 0],
       ],
     },
-    borderWidth: {
-      mode: "zoom",
-      value: [
+    strokeWidth: {
+      mode: "fixed",
+      style: [
         [8, 1],
         [12, 1],
         [14.5, 2],

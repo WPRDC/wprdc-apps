@@ -84,10 +84,6 @@ export async function MultiConnectedSectionContent<
     keys.map((k) => getters[k](parcelID)),
   );
 
-  for (const { records, fields } of results) {
-    if (!records || !fields || !records.length)
-      return <Typography.Note>No records found for {parcelID}</Typography.Note>;
-  }
 
   const childProps: MultiSourceSectionProps<T> = keys.reduce<
     Partial<MultiSourceSectionProps<T>>

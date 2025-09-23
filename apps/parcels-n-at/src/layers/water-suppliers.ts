@@ -4,20 +4,21 @@ export const waterSuppliers: LayerConfig = {
   slug: "water-suppliers",
   title: "Public Water Supplier Service Areas",
   description: "Service areas of public water authorities.",
-  type: GeoType.Polygon,
-  publisher: {
-    name: "WPRDC",
-    homepage: "",
-    org: "wprdc",
-  },
+
   source: {
     slug: "water-suppliers",
     title: "Public Water Supplier Service Areas",
     url: "https://data.wprdc.org/dataset/pa-public-water-systems/resource/b214c4d7-edb6-430a-baf3-de83ab0c1b81",
     resourceID: "b214c4d7-edb6-430a-baf3-de83ab0c1b81",
+    publisher: {
+      name: "WPRDC",
+      homepage: "",
+      org: "wprdc",
+    },
   },
-  tileSource: {
-    tileJSONSource:
+
+  tiles: {
+    source:
       "https://data.wprdc.org/tiles/table.a7bd36fd-bf2d-4818-b6ef-a010cf039e31._geom",
     sourceLayer: "table.a7bd36fd-bf2d-4818-b6ef-a010cf039e31._geom",
     minZoom: 7,
@@ -29,19 +30,20 @@ export const waterSuppliers: LayerConfig = {
   },
 
   symbology: {
-    mode: "simple",
-    color: {
+    mode: "simplified",
+    geoType: GeoType.Polygon,
+    fillColor: {
       mode: "fixed",
-      value: "#78B3F7",
+      style: "#78B3F7",
     },
-    borderColor: {
+    strokeColor: {
       mode: "fixed",
-      value: "#091439",
+      style: "#091439",
     },
-    opacity: { mode: "fixed", value: 0.3 },
-    borderWidth: {
-      mode: "zoom",
-      value: [
+    fillOpacity: { mode: "fixed", style: 0.3 },
+    strokeWidth: {
+      mode: "fixed",
+      style: [
         [7, 2],
         [13, 2],
         [15, 4],
@@ -50,8 +52,8 @@ export const waterSuppliers: LayerConfig = {
     },
     textField: { mode: "expression", expression: ["get", "NAME"] },
     textSize: {
-      mode: "zoom",
-      value: [
+      mode: "fixed",
+      style: [
         [8, 8],
         [12, 9],
         [15, 12],

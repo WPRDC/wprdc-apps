@@ -20,11 +20,20 @@ export type RankedParcelIndex = ParcelIndex & {
   dist: number;
 };
 
-export interface OwnerSearchRow  {
+export interface OwnerSearchRow {
   ownerAddress: string;
   count: number;
 }
 
+export interface LeadLine extends DatastoreRecord {
+  parcel_id: string;
+  more_than_one_point: string;
+  all_points_match_address: string;
+  all_points_match_private: string;
+  all_points_match_public: string;
+  public_status: string;
+  private_status: string;
+}
 
 export interface PropertyAssessment extends DatastoreRecord {
   PARID: string;

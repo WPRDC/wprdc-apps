@@ -6,22 +6,21 @@ export const countyMVA: LayerConfig = {
   title: "Allegheny County Market Value Analysis",
   description:
     "Regions of Allegheny County clustered around market value (2021)",
-  type: GeoType.Polygon,
-  publisher: {
-    name: "Allegheny County",
-    homepage: "https://www.alleghenycounty.us/",
-    org: "allegheny-county",
-  },
 
   source: {
     slug: "allegheny-county-mva",
     title: "Allegheny County Market Value Analysis (2021)",
     url: "https://data.wprdc.org/dataset/market-value-analysis-2021",
     resourceID: "ec09f5ad-f43e-4f06-af3a-65641c2818dc",
+    publisher: {
+      name: "Allegheny County",
+      homepage: "https://www.alleghenycounty.us/",
+      org: "allegheny-county",
+    },
   },
 
-  tileSource: {
-    tileJSONSource:
+  tiles: {
+    source:
       "https://data.wprdc.org/tiles/table.ec09f5ad-f43e-4f06-af3a-65641c2818dc._geom",
     sourceLayer: "table.ec09f5ad-f43e-4f06-af3a-65641c2818dc._geom",
     minZoom: 7,
@@ -29,72 +28,62 @@ export const countyMVA: LayerConfig = {
   },
 
   symbology: {
-    mode: "category",
-    field: "MVA21",
-    categories: [
-      { value: "A", label: "A" },
-      { value: "B", label: "B" },
-      { value: "C", label: "C" },
-      { value: "D", label: "D" },
-      { value: "E", label: "E" },
-      { value: "F", label: "F" },
-      { value: "G", label: "G" },
-      { value: "H", label: "H" },
-      { value: "I", label: "I" },
-      { value: "J", label: "J" },
-      { value: "NC", label: "Insufficient Data" },
-    ],
-
-    color: {
+    mode: "simplified",
+    geoType: GeoType.Polygon,
+    fillColor:{
       mode: "category",
-      submode: "simple",
-      value: {
-        A: "#9F87C7",
-        B: "#7DA3DE",
-        C: "#A2C0EB",
-        D: "#82A6AD",
-        E: "#9DD9C5",
-        F: "#F5A895",
-        G: "#F7D163",
-        H: "#FED78E",
-        I: "#F5F57A",
-        J: "#DEDE3C",
-        NC: "#bbb",
-      },
+      field: "MVA21",
+
+      style: [
+        { slug: "a", value: "A", label: "A", style: "#9F87C7" },
+        { slug: "b", value: "B", label: "B", style: "#7DA3DE" },
+        { slug: "c", value: "C", label: "C", style: "#A2C0EB" },
+        { slug: "d", value: "D", label: "D", style: "#82A6AD" },
+        { slug: "e", value: "E", label: "E", style: "#9DD9C5" },
+        { slug: "f", value: "F", label: "F", style: "#F5A895" },
+        { slug: "g", value: "G", label: "G", style: "#F7D163" },
+        { slug: "h", value: "H", label: "H", style: "#FED78E" },
+        { slug: "i", value: "I", label: "I", style: "#F5F57A" },
+        { slug: "j", value: "J", label: "J", style: "#DEDE3C" },
+        { slug: "nc", value: "NC", label: "Insufficient Data", style: "#bbb" },
+      ],
+      defaultStyle: "#000"
     },
 
-    borderColor: {
+    strokeColor: {
       mode: "fixed",
-      value: "#000",
+      style: "#000",
     },
-    opacity: {
+    fillOpacity: {
       mode: "category",
-      submode: "simple",
-      value: {
-        A: 0.8,
-        B: 0.8,
-        C: 0.8,
-        D: 0.8,
-        E: 0.8,
-        F: 0.8,
-        G: 0.8,
-        H: 0.8,
-        I: 0.8,
-        J: 0.8,
-        NC: 0.6,
-      },
+      field: "MVA21",
+
+      style: [
+        { slug: "a", value: "A", label: "A", style: 0.8 },
+        { slug: "b", value: "B", label: "B", style: 0.8 },
+        { slug: "c", value: "C", label: "C", style: 0.8 },
+        { slug: "d", value: "D", label: "D", style: 0.8 },
+        { slug: "e", value: "E", label: "E", style: 0.8 },
+        { slug: "f", value: "F", label: "F", style: 0.8 },
+        { slug: "g", value: "G", label: "G", style: 0.8 },
+        { slug: "h", value: "H", label: "H", style: 0.8 },
+        { slug: "i", value: "I", label: "I", style: 0.8 },
+        { slug: "j", value: "J", label: "J", style: 0.8 },
+        { slug: "nc", value: "NC", label: "Insufficient Data", style: 0.6 },
+      ],
+      defaultStyle: 0
     },
-    borderOpacity: {
-      mode: "zoom",
-      value: [
+    strokeOpacity: {
+      mode: "fixed",
+      style: [
         [8, 1],
         [14.5, 1],
         [15, 0],
       ],
     },
-    borderWidth: {
-      mode: "zoom",
-      value: [
+    strokeWidth: {
+      mode: "fixed",
+      style: [
         [8, 1],
         [12, 1],
         [14.5, 2],

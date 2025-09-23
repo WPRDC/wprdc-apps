@@ -5,21 +5,21 @@ export const pittsburghNeighborhoods: LayerConfig = {
   slug: "pittsburgh-neighborhoods",
   title: "Pittsburgh Neighborhoods",
   description: "Boundaries and labels of Pittsburgh neighborhoods",
-  type: GeoType.Polygon,
-  publisher: {
-    name: "City of Pittsburgh",
-    homepage: "http://www.pittsburghpa.gov/",
-    org: "city-of-pittsburgh",
-  },
+
   source: {
     slug: "pittsburgh-neighborhoods",
     title: "City of Pittsburgh Neighborhoods",
     url: "https://data.wprdc.org/dataset/neighborhoods2",
     resourceID: "4af8e160-57e9-4ebf-a501-76ca1b42fc99",
+    publisher: {
+      name: "City of Pittsburgh",
+      homepage: "http://www.pittsburghpa.gov/",
+      org: "city-of-pittsburgh",
+    },
   },
 
-  tileSource: {
-    tileJSONSource:
+  tiles: {
+    source:
       "https://data.wprdc.org/tiles/table.4af8e160-57e9-4ebf-a501-76ca1b42fc99._geom",
     sourceLayer: "table.4af8e160-57e9-4ebf-a501-76ca1b42fc99._geom",
     minZoom: 7,
@@ -27,30 +27,32 @@ export const pittsburghNeighborhoods: LayerConfig = {
   },
 
   symbology: {
-    mode: "simple",
-    color: {
+    mode: "simplified",
+    geoType: GeoType.Polygon,
+
+    fillColor: {
       mode: "fixed",
-      value: "#FFF",
+      style: "#FFF",
     },
-    borderColor: {
+    strokeColor: {
       mode: "fixed",
-      value: "#000",
+      style: "#000",
     },
-    opacity: {
+    fillOpacity: {
       mode: "fixed",
-      value: 0,
+      style: 0,
     },
-    borderOpacity: {
-      mode: "zoom",
-      value: [
+    strokeOpacity: {
+      mode: "fixed",
+      style: [
         [8, 1],
         [14.5, 1],
         [15, 0],
       ],
     },
-    borderWidth: {
-      mode: "zoom",
-      value: [
+    strokeWidth: {
+      mode: "fixed",
+      style: [
         [8, 1],
         [12, 1],
         [14.5, 4],
@@ -58,8 +60,8 @@ export const pittsburghNeighborhoods: LayerConfig = {
     },
     textField: { mode: "expression", expression: ["get", "hood"] },
     textSize: {
-      mode: "zoom",
-      value: [
+      mode: "fixed",
+      style: [
         [8, 0],
         [11.9, 0],
         [12, 9],
@@ -67,7 +69,5 @@ export const pittsburghNeighborhoods: LayerConfig = {
       ],
     },
   },
-  renderOptions: {
-    noLegend: true,
-  },
+  legend: false,
 };

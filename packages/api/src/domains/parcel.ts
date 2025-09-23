@@ -11,13 +11,13 @@ import type {
   PropertyAssessment,
   PropertySaleTransaction,
   QueryResult,
-  TaxLienWithCurrentStatus,
   RankedParcelIndex,
+  TaxLienWithCurrentStatus,
 } from "@wprdc/types";
 
 import { fetchFields, fetchSQLSearch, toFieldLookup } from "../fetch-util";
 import type { APIResult } from "../types";
-import { CondemnedStatus } from "@wprdc/types/src";
+import { CondemnedStatus, LeadLine } from "@wprdc/types/src";
 
 export enum ParcelTable {
   Assessment = "property_assessments",
@@ -31,6 +31,7 @@ export enum ParcelTable {
   ConservatorshipRecord = "conservatorship_record",
   ParcelBoundaries = "parcel_boundaries",
   CondemnedStatus = "0a963f26-eb4b-4325-bbbc-3ddf6a871410",
+  LeadLine = "2ddfd798-b71a-4f78-bc17-8c54c6a30511"
 }
 
 export const parcelIDFields: Record<ParcelTable, string> = {
@@ -45,6 +46,7 @@ export const parcelIDFields: Record<ParcelTable, string> = {
   [ParcelTable.TaxLiensWithCurrentStatus]: "pin",
   [ParcelTable.ConservatorshipRecord]: "pin",
   [ParcelTable.CondemnedStatus]: "parcel_id",
+  [ParcelTable.LeadLine]: "parcel_id",
 };
 
 async function _fetchParcelRecords<T extends DatastoreRecord>(
@@ -84,6 +86,15 @@ export async function fetchParcelRecords<T extends DatastoreRecord>(
 
   return { fields: toFieldLookup(fields), records };
 }
+
+
+// Individual resource fetchers
+export const fetchLeadLineRecord = (
+  parcelID: string | string[],
+): Promise<APIResult<LeadLine>> =>
+  fetchParcelRecords<LeadLine>(parcelID, ParcelTable.LeadLine);
+
+
 
 // Individual resource fetchers
 export const fetchAssessmentRecord = (
@@ -216,7 +227,7 @@ export async function geocodeParcel(
     bbox: string;
   }>(sql, undefined, init);
 
-  if (!records?.length) return {centroid: undefined, bbox: undefined};
+  if (!records?.length) return { centroid: undefined, bbox: undefined };
   const record = records[0];
 
   const bboxPolygon: CoordinatePair[][] = (

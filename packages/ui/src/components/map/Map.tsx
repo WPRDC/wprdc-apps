@@ -24,7 +24,11 @@ import type {
   Point,
   ViewStateChangeEvent,
 } from "react-map-gl/maplibre";
-import { Map as ReactMapGL, NavigationControl } from "react-map-gl/maplibre";
+import {
+  GeolocateControl,
+  Map as ReactMapGL,
+  NavigationControl,
+} from "react-map-gl/maplibre";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../button";
 import { BasemapMenu } from "./BasemapMenu";
@@ -38,8 +42,7 @@ import { throttle } from "lodash";
 import { Selection } from "react-aria-components";
 
 import Mustache from "mustache";
-import { ControlsLegend } from "./ControlsLegend.tsx";
-import { GeolocateControl } from "react-map-gl/maplibre";
+import { Legend } from "./Legend.tsx";
 
 const DEFAULT_MIN_ZOOM = 9;
 const DEFAULT_MAX_ZOOM = 22;
@@ -380,8 +383,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       style={{ position: "relative", ...style }}
     >
       <NavigationControl showCompass visualizePitch />
-      <GeolocateControl fitBoundsOptions={{maxZoom: 18}} />
-
+      <GeolocateControl fitBoundsOptions={{ maxZoom: 18 }} />
 
       <div className="absolute right-12 top-2 flex flex-col items-end space-y-2">
         <div>
@@ -427,14 +429,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       ) : null}
 
       <div className="absolute bottom-10 right-2.5">
-        <ControlsLegend
-          layers={layers}
-          selectedLayers={visibleLayerCategories}
-          onSelectionChange={handleLayerVisibilityChange}
-          onStyleChange={handleLayerChange}
-        >
-          {legendExtras}
-        </ControlsLegend>
+        <Legend layers={layers}>{legendExtras}</Legend>
       </div>
 
       {withScrollZoomControl ? (

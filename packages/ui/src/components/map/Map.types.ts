@@ -11,9 +11,7 @@ import {
   type DrawUpdateEvent,
 } from "@mapbox/mapbox-gl-draw";
 
-import type {
-  ColorSpecification,
-} from "@maplibre/maplibre-gl-style-spec";
+import type { ColorSpecification } from "@maplibre/maplibre-gl-style-spec";
 import type {
   GeoType,
   LayerConfig,
@@ -154,6 +152,7 @@ export interface LayerGroupProps {
 
 export interface LegendProps {
   layers?: LayerConfig[];
+  children?: React.ReactNode;
 }
 
 export interface LegendItemProps {
@@ -165,35 +164,6 @@ export interface LegendRowProps {
   color?: ColorSpecification;
   borderColor?: ColorSpecification;
   type: GeoType;
-}
-
-export interface ControlsLegendProps extends LegendProps {
-  /** Map of layer slugs to the selected sub-layers for that layer */
-  selectedLayers?: Record<string, Selection>;
-
-  /** Fired when layer display is toggled */
-  onSelectionChange?: (layerSlug: string) => (selection: Selection) => void;
-
-  /** Fired when symbology style modifications are submitted */
-  onStyleChange?: (layer: LayerConfig) => void;
-  
-  /** Optional extra content passed as children */
-  children?: ReactNode;
-}
-
-export interface ControlsLegendItemProps extends LegendItemProps {
-  /** List of category slugs that are selected for display */
-  selectedCategories?: Selection;
-
-  /** Fired when layer display is toggled */
-  onSelectionChange?: (selection: Selection) => void;
-
-  /** Fired when symbology style modifications are submitted */
-  onStyleChange?: (layer: LayerConfig) => void;
-}
-
-export interface ControlsLegendRowProps extends LegendRowProps {
-  textValue: string;
 }
 
 export interface SymbologyLayerProps {

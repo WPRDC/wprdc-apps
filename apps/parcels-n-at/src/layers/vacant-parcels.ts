@@ -5,23 +5,21 @@ export const vacantParcels: LayerConfig = {
   slug: "vacant-parcels",
   title: "Vacant Parcels",
   description: "Highlight parcels with building value < $1000",
-  type: GeoType.Polygon,
-  publisher: {
-    name: "WPRDC",
-    homepage: "https://wprdc.org/",
-    org: "wprdc",
-  },
 
   source: {
     slug: "vacant-parcels",
     title: "Vacant Parcels",
     url: "https://data.wprdc.org/dataset/property-assessments",
     resourceID: "",
+    publisher: {
+      name: "WPRDC",
+      homepage: "https://wprdc.org/",
+      org: "wprdc",
+    },
   },
 
-  tileSource: {
-    tileJSONSource:
-      "https://data.wprdc.org/tiles/table.parcel_index.geom",
+  tiles: {
+    source: "https://data.wprdc.org/tiles/table.parcel_index.geom",
     sourceLayer: "table.parcel_index.geom",
     minZoom: 13,
   },
@@ -29,33 +27,33 @@ export const vacantParcels: LayerConfig = {
     filter: ["==", "is_vacant", true],
   },
   symbology: {
-    mode: "simple",
+    mode: "simplified",
+    geoType: GeoType.Polygon,
 
-
-    color: {
+    fillColor: {
       mode: "fixed",
-      value: "#000",
+      style: "#000",
     },
 
-    opacity: {
-      mode: "zoom",
-      value: [
+    fillOpacity: {
+      mode: "fixed",
+      style: [
         [9, 0.8],
         [12, 0.6],
       ],
     },
 
-    borderOpacity: {
-      mode: "zoom",
-      value: [
+    strokeOpacity: {
+      mode: "fixed",
+      style: [
         [9, 1],
         [12, 0.8],
       ],
     },
 
-    borderWidth: {
-      mode: "zoom",
-      value: [
+    strokeWidth: {
+      mode: "fixed",
+      style: [
         [10, 0],
         [12, 1],
         [13, 1],

@@ -1,6 +1,5 @@
-import type { DataDrivenPropertyValueSpecification } from "@maplibre/maplibre-gl-style-spec";
 import type { LayerConfig, MapState } from "@wprdc/types";
-import { GeoType } from "@wprdc/types";
+import { GeoType, OptionallyZoomInteractive } from "@wprdc/types";
 import chroma from "chroma-js";
 import type {
   MapGeoJSONFeature,
@@ -37,17 +36,23 @@ export function extractFeatures(
 
 export const DEFAULT_LINE_OPACITY = 0.9;
 export const DEFAULT_FILL_OPACITY = 0.7;
-export const DEFAULT_BORDER_WIDTH: DataDrivenPropertyValueSpecification<number> =
-  ["interpolate", ["linear"], ["zoom"], 5, 1, 15, 1, 17, 4];
-export const DEFAULT_LINE_WIDTH: DataDrivenPropertyValueSpecification<number> =
-  ["interpolate", ["linear"], ["zoom"], 5, 0.5, 12, 1, 14, 7];
+export const DEFAULT_STROKE_WIDTH: OptionallyZoomInteractive<number> = [
+  [5, 1],
+  [15, 1],
+  [17, 4],
+];
+export const DEFAULT_LINE_WIDTH: OptionallyZoomInteractive<number> = [
+  [5, 0.5],
+  [12, 1],
+  [14, 7],
+];
 export const DEFAULT_SELECTED_COLOR = "cyan";
 export const DEFAULT_COLOR = "#000";
 
 export const DEFAULT_TEXT_SIZE = 12;
 
 export function getInteractiveLayerID(layer: LayerConfig): string {
-  switch (layer.type) {
+  switch (layer.symbology.geoType) {
     case GeoType.Point:
       return `${layer.slug}-circle`;
     case GeoType.Line:

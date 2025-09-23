@@ -28,9 +28,9 @@ export const alleghenyCountyBoundary: LayerConfig<SimplifiedSymbologyConfig> = {
   symbology: {
     mode: "simplified",
     geoType: GeoType.Polygon,
-    color: { mode: "fixed", style: "rgba(0,0,0,0)" },
-    borderColor: { mode: "fixed", style: "#000" },
-    opacity: { mode: "fixed", style: 0 },
-    borderWidth: { mode: "fixed", style: [[12, 4]] },
+    fillColor: { mode: "fixed", style: "rgba(0,0,0,0)" },
+    strokeColor: { mode: "fixed", style: "#000" },
+    fillOpacity: { mode: "fixed", style: 0 },
+    strokeWidth: { mode: "fixed", style: [[12, 4]] },
   },
 };
