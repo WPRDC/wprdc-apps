@@ -21,10 +21,10 @@ export function LeadRiskSection({
   );
 
   return (
-    <div className="max-w-lg">
-      <section className="mb-6">
+    <div className="">
+      <section className="mb-6 w-full">
         <h3 className="text-xl font-bold mb-2">Water Lines</h3>
-        <div className="text-sm">
+        <div className="text-sm w-full">
           Lead can enter drinking water through corrosion of plumbing materials,
           especially where the water has high acidity or low mineral content
           that corrodes pipes and fixtures. Homes built before 1986 are more
