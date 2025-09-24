@@ -32,15 +32,19 @@ export const pittsburghNeighborhoodLayer: LayerConfig = {
 
     fillColor: {
       mode: "fixed",
-      style: "#FFF",
+      style: { default: "#FFF", selected: "#FCEC52", hovered: "#bae6fd" },
     },
     strokeColor: {
       mode: "fixed",
-      style: "#000",
+      style: { default: "#000", selected: "#000", hovered: "#bae6fd" },
     },
     fillOpacity: {
       mode: "fixed",
-      style: 0,
+      style: [
+        [8, { default: 0.2, selected: 0.4, hovered: 0.7 }],
+        [14.5, { default: 0.2, selected: 0.4, hovered: 0.7 }],
+        [15, { default: 0, selected: 0, hovered: 0 }],
+      ],
     },
     strokeOpacity: {
       mode: "fixed",
@@ -53,9 +57,9 @@ export const pittsburghNeighborhoodLayer: LayerConfig = {
     strokeWidth: {
       mode: "fixed",
       style: [
-        [8, 1],
-        [12, 1],
-        [14.5, 4],
+        [8, { default: 1, selected: 2, hovered: 2.5 }],
+        [12, { default: 1, selected: 2, hovered: 2.5 }],
+        [14.5, { default: 4, selected: 8, hovered: 10 }],
       ],
     },
     textField: { mode: "expression", expression: ["get", "hood"] },
@@ -69,5 +73,11 @@ export const pittsburghNeighborhoodLayer: LayerConfig = {
       ],
     },
   },
+  interaction: {
+    idField: "hood",
+    hoverPopupContent: `<h1>{{hood}}</h1>`,
+    clickPopupContent: "",
+  },
+
   legend: false,
 };
