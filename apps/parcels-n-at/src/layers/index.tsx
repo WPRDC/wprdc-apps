@@ -27,5 +27,5 @@ export const availableLayers = [
   waterSuppliers,
   parcelLeadlineStatus,
   // largeInstitutionalOwners,
-  // largePublicOwners,
+  largePublicOwners,
 ];

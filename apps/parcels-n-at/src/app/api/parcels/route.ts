@@ -93,9 +93,9 @@ async function getDatasetParcelData(
         `;
 }
 
-export async function GET(request: NextRequest): Promise<NextResponse> {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   // Parse params
-  const searchParams = request.nextUrl.searchParams;
+  const searchParams: Record<string, any> = await request.json();
 
   const selectedFeatures = JSON.parse(
     searchParams.get("selectedFeatures") ?? "{}",
