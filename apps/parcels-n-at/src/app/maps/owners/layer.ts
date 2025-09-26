@@ -76,4 +76,28 @@ export const largeParcelPortfolios: LayerConfig = {
       ],
     },
   },
+  // interaction
+  interaction: {
+    idField: "parid",
+
+    hoverPopupContent: `
+      <h1 class="text-lg font-bold">
+        <div class="font-sans leading-none">{{housenum}} {{street}}</div>
+        <div class="mb-1 font-sans text-xs leading-none">{{city}}, PA {{zip}}</div>
+      </h1>
+      <div class="font-mono text-xs leading-none">{{parid}}</div>
+      <div class="font-bold text-lg leading-none mt-2">{{owner}}</div>
+      <div class="italic mt-2">Click to see details  in Explorer</div>
+    `,
+    clickPopupContent: `
+      <h1 class="text-lg font-bold">
+        <div class="font-sans leading-none">{{address}}</div>
+        <div class="mb-1 font-sans text-xs leading-none">{{city}}</div>
+      </h1>
+      <div class="font-mono text-xs leading-none">{{parid}}</div>
+      <div class="font-bold text-lg leading-none mt-2">{{owner}}</div>
+      <a href="/explore?parcel={{parid}}" target="_blank">See details in Explorer</a>
+    `,
+
+  },
 };
