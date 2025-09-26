@@ -35,7 +35,7 @@ export const largeParcelPortfolios: LayerConfig = {
         { slug: "city", value: "city", label: "Pittsburgh", style: "#facc15" },
         { slug: "ura", value: "ura", label: "URA", style: "#65a30d" },
         { slug: "hacp", value: "hacp", label: "HACP", style: "#f472b6" },
-        { slug: "pitt", value: "pitt", label: "Pitt", style: "#003594" },
+        { slug: "pitt", value: "upitt", label: "Pitt", style: "#003594" },
         { slug: "cmu", value: "cmu", label: "CMU", style: "#C41230" },
         { slug: "upmc", value: "upmc", label: "UPMC", style: "#771B61" },
         {
