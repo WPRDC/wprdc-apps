@@ -96,7 +96,7 @@ export const largeParcelPortfolios: LayerConfig = {
       </h1>
       <div class="font-mono text-xs leading-none">{{parid}}</div>
       <div class="font-bold text-lg leading-none mt-2">{{owner}}</div>
-      <a href="/explore?parcel={{parid}}?zoomPan=1" target="_blank">See details in Explorer</a>
+      <a href="/explore?parcel={{parid}}&zoomPan=1" target="_blank">See details in Explorer</a>
     `,
 
   },
