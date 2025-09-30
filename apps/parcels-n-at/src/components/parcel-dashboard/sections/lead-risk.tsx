@@ -48,12 +48,12 @@ export function LeadRiskSection({
             <SingleValueViz
               id="private-side"
               label="Property-side"
-              value={lead.records[0].private_status}
+              value={lead.records[0].private_status ?? 'Unknown'}
             />
             <SingleValueViz
               id="public-side"
               label="Public-side"
-              value={lead.records[0].public_status}
+              value={lead.records[0].public_status ?? 'Unknown'}
             />
           </div>
         </div>
