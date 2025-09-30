@@ -69,6 +69,13 @@ export const municipalities: LayerConfig = {
     },
   },
 
+  interaction: {
+    idField: "NAME",
+    hoverPopupContent: "<h1>{{name}}</h1>",
+    clickPopupContent: "<h1>{{name}}</h1>",
+  },
+
+
   legend: false,
   renderOptions: {
     filter: ["!=", "NAME", "PITTSBURGH"],
