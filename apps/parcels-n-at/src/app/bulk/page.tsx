@@ -32,16 +32,19 @@ export default function Page(): React.ReactElement {
 
   const [drawnCount, setDrawnCount] = useState<number>(0);
   const [drawLoading, setDrawLoading] = useState<boolean>(false);
-  const [mapSelection, setMapSelection] = useState<ParcelSelectionOptions>({
-    selectedFeatures: {
-      [parcelLayer.slug]: [],
-      [pittsburghNeighborhoodLayer.slug]: [],
-      [municipalities.slug]: [],
-    },
-    drawnAreas: [],
-  });
+  const [mapSelection, setMapSelection] =
+    useState<ParcelSelectionOptions>({
+      selectedFeatures: {
+        [parcelLayer.slug]: [],
+        [pittsburghNeighborhoodLayer.slug]: [],
+        [municipalities.slug]: [],
+      },
+      drawnAreas: [],
+    });
+
 
   const [listSelection, setListSelection] = useState<string[]>([]);
+
 
   const [downloading, setDownloading] = useState(false);
 
@@ -58,7 +61,7 @@ export default function Page(): React.ReactElement {
     });
 
     setDownloading(true);
-    fetch(`/api/parcels/}`, { method: "POST", body: JSON.stringify(params) })
+    fetch(`/api/parcels/?${params.toString()}`)
       .then((response) => response.blob())
       .then((blob) => {
         const url = window.URL.createObjectURL(blob);
@@ -218,7 +221,7 @@ export default function Page(): React.ReactElement {
                   previous search.
                 </div>
 
-                <ParcelListForm onChange={setListSelection} />
+                <ParcelListForm onChange={setListSelection}/>
               </TabPanel>
               <TabPanel
                 id="upload selection"
@@ -317,7 +320,7 @@ export default function Page(): React.ReactElement {
               <a className="hidden" ref={linkRef} />
               <Button
                 variant="primary"
-                className="mx-0 mt-2 min-w-52 p-0"
+                className="min-w-52 mx-0 mt-2 p-0"
                 isDisabled={!downloadEnabled}
                 onPress={handleDownload}
               >
@@ -326,9 +329,7 @@ export default function Page(): React.ReactElement {
                   <div className="text-2xl">Download</div>
                 </div>
                 <div className="h-[4px]">
-                  {downloading && (
-                    <Spinner color="#0e7490" className="w-full" line />
-                  )}
+                  {downloading && <Spinner color="#0e7490" className="w-full" line />}
                 </div>
               </Button>
 
