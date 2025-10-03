@@ -17,7 +17,7 @@ import type {
 
 import { fetchFields, fetchSQLSearch, toFieldLookup } from "../fetch-util";
 import type { APIResult } from "../types";
-import { CondemnedStatus, LeadLine } from "@wprdc/types/src";
+import { CondemnedStatus, LeadLine, WaterProvider } from "@wprdc/types/src";
 
 export enum ParcelTable {
   Assessment = "property_assessments",
@@ -31,7 +31,8 @@ export enum ParcelTable {
   ConservatorshipRecord = "conservatorship_record",
   ParcelBoundaries = "parcel_boundaries",
   CondemnedStatus = "0a963f26-eb4b-4325-bbbc-3ddf6a871410",
-  LeadLine = "2ddfd798-b71a-4f78-bc17-8c54c6a30511"
+  LeadLine = "2ddfd798-b71a-4f78-bc17-8c54c6a30511",
+  WaterProvider = "e85ee57f-5231-41c3-b955-62404157bd14",
 }
 
 export const parcelIDFields: Record<ParcelTable, string> = {
@@ -47,6 +48,8 @@ export const parcelIDFields: Record<ParcelTable, string> = {
   [ParcelTable.ConservatorshipRecord]: "pin",
   [ParcelTable.CondemnedStatus]: "parcel_id",
   [ParcelTable.LeadLine]: "parcel_id",
+  [ParcelTable.WaterProvider]: "PIN",
+
 };
 
 async function _fetchParcelRecords<T extends DatastoreRecord>(
@@ -95,6 +98,9 @@ export const fetchLeadLineRecord = (
   fetchParcelRecords<LeadLine>(parcelID, ParcelTable.LeadLine);
 
 
+export const fetchWaterProvider = (parcelID: string | string[]): Promise<APIResult<WaterProvider>> =>
+  fetchParcelRecords<WaterProvider>(parcelID, ParcelTable.WaterProvider)
+
 
 // Individual resource fetchers
 export const fetchAssessmentRecord = (
@@ -114,6 +120,8 @@ export const fetchFiledAssessmentAppealsRecord = (
     parcelID,
     ParcelTable.FiledAssessmentAppeals,
   );
+
+
 
 export const fetchPropertySaleTransactionsRecords = (
   parcelID: string | string[],

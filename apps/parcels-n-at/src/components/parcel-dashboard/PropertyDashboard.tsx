@@ -10,6 +10,7 @@ import {
   fetchPLIPermitRecords,
   fetchPropertySaleTransactionsRecords,
   fetchTaxLiensWithCurrentStatusRecords,
+  fetchWaterProvider,
 } from "@wprdc/api";
 import type {
   ArchiveAssessmentAppeal,
@@ -21,7 +22,7 @@ import type {
   PropertyAssessment,
   TaxLienWithCurrentStatus,
 } from "@wprdc/types";
-import { LeadLine, PropertySaleTransaction } from "@wprdc/types";
+import { LeadLine, PropertySaleTransaction, WaterProvider } from "@wprdc/types";
 import React, { Suspense } from "react";
 import {
   ConnectedSection,
@@ -59,7 +60,6 @@ export function PropertyDashboard({
       <Suspense fallback={<HeadingSkeleton />} key={parcelID}>
         <HeadingSection parcelID={parcelID} />
       </Suspense>
-
 
       {/* Owner */}
       <ConnectedSection<PropertyAssessment>
@@ -178,6 +178,8 @@ export function PropertyDashboard({
         ]}
       />
 
+
+
       {/* PLI Permits */}
       <ConnectedSection<PLIPermit>
         id="pli-permits"
@@ -208,6 +210,7 @@ export function PropertyDashboard({
         lead: LeadLine;
         assessment: PropertyAssessment;
         violations: CityViolation;
+        provider: WaterProvider;
       }>
         id="lead-risk"
         label="Lead Exposure Risks"
@@ -216,10 +219,10 @@ export function PropertyDashboard({
           lead: fetchLeadLineRecord,
           assessment: fetchAssessmentRecord,
           violations: fetchCityViolationsRecords,
+          provider: fetchWaterProvider,
         }}
         parcelID={parcelID}
       />
-
 
       {/* Condemned or Dead-end Status */}
       <ConnectedSection

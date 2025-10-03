@@ -35,6 +35,11 @@ export interface LeadLine extends DatastoreRecord {
   private_status: string;
 }
 
+export interface WaterProvider extends DatastoreRecord {
+  PIN: string;
+  PROVIDER: string;
+}
+
 export interface PropertyAssessment extends DatastoreRecord {
   PARID: string;
   PROPERTYHOUSENUM?: string;

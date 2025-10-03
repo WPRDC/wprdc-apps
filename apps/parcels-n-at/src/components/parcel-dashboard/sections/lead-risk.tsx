@@ -1,5 +1,10 @@
 import type { MultiSourceSectionProps } from "../types";
-import { CityViolation, LeadLine, PropertyAssessment } from "@wprdc/types";
+import {
+  CityViolation,
+  LeadLine,
+  PropertyAssessment,
+  WaterProvider,
+} from "@wprdc/types";
 import { A, Chip, SingleValueViz, Typography } from "@wprdc/ui";
 import { CodeViolationsSection } from "@/components/parcel-dashboard/sections/code-violations.tsx";
 
@@ -7,10 +12,12 @@ export function LeadRiskSection({
   lead,
   violations,
   assessment,
+  provider,
 }: MultiSourceSectionProps<{
   lead: LeadLine;
   assessment: PropertyAssessment;
   violations: CityViolation;
+  provider: WaterProvider;
 }>): React.ReactElement {
   const year_built = assessment.records[0].YEARBLT;
 
@@ -20,16 +27,18 @@ export function LeadRiskSection({
       r.violation_code_section.includes("620B.01"),
   );
 
+  console.log(provider)
+
   return (
     <div className="">
       <section className="mb-6 w-full">
-        <h3 className="text-xl font-bold mb-2">Water Lines</h3>
-        <div className="text-sm w-full">
+        <h3 className="mb-2 text-xl font-bold">Water Lines</h3>
+        <div className="w-full text-sm">
           Lead can enter drinking water through corrosion of plumbing materials,
           especially where the water has high acidity or low mineral content
           that corrodes pipes and fixtures. Homes built before 1986 are more
           likely to have lead pipes, fixtures and solder.
-          <div className="mt-1 mb-4">
+          <div className="mb-4 mt-1">
             <A
               href="https://www.epa.gov/lead/protect-your-family-sources-lead#water"
               target="_blank"
@@ -43,28 +52,37 @@ export function LeadRiskSection({
         </div>
         <div className="mt-2">
           <h4 className="text-lg font-bold">Water Line Material</h4>
-          <Typography.Note>Data as of <time dateTime="2025-09-23">Sept. 23, 2025</time></Typography.Note>
-          <div className="grid grid-cols-2 gap-2 mt-2">
+          <Typography.Note>
+            Data as of <time dateTime="2025-09-23">Sept. 23, 2025</time>
+          </Typography.Note>
+          <div className="my-2">
+            <SingleValueViz
+              id="water-provider"
+              label="Water Provider"
+              value={provider.records[0]?.PROVIDER ?? "Not Available"}
+            />
+          </div>
+          <div className="mt-2 grid grid-cols-2 gap-2">
             <SingleValueViz
               id="private-side"
               label="Property-side"
-              value={lead.records[0].private_status ?? 'Unknown'}
+              value={lead.records[0].private_status ?? "Unknown"}
             />
             <SingleValueViz
               id="public-side"
               label="Public-side"
-              value={lead.records[0].public_status ?? 'Unknown'}
+              value={lead.records[0].public_status ?? "Unknown"}
             />
           </div>
         </div>
       </section>
       <section className="mb-6">
-        <h3 className="text-xl font-bold mb-2">Property</h3>
+        <h3 className="mb-2 text-xl font-bold">Property</h3>
         <div className="text-sm">
           If your home was built before 1978, it is more likely to have
           lead-based paint. In 1978, the federal government banned consumer uses
           of lead-based paint, but some states banned it even earlier.
-          <div className="mt-1 mb-4">
+          <div className="mb-4 mt-1">
             <A
               href="https://www.epa.gov/lead/protect-your-family-sources-lead#sl-home"
               target="_blank"
