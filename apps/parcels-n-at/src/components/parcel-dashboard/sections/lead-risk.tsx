@@ -1,6 +1,7 @@
 import type { MultiSourceSectionProps } from "../types";
 import {
   CityViolation,
+  EBLL,
   LeadLine,
   PropertyAssessment,
   WaterProvider,
@@ -13,11 +14,13 @@ export function LeadRiskSection({
   violations,
   assessment,
   provider,
+  ebll,
 }: MultiSourceSectionProps<{
   lead: LeadLine;
   assessment: PropertyAssessment;
   violations: CityViolation;
   provider: WaterProvider;
+  ebll: EBLL;
 }>): React.ReactElement {
   const year_built = assessment.records[0].YEARBLT;
 
@@ -27,7 +30,15 @@ export function LeadRiskSection({
       r.violation_code_section.includes("620B.01"),
   );
 
-  console.log(provider)
+  let ebllData: string | number = "Not Available";
+
+  if (ebll.records.length) {
+    ebllData = (ebll.records[0].census_tract_ebll_2020 ??
+      ebll.records[0].note2020) as string | number;
+    if (ebllData === "Censored") {
+      ebllData = "Censored (< 50 children tested in tract)";
+    }
+  }
 
   return (
     <div className="">
@@ -76,6 +87,12 @@ export function LeadRiskSection({
           </div>
         </div>
       </section>
+
+      <section className="mb-6">
+        <h3 className="mb-2 text-xl font-bold">Census Tract Elevated Blood Lead Level (EBLL) Rates</h3>
+        <SingleValueViz id="ebll-2020" label="% of children in census tract who were tested and had EBLL in 2020" value={ebllData} />
+      </section>
+
       <section className="mb-6">
         <h3 className="mb-2 text-xl font-bold">Property</h3>
         <div className="text-sm">
@@ -137,5 +154,5 @@ const YearBuiltChip = ({ year }: { year?: number }) => {
     color = "#d95f0e";
   }
 
-  return <Chip label={label} color={color}></Chip>;
+  return <Chip size="L" label={label} color={color}></Chip>;
 };

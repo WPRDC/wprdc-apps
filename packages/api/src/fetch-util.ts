@@ -58,7 +58,7 @@ export async function fetchSQLSearch<T extends DatastoreRecord>(
   } catch (error) {
     console.error(error);
   }
-  return {};
+  return {fields: [], records: []};
 }
 
 /**
@@ -93,7 +93,7 @@ export async function fetchDatastoreSearch<T extends DatastoreRecord>(
   } catch (error) {
     console.error(error);
   }
-  return {};
+  return {fields: [], records: []};
 }
 
 /**

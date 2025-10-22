@@ -24,25 +24,6 @@ import {
 } from "@wprdc/ui";
 import { PropertyDashboard } from "@/components/parcel-dashboard";
 
-function groupByParcel<T extends DatastoreRecord>(
-  records?: (DatastoreRecord & {
-    parcel_id: string;
-  })[],
-): Record<string, T[]> {
-  if (!records) {
-    return {};
-  }
-
-  return records.reduce<Record<string, T[]>>((acc, curr) => {
-    const pid = curr.parcel_id;
-    if (!Object.prototype.hasOwnProperty.call(acc, pid)) {
-      acc[pid] = [];
-    }
-    // @ts-expect-error -- fixme please
-    acc[pid].push(curr);
-    return acc;
-  }, {});
-}
 
 function groupByCasefile(
   records: CityViolation[],
@@ -85,7 +66,11 @@ export default async function Page({
 }: {
   searchParams?: SearchParams;
 }): Promise<React.ReactElement> {
-  const assessment = await fetchAssessmentRecord(searchParams?.parcel ?? "");
+
+  const params = await searchParams;
+
+
+  const assessment = await fetchAssessmentRecord(params?.parcel ?? "");
 
   const ownerSearch = assessment.records?.length
     ? `${(assessment.records[0].CHANGENOTICEADDRESS1 ?? "").replace(
@@ -102,11 +87,15 @@ export default async function Page({
     queryRecords: true,
   });
 
+  console.log(response);
+
   const { records, stats } = response.results;
 
   const parcelIDs = records.map((r) => r.region);
 
   // group by parcel ID and then
+  console.log(records);
+
   const ownerName = fetchOwnerName(records[0].region);
 
   const mainStats = stats["county.42003"];

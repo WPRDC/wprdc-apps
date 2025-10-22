@@ -4,6 +4,7 @@ import type {
   ConservatorshipRecord,
   CoordinatePair,
   DatastoreRecord,
+  EBLL,
   FiledAssessmentAppeal,
   ForeclosureFiling,
   ParcelBoundary,
@@ -20,7 +21,7 @@ import type { APIResult } from "../types";
 import { CondemnedStatus, LeadLine, WaterProvider } from "@wprdc/types/src";
 
 export enum ParcelTable {
-  Assessment = "property_assessments",
+  Assessment = "65855e14-549e-4992-b5be-d629afc676fa",
   PropertySaleTransactions = "5bbe6c55-bce6-4edb-9d04-68edeb6bf7b1",
   AssessmentAppeals = "8a7607fb-c93e-4d7a-9b23-528b5c25b1de",
   FiledAssessmentAppeals = "90432617-9b09-4084-919b-02aa002b6512",
@@ -28,11 +29,12 @@ export enum ParcelTable {
   CityViolations = "70c06278-92c5-4040-ab28-17671866f81c",
   ForeclosureFilings = "foreclosure_filings",
   TaxLiensWithCurrentStatus = "tax_liens_with_current_status",
-  ConservatorshipRecord = "conservatorship_record",
-  ParcelBoundaries = "parcel_boundaries",
+  ConservatorshipRecord = "fd64c179-b5af-4263-9275-fb581705d878",
+  ParcelBoundaries = "858bbc0f-b949-4e22-b4bb-1a78fef24afc",
   CondemnedStatus = "0a963f26-eb4b-4325-bbbc-3ddf6a871410",
   LeadLine = "2ddfd798-b71a-4f78-bc17-8c54c6a30511",
   WaterProvider = "e85ee57f-5231-41c3-b955-62404157bd14",
+  EBLL = "39e8ae7e-5dca-421e-b87d-8cec34c91950",
 }
 
 export const parcelIDFields: Record<ParcelTable, string> = {
@@ -49,7 +51,7 @@ export const parcelIDFields: Record<ParcelTable, string> = {
   [ParcelTable.CondemnedStatus]: "parcel_id",
   [ParcelTable.LeadLine]: "parcel_id",
   [ParcelTable.WaterProvider]: "PIN",
-
+  [ParcelTable.EBLL]: "parcel_id",
 };
 
 async function _fetchParcelRecords<T extends DatastoreRecord>(
@@ -90,17 +92,21 @@ export async function fetchParcelRecords<T extends DatastoreRecord>(
   return { fields: toFieldLookup(fields), records };
 }
 
-
 // Individual resource fetchers
 export const fetchLeadLineRecord = (
   parcelID: string | string[],
 ): Promise<APIResult<LeadLine>> =>
   fetchParcelRecords<LeadLine>(parcelID, ParcelTable.LeadLine);
 
+export const fetchEBLL = (
+  parcelID: string | string[],
+): Promise<APIResult<EBLL>> =>
+  fetchParcelRecords<EBLL>(parcelID, ParcelTable.EBLL);
 
-export const fetchWaterProvider = (parcelID: string | string[]): Promise<APIResult<WaterProvider>> =>
-  fetchParcelRecords<WaterProvider>(parcelID, ParcelTable.WaterProvider)
-
+export const fetchWaterProvider = (
+  parcelID: string | string[],
+): Promise<APIResult<WaterProvider>> =>
+  fetchParcelRecords<WaterProvider>(parcelID, ParcelTable.WaterProvider);
 
 // Individual resource fetchers
 export const fetchAssessmentRecord = (
@@ -120,8 +126,6 @@ export const fetchFiledAssessmentAppealsRecord = (
     parcelID,
     ParcelTable.FiledAssessmentAppeals,
   );
-
-
 
 export const fetchPropertySaleTransactionsRecords = (
   parcelID: string | string[],

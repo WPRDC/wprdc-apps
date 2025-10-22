@@ -4,6 +4,7 @@ import {
   fetchCityViolationsRecords,
   fetchCondemnedStatusRecords,
   fetchConservatorshipRecordRecords,
+  fetchEBLL,
   fetchFiledAssessmentAppealsRecord,
   fetchForeclosureFilingsRecords,
   fetchLeadLineRecord,
@@ -16,6 +17,7 @@ import type {
   ArchiveAssessmentAppeal,
   CityViolation,
   ConservatorshipRecord,
+  EBLL,
   FiledAssessmentAppeal,
   ForeclosureFiling,
   PLIPermit,
@@ -211,6 +213,7 @@ export function PropertyDashboard({
         assessment: PropertyAssessment;
         violations: CityViolation;
         provider: WaterProvider;
+        ebll: EBLL
       }>
         id="lead-risk"
         label="Lead Exposure Risks"
@@ -220,8 +223,13 @@ export function PropertyDashboard({
           assessment: fetchAssessmentRecord,
           violations: fetchCityViolationsRecords,
           provider: fetchWaterProvider,
+          ebll: fetchEBLL,
         }}
         parcelID={parcelID}
+        datasetLinks={[
+          "https://data.wprdc.org/dataset/allegheny-county-elevated-blood-lead-level-rates",
+          "https://data.wprdc.org/dataset/lead-risk",
+        ]}
       />
 
       {/* Condemned or Dead-end Status */}

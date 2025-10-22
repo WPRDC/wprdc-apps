@@ -35,6 +35,13 @@ export interface LeadLine extends DatastoreRecord {
   private_status: string;
 }
 
+export interface EBLL extends DatastoreRecord {
+  parcel_id: string;
+  census_tract: string;
+  census_tract_ebll_2020: number;
+  note2020: string;
+}
+
 export interface WaterProvider extends DatastoreRecord {
   PIN: string;
   PROVIDER: string;

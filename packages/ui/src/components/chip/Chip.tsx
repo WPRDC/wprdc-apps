@@ -35,6 +35,7 @@ export function Chip({
         className={twMerge(
           "flex w-fit items-center space-x-1 rounded-md border-2 px-1 font-semibold not-italic",
           size === "S" && "border font-medium",
+          size === 'L' && "text-lg",
           variant === "default" && "",
           variant === "success" && "border-green-900 bg-green-300/70",
           variant === "warning" && "border-orange-900 bg-orange-300/70",
