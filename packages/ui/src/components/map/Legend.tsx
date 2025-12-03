@@ -75,6 +75,7 @@ const LineIcon = PiLineSegmentsFill;
 function asCSS(geoType: GeoType, style: LegendItemOptions) {
   const { fillColor, fillOpacity, strokeColor, strokeOpacity, strokeWidth } =
     style;
+
   switch (geoType) {
     case GeoType.Line:
       return {
@@ -100,8 +101,6 @@ export function FixedLegendRow({
   label,
 }: FixedLegendOptions) {
   const cssStyle: CSSProperties = asCSS(geoType, style)
-
-  console.log(cssStyle);
 
   return (
     <div className="flex items-center space-x-2 pb-1">

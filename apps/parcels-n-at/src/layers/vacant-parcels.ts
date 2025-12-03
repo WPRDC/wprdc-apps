@@ -35,6 +35,11 @@ export const vacantParcels: LayerConfig = {
       style: "#000",
     },
 
+    strokeColor: {
+      mode: "fixed",
+      style: "#000",
+    },
+
     fillOpacity: {
       mode: "fixed",
       style: [

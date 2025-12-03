@@ -8,8 +8,9 @@ import type {
 
 export const darken =
   (amount?: number) =>
-  (color: string): string =>
-    chroma(color).darken(amount).hex();
+  (color: string): string => {
+    return chroma(color).darken(amount).hex();
+  };
 
 export const lighten =
   (amount?: number) =>
