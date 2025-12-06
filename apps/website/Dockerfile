@@ -1,9 +1,11 @@
-FROM node:18-alpine AS alpine
+FROM node:20-alpine AS alpine
 
 # setup pnpm on the alpine base
 FROM alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+
+RUN npm install -g corepack@latest
 RUN corepack enable
 RUN pnpm install turbo --global
 
@@ -15,9 +17,10 @@ RUN apk update
 # Set working directory
 WORKDIR /app
 COPY . .
+COPY /apps/website/.env.local /app/apps/website/.env.local
 
 # use special prod config
-COPY apps/parcels-n-at/next.config.prod.js /app/apps/parcels-n-at/next.config.js
+COPY apps/website/next.config.prod.js /app/apps/website/next.config.js
 RUN turbo prune --scope=website --docker
 
 # Add lockfile and package.json's of isolated subworkspace
@@ -25,7 +28,6 @@ FROM base AS installer
 RUN apk add --no-cache libc6-compat
 RUN apk update
 WORKDIR /app
-
 
 # First install the dependencies (as they change less often)
 COPY .gitignore .gitignore
@@ -37,11 +39,13 @@ RUN pnpm install
 # Build the project
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
+COPY --from=builder /app/apps/website/.env.local /app/apps/website/.env.local
+
 RUN turbo run build --filter=website
 
 FROM alpine AS runner
 WORKDIR /app
- 
+
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -55,5 +59,5 @@ COPY --from=installer /app/apps/website/package.json .
 COPY --from=installer --chown=nextjs:nodejs /app/apps/website/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/apps/website/.next/static ./apps/website/.next/static
 COPY --from=installer --chown=nextjs:nodejs /app/apps/website/public ./apps/website/public
- 
+
 CMD node apps/website/server.js
