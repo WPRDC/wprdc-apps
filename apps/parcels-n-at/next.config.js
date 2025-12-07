@@ -26,15 +26,15 @@ module.exports = {
       },
     ],
   },
-  webpack: (config, { isServer }) => {
-    if (isServer) {
-      config.plugins.push(
-        new IgnorePlugin({
-          resourceRegExp: /original-fs/,
-          contextRegExp: /adm-zip/,
-        }),
-      );
-    }
-    return config;
-  },
+  // webpack: (config, { isServer }) => {
+  //   if (isServer) {
+  //     config.plugins.push(
+  //       new IgnorePlugin({
+  //         resourceRegExp: /original-fs/,
+  //         contextRegExp: /adm-zip/,
+  //       }),
+  //     );
+  //   }
+  //   return config;
+  // },
 };

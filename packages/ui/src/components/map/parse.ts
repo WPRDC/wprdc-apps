@@ -493,7 +493,7 @@ export function parseSymbologyOption<T extends StyleValue>(
   expression: OptionallySimpleInteractive<T> | OptionallyZoomInteractive<T>,
   layer: LayerConfig<SimplifiedSymbologyConfig>,
   context: MapState,
-) {
+): any {
   if (Array.isArray(expression)) {
     return parseZoomSymbologyOption(expression, layer, context);
   }

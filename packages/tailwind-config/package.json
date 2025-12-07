@@ -10,11 +10,11 @@
     "clean": "rm -rf node_modules"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.16",
-    "@types/node": "^22.13.10",
+    "@tailwindcss/typography": "^0.5.19",
+    "@types/node": "^24.10.1",
     "@wprdc/typescript-config": "workspace:*",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "^4.1.17",
     "tailwindcss-animate": "^1.0.7",
-    "tailwindcss-react-aria-components": "^1.2.0"
+    "tailwindcss-react-aria-components": "^2.0.1"
   }
 }

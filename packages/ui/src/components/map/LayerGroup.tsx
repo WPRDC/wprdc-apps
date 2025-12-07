@@ -1,3 +1,5 @@
+"use client";
+
 import { GeoType } from "@wprdc/types";
 import { Source } from "react-map-gl/maplibre";
 import { CircleLayer } from "./layers/circle";
