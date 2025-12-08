@@ -12,10 +12,11 @@ RUN pnpm install turbo --global
 WORKDIR /app
 
 FROM base AS prepare
+RUN pnpm install turbo --global
 
 COPY . .
 
-RUN turbo prune --scope=parcels-n-at --docker
+RUN turbo prune parcels-n-at --docker
 
 FROM base AS builder
 # First install the dependencies (as they change less often)

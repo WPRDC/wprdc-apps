@@ -1,9 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  transpilePackages: [
+    "@wprdc/ui",
+    "@wprdc/api",
+    "@wprdc/types",
+  ],
   typescript: {
     ignoreBuildErrors: true,
   },
+  output: "standalone",
+
   // transpilePackages: ["@wprdc/ui", "@wprdc/types"],
   images: {
     remotePatterns: [
