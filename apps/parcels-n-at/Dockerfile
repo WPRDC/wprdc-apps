@@ -37,4 +37,4 @@ COPY --from=builder --chown=nextjs:nodejs /app/apps/parcels-n-at/.next/standalon
 COPY --from=builder --chown=nextjs:nodejs /app/apps/parcels-n-at/.next/static ./apps/parcels-n-at/.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/apps/parcels-n-at/public ./apps/parcels-n-at/public
 
-CMD node apps/web/server.js
+CMD node apps/parcels-n-at/server.js
