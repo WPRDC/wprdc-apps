@@ -1,5 +1,5 @@
 import type { PropertyAssessment } from "@wprdc/types";
-import { PositionViz, SingleValueVizCollection } from "@wprdc/ui";
+import { PositionViz } from "@wprdc/ui";
 import type { SectionProps } from "../types";
 import { ClassChip } from "@/components/parcel-dashboard/components/ClassChip";
 
@@ -12,7 +12,7 @@ export function ConditionSection({
   if (!record.GRADEDESC) {
     return (
       <div className="text-sm italic">
-        <p>Grade and Condition data aren't available for this parcel.</p>
+        <p>Grade and Condition data aren&apos;t available for this parcel.</p>
         <p>
           They are currently only available for{" "}
           <ClassChip inline parcelClass="RESIDENTIAL" size="S" /> properties.

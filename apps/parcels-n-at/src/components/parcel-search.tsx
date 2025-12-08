@@ -11,7 +11,7 @@ import {
   SearchField,
   Text,
 } from "react-aria-components";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getClassificationColor } from "@/components/parcel-dashboard";
 import { useCallback } from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
@@ -20,7 +20,6 @@ const BASE_URL = process.env.BASE_URL ?? "";
 
 export function ParcelSearch(): React.ReactElement {
   const router = useRouter();
-  const pathName = usePathname();
   const searchParams = useSearchParams();
 
   const list: AsyncListData<RankedParcelIndex> =
@@ -55,18 +54,18 @@ export function ParcelSearch(): React.ReactElement {
 
       const params = new URLSearchParams(searchParams);
       params.delete("zoomPan");
-      params.append("zoomPan", '1')
+      params.append("zoomPan", "1");
 
       // extract selected key and navigate
       const key =
         typeof keys === "string" ? list.items[0] : Array.from(keys)[0];
 
-      params.delete("parcel")
-      params.append('parcel', key.toString());
+      params.delete("parcel");
+      params.append("parcel", key.toString());
 
       if (key) router.push(`/explore?${params.toString()}`);
     },
-    [list],
+    [list, router, searchParams],
   );
 
   return (
@@ -110,7 +109,7 @@ export function ParcelSearch(): React.ReactElement {
           )}
         </SearchField>
 
-        { list.items.length > 0 &&
+        {list.items.length > 0 && (
           <ListBox
             className="absolute z-50 w-full border border-black bg-white"
             selectionMode="single"
@@ -123,14 +122,16 @@ export function ParcelSearch(): React.ReactElement {
                 className="group w-full cursor-pointer focus:bg-stone-200"
                 id={item.parcel_id}
                 textValue={item.address}
-
               >
-                <div className="py-1 ">
+                <div className="py-1">
                   <div className="flex items-center overflow-hidden">
                     <div
                       className="mx-2 mt-1 flex size-8 items-center rounded-sm border border-black"
                       style={{
-                        backgroundColor: getClassificationColor(item.class, true),
+                        backgroundColor: getClassificationColor(
+                          item.class,
+                          true,
+                        ),
                       }}
                     >
                       <div className="w-full text-center font-mono text-xl font-bold text-white">
@@ -141,7 +142,7 @@ export function ParcelSearch(): React.ReactElement {
                       className="block truncate text-base font-medium"
                       slot="label"
                     >
-                      <div className="font-semibold leading-none">
+                      <div className="leading-none font-semibold">
                         {item.housenum} {item.street} {item.unit}
                       </div>
                       <div className="text-xs leading-none">
@@ -160,7 +161,7 @@ export function ParcelSearch(): React.ReactElement {
               </ListBoxItem>
             )}
           </ListBox>
-        }
+        )}
       </Autocomplete>
     </div>
   );

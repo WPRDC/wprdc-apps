@@ -17,6 +17,7 @@ export function OldSelectionForm(): React.ReactElement {
       JSON.parse(value ?? "[]");
       setError(undefined);
     } catch (err) {
+      console.warn("JSON validation error:", err);
       setError("not valid json");
     }
   }

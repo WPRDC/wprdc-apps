@@ -41,8 +41,7 @@ export function NavMap({
   availableLayers = [],
   selectedLayers = [],
   layers = [],
-  isModal,
-  bbox,
+                         bbox,
   zoomPan,
   mapID = "navMap",
 }: NavMapProps): React.ReactElement {
@@ -69,7 +68,7 @@ export function NavMap({
       const map = mapRef.current.getMap();
       map.fitBounds(bbox, { padding: 30 });
     }
-  }, [bbox, zoomPan, mapRef.current, selectedParcel]);
+  }, [bbox, zoomPan, selectedParcel]);
 
   console.log(bbox)
   async function handleMapLoad() {
@@ -126,7 +125,7 @@ export function NavMap({
         [parcelLayer.slug]: [selectedParcel ?? ""],
       }}
       legendExtras={
-        !!ownerAddress ? (
+        ownerAddress ? (
           <div>
             <h3 className="mb-0.5 font-sans font-bold">Owner Address</h3>
             <div className="flex items-center space-x-1">

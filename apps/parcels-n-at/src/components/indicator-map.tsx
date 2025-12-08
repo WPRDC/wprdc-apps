@@ -13,6 +13,7 @@ import {
 } from "react-aria-components";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
+  ChartViz,
   InfoTooltip,
   ListBox,
   ListBoxItem,
@@ -20,7 +21,6 @@ import {
   LoadingMessage,
   Map,
   Typography,
-  ChartViz,
 } from "@wprdc/ui";
 
 import {
@@ -38,29 +38,19 @@ import {
   SpaceRATValueFormat,
 } from "@wprdc/api";
 
-import {
-  Layer,
-  type MapGeoJSONFeature,
-  type MapLayerMouseEvent,
-  Source,
-} from "react-map-gl/maplibre";
+import { Layer, type MapGeoJSONFeature, Source } from "react-map-gl/maplibre";
 
 import { useEffect, useMemo, useState } from "react";
 
 import { ckmeans } from "simple-statistics";
 
 import chroma from "chroma-js";
-import type { MapState } from "@wprdc/types";
-import { twMerge } from "tailwind-merge";
 import type { VisualizationSpec } from "@wprdc/types";
+import { twMerge } from "tailwind-merge";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 
 const DEFAULT_VARIANT_ID = "_default_";
-
-type MapStatsRecord = ContinuousAggregateStatsRecord &
-  BooleanAggregateStatsRecord &
-  Record<string, number>;
 
 export interface IndicatorMapProps {
   /** List of available map config objects with at least `id` and `name`  */
@@ -120,33 +110,31 @@ export function IndicatorMap({
   const [popupProps, setPopupProps] = useState<HoverPopupProps | null>(null);
 
   /** Updates searchParams and location  */
-  const handleNavSelection =
+  const handleNavSelection = useCallback(
     (field: string) =>
-    (selection: Key | Selection | null): void => {
-      if (!selection) return;
+      (selection: Key | Selection | null): void => {
+        if (!selection) return;
 
-      let value: string;
-      if (typeof selection === "string" || typeof selection === "number") {
-        value = selection.toString();
-      } else {
-        // for components that support multi-select
-        value = Array.from(selection)[0].toString();
-      }
-      // update search param with new value
-      const params = new URLSearchParams(searchParams);
-      params.set(field, value);
-      router.push(`${pathname}?${params.toString()}`);
-    };
+        let value: string;
+        if (typeof selection === "string" || typeof selection === "number") {
+          value = selection.toString();
+        } else {
+          // for components that support multi-select
+          value = Array.from(selection)[0].toString();
+        }
+        // update search param with new value
+        const params = new URLSearchParams(searchParams);
+        params.set(field, value);
+        router.push(`${pathname}?${params.toString()}`);
+      },
+    [pathname, router, searchParams],
+  );
 
-  function handleChartHover(...args: any[]) {
+  function handleChartHover(...args: unknown[]) {
     console.log(args);
   }
 
-  function handleMapHover(
-    features: MapGeoJSONFeature[],
-    context: MapState,
-    e: MapLayerMouseEvent,
-  ) {
+  function handleMapHover(features: MapGeoJSONFeature[]) {
     function getFormat(question?: Question): SpaceRATValueFormat {
       if (question?.format) return question.format;
       if (question?.datatype === "boolean") return "percent";
@@ -199,8 +187,7 @@ export function IndicatorMap({
   }, [selectedMapSet, selectedVariantID]);
 
   const selectedQuestion: Question | undefined = useMemo(() => {
-    const q = questions?.find((q) => q.id === selectedQuestionID);
-    return q;
+    return questions?.find((q) => q.id === selectedQuestionID);
   }, [questions, selectedQuestionID]);
 
   // question ID in the form used in postgres and therefor map tiles
@@ -267,7 +254,7 @@ export function IndicatorMap({
     ) {
       const byRegion = data.results.stats;
       const sampleRecord = Object.values(byRegion)[0];
-      if (sampleRecord.hasOwnProperty(questionTableID)) {
+      if (Object.prototype.hasOwnProperty.call(sampleRecord, questionTableID)) {
         const possibleStats = Object.keys(sampleRecord[questionTableID]);
 
         // cluster values
@@ -309,7 +296,7 @@ export function IndicatorMap({
 
   // Effect on question switch, if there's no stat selected, or the stat isn't available now we need ot pick a default
   useEffect(() => {
-    if (!!selectedQuestion) {
+    if (selectedQuestion) {
       // use default if not stat selected
       if (
         !selectedStatID ||
@@ -318,10 +305,10 @@ export function IndicatorMap({
         handleNavSelection("stat")(DEFAULT_STAT_IDS[selectedQuestion.datatype]);
       }
     }
-  }, [selectedQuestion, selectedVariantID]);
+  }, [handleNavSelection, selectedQuestion, selectedStatID, selectedVariantID]);
 
   const styleSteps = useMemo(() => {
-    let steps: (string | number)[] = [];
+    const steps: (string | number)[] = [];
 
     const colors = chroma.scale("GnBu").colors(breaks.length + 1);
 
@@ -537,8 +524,10 @@ export function IndicatorMap({
 
           <div className="">
             <ChartViz
-              data={{ table: vegaData }}
-              spec={histogramSpec(breaks, popupProps?.label ?? "")}
+              spec={{
+                ...histogramSpec(breaks, popupProps?.label ?? ""),
+                data: { values: vegaData },
+              }}
               signalListeners={signalListeners}
             />
           </div>
@@ -602,7 +591,7 @@ export function StyledListBoxItem<T extends object = object>({
   return (
     <ListBoxItem<T>
       className={twMerge(
-        "selected:ring-2 selected:bg-primary/30 selected:font-bold mb-1 mr-2 inline-block cursor-default rounded border border-black px-1 font-mono text-sm font-semibold ring-black hover:bg-stone-100",
+        "selected:ring-2 selected:bg-primary/30 selected:font-bold mr-2 mb-1 inline-block cursor-default rounded border border-black px-1 font-mono text-sm font-semibold ring-black hover:bg-stone-100",
         typeof className === "string" ? className : null,
       )}
       {...props}

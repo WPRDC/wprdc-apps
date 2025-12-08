@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-// eslint-disable-next-line camelcase -- case from Next/font
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import "maplibre-gl/dist/maplibre-gl.css";
@@ -29,7 +28,7 @@ export default function RootLayout({
 }>): React.ReactElement {
   return (
     <html lang="en">
-      <Script>
+      <Script id="matomo-code">
         {`
       <!-- Matomo -->
     var _paq = window._paq = window._paq || [];

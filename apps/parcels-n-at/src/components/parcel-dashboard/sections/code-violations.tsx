@@ -6,16 +6,6 @@ import { CardList } from "@/components/parcel-dashboard/components/card-list";
 import { Card } from "@/components/parcel-dashboard/components/card";
 import { twMerge } from "tailwind-merge";
 
-const STATUSES = [
-  "IN COURT",
-  "IN VIOLATION",
-  "CLEAN & LIEN",
-  "CANCELLED",
-  "APPEALED",
-  "UNDER INVESTIGATION",
-  "READY TO CLOSE",
-  "CLOSED",
-];
 
 /** Groups set of PLI violations by Casefile */
 export function groupByCasefile(
@@ -34,6 +24,7 @@ export function groupByCasefile(
   );
 
   const casefilesInDateOrder = Object.fromEntries(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     Object.entries(byCasefile).sort(([_, a], [__, b]) => {
       const aStart = a.sort((c, d) =>
         c.investigation_date.localeCompare(d.investigation_date),

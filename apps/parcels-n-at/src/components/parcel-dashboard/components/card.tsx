@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 
-export type CardProps = PropsWithChildren<{}>;
+export type CardProps = PropsWithChildren<object>;
 
 export function Card({ children }: CardProps) {
   return (

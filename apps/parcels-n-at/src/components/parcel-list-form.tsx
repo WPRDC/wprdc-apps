@@ -34,28 +34,29 @@ export function ParcelListForm({
   const [value, setValue] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
 
-  const handleFileChange = useCallback(async function handleFileChange(
-    f: File,
-  ): Promise<void> {
-    console.log("file change!");
-    const text = await f.text();
+  const handleChange = useCallback((text: string) => {
     setValue(text);
-    handleChange(text);
-  }, []);
+    const [ids, ] = extractIDs(text);
+    onChange(ids);
+  }, [onChange]);
+
+  const handleFileChange = useCallback(
+    async function handleFileChange(f: File): Promise<void> {
+      console.log("file change!");
+      const text = await f.text();
+      setValue(text);
+      handleChange(text);
+    },
+    [handleChange],
+  );
 
   const handleValidation = useCallback(
     function handleValidation(): void {
-      const [_, err] = extractIDs(value ?? "");
+      const [, err] = extractIDs(value ?? "");
       setError(err);
     },
     [value],
   );
-
-  const handleChange = useCallback((text: string) => {
-    setValue(text);
-    const [ids, _] = extractIDs(text);
-    onChange(ids);
-  }, []);
 
   return (
     <div className="flex space-x-7">

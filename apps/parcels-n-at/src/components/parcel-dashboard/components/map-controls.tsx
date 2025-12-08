@@ -67,7 +67,7 @@ export function MapControls({
     setEmbedCode(
       `<iframe width="800" height="600" src="${url}&zoomPan=1"></iframe>`,
     );
-  }, []);
+  }, [parcelID, pathname]);
 
   const handleCopy = (url: string, toastState: ToastState<ReactNode>) => () => {
     if (typeof window !== "undefined") navigator.clipboard.writeText(url);

@@ -23,7 +23,6 @@ export interface OwnerSearchProps {
 
 export function OwnerSearch({
   onSelectionChangeAction,
-  selectedAddress,
 }: OwnerSearchProps): React.ReactElement {
   const list: AsyncListData<OwnerSearchRow> = useAsyncList<OwnerSearchRow>({
     async load({ signal, filterText }) {
@@ -54,7 +53,7 @@ export function OwnerSearch({
         typeof keys === "string" ? list.items[0] : Array.from(keys)[0];
       if (key) onSelectionChangeAction(key.toString());
     },
-    [list],
+    [list, onSelectionChangeAction],
   );
 
   return (

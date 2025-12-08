@@ -76,7 +76,6 @@ export default function Page(): React.ReactElement {
         window.URL.revokeObjectURL(url);
       })
       .catch((err: unknown) => {
-        // eslint-disable-next-line no-console -- for debugging
         console.error(err);
       })
       .finally(() => {
@@ -316,7 +315,6 @@ export default function Page(): React.ReactElement {
               </div>
             </div>
             <div>
-              {/* eslint-disable-next-line jsx-a11y/anchor-has-content,jsx-a11y/anchor-is-valid -- workaround used for download triggered by button  */}
               <a className="hidden" ref={linkRef} />
               <Button
                 variant="primary"
@@ -328,7 +326,7 @@ export default function Page(): React.ReactElement {
                   <TbDownload className="size-6" />
                   <div className="text-2xl">Download</div>
                 </div>
-                <div className="h-[4px]">
+                <div className="h-1">
                   {downloading && <Spinner color="#0e7490" className="w-full" line />}
                 </div>
               </Button>
