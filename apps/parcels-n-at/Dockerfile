@@ -15,6 +15,7 @@ FROM base AS prepare
 RUN pnpm install turbo --global
 
 COPY . .
+COPY .env.local .env.local
 
 RUN turbo prune parcels-n-at --docker
 
