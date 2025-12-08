@@ -1,5 +1,3 @@
-const IgnorePlugin = require("webpack").IgnorePlugin;
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
@@ -20,18 +18,6 @@ const nextConfig = {
         pathname: "/uploads/**",
       },
     ],
-  },
-
-  webpack: (config, { isServer }) => {
-    if (isServer) {
-      config.plugins.push(
-        new IgnorePlugin({
-          resourceRegExp: /original-fs/,
-          contextRegExp: /adm-zip/,
-        }),
-      );
-    }
-    return config;
   },
 
   redirects: async () => {

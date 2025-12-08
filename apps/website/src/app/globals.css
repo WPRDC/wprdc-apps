@@ -1,6 +1,10 @@
-@import tailwindcss;
+@import "tailwindcss";
+@import "@wprdc/ui/styles.css";
+
 
 @theme inline {
+  --font-mono: var(--font-jetbrains-mono);
+
   --background-image-cartographer: url('/images/backgrounds/cartographer.png');
   --background-image-diagmonds: url('/images/backgrounds/diagmonds.png');
   --background-image-diagmonds-light: url('/images/backgrounds/diagmonds-light.png');
@@ -24,12 +28,12 @@ a {
 }
 
 body {
-  @apply bg-background dark:bg-backgroundDark;
+  @apply bg-background dark:bg-background-dark;
   @apply text-text dark:text-textDark;
 }
 
 input {
-  @apply dark:bg-textSecondary dark:border-gray-900;
+  @apply dark:bg-text-secondary dark:border-gray-900;
 }
 
 input::placeholder {

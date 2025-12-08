@@ -96,7 +96,7 @@ export default async function RootLayout({
           menuItems={menuItems.data}
         />
         <div className="relative flex-grow overflow-auto">
-          <main className="bg-background dark:bg-backgroundDark mb-16">
+          <main className="bg-background dark:bg-background-dark mb-16">
             {children}
           </main>
           <Footer

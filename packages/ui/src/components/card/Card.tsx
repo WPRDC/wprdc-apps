@@ -23,11 +23,11 @@ export function Card({
       <A
         className={classNames(
           "ui flex h-full flex-col rounded-t-md shadow-lg",
-          "active:shadow-md hover:shadow-2xl dark:border-textSecondaryDark",
+          "active:shadow-md hover:shadow-2xl dark:border-text-secondary-dark",
         )}
         href={href}
       >
-        <div className="relative z-0 h-40 rounded-t-md border-2 border-textSecondary dark:border-textSecondaryDark">
+        <div className="relative z-0 h-40 rounded-t-md border-2 border-text-secondary dark:border-text-secondary-dark">
           <div className="absolute bottom-0 left-0 px-3 pb-1 text-2xl font-bold">
             <div className="bg-background/40 p-1 font-mono leading-none backdrop-blur-sm dark:bg-backgroundDark/40">
               {title}
@@ -41,7 +41,7 @@ export function Card({
             />
           ) : null}
         </div>
-        <div className="grow  border-2 border-textSecondary p-4 dark:border-textSecondaryDark">
+        <div className="grow  border-2 border-text-secondary p-4 dark:border-text-secondary-dark">
           {!!subtitle && (
             <div className="mb-3 font-medium leading-none">{subtitle}</div>
           )}

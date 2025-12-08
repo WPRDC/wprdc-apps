@@ -1,4 +1,3 @@
-const IgnorePlugin = require("webpack").IgnorePlugin;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -28,17 +27,6 @@ const nextConfig = {
         pathname: "/uploads/**",
       },
     ],
-  },
-  webpack: (config, { isServer }) => {
-    if (isServer) {
-      config.plugins.push(
-        new IgnorePlugin({
-          resourceRegExp: /original-fs/,
-          contextRegExp: /adm-zip/,
-        }),
-      );
-    }
-    return config;
   },
 };
 

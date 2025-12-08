@@ -39,10 +39,10 @@
 
   --color-text: var(--color-slate-700);
   --color-textDark: var(--color-slate-200);
-  --color-textSecondary: var(--color-stone-600);
-  --color-textSecondaryDark: #A3A3A3;
+  --color-text-secondary: var(--color-stone-600);
+  --color-text-secondary-dark: #A3A3A3;
   --color-border: var(--color-stone-700);
-  --color-borderDark: var(--color-stone-300);
+  --color-border-dark: var(--color-stone-300);
 
   --color-focused: --color-cyan-400;
   --color-error: --color-red-400;

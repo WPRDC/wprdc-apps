@@ -50,7 +50,7 @@ export function BlogListItem<T extends ListableContentType>({
     <li>
       <article
         key={slug}
-        className="border-textSecondary flex flex-col items-stretch space-y-6 rounded-md border-2 bg-white p-4"
+        className="border-text-secondary flex flex-col items-stretch space-y-6 rounded-md border-2 bg-white p-4"
       >
         <h3>
           <A
@@ -62,7 +62,7 @@ export function BlogListItem<T extends ListableContentType>({
             {title}
           </A>
         </h3>
-        <small className="text-textSecondary dark:text-textSecondaryDark text-sm">
+        <small className="text-text-secondary dark:text-text-secondary-dark text-sm">
           {!!publishDate && (
             <time
               className="font-bold"
@@ -120,7 +120,7 @@ export function BriefListItem({
     <li>
       <article
         key={slug}
-        className="border-textSecondary flex flex-col items-stretch space-y-6 rounded-md border-2 bg-white p-4"
+        className="border-text-secondary flex flex-col items-stretch space-y-6 rounded-md border-2 bg-white p-4"
       >
         {!!weekStart && (
           <hgroup>
