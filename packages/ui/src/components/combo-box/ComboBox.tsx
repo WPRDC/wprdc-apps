@@ -88,14 +88,14 @@ export function ComboBox<T extends object>({
 
       <Popover
         className={twMerge(
-          "w-[--trigger-width] border border-stone-800 shadow-md",
+          "w-(--trigger-width) border border-stone-800 shadow-md",
         )}
       >
         <ListBox className={twMerge("bg-white p-2")}>{children}</ListBox>
       </Popover>
 
       {!isLoading && props.inputValue && props.inputValue.length < 4 ? (
-        <div className="absolute w-[--trigger-width]">
+        <div className="absolute w-(--trigger-width)">
           <div className="ml-11 bg-white/40 px-1 py-0.5 text-xs backdrop-blur-md">
             Type at least 4 characters to see results
           </div>

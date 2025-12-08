@@ -18,7 +18,7 @@ import type {
 
 import { fetchFields, fetchSQLSearch, toFieldLookup } from "../fetch-util";
 import type { APIResult } from "../types";
-import { CondemnedStatus, LeadLine, WaterProvider } from "@wprdc/types/src";
+import { CondemnedStatus, LeadLine, WaterProvider } from "@wprdc/types";
 
 export enum ParcelTable {
   Assessment = "65855e14-549e-4992-b5be-d629afc676fa",
@@ -84,7 +84,7 @@ export async function fetchParcelRecords<T extends DatastoreRecord>(
     queryParams,
   );
   if (!records || !fields) {
-    // eslint-disable-next-line no-console -- rare and useful
+     
     console.warn(`Nothing found for ${String(parcelID)} on table ${table}.`);
     return { fields: undefined, records: undefined };
   }

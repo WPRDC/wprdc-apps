@@ -41,7 +41,7 @@ export async function HeadingSection({
           <ClassChip parcelClass={assessmentRecord?.USEDESC} />
         </div>
         <div className="top-0 z-40 -mt-24 lg:-mt-28 bg-black/40 px-4 py-2 backdrop-blur-md">
-          <div className="flex-grow">
+          <div className="grow">
             <h1 className="">
               <div className={twMerge(baseTextStyle, "mb-1 text-xl md:text-3xl lg:text-5xl")}>
                 {addressLine}
@@ -70,7 +70,7 @@ export async function HeadingSection({
 export function HeadingSkeleton(): React.ReactElement {
   return (
     <div className="w-full">
-      <Bone className="mb-3 h-12 w-full max-w-96 bg-white/80 text-5xl xl:max-w-[26rem]" />
+      <Bone className="mb-3 h-12 w-full max-w-96 bg-white/80 text-5xl xl:max-w-104" />
       <Bone className="h-5 w-60 bg-white/80 text-xl" />
     </div>
   );

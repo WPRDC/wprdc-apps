@@ -1,9 +1,70 @@
 @import "tailwindcss";
 
+@source "./";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --font-mono: var(--font-jetbrains-mono), monospace;
+
+
+  --color-wprdc-50: #FEFDE8;
+  --color-wprdc-100: #FEFDC3;
+  --color-wprdc-200: #FDF68B;
+  --color-wprdc-300: #FCEC52;
+  --color-wprdc-400: #F9DA16;
+  --color-wprdc-500: #E9C109;
+  --color-wprdc-600: #C99705;
+  --color-wprdc-700: #A06C08;
+  --color-wprdc-800: #84550F;
+  --color-wprdc-900: #704513;
+  --color-wprdc-950: #422406;
+  --color-primary: var(--color-wprdc-300);
+
+  --color-secondary-50: var(--color-cyan-50);
+  --color-secondary-100: var(--color-cyan-100);
+  --color-secondary-200: var(--color-cyan-200);
+  --color-secondary-300: var(--color-cyan-300);
+  --color-secondary-400: var(--color-cyan-400);
+  --color-secondary-500: var(--color-cyan-500);
+  --color-secondary-600: var(--color-cyan-600);
+  --color-secondary-700: var(--color-cyan-700);
+  --color-secondary-800: var(--color-cyan-800);
+  --color-secondary-900: var(--color-cyan-900);
+  --color-secondary-950: var(--color-cyan-950);
+
+  --color-background: var(--color-neutral-100);
+  --color-background-secondary: var(--color-white);
+  --color-background-dark: var(--color-stone-900);
+  --color-background-secondary-dark: var(--color-black);
+
+  --color-text: var(--color-slate-700);
+  --color-textDark: var(--color-slate-200);
+  --color-textSecondary: var(--color-stone-600);
+  --color-textSecondaryDark: #A3A3A3;
+  --color-border: var(--color-stone-700);
+  --color-borderDark: var(--color-stone-300);
+
+  --color-focused: --color-cyan-400;
+  --color-error: --color-red-400;
+  --color-warning: --color-orange-400;
+
+  --shadow-sm: 2px 2px 0 #6b7280;
+  --shadow-md: 4px 4px 0 #6b7280;
+  --shadow-lg: 5px 5px 0 #4b5563;
+  --shadow-xl: 6px 6px 0 #6b7280;
+  --shadow-2xl: 8px 8px 0 #6b7280;
+  --shadow-reverse-sm: -2px -2px 0 #6b7280;
+  --shadow-reverse-md: -4px -4px 0 #6b7280;
+  --shadow-reverse-lg: -5px -5px 0 #6b7280;
+  --shadow-reverse-xl: -6px -6px 0 #6b7280;
+  --shadow-reverse-2xl: -8px -8px 0 #6b7280;
+}
+
+
 .mapbox-gl-draw_ctrl-draw-btn.active, .mapbox-gl-draw_ctrl-draw-btn.active:hover {
   background-color: rgba(252, 236, 82, 0.70) !important;
 }
 
 details summary::-webkit-details-marker {
-  display:none;
+  display: none;
 }

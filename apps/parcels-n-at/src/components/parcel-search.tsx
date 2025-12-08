@@ -70,7 +70,7 @@ export function ParcelSearch(): React.ReactElement {
   );
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full bg-white">
       <Autocomplete
         inputValue={list.filterText}
         onInputChange={handleInputChange}

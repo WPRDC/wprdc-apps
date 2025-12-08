@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
   output: "standalone",
   reactStrictMode: true,
   typescript: {
@@ -9,3 +9,5 @@ module.exports = {
     ignoreDuringBuilds: true,
   },
 };
+
+export default nextConfig;

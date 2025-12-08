@@ -96,7 +96,7 @@ export function MapControls({
                 <Dialog>
                   <ToastProvider>
                     {(state) => (
-                      <div className="flex max-w-screen-sm flex-col items-stretch space-y-4">
+                      <div className="flex max-w-(--breakpoint-sm) flex-col items-stretch space-y-4">
                         <div>
                           <div className="flex items-center space-x-2">
                             <p className="text-xl font-bold">Link</p>

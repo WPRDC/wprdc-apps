@@ -1,6 +1,6 @@
 "use client";
 
-import { GeoType } from "@wprdc/types";
+import { CircleSymbologyConfig, GeoType, LayerConfig, LineSymbologyConfig, PolygonSymbologyConfig } from "@wprdc/types";
 import { Source } from "react-map-gl/maplibre";
 import { CircleLayer } from "./layers/circle";
 import { LineLayer } from "./layers/line";
@@ -25,21 +25,21 @@ export function LayerGroup({
       {layer.symbology.geoType === GeoType.Point && (
         <CircleLayer
           context={context}
-          layer={layer}
+          layer={layer as LayerConfig<CircleSymbologyConfig>}
           sourceLayer={layer.tiles.sourceLayer}
         />
       )}
       {layer.symbology.geoType === GeoType.Polygon && (
         <PolygonLayer
           context={context}
-          layer={layer}
+          layer={layer as LayerConfig<PolygonSymbologyConfig>}
           sourceLayer={layer.tiles.sourceLayer}
         />
       )}
       {layer.symbology.geoType === GeoType.Line && (
         <LineLayer
           context={context}
-          layer={layer}
+          layer={layer as LayerConfig<LineSymbologyConfig>}
           sourceLayer={layer.tiles.sourceLayer}
         />
       )}

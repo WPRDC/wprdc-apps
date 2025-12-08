@@ -23,7 +23,7 @@ export function Card({
       <A
         className={classNames(
           "ui flex h-full flex-col rounded-t-md shadow-lg",
-          "active:shadow hover:shadow-2xl dark:border-textSecondaryDark",
+          "active:shadow-md hover:shadow-2xl dark:border-textSecondaryDark",
         )}
         href={href}
       >
@@ -41,7 +41,7 @@ export function Card({
             />
           ) : null}
         </div>
-        <div className="flex-grow  border-2 border-textSecondary p-4 dark:border-textSecondaryDark">
+        <div className="grow  border-2 border-textSecondary p-4 dark:border-textSecondaryDark">
           {!!subtitle && (
             <div className="mb-3 font-medium leading-none">{subtitle}</div>
           )}

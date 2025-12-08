@@ -1,7 +1,7 @@
 const IgnorePlugin = require("webpack").IgnorePlugin;
 
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
   output: "standalone",
   reactStrictMode: true,
   typescript: {
@@ -36,3 +36,5 @@ module.exports = {
   //   return config;
   // },
 };
+
+export default nextConfig;

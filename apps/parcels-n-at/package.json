@@ -2,11 +2,12 @@
   "name": "parcels-n-at",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "NODE_ENV=development NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint . --max-warnings 0",
     "update": "pnpm update",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf .next"
   },
@@ -43,7 +44,6 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@wprdc/eslint-config": "workspace:*",
-    "@wprdc/tailwind-config": "workspace:*",
     "@wprdc/typescript-config": "workspace:*",
     "autoprefixer": "^10.4.22",
     "eslint-config-next": "16.0.7",

@@ -7,7 +7,7 @@
     "**/*.css"
   ],
   "exports": {
-    "./styles.css": "./dist/index.css",
+    "./styles.css": "./src/styles.css",
     ".": "./src/index.ts"
   },
   "scripts": {
@@ -29,7 +29,6 @@
     "@react-types/shared": "^3.32.1",
     "@types/geojson": "^7946.0.16",
     "@wprdc/api": "workspace:*",
-    "@wprdc/tailwind-config": "workspace:*",
     "@wprdc/types": "workspace:*",
     "chroma-js": "^3.2.0",
     "classnames": "^2.5.1",
@@ -53,6 +52,7 @@
     "@tailwindcss/postcss": "^4.1.17",
     "tailwindcss-react-aria-components": "^2.0.1",
     "vega": "^6.2.0",
+    "vega-embed":"^7.1.0",
     "vega-lite": "^6.4.1"
   },
   "devDependencies": {

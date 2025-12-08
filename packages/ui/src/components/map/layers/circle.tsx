@@ -5,7 +5,7 @@ import { parseSymbology } from "../parse";
 import { FilterSpecification } from "@maplibre/maplibre-gl-style-spec";
 import {
   CircleLayoutSpec,
-  CirclePaintSpec,
+  CirclePaintSpec, CircleSymbologyConfig,
   LayerConfig,
   SimplifiedSymbologyConfig,
 } from "@wprdc/types";
@@ -15,7 +15,7 @@ export function CircleLayer({
   layer,
   sourceLayer,
   context,
-}: SymbologyLayerProps): React.ReactElement {
+}: SymbologyLayerProps<CircleSymbologyConfig>): React.ReactElement {
   const { slug } = layer;
   const filter: FilterSpecification | undefined = layer.renderOptions?.filter;
 

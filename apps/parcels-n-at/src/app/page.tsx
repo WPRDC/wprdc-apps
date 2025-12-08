@@ -8,9 +8,9 @@ export default function Home(): React.ReactElement {
       </h1>
       <div className="text-center italic text-xl lg:text-3xl font-bold">Select a tool</div>
 
-      <div className="mx-auto flex w-full max-w-screen-md flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-6">
+      <div className="mx-auto flex w-full max-w-(--breakpoint-md) flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-6">
         <a
-          className="hover:bg-primary/20 flex lg:aspect-video w-full lg:w-96 flex-col items-center rounded border-2 border-black p-3 shadow transition-shadow hover:shadow-xl"
+          className="hover:bg-primary/20 flex lg:aspect-video w-full lg:w-96 flex-col items-center rounded border-2 border-black p-3 shadow-md transition-shadow hover:shadow-xl"
           href="/explore"
         >
           <div className="mx-auto mb-3 flex items-center text-center text-lg md:text-xl lg:text-3xl font-bold">
@@ -22,7 +22,7 @@ export default function Home(): React.ReactElement {
         </a>
 
         <a
-          className="hover:bg-primary/20 flex aspect-video lg:w-96 flex-col items-center rounded border-2 border-black p-3 shadow transition-shadow hover:shadow-xl"
+          className="hover:bg-primary/20 flex aspect-video lg:w-96 flex-col items-center rounded border-2 border-black p-3 shadow-md transition-shadow hover:shadow-xl"
           href="/bulk"
         >
           <div className="mx-auto mb-3 flex items-center text-center text-lg md:text-xl lg:text-3xl font-bold">

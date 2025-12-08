@@ -156,7 +156,7 @@ export default async function Page({
             </TabList>
             {records.map(({ region: pid }) => (
               <TabPanel key={pid} id={pid}>
-                <div className="max-h-[50rem] max-w-screen-sm overflow-auto rounded-sm border border-black">
+                <div className="max-h-200 max-w-(--breakpoint-sm) overflow-auto rounded-sm border border-black">
                   {/* todo: render differently in embed mode (e.g. no map buttons) */}
                   <PropertyDashboard parcelID={pid} />
                 </div>

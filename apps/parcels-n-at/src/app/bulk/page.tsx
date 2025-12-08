@@ -149,7 +149,7 @@ export default function Page(): React.ReactElement {
 
   return (
     <div className="w-full overflow-auto">
-      <div className="mx-auto max-w-screen-xl px-4 pb-36 pt-4">
+      <div className="mx-auto max-w-(--breakpoint-xl) px-4 pb-36 pt-4">
         <div className="pb-1">
           <Heading className="m-0 mb-1 p-0" level={1}>
             Download parcel data from the WPRDC

@@ -7,6 +7,7 @@ import {
   LayerConfig,
   LineLayoutSpec,
   LinePaintSpec,
+  LineSymbologyConfig,
   SimplifiedSymbologyConfig,
 } from "@wprdc/types";
 
@@ -14,7 +15,7 @@ export function LineLayer({
   layer,
   sourceLayer,
   context,
-}: SymbologyLayerProps): React.ReactElement {
+}: SymbologyLayerProps<LineSymbologyConfig>): React.ReactElement {
   const { slug } = layer;
   const filter: FilterSpecification | undefined = layer.renderOptions?.filter;
 

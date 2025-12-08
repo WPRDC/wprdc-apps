@@ -1,4 +1,22 @@
-@import "tailwindcss";
+@import tailwindcss;
+
+@theme inline {
+  --background-image-cartographer: url('/images/backgrounds/cartographer.png');
+  --background-image-diagmonds: url('/images/backgrounds/diagmonds.png');
+  --background-image-diagmonds-light: url('/images/backgrounds/diagmonds-light.png');
+  --background-image-diagonal-striped-brick: url('/images/backgrounds/diagonal-striped-brick.png');
+  --background-image-escheresque: url('/images/backgrounds/escheresque.png');
+  --background-image-escheresque-dark: url('/images/backgrounds/escheresque-dark.png');
+  --background-image-graphy: url('/images/backgrounds/graphy.png');
+  --background-image-graphy-dark: url('/images/backgrounds/graphy-dark.png');
+  --background-image-gun-metal: url('/images/backgrounds/gun-metal.png');
+  --background-image-hexabump: url('/images/backgrounds/hexabump.png');
+  --background-image-maze-black: url('/images/backgrounds/maze-black.png');
+  --background-image-real-carbon-fibre: url('/images/backgrounds/real-carbon-fibre.png');
+  --background-image-use-your-illusion: url('/images/backgrounds/use-your-illusion.png');
+  --background-image-vaio: url('/images/backgrounds/vaio.png');
+  --background-image-zig-zag: url('/images/backgrounds/zig-zag.png');
+}
 
 body,
 a {

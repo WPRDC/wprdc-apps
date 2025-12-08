@@ -25,7 +25,11 @@
     "@strapi/strapi": "^5.31.3",
     "html-react-parser": "^5.2.10",
     "maplibre-gl": "^5.14.0",
-    "react-map-gl": "^8.1.0"
+    "react-map-gl": "^8.1.0",
+    "react-vega": "^8.0.0",
+    "vega": "^6.2.0",
+    "vega-embed": "^7.1.0",
+    "vega-lite": "^6.4.1"
   },
   "devDependencies": {
     "@react-types/shared": "^3.32.1",
@@ -34,10 +38,8 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@wprdc/eslint-config": "workspace:*",
-    "@wprdc/tailwind-config": "workspace:*",
     "@wprdc/typescript-config": "workspace:*",
     "react": "^19.2.1",
-    "react-vega": "^7.7.1",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3"
   }

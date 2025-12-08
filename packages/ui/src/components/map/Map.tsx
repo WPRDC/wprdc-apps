@@ -8,14 +8,7 @@
 "use client";
 
 import type { LayerConfig, MapState } from "@wprdc/types";
-import {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { forwardRef, useCallback, useEffect, useMemo, useRef, useState, } from "react";
 import { TbToggleLeft, TbToggleRightFilled } from "react-icons/tb";
 import type {
   MapGeoJSONFeature,
@@ -24,11 +17,7 @@ import type {
   Point,
   ViewStateChangeEvent,
 } from "react-map-gl/maplibre";
-import {
-  GeolocateControl,
-  Map as ReactMapGL,
-  NavigationControl,
-} from "react-map-gl/maplibre";
+import { GeolocateControl, Map as ReactMapGL, NavigationControl, } from "react-map-gl/maplibre";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../button";
 import { BasemapMenu } from "./BasemapMenu";
@@ -52,7 +41,7 @@ const DEFAULT_ZOOM = 11;
 
 const NODE_ENV = process.env.NODE_ENV ?? "development";
 
-export const Map = forwardRef<MapRef, MapProps>(function _Map(
+export const Map = forwardRef<MapRef, MapProps>(function Map_(
   {
     id,
     children,
@@ -88,7 +77,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
   const _mapRef = useRef<MapRef>(null);
   const mapRef = ref ?? _mapRef;
 
-  const [innerLayers, setInnerLayers] = useState<LayerConfig[]>(
+  const [innerLayers, _] = useState<LayerConfig[]>(
     defaultLayers ?? [],
   );
 
@@ -96,19 +85,6 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     () => propsLayers ?? innerLayers,
     [innerLayers, propsLayers],
   );
-
-  const handleLayerChange = useMemo(() => {
-    const defaultOnLayerChange = (layer: LayerConfig) => {
-      setInnerLayers(
-        layers.map((l) => {
-          if (l.slug === layer.slug) return layer;
-          return l;
-        }),
-      );
-    };
-
-    return propsOnLayerChange ?? defaultOnLayerChange;
-  }, [propsOnLayerChange]);
 
   const [basemap, setBasemap] = useState<keyof typeof basemaps>("basic");
   const [zoomText, setZoomText] = useState<string>(

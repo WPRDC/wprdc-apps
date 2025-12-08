@@ -3,7 +3,7 @@ import { Layer } from "react-map-gl/maplibre";
 import type { SymbologyLayerProps } from "../Map.types";
 import { parseSymbology } from "../parse";
 import {
-  LayerConfig,
+  LayerConfig, PolygonSymbologyConfig,
   RawPolygonSymbologyConfig,
   SimplifiedSymbologyConfig,
 } from "@wprdc/types";
@@ -12,7 +12,7 @@ export function PolygonLayer({
   layer,
   sourceLayer,
   context,
-}: SymbologyLayerProps) {
+}: SymbologyLayerProps<PolygonSymbologyConfig>) {
   if (layer.symbology.mode === "raw") {
     const { slug } = layer;
     const filter = layer.renderOptions?.filter;
@@ -58,7 +58,7 @@ function SimplePolygonLayer({
   layer,
   sourceLayer,
   context,
-}: SymbologyLayerProps): React.ReactElement {
+}: SymbologyLayerProps<PolygonSymbologyConfig>): React.ReactElement {
   const { slug } = layer;
 
   const {

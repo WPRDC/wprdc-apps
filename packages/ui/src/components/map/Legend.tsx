@@ -69,11 +69,10 @@ function PolygonIcon({ style }: HTMLProps<HTMLDivElement>) {
 function CircleIcon({ style }: HTMLProps<HTMLDivElement>) {
   return <div className="h-3 w-3 rounded-full border-2" style={style} />;
 }
-const LineIcon = PiLineSegmentsFill;
 
 
 function asCSS(geoType: GeoType, style: LegendItemOptions) {
-  const { fillColor, fillOpacity, strokeColor, strokeOpacity, strokeWidth } =
+  const { fillColor, fillOpacity, strokeColor, strokeWidth } =
     style;
 
   switch (geoType) {
@@ -94,8 +93,6 @@ function asCSS(geoType: GeoType, style: LegendItemOptions) {
 }
 
 export function FixedLegendRow({
-  slug,
-  title,
   geoType,
   style,
   label,
@@ -116,7 +113,6 @@ export function FixedLegendRow({
 
 
 export function CategoryLegendRow({
-  slug,
   title,
   geoType,
   baseStyle,
@@ -157,12 +153,9 @@ export function CategoryLegendRow({
   return <div></div>;
 }
 export function RampLegendRow({
-  slug,
   title,
-  geoType,
   baseStyle,
   styles,
-  categoryStyles,
 }: RampLegendOptions) {
   // todo; handle with category styles
   return (

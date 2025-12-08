@@ -107,7 +107,7 @@ export function LayerMenu({
                     Layer Options
                   </Heading>
 
-                  <div className="flex flex-grow flex-col overflow-auto">
+                  <div className="flex grow flex-col overflow-auto">
                     <div className="mb-8">
                       <h2 className="text-xs font-bold uppercase">
                         Highlight parcels by owner's address

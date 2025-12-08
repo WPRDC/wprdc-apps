@@ -28,8 +28,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>): React.ReactElement {
   return (
-    <html className={`${jetbrainsMono.variable} `} lang="en">
-      <Script>{`
+    <html lang="en">
+      <Script>
+        {`
       <!-- Matomo -->
     var _paq = window._paq = window._paq || [];
     /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
@@ -45,20 +46,22 @@ export default function RootLayout({
 <!-- End Matomo Code -->
     `}
       </Script>
-      <body className="flex h-screen flex-col overflow-auto xl:overflow-hidden">
+      <body
+        className={`${jetbrainsMono.variable} flex h-screen flex-col overflow-auto antialiased xl:overflow-hidden`}
+      >
         <Navbar
           darkLogoSrc="/wprdc-mark-dark.png"
           fullWidth
           logoSrc="/wprdc-mark-light.png"
           projectTitle={
-            <div className="bg-primary w-fit rounded-sm border border-stone-400 px-1.5 py-0 font-mono text-lg font-black">
+            <div className="bg-primary w-fit rounded-sm border border-stone-400 px-1.5 py-0 font-mono text-lg font-black text-black">
               Parcels N&apos;at
             </div>
           }
         >
           <div
             className={twMerge(
-              "flex flex-col justify-end space-y-4 pb-4 pl-4 text-xl font-semibold leading-none lg:flex-row lg:space-x-4 lg:space-y-0 lg:px-8 lg:pb-0",
+              "flex flex-col justify-end space-y-4 pb-4 pl-4 text-xl leading-none font-semibold lg:flex-row lg:space-y-0 lg:space-x-4 lg:px-8 lg:pb-0",
             )}
           >
             <a

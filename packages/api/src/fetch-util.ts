@@ -24,7 +24,7 @@ export function isValidCKANResponse<T extends DatastoreRecord>(
       Object.prototype.hasOwnProperty.call(body, "help")
     );
   } catch (e) {
-    // eslint-disable-next-line no-console -- should rarely occur
+     
     console.warn(e);
     return false;
   }

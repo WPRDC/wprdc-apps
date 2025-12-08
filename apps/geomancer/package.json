@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint . --max-warnings 0",
     "update": "pnpm update",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf .next"
   },
@@ -36,7 +36,6 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.0.4",
     "@wprdc/eslint-config": "workspace:*",
-    "@wprdc/tailwind-config": "workspace:*",
     "@wprdc/typescript-config": "workspace:*",
     "autoprefixer": "^10.4.21",
     "eslint-config-next": "15.1.7",

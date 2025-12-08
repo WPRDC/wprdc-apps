@@ -106,7 +106,7 @@ export function AssessedValuesSection({
       </div>
 
       <section>
-        <h3 className="mb-1 mt-3.5 text-lg font-bold">County Tax Exemptions</h3>
+        <h3 className="mt-3.5 mb-1 text-lg font-bold">County Tax Exemptions</h3>
         {record.HOMESTEADFLAG !== "HOM" &&
           record.FARMSTEADFLAG !== "FRM" &&
           record.CLEANGREEN !== "Y" &&
@@ -173,7 +173,7 @@ export function AssessedValuesSection({
       </section>
 
       <section className="max-w-lg">
-        <h3 className="mb-1 mt-3.5 text-lg font-bold">
+        <h3 className="mt-3.5 mb-1 text-lg font-bold">
           Comparison of Assessment Values
         </h3>
         <Table<number>
@@ -195,8 +195,7 @@ export function AssessedValuesSection({
         />
         <ChartViz
           className="w-full border-t-0 pt-3.5"
-          spec={spec}
-          data={{ table: vegaData }}
+          spec={{ ...spec, data: { values: vegaData }}}
         />
       </section>
     </div>

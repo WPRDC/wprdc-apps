@@ -12,11 +12,11 @@ import {
 } from "@mapbox/mapbox-gl-draw";
 
 import type { ColorSpecification } from "@maplibre/maplibre-gl-style-spec";
-import type {
+import  {
   GeoType,
   LayerConfig,
   MapState,
-  SelectionRecord,
+  SelectionRecord, SymbologyConfig,
 } from "@wprdc/types";
 import type * as React from "react";
 import { type ReactNode } from "react";
@@ -166,8 +166,8 @@ export interface LegendRowProps {
   type: GeoType;
 }
 
-export interface SymbologyLayerProps {
-  layer: LayerConfig;
+export interface SymbologyLayerProps<T extends SymbologyConfig> {
+  layer: LayerConfig<T>;
   sourceLayer: string;
   context: MapState;
 }

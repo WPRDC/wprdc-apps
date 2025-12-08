@@ -1,16 +1,4 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import { nextJsConfig } from "@wprdc/eslint-config/next-js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends("@wprdc/eslint-config/next.js"),
-];
-
-export default eslintConfig;
+/** @type {import("eslint").Linter.Config[]} */
+export default nextJsConfig;

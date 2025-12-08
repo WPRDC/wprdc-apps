@@ -43,8 +43,10 @@ export type MatchExpression = [
   ExpressionInputType | ExpressionInputType[],
   ExpressionInputType | ExpressionSpecification,
   ...(ExpressionInputType | ExpressionInputType[] | ExpressionSpecification)[],
-  // repeated as above
-  ExpressionInputType | ExpressionSpecification,
+  (
+    // repeated as above
+    ExpressionInputType | ExpressionSpecification
+  ),
 ];
 
 export type CaseRecords = [
@@ -302,4 +304,17 @@ export type RawSymbologyConfig =
   | RawLineSymbologyConfig
   | RawPolygonSymbologyConfig;
 
-export type SymbologyConfig = SimplifiedSymbologyConfig | RawSymbologyConfig;
+export type CircleSymbologyConfig =
+  | SimplifiedSymbologyConfig
+  | RawCircleSymbologyConfig;
+export type LineSymbologyConfig =
+  | SimplifiedSymbologyConfig
+  | RawLineSymbologyConfig;
+export type PolygonSymbologyConfig =
+  | SimplifiedSymbologyConfig
+  | RawPolygonSymbologyConfig;
+
+export type SymbologyConfig =
+  | CircleSymbologyConfig
+  | LineSymbologyConfig
+  | PolygonSymbologyConfig;
