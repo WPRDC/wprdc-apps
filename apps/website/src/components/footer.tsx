@@ -3,6 +3,7 @@ import { CMSLink, CMSLogo } from "@wprdc/types";
 import { A } from "@wprdc/ui";
 import React from "react";
 import Logo from "./logo";
+import Image from "next/image";
 
 export interface FooterProps {
   links: CMSLink[];
@@ -18,8 +19,8 @@ export default function Footer({
   affiliateLogos = [],
 }: FooterProps) {
   return (
-    <footer className="border-text-secondary border-t-2 bg-white px-6 pb-16 pt-10 dark:bg-black">
-      <div className="container mx-auto max-w-screen-xl space-y-4 lg:flex">
+    <footer className="border-text-secondary border-t-2 bg-white px-6 pt-10 pb-16 dark:bg-black">
+      <div className="container mx-auto max-w-7xl space-y-4 lg:flex">
         <nav className="">
           <ul className="">
             <li>
@@ -41,7 +42,7 @@ export default function Footer({
           </ul>
         </nav>
 
-        <div className="flex-grow"></div>
+        <div className="grow"></div>
 
         <div className="space-x-2">
           {affiliateLogos.map((logo) => {
@@ -59,15 +60,19 @@ export default function Footer({
             );
           })}
           <a href="https://aws.amazon.com/what-is-cloud-computing">
-            <img
+            <Image
               className="hidden w-40 dark:block"
               src="https://d0.awsstatic.com/logos/powered-by-aws-white.png"
               alt="Powered by AWS Cloud Computing"
+              width={160}
+              height={100}
             />
-            <img
+            <Image
               className="block w-40 dark:hidden"
               src="https://d0.awsstatic.com/logos/powered-by-aws.png"
               alt="Powered by AWS Cloud Computing"
+              width={160}
+              height={100}
             />
           </a>
           <div className="max-w-sm pt-1.5 text-xs">

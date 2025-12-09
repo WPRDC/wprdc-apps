@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 
-export function CardGrid({ children }: PropsWithChildren<{}>) {
+export function CardGrid({ children }: PropsWithChildren<object>) {
   return (
     <ul className="my-8 grid grid-cols-3 items-stretch gap-6">{children}</ul>
   );

@@ -47,7 +47,7 @@ export default async function ProjectRoute({ params }: Props) {
   );
 
   // todo: handle 404 if not posts
-  const { title, subtitle, description, url, screenshots, relatedPages } =
+  const { title, subtitle, description, url, screenshots } =
     projects[0];
   const path: BreadcrumbItem[] = [
     {

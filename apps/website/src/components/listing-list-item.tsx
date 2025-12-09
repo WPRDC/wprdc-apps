@@ -22,7 +22,7 @@ function extractContent(html: string | null): string | null {
 }
 
 function getLastSunday(d: string): Date {
-  let t = new Date(d.split("T")[0]);
+  const t = new Date(d.split("T")[0]);
   t.setDate(t.getDate() - t.getDay());
   return t;
 }
@@ -34,12 +34,10 @@ export function BlogListItem<T extends ListableContentType>({
   const {
     slug,
     title,
-    publishedAt,
     excerpt,
     article,
     publishDate,
     author,
-    category,
   } = item;
 
   const text = excerpt || extractContent(article) || "";
@@ -102,11 +100,7 @@ export function BriefListItem({
     id,
     title,
     publishedAt,
-    excerpt,
     article,
-    publishDate,
-    author,
-    category,
     week,
   } = item;
 

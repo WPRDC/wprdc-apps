@@ -10,8 +10,10 @@ import type {
   TabProps as RATabProps,
   TabsProps as RATabsProps,
 } from "react-aria-components";
+import { ReactNode } from "react";
 
 export interface TabProps extends RATabProps {
+  children?: ReactNode
   className?: string;
 }
 export interface TabsProps extends RATabsProps {

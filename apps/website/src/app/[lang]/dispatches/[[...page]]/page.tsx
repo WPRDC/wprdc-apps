@@ -22,7 +22,7 @@ type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "WPRDC | Weeknotes",
     description: "Brief weekly updates from the WPRDC.",

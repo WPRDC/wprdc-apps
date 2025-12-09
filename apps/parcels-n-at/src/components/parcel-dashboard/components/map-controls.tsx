@@ -76,7 +76,7 @@ export function MapControls({
 
   return (
     <div>
-      <div className="grid grid-cols-2 gap-2 md:flex scroll-mt-28 space-x-2" id="menu">
+      <div className="grid grid-cols-2 gap-2 md:flex scroll-mt-28 space-x-2 pb-4" id="menu">
         {/* Map Menu */}
         <div>
           <Button

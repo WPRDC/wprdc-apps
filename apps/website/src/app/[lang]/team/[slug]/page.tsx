@@ -34,7 +34,7 @@ const path = [
   },
 ];
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "WPRDC | Team",
   };

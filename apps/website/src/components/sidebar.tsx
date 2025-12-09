@@ -38,14 +38,9 @@ export interface SidebarProps {
   className?: string;
 }
 
-type LinkCategory = "doc" | "github" | "page";
-
 export function Sidebar({
   contents,
   tags,
-  title,
-  docLinks = [],
-  githubLinks = [],
   relatedPages = [],
   relatedLinksTitle,
   className,

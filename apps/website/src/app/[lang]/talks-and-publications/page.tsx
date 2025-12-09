@@ -12,13 +12,8 @@ import { CardGrid } from "@/components/card-grid";
 import { Card } from "@/components/card";
 import { getArtifacts } from "@wprdc/api";
 
-type Props = {
-  params: Promise<{
-    lang: string;
-  }>;
-};
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "WPRDC | Talks and Publications",
   };
@@ -26,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL ?? "";
 
-export default async function ToolListingRoute({ params }: Props) {
+export default async function ToolListingRoute() {
   const { data: artifacts } = await getArtifacts();
 
   const path = [

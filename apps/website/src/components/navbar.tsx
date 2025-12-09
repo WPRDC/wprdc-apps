@@ -1,6 +1,5 @@
 "use client";
 
-import { Content } from "@wprdc/ui";
 import classNames from "classnames";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
@@ -25,7 +24,6 @@ export default function Index({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentMenuItem, setCurrentMenuItem] =
     useState<CMSNavMenuItem | null>();
-  const [currentDescription, setCurrentDescription] = useState<string | null>();
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -39,18 +37,9 @@ export default function Index({
       setCurrentMenuItem(null);
     } else {
       setCurrentMenuItem(menuItem);
-      setCurrentDescription(menuItem.defaultDescription || null);
     }
   };
 
-  const handleHover =
-    (submenuItem: CMSNavMenuItem["subMenu"][0] | null) => () => {
-      if (!!submenuItem) {
-        setCurrentDescription(submenuItem.description);
-      } else {
-        setCurrentDescription(null);
-      }
-    };
 
   useEffect(() => {
     function handleEscapeKey(event: KeyboardEvent) {
@@ -97,7 +86,7 @@ export default function Index({
             </Button>
           </div>
           <nav
-            arial-label="Main navigation"
+            aria-label="Main navigation"
             className={classNames(
               "h-fit lg:block",
               isOpen ? "block" : "hidden",
@@ -137,9 +126,6 @@ export default function Index({
                         {menuItem.subMenu?.map((subMenuItem) => (
                           <li
                             key={subMenuItem.id}
-                            onMouseEnter={handleHover(subMenuItem)}
-                            onFocus={handleHover(subMenuItem)}
-                            onBlur={handleHover(null)}
                           >
                             <Link
                               onClick={closeMenu}

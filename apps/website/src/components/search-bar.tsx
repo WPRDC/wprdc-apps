@@ -2,11 +2,9 @@
 
 import { Button } from "@wprdc/ui";
 import React, { useEffect, useMemo, useState } from "react";
-import { AriaSearchFieldProps } from "react-aria";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import { Form, Input, SearchField } from "react-aria-components";
 
-export interface SearchBarProps extends AriaSearchFieldProps {}
 
 const SEARCH_URL = "https://data.wprdc.org/dataset";
 
@@ -24,7 +22,7 @@ const PLACEHOLDERS = [
 
 const INTERVAL = 120; //ms
 
-export default function SearchBar(props: SearchBarProps) {
+export default function SearchBar() {
   const [currentPlaceholderIndex, setCurrentPlaceholderIndex] = useState(0);
   const [placeholder, setPlaceholder] = useState(PLACEHOLDERS[0].slice(0, 0));
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
@@ -54,7 +52,7 @@ export default function SearchBar(props: SearchBarProps) {
   });
 
   function handleSearch(value: string) {
-    if (!!window) {
+    if (window) {
       window.open(`${SEARCH_URL}?q=${value}`, "_blank");
     }
   }
@@ -67,7 +65,7 @@ export default function SearchBar(props: SearchBarProps) {
       <SearchField
         onSubmit={handleSearch}
         aria-label="dataset search"
-        className="border-primary ring-text group flex min-w-[300px] flex-grow items-center gap-1 overflow-hidden border-2 bg-white p-2 outline-blue-500 ring-4 group-focus-visible:outline-2 dark:bg-black"
+        className="border-primary ring-text group flex min-w-[300px] grow items-center gap-1 overflow-hidden border-2 bg-white p-2 outline-blue-500 ring-4 group-focus-visible:outline-2 dark:bg-black"
       >
         <FaSearch className="ml-1 text-3xl" role="presentation" />
         <Input
@@ -75,7 +73,7 @@ export default function SearchBar(props: SearchBarProps) {
           placeholder={placeholder}
           aria-placeholder="Search for data"
           autoFocus
-          className="text-text dark:text-textDark min-w-0 flex-1 bg-white px-2 py-1 text-xl outline outline-0 disabled:text-gray-200 dark:bg-zinc-950 dark:disabled:text-zinc-600 [&::-webkit-search-cancel-button]:hidden"
+          className="text-text dark:text-textDark min-w-0 flex-1 bg-white px-2 py-1 text-xl outline-0 disabled:text-gray-200 dark:bg-zinc-950 dark:disabled:text-zinc-600 [&::-webkit-search-cancel-button]:hidden"
         />
         <Button variant="borderless" className="mr-1 w-6 group-empty:hidden">
           <FaTimes className="text-xl" />

@@ -13,13 +13,8 @@ import { Metadata } from "next";
 import React from "react";
 import { Subtitle } from "@/components/subtitle";
 
-type Props = {
-  params: Promise<{
-    lang: string;
-  }>;
-};
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "WPRDC | Projects",
   };
@@ -27,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL ?? "";
 
-export default async function ToolListingRoute({ params }: Props) {
+export default async function ToolListingRoute() {
   const { data: projects } = await getProjects();
 
   const path = [
@@ -52,7 +47,7 @@ export default async function ToolListingRoute({ params }: Props) {
         <Container solo>
           <MainPanel solo>
             <Title>Projects</Title>
-            <Subtitle>Links to other projets we're engaged with</Subtitle>
+            <Subtitle>Links to other projects we&apos;re engaged with</Subtitle>
           </MainPanel>
         </Container>
       </HeroPanel>

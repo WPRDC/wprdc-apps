@@ -3,7 +3,7 @@ import { PageLayout } from "@/components/page-layout";
 import { Title } from "@/components/title";
 import { getContentByID } from "@wprdc/api";
 import { CMSWeeknote } from "@wprdc/types";
-import { Content, slugify } from "@wprdc/ui";
+import { Content } from "@wprdc/ui";
 import { Metadata } from "next";
 import React from "react";
 
@@ -40,7 +40,7 @@ export default async function BlogRoute({ params }: Props) {
     "*",
   );
 
-  const { article, author, publishedAt } = dispatch;
+  const { article, publishedAt } = dispatch;
 
   const dateString = new Date(publishedAt).toLocaleDateString("en-US", {
     month: "short",

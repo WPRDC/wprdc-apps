@@ -21,13 +21,11 @@ export function Section(
         props.className,
       )}
     >
-      <div className="list-none border-t-4 border-black decoration-2 hover:text-stone-800">
+      <div className="list-none  decoration-2 hover:text-stone-800">
         <div className="flex w-full items-center justify-between">
           {!!props.label && (
             <h2 className="text-3xl font-bold">{props.label}</h2>
           )}
-
-          <ScrollTopButton containerID="parcel-dashboard" />
         </div>
         {!!props.description && (
           <p className="mb-3 mt-2">{props.description}</p>

@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const globalResponse = await getGlobal();
   if (!globalResponse.data) return FALLBACK_SEO;
 
-  const { meta, data } = globalResponse;
+  const { data } = globalResponse;
   const { title, description } = data.metadata ?? {};
   const url = data.favicon?.url ?? "";
 
@@ -45,7 +45,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RootLayout({
   children,
-  params,
 }: {
   children: React.ReactNode;
   params: {
@@ -72,7 +71,7 @@ export default async function RootLayout({
 
   return (
     <html>
-      <Script>
+      <Script id="matomo-script">
         {`
           var _paq = window._paq = window._paq || [];
             /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
@@ -95,7 +94,7 @@ export default async function RootLayout({
           darkLogoURL={navbarDarkLogoURL}
           menuItems={menuItems.data}
         />
-        <div className="relative flex-grow overflow-auto">
+        <div className="relative grow overflow-auto">
           <main className="bg-background dark:bg-background-dark mb-16">
             {children}
           </main>

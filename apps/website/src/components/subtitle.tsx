@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from "react";
 
-export interface SubtitleProps extends PropsWithChildren<{}> {}
+export type SubtitleProps = PropsWithChildren<object>
 
 export function Subtitle(props: SubtitleProps) {
   if (!props.children) return undefined;

@@ -19,20 +19,21 @@ export function ConnectedSection<T extends DatastoreRecord>({
   defaultOpen = true,
   ...props
 }: ConnectedSectionProps<T>): React.ReactElement {
+
   return (
-    <div className={className}>
-      <Section
-        id={id}
-        label={label}
-        description={description}
-        datasetLinks={datasetLinks}
-        defaultOpen={defaultOpen}
-      >
-        <Suspense fallback={<Loader />} key={props.parcelID}>
+    <Suspense fallback={<Loader />} key={props.parcelID}>
+      <div className={className}>
+        <Section
+          id={id}
+          label={label}
+          description={description}
+          datasetLinks={datasetLinks}
+          defaultOpen={defaultOpen}
+        >
           <ConnectedSectionContent {...props} />
-        </Suspense>
-      </Section>
-    </div>
+        </Section>
+      </div>
+    </Suspense>
   );
 }
 
@@ -57,17 +58,17 @@ export function MultiConnectedSection<T extends DatastoreRecordSet>({
   ...props
 }: MultiConnectedSectionProps<T>): React.ReactElement {
   return (
-    <Section
-      id={id}
-      className={className}
-      label={label}
-      description={description}
-      datasetLinks={datasetLinks}
-    >
-      <Suspense fallback={<Loader />} key={props.parcelID}>
+    <Suspense fallback={<Loader />} key={props.parcelID}>
+      <Section
+        id={id}
+        className={className}
+        label={label}
+        description={description}
+        datasetLinks={datasetLinks}
+      >
         <MultiConnectedSectionContent {...props} />
-      </Suspense>
-    </Section>
+      </Section>
+    </Suspense>
   );
 }
 

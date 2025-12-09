@@ -42,7 +42,7 @@ export default async function PageRoute(props: Props) {
     params.lang,
     "*",
   );
-  const { title, subtitle, body, updatedAt, publishedAt, relatedPages } =
+  const { title, subtitle, body } =
     page.data[0];
 
   const path = [
