@@ -73,7 +73,7 @@ export default function SearchBar() {
           placeholder={placeholder}
           aria-placeholder="Search for data"
           autoFocus
-          className="text-text dark:text-textDark min-w-0 flex-1 bg-white px-2 py-1 text-xl outline-0 disabled:text-gray-200 dark:bg-zinc-950 dark:disabled:text-zinc-600 [&::-webkit-search-cancel-button]:hidden"
+          className="text-text placeholder-stone-600 dark:text-textDark min-w-0 flex-1 bg-white px-2 py-1 text-xl outline-0 disabled:text-gray-200 dark:bg-zinc-950 dark:disabled:text-zinc-600 [&::-webkit-search-cancel-button]:hidden"
         />
         <Button variant="borderless" className="mr-1 w-6 group-empty:hidden">
           <FaTimes className="text-xl" />
@@ -88,4 +88,5 @@ export default function SearchBar() {
       </Button>
     </Form>
   );
+
 }

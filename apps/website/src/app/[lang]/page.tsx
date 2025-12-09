@@ -20,16 +20,13 @@ export default async function HomePage() {
       <div className="mx-auto max-w-screen-lg px-4 pt-12">
         <div className="md:mt-6 lg:mt-8">
           <h2
-            className="mb-5 text-2xl font-bold leading-tight md:text-3xl lg:text-5xl"
+            className="mb-5 text-2xl leading-tight font-bold md:text-3xl lg:text-5xl"
             id="search-label"
           >
             {searchSection?.title}
           </h2>
 
-          <SearchBar
-            aria-labelledby="search-label"
-            placeholder="Search for data"
-          />
+          <SearchBar aria-labelledby="search-label" />
 
           <Content
             variant="large"
@@ -43,7 +40,7 @@ export default async function HomePage() {
                 href={button.buttonURL ?? "#"}
                 variant="button"
                 buttonVariant={button.highlight ? "primary" : "default"}
-                className="mb-6 mr-6 inline-block rounded-sm px-3.5 py-1 text-lg"
+                className="mr-6 mb-6 inline-block rounded-sm px-3.5 py-1 text-lg no-underline!"
               >
                 {button.buttonText}
               </A>
@@ -71,7 +68,7 @@ export default async function HomePage() {
           </div>
 
           <div className="py-4">
-            <div className="mx-auto grid w-fit grid-cols-3 gap-4 pb-4 pt-2">
+            <div className="mx-auto grid w-fit grid-cols-3 gap-4 pt-2 pb-4">
               {partners.map((partner) => (
                 <Image
                   key={partner.id}

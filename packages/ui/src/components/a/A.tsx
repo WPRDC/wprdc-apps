@@ -38,7 +38,7 @@ export function A({
     <Link
       className={twMerge(
         variant === "button"
-          ? `block w-fit ${buttonBaseStyle} ${buttonVariants[buttonVariant ?? "default"]}`
+          ? `block no-underline! w-fit ${buttonBaseStyle} ${buttonVariants[buttonVariant ?? "default"]}`
           : "inline font-semibold underline hover:bg-primary",
         className,
       )}

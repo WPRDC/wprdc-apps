@@ -63,13 +63,9 @@ export default async function Page({
     queryRecords: true,
   });
 
-  console.log(response);
-
   const { records, stats } = response.results;
 
   // group by parcel ID and then
-  console.log(records);
-
   const ownerName = fetchOwnerName(records[0].region);
 
   const mainStats = stats["county.42003"];

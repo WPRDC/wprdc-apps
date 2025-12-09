@@ -7,7 +7,7 @@ export interface PrimaryLinkProps {
   external?: boolean;
 }
 
-export function PrimaryLink({ url, label = true }: PrimaryLinkProps) {
+export function PrimaryLink({ url, label  }: PrimaryLinkProps) {
   if (!url) return null;
   return (
     <div className="text-lg mt-8 line-clamp-1">

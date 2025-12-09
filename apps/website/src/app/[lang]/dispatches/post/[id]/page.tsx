@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const dateString = new Date(weeknote?.publishedAt).toLocaleDateString();
 
   return {
-    title: `WPRDC | Weeknote ${dateString}`,
+    title: `WPRDC | Dispatch ${dateString}`,
   };
 }
 

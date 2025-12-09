@@ -27,7 +27,7 @@ export function Content({
         variant === "large" && "prose-2xl max-w-none",
         className,
       )}
-      dangerouslySetInnerHTML={children ? dangerouslySetInnerHTML : undefined}
+      dangerouslySetInnerHTML={dangerouslySetInnerHTML ? dangerouslySetInnerHTML : undefined}
     >
       {!markdown ? children : <Markdown>{markdown}</Markdown>}
     </div>

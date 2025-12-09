@@ -42,7 +42,6 @@ export function ParcelListForm({
 
   const handleFileChange = useCallback(
     async function handleFileChange(f: File): Promise<void> {
-      console.log("file change!");
       const text = await f.text();
       setValue(text);
       handleChange(text);

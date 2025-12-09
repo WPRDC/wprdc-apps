@@ -61,8 +61,6 @@ export function NavMap({
 
   // fit bounds on props change
   useEffect(() => {
-    console.log('props change', zoomPan, bbox);
-
     if (zoomPan && bbox && mapRef.current) {
 
       const map = mapRef.current.getMap();
@@ -70,7 +68,6 @@ export function NavMap({
     }
   }, [bbox, zoomPan, selectedParcel]);
 
-  console.log(bbox)
   async function handleMapLoad() {
     if (mapRef.current) {
       const map = mapRef.current.getMap();
@@ -83,7 +80,6 @@ export function NavMap({
         map.addImage("stripe", image.data, {});
       }
       // fit bounds on map load
-      console.log('map loaded', zoomPan, bbox);
       if (zoomPan && bbox) {
         map.fitBounds(bbox, { padding: 30 });
       }

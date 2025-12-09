@@ -22,9 +22,13 @@
   --background-image-zig-zag: url('/images/backgrounds/zig-zag.png');
 }
 
-body,
+body {
+  @apply font-mono;
+}
 a {
   @apply font-mono;
+  @apply font-semibold underline decoration-2;
+  @apply hover:bg-primary
 }
 
 body {

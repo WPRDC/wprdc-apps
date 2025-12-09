@@ -24,7 +24,7 @@ type Props = {
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "WPRDC | Weeknotes",
+    title: "WPRDC | Dispatches",
     description: "Brief weekly updates from the WPRDC.",
   };
 }

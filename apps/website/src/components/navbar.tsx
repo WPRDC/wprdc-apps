@@ -130,7 +130,7 @@ export default function Index({
                             <Link
                               onClick={closeMenu}
                               href={subMenuItem.link?.url ?? "#"}
-                              className="hover:ring-primary dark:hover:bg-background-dark decoration-primary my-1 block p-2 hover:bg-amber-100 hover:ring-2"
+                              className="hover:ring-primary dark:hover:bg-background-dark no-underline! decoration-primary my-1 block p-2 hover:bg-amber-100 hover:ring-2"
                             >
                               <div className="text-lg font-semibold">
                                 {subMenuItem.link?.label}
@@ -152,7 +152,7 @@ export default function Index({
                                     <Link
                                       onClick={closeMenu}
                                       href={subItem.url ?? "#"}
-                                      className="hover:ring-primary dark:hover:bg-background-dark decoration-primary my-1 block p-2 hover:bg-amber-100 hover:ring-2"
+                                      className="hover:ring-primary dark:hover:bg-background-dark no-underline! decoration-primary my-1 block p-2 hover:bg-amber-100 hover:ring-2"
                                     >
                                       {subItem.label}
                                     </Link>
