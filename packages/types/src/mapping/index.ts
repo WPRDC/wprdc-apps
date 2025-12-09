@@ -15,8 +15,3 @@ export interface BasemapOptions {
   label: string;
 }
 
-export interface MapContextOptions {
-  selection?: Record<string, Selection>;
-  selectedLayers?: LayerConfig[];
-  onSelectionChange?: (category: string) => (sel: Selection) => void;
-}

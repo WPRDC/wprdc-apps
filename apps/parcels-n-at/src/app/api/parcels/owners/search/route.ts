@@ -24,7 +24,7 @@ export async function GET(
       status: "too-short",
     });
 
-  let rankedParcels: OwnerSearchRow[] = await sql<OwnerSearchRow[]>`
+  const rankedParcels: OwnerSearchRow[] = await sql<OwnerSearchRow[]>`
       SELECT *
       FROM (SELECT owner_address as "ownerAddress", count(parcel_id) as "count"
             FROM spacerat.parcel_index

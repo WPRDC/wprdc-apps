@@ -1,5 +1,4 @@
-/** @type {import("eslint").Linter.Config} */
+import { nextJsConfig } from "@wprdc/eslint-config/next-js";
 
-module.exports = {
-  extends: ["@wprdc/eslint-config/next.js"].map(require),
-};
+/** @type {import("eslint").Linter.Config[]} */
+export default nextJsConfig;

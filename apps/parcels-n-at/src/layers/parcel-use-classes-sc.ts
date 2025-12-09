@@ -6,74 +6,98 @@ export const parcelUseClasses: LayerConfig = {
   slug: "parcel-use-classes",
   title: "Parcel Use Class",
   description: "Color parcels based on use category.",
-  type: GeoType.Polygon,
-  publisher: {
-    name: "WPRDC",
-    homepage: "https://wprdc.org/",
-    org: "wprdc",
-  },
 
   source: {
     slug: "use-classes-sc",
     title: "Parcel Use Class",
     url: "https://data.wprdc.org/dataset/property-assessments",
     resourceID: "",
+    publisher: {
+      name: "WPRDC",
+      homepage: "https://wprdc.org/",
+      org: "wprdc",
+    },
   },
 
-  tileSource: {
-    tileJSONSource:
-      "https://data.wprdc.org/tiles/table.parcel_index.geom",
+  tiles: {
+    source: "https://data.wprdc.org/tiles/table.parcel_index.geom",
     sourceLayer: "table.parcel_index.geom",
     minZoom: 13,
   },
 
   symbology: {
-    mode: "category",
-    field: "class",
+    mode: "simplified",
+    geoType: GeoType.Polygon,
 
-    categories: [
-      { value: "RESIDENTIAL", label: "Residential" },
-      { value: "COMMERCIAL", label: "Commercial" },
-      { value: "INDUSTRIAL", label: "Industrial" },
-      { value: "AGRICULTURAL", label: "Agricultural" },
-      { value: "GOVERNMENT", label: "Government" },
-      { value: "UTILITIES", label: "Utilities" },
-      { value: "OTHER", label: "Other" },
-    ],
-
-    color: {
+    fillColor: {
       mode: "category",
-      submode: "simple",
-      value: {
-        RESIDENTIAL: getClassificationColor("RESIDENTIAL"),
-        COMMERCIAL: getClassificationColor("COMMERCIAL"),
-        INDUSTRIAL: getClassificationColor("INDUSTRIAL"),
-        AGRICULTURAL: getClassificationColor("AGRICULTURAL"),
-        GOVERNMENT: getClassificationColor("GOVERNMENT"),
-        UTILITIES: getClassificationColor("UTILITIES"),
-        OTHER: getClassificationColor("OTHER"),
-      },
+      field: "class",
+
+      style: [
+        {
+          slug: "residential",
+          value: "RESIDENTIAL",
+          label: "Residential",
+          style: getClassificationColor("RESIDENTIAL"),
+        },
+        {
+          slug: "commercial",
+          value: "COMMERCIAL",
+          label: "Commercial",
+          style: getClassificationColor("COMMERCIAL"),
+        },
+        {
+          slug: "industrial",
+          value: "INDUSTRIAL",
+          label: "Industrial",
+          style: getClassificationColor("INDUSTRIAL"),
+        },
+        {
+          slug: "agricultural",
+          value: "AGRICULTURAL",
+          label: "Agricultural",
+          style: getClassificationColor("AGRICULTURAL"),
+        },
+        {
+          slug: "government",
+          value: "GOVERNMENT",
+          label: "Government",
+          style: getClassificationColor("GOVERNMENT"),
+        },
+        {
+          slug: "utilities",
+          value: "UTILITIES",
+          label: "Utilities",
+          style: getClassificationColor("UTILITIES"),
+        },
+        {
+          slug: "other",
+          value: "OTHER",
+          label: "Other",
+          style: getClassificationColor("OTHER"),
+        },
+      ],
     },
 
-    opacity: {
-      mode: "zoom",
-      value: [
+    fillOpacity: {
+      mode: "fixed",
+      style: [
         [9, 1],
         [12, 0.8],
       ],
     },
 
-    borderOpacity: {
-      mode: "zoom",
-      value: [
+    strokeOpacity: {
+      mode: "fixed",
+      style: [
         [9, 1],
         [12, 0.8],
       ],
     },
 
-    borderWidth: {
-      mode: "zoom",
-      value: [
+    strokeWidth: {
+      mode: "fixed",
+      style: [
         [10, 0],
         [12, 1],
         [13, 1],

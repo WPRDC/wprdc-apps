@@ -16,7 +16,7 @@ export default async function Page({
 
   return (
     <div className="bg-wprdc-50 w-full overflow-x-auto">
-      <div className="mx-auto max-w-screen-md border-2 border-black bg-white">
+      <div className="mx-auto max-w-(--breakpoint-md) border-2 border-black bg-white">
         <PropertyDashboard parcelID={parcelID} />
       </div>
     </div>

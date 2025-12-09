@@ -24,7 +24,7 @@ export function isValidCKANResponse<T extends DatastoreRecord>(
       Object.prototype.hasOwnProperty.call(body, "help")
     );
   } catch (e) {
-    // eslint-disable-next-line no-console -- should rarely occur
+     
     console.warn(e);
     return false;
   }
@@ -58,7 +58,7 @@ export async function fetchSQLSearch<T extends DatastoreRecord>(
   } catch (error) {
     console.error(error);
   }
-  return {};
+  return {fields: [], records: []};
 }
 
 /**
@@ -93,7 +93,7 @@ export async function fetchDatastoreSearch<T extends DatastoreRecord>(
   } catch (error) {
     console.error(error);
   }
-  return {};
+  return {fields: [], records: []};
 }
 
 /**

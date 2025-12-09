@@ -20,7 +20,7 @@ export function Menu<T extends object>({
     <RAMenu<T>
       {...props}
       className={twMerge(
-        "w-full bg-backgroundSecondary px-2 py-1 outline-0 dark:border-borderDark dark:bg-backgroundSecondaryDark dark:text-white",
+        "w-full bg-background-secondary px-2 py-1 outline-0 dark:border-border-dark dark:bg-background-secondary-dark dark:text-white",
         className,
       )}
     >

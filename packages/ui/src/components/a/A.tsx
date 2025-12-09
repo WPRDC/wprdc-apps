@@ -50,7 +50,7 @@ export function A({
     </Link>
   );
 
-  if (isExternal) {
+  if (isExternal &&  variant !== "button") {
     return (
       <span>
         <span className="">{link}</span>

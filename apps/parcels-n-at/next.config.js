@@ -1,14 +1,16 @@
-const IgnorePlugin = require("webpack").IgnorePlugin;
-
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
   reactStrictMode: true,
+  transpilePackages: [
+    "@wprdc/ui",
+    "@wprdc/api",
+    "@wprdc/types",
+  ],
   typescript: {
     ignoreBuildErrors: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  output: "standalone",
+
   // transpilePackages: ["@wprdc/ui", "@wprdc/types"],
   images: {
     remotePatterns: [
@@ -26,15 +28,17 @@ module.exports = {
       },
     ],
   },
-  webpack: (config, { isServer }) => {
-    if (isServer) {
-      config.plugins.push(
-        new IgnorePlugin({
-          resourceRegExp: /original-fs/,
-          contextRegExp: /adm-zip/,
-        }),
-      );
-    }
-    return config;
-  },
+  // webpack: (config, { isServer }) => {
+  //   if (isServer) {
+  //     config.plugins.push(
+  //       new IgnorePlugin({
+  //         resourceRegExp: /original-fs/,
+  //         contextRegExp: /adm-zip/,
+  //       }),
+  //     );
+  //   }
+  //   return config;
+  // },
 };
+
+export default nextConfig;

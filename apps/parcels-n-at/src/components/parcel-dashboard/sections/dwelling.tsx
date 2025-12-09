@@ -116,7 +116,7 @@ export function DwellingSection({
       info: fields.FIREPLACES.info?.notes,
       value: record.FIREPLACES,
       icon: TbFlame,
-      format: (v) => (!!v ? v : "None"),
+      format: (v) => (v ? v : "None"),
     },
     {
       id: "basement-garage",
@@ -179,7 +179,7 @@ export function DwellingSection({
     <div className="w-full">
       {empty && (
         <div className="text-sm italic">
-          <p>Dwelling characteristics aren't available for this parcel.</p>
+          <p>Dwelling characteristics aren&apos;t available for this parcel.</p>
           <p>
             Currently, they are only available for{" "}
             <ClassChip inline parcelClass="RESIDENTIAL" size="S" /> properties.

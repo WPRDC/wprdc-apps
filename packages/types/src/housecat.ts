@@ -1,7 +1,7 @@
 /** Primary index of housing projects **/
 
 import { LayerProps, SourceProps } from "react-map-gl/maplibre";
-import { LegendItemProps } from "./mapping";
+import { LegendOptions } from "./mapping";
 
 export interface Resource<K extends string | number = string | number> {
   /** Backend primary key. May soon be deprecated as slug is available and servers as a global ID across WPRDC apps. */
@@ -545,6 +545,6 @@ export interface APIMapBoxResponse {
   source: SourceProps;
   layers: LayerProps[];
   extras: {
-    legendItems: LegendItemProps[];
+    legendItems: LegendOptions[];
   };
 }

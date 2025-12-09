@@ -18,10 +18,7 @@ RUN apk update
 WORKDIR /app
 COPY . .
 COPY /apps/parcels-n-at/.env.local /app/apps/parcels-n-at/.env.local
-COPY .env .env
 
-# use special prod config
-COPY apps/parcels-n-at/next.config.prod.js /app/apps/parcels-n-at/next.config.js
 RUN turbo prune --scope=parcels-n-at --docker
 
 # Add lockfile and package.json's of isolated subworkspace
@@ -41,11 +38,9 @@ RUN pnpm install
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
 COPY --from=builder /app/apps/parcels-n-at/.env.local /app/apps/parcels-n-at/.env.local
-COPY --from=builder /app/.env /app/.env
 
 RUN turbo run build --filter=parcels-n-at
 
-# use alpine as the thinest image
 FROM alpine AS runner
 WORKDIR /app
 

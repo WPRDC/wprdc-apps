@@ -18,7 +18,7 @@ export default function Footer({
   affiliateLogos = [],
 }: FooterProps) {
   return (
-    <footer className="border-textSecondary border-t-2 bg-white px-6 pb-16 pt-10 dark:bg-black">
+    <footer className="border-text-secondary border-t-2 bg-white px-6 pb-16 pt-10 dark:bg-black">
       <div className="container mx-auto max-w-screen-xl space-y-4 lg:flex">
         <nav className="">
           <ul className="">

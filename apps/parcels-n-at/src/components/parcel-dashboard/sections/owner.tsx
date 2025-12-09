@@ -21,7 +21,6 @@ const OWNER_AGG_BLACKLIST = (process.env.NEXT_PUBLIC_OWNER_AGG_BLACKLIST ?? "").
 
 export function OwnerSection({
   records,
-  fields,
 }: SectionProps<PropertyAssessment>): React.ReactElement {
   const record = records[0];
 
@@ -122,7 +121,7 @@ export async function OwnerInfo({
                 </div>
                 <div>
                   <Typography.Note>
-                    A parcel's owner is determined by the owner address and not
+                    A parcel&apos;s owner is determined by the owner address and not
                     actual owning party. This due an Allegheny County ordinance
                     (48-07) which places limitations on searching for parcel
                     data by owner address.
@@ -152,7 +151,7 @@ export async function OwnerInfo({
                   Other Properties in Allegheny County
                 </h4>
                 <div className="box-content border-stone-600 py-3.5 pr-0">
-                  {!!otherPropertyRecords.length ? (
+                  {otherPropertyRecords.length ? (
                     <ul className="max-h-64 w-fit overflow-auto rounded-sm border border-black bg-white">
                       {otherPropertyRecords.map(
                         ({ region: pid, address }, i) => (
@@ -180,7 +179,7 @@ export async function OwnerInfo({
                     buttonVariant="primary"
                     href={`/explore?parcel=${parcelID}&ownerAddr=${ownerAddr}`}
                   >
-                    Highlight owner's properties on the map
+                    Highlight owner&apos;s properties on the map
                   </A>
                 </div>
               </div>

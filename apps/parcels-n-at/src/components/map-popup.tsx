@@ -14,7 +14,7 @@ export function MapPopup(props: NavMapProps): React.ReactElement {
       </Button>
       <Modal className="fixed left-0 top-0 z-50 h-screen w-screen">
         <Dialog className="flex h-full flex-col">
-          <div className="flex-grow bg-white">
+          <div className="grow bg-white">
             <NavMap {...props} isModal />
           </div>
         </Dialog>

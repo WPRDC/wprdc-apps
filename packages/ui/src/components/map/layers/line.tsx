@@ -1,31 +1,56 @@
 import { useMemo } from "react";
 import { Layer } from "react-map-gl/maplibre";
 import type { SymbologyLayerProps } from "../Map.types";
-import { parseConfig } from "../parse";
+import { parseSymbology } from "../parse";
+import { FilterSpecification } from "@maplibre/maplibre-gl-style-spec";
+import {
+  LayerConfig,
+  LineLayoutSpec,
+  LinePaintSpec,
+  LineSymbologyConfig,
+  SimplifiedSymbologyConfig,
+} from "@wprdc/types";
 
 export function LineLayer({
   layer,
   sourceLayer,
   context,
-}: SymbologyLayerProps): React.ReactElement {
+}: SymbologyLayerProps<LineSymbologyConfig>): React.ReactElement {
   const { slug } = layer;
+  const filter: FilterSpecification | undefined = layer.renderOptions?.filter;
 
-  const { color, borderWidth } = useMemo(() => {
-    return parseConfig(layer, context);
+  if (layer.symbology.mode === "raw")
+    return (
+      <Layer
+        id={`${slug}-line`}
+        source={slug}
+        source-layer={sourceLayer}
+        type="line"
+        filter={filter}
+        layout={layer.symbology.layout as LineLayoutSpec}
+        paint={layer.symbology.paint as LinePaintSpec}
+      />
+    );
+
+  const { strokeColor, strokeWidth } = useMemo(() => {
+    return parseSymbology(
+      layer as LayerConfig<SimplifiedSymbologyConfig>,
+      context,
+    );
   }, [layer, context]);
 
   return (
     <Layer
-      filter={layer.renderOptions?.filter ?? true}
       id={`${slug}-line`}
-      layout={{}}
-      paint={{
-        "line-color": color,
-        "line-width": borderWidth,
-      }}
       source={slug}
       source-layer={sourceLayer}
       type="line"
+      filter={filter}
+      layout={{}}
+      paint={{
+        "line-color": strokeColor,
+        "line-width": strokeWidth,
+      }}
     />
   );
 }

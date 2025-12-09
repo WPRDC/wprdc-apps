@@ -1,12 +1,17 @@
-import type {
+import {
+  ColorSpecification,
   DataDrivenPropertyValueSpecification,
+  ExpressionInputType,
   ExpressionSpecification,
+  InterpolationSpecification,
+  ProjectionDefinitionSpecification,
 } from "@maplibre/maplibre-gl-style-spec";
 import type {
   CircleLayerSpecification,
   FillLayerSpecification,
   LineLayerSpecification,
 } from "maplibre-gl";
+import { GeoType } from "../shared.ts";
 
 export type CirclePaintSpec = NonNullable<CircleLayerSpecification["paint"]>;
 export type CircleLayoutSpec = NonNullable<CircleLayerSpecification["layout"]>;
@@ -16,15 +21,82 @@ export type LinePaintSpec = NonNullable<LineLayerSpecification["paint"]>;
 export type LineLayoutSpec = NonNullable<LineLayerSpecification["layout"]>;
 
 export interface ParseResults {
-  color: DataDrivenPropertyValueSpecification<string>;
-  opacity: DataDrivenPropertyValueSpecification<number>;
-  borderColor: DataDrivenPropertyValueSpecification<string>;
-  borderOpacity: DataDrivenPropertyValueSpecification<number>;
-  borderWidth: DataDrivenPropertyValueSpecification<number>;
+  fillColor: DataDrivenPropertyValueSpecification<string>;
+  fillOpacity: DataDrivenPropertyValueSpecification<number>;
+  strokeColor: DataDrivenPropertyValueSpecification<string>;
+  strokeOpacity: DataDrivenPropertyValueSpecification<number>;
+  strokeWidth: DataDrivenPropertyValueSpecification<number>;
   lineSortKey?: ExpressionSpecification;
   textField?: ExpressionSpecification;
   textSize?: ExpressionSpecification;
 }
+
+export type MatchRecords = [
+  ExpressionInputType | ExpressionInputType[],
+  ExpressionInputType | ExpressionSpecification,
+  ...(ExpressionInputType | ExpressionInputType[] | ExpressionSpecification)[],
+];
+
+export type MatchExpression = [
+  "match",
+  ExpressionInputType | ExpressionSpecification,
+  ExpressionInputType | ExpressionInputType[],
+  ExpressionInputType | ExpressionSpecification,
+  ...(ExpressionInputType | ExpressionInputType[] | ExpressionSpecification)[],
+  (
+    // repeated as above
+    ExpressionInputType | ExpressionSpecification
+  ),
+];
+
+export type CaseRecords = [
+  boolean | ExpressionSpecification,
+  ExpressionInputType | ExpressionSpecification,
+  ...(boolean | ExpressionInputType | ExpressionSpecification)[],
+];
+
+export type CaseExpression = [
+  "case",
+  boolean | ExpressionSpecification,
+  ExpressionInputType | ExpressionSpecification,
+  ...(boolean | ExpressionInputType | ExpressionSpecification)[],
+  ExpressionInputType | ExpressionSpecification,
+];
+
+export type InterpolationExpressionRecord = [
+  ...(
+    | number
+    | number[]
+    | ColorSpecification
+    | ExpressionSpecification
+    | ProjectionDefinitionSpecification
+  )[],
+];
+
+export type InterpolationExpression = [
+  "interpolate",
+  InterpolationSpecification,
+  number | ExpressionSpecification,
+  ...InterpolationExpressionRecord,
+];
+
+export type ZoomInterpolation = [
+  "interpolate",
+  InterpolationSpecification,
+  number | ExpressionSpecification,
+  ...InterpolationExpressionRecord,
+];
+
+export type StepExpressionRecord = [
+  ...(number | ExpressionInputType | ExpressionSpecification)[],
+];
+
+export type StepExpression = [
+  "step",
+  number | ExpressionSpecification,
+  ExpressionInputType | ExpressionSpecification,
+  ...(number | ExpressionInputType | ExpressionSpecification)[],
+];
 
 export type StyleValue = string | number;
 
@@ -41,20 +113,6 @@ export interface InteractiveExpression<T extends StyleValue> {
   hovered: T;
 }
 
-export type CategoryOptions = {
-  /** Label for the category */
-  label: string;
-};
-
-export interface CategoryValueRecord<T> {
-  value: T;
-}
-
-export interface CategoryOptionsRecord {
-  value: string;
-  label: string;
-}
-
 export type OptionallySimpleInteractive<T extends StyleValue = StyleValue> =
   | T
   | InteractiveExpression<T>;
@@ -63,81 +121,151 @@ export type OptionallyZoomInteractive<T extends StyleValue = StyleValue> =
   | ZoomExpression<T>
   | ZoomExpression<InteractiveExpression<T>>;
 
+export type OptionallyInteractive<T extends StyleValue = StyleValue> =
+  | OptionallySimpleInteractive<T>
+  | OptionallyZoomInteractive<T>;
 // Symbology Options
 
-export interface SimpleFixedSymbologyOptions<
-  T extends StyleValue = StyleValue,
-> {
+/** Configuration used for fixed/static data layers */
+export interface FixedSymbologyOptions<T extends StyleValue = StyleValue> {
   mode: "fixed";
-  value: OptionallySimpleInteractive<T>;
+
+  style: OptionallyInteractive<T>;
 }
 
-export interface ZoomFixedSymbologyOptions {
-  mode: "zoom";
-  value: OptionallyZoomInteractive<number>;
+export interface CategorySymbologyRecord<T extends StyleValue = StyleValue> {
+  /** Unique ID for category */
+  slug: string;
+  /** The label for this category */
+  label: string;
+  /** The value found in `field` that signifies this category */
+  value: string | number;
+  /** The style used for this category */
+  style: OptionallyInteractive<T>;
 }
 
-export interface SimpleCategorySymbologyOptions<
-  T extends StyleValue = StyleValue,
-> {
+/** Configuration used for categorical data layers */
+export interface CategorySymbologyOptions<T extends StyleValue = StyleValue> {
   mode: "category";
-  submode: "simple";
 
-  /** Maps categories to value */
-  value: Record<string | number, OptionallySimpleInteractive<T>>;
-}
-
-// not really used yet
-export type ZoomCategorySymbologyOptions = {
-  mode: "category";
-  submode: "zoom";
-
-  /** Field to check categories against from */
+  /** Field from which categories are derived */
   field: string;
   /** Maps categories to value */
-  value: Record<string | number, OptionallyZoomInteractive>;
-};
+  style: [CategorySymbologyRecord<T>, ...CategorySymbologyRecord<T>[]];
+
+  /** Style used when no category is matched */
+  defaultStyle?: OptionallyInteractive<T>;
+}
+
+export type DecisionOperator = "==" | "!=" | ">" | "<" | "<=" | ">=";
+export interface CaseSymbologyRecord<T extends StyleValue = StyleValue> {
+  /** Unique ID for case */
+  slug: string;
+  /** Optional label, otherwise generated from operator and value */
+  label?: string;
+  /** The operator comparing the field's value against `operand` */
+  operator: DecisionOperator;
+  /** The value to compare the field's value against */
+  operand: number;
+  /** The style used in this case */
+  style: OptionallyInteractive<T>;
+}
+
+/** Configuration used for conditionally-styled data layers */
+export interface CaseSymbologyOptions<T extends StyleValue = StyleValue> {
+  mode: "case";
+
+  /** Field from which categories are derived */
+  field: string;
+
+  /** Cases and their associated style values */
+  style: [CaseSymbologyRecord<T>, ...CaseSymbologyRecord<T>[]];
+
+  /** Style used when no category is matched */
+  defaultStyle?: OptionallyInteractive<T>;
+}
+
+export type RampType =
+  | "step"
+  | "linear"
+  | "square"
+  | "square-root"
+  | "ease-in"
+  | "ease-out"
+  | "ease-in-out";
+
+export interface RampSymbologyRecord<T extends StyleValue = StyleValue> {
+  /** The label placed at this point in the ramp.  Usually used for first and last steps */
+  label?: string;
+  /** The value compared against `field` that defines this point in the ramp */
+  value: number;
+  /** The style used at this point in the ramp */
+  style: OptionallyInteractive<T>;
+}
+
+/** Configuration used for value controlled on interpolation on data (e.g. choropleth) */
+export interface RampSymbologyOptions<T extends StyleValue = StyleValue> {
+  mode: "ramp";
+
+  /** Field from which values are interpolated for the ramp */
+  field: string;
+
+  /** The type of interpolation used.  Step uses discrete steps */
+  type: RampType;
+
+  /** Ramp points and their associated style values */
+  style: [
+    RampSymbologyRecord<T>,
+    ...RampSymbologyRecord<T>[],
+    RampSymbologyRecord<T>,
+  ];
+
+  /**
+   * Style used when no category is matched.
+   * For `step` ramps this is less  used before the first step
+   a*/
+  defaultStyle?: OptionallyInteractive<T>;
+}
 
 interface ExpressionSpecificationSymbologyOption {
   mode: "expression";
   expression: ExpressionSpecification;
 }
 
-export type DiscreteValueSymbologyOptions = SimpleFixedSymbologyOptions<string>;
-export type CategoryDiscreteValueSymbologyOptions =
-  | SimpleFixedSymbologyOptions<string>
-  | SimpleCategorySymbologyOptions<string>;
+export type SymbologyOptions<T extends StyleValue = StyleValue> =
+  | FixedSymbologyOptions<T>
+  | CategorySymbologyOptions<T>
+  | CaseSymbologyOptions<T>
+  | RampSymbologyOptions<T>
+  | ExpressionSpecificationSymbologyOption;
 
-// continuous values can also be controlled on zoom
-export type ContinuousValueSymbologyOptions =
-  | SimpleFixedSymbologyOptions<number>
-  | ZoomFixedSymbologyOptions;
+export type LegendSymbologyField =
+  | "fillColor"
+  | "strokeColor"
+  | "fillOpacity"
+  | "strokeWidth"
+  | "strokeOpacity";
 
-export type CategoryContinuousValueSymbologyOptions =
-  | SimpleFixedSymbologyOptions<number>
-  | ZoomFixedSymbologyOptions
-  | SimpleCategorySymbologyOptions<number>
-  | ZoomCategorySymbologyOptions;
-
-export interface SimpleSymbologyConfig {
-  mode: "simple";
-
-  categories?: undefined
-  field?: undefined
+/** Simplified configuration should cover most cases */
+export interface SimplifiedSymbologyConfig {
+  mode: "simplified";
+  /** The type of geometry being styled */
+  /** The type of geometry being styled */
+  geoType: GeoType;
 
   // Discrete Fields
   /** Color specification to apply to all features in layer */
-  color?: DiscreteValueSymbologyOptions;
-  /** Color specification to apply to borders of all features */
-  borderColor?: DiscreteValueSymbologyOptions;
+  fillColor?: SymbologyOptions<string>;
+  /** Color specification to apply to strokes of all features */
+  strokeColor?: SymbologyOptions<string>;
 
   // Continuous Fields
   /** Override opacity settings */
-  opacity?: ContinuousValueSymbologyOptions;
+  fillOpacity?: SymbologyOptions<number>;
   /** Override border width */
-  borderWidth?: ContinuousValueSymbologyOptions;
+  strokeWidth?: SymbologyOptions<number>;
   /** Override border opacity */
-  borderOpacity?: ContinuousValueSymbologyOptions;
+  strokeOpacity?: SymbologyOptions<number>;
 
   // Text fields
   /** Expression that returns a string to use as a label */
@@ -145,39 +273,48 @@ export interface SimpleSymbologyConfig {
   /** Expression that returns a string to use as a subtitle to `textField` */
   subtitleTextField?: ExpressionSpecificationSymbologyOption;
   /** Override font size for labels if they are present */
-  textSize?: ContinuousValueSymbologyOptions;
+  textSize?: SymbologyOptions<number>;
 }
 
-export interface CategorySymbologyConfig {
-  mode: "category";
-
-  /** Field with categories */
-  field: string;
-
-  /** Category metadata */
-  categories: CategoryOptionsRecord[];
-
-  // Discrete Fields
-  /** Color specification to apply to all features in layer */
-  color?: CategoryDiscreteValueSymbologyOptions;
-  /** Color specification to apply to borders of all features */
-  borderColor?: CategoryDiscreteValueSymbologyOptions;
-
-  // Continuous Fields
-  /** Override opacity settings */
-  opacity?: CategoryContinuousValueSymbologyOptions;
-  /** Override border width */
-  borderWidth?: CategoryContinuousValueSymbologyOptions;
-  /** Override border opacity */
-  borderOpacity?: CategoryContinuousValueSymbologyOptions;
-
-  // Text fields
-  /** Expression that returns a string to use as a label */
-  textField?: ExpressionSpecificationSymbologyOption;
-  /** Expression that returns a string to use as a subtitle to `textField` */
-  subtitleTextField?: ExpressionSpecificationSymbologyOption;
-  /** Override font size for labels if they are present */
-  textSize?: CategoryContinuousValueSymbologyOptions;
+// Allow for manually defining a layer's symbology in rare cases.
+export interface RawCircleSymbologyConfig {
+  mode: "raw";
+  geoType: GeoType.Point;
+  paint?: CirclePaintSpec;
+  layout?: CircleLayoutSpec;
+}
+export interface RawLineSymbologyConfig {
+  mode: "raw";
+  geoType: GeoType.Line;
+  paint?: LinePaintSpec;
+  layout?: LineLayoutSpec;
+}
+export interface RawPolygonSymbologyConfig {
+  mode: "raw";
+  geoType: GeoType.Polygon;
+  fillPaint?: FillPaintSpec;
+  fillLayout?: FillLayoutSpec;
+  linePaint?: LinePaintSpec;
+  lineLayout?: LineLayoutSpec;
 }
 
-export type SymbologyOptions = SimpleSymbologyConfig | CategorySymbologyConfig;
+/** Manually provided symbology configuration using maplibre style specification */
+export type RawSymbologyConfig =
+  | RawCircleSymbologyConfig
+  | RawLineSymbologyConfig
+  | RawPolygonSymbologyConfig;
+
+export type CircleSymbologyConfig =
+  | SimplifiedSymbologyConfig
+  | RawCircleSymbologyConfig;
+export type LineSymbologyConfig =
+  | SimplifiedSymbologyConfig
+  | RawLineSymbologyConfig;
+export type PolygonSymbologyConfig =
+  | SimplifiedSymbologyConfig
+  | RawPolygonSymbologyConfig;
+
+export type SymbologyConfig =
+  | CircleSymbologyConfig
+  | LineSymbologyConfig
+  | PolygonSymbologyConfig;

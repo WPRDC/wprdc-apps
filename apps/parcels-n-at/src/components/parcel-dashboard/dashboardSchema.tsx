@@ -8,12 +8,6 @@ import {
   fetchPLIPermitRecords,
   fetchTaxLiensWithCurrentStatusRecords,
 } from "@wprdc/api";
-import {
-  ConnectedSectionProps,
-  DatastoreRecordSet,
-  MultiConnectedSectionProps,
-} from "@/components/parcel-dashboard/types.ts";
-import { DatastoreRecord } from "@wprdc/types";
 import { AssessedValuesSection } from "@/components/parcel-dashboard/sections/assessed-value.tsx";
 import { DwellingSection } from "@/components/parcel-dashboard/sections/dwelling.tsx";
 import { ConditionSection } from "@/components/parcel-dashboard/sections/condition.tsx";
@@ -24,22 +18,6 @@ import { CondemnedPropertiesSection } from "@/components/parcel-dashboard/sectio
 import { TaxLiensSection } from "@/components/parcel-dashboard/sections/tax-liens.tsx";
 import { ForeclosureFilingSection } from "@/components/parcel-dashboard/sections/foreclosure.tsx";
 import { ConservatorshipRecordSection } from "@/components/parcel-dashboard/sections/conservatoriship.tsx";
-
-export type SectionOptions<T extends DatastoreRecord> = Omit<
-  ConnectedSectionProps<T>,
-  "parcelID"
-> & {
-  id: string;
-  type: "single";
-};
-
-export type MultiSectionOptions<T extends DatastoreRecordSet> = Omit<
-  MultiConnectedSectionProps<T>,
-  "parcelID"
-> & {
-  id: string;
-  type: "multi";
-};
 
 export default [
   {
@@ -143,4 +121,4 @@ export default [
       "https://data.wprdc.org/dataset/allegheny-county-conservatorship-filings",
     ],
   },
-] as (SectionOptions<any> | MultiSectionOptions<any>)[];
+];

@@ -5,22 +5,21 @@ export const municipalities: LayerConfig = {
   slug: "allegheny-county-municipalities",
   title: "Allegheny County Municipalities",
   description: "Towns, Cities, Boroughs, etc. in Allegheny County",
-  type: GeoType.Polygon,
-  publisher: {
-    name: "Allegheny County",
-    homepage: "https://www.alleghenycounty.us/",
-    org: "allegheny-county",
-  },
 
   source: {
     slug: "allegheny-county-municipalities",
     title: "Allegheny County Municipal Boundaries",
     url: "https://data.wprdc.org/dataset/allegheny-county-municipal-boundaries",
     resourceID: "b0cb0249-d1ba-45b7-9918-dc86fa8af04c",
+    publisher: {
+      name: "Allegheny County",
+      homepage: "https://www.alleghenycounty.us/",
+      org: "allegheny-county",
+    },
   },
 
-  tileSource: {
-    tileJSONSource:
+  tiles: {
+    source:
       "https://data.wprdc.org/tiles/table.b0cb0249-d1ba-45b7-9918-dc86fa8af04c._geom",
     sourceLayer: "table.b0cb0249-d1ba-45b7-9918-dc86fa8af04c._geom",
     minZoom: 7,
@@ -28,48 +27,47 @@ export const municipalities: LayerConfig = {
   },
 
   symbology: {
-    mode: "simple",
-    color: {
+    mode: "simplified",
+    geoType: GeoType.Polygon,
+    fillColor: {
       mode: "fixed",
-      value: { default: "#FFF", selected: "#FCEC52", hovered: "#bae6fd" },
+      style: { default: "#FFF", selected: "#FCEC52", hovered: "#bae6fd" },
     },
-    borderColor: {
+    strokeColor: {
       mode: "fixed",
-      value: { default: "#000", selected: "#000", hovered: "#bae6fd" },
+      style: { default: "#000", selected: "#000", hovered: "#bae6fd" },
     },
-    opacity: {
-      mode: "zoom",
-      value: [
+    fillOpacity: {
+      mode: "fixed",
+      style: [
         [8, { default: 0.2, selected: 0.4, hovered: 0.7 }],
         [14.5, { default: 0.2, selected: 0.4, hovered: 0.7 }],
         [15, { default: 0, selected: 0, hovered: 0 }],
       ],
     },
-    borderOpacity: {
-      mode: "zoom",
-      value: [
+    strokeOpacity: {
+      mode: "fixed",
+      style: [
         [8, 1],
         [14.5, 1],
         [15, 0],
       ],
     },
-    borderWidth: {
-      mode: "zoom",
-      value: [
+    strokeWidth: {
+      mode: "fixed",
+      style: [
         [8, { default: 1, selected: 2, hovered: 2.5 }],
         [12, { default: 1, selected: 2, hovered: 2.5 }],
         [14.5, { default: 4, selected: 8, hovered: 10 }],
       ],
     },
-    textField: {
-      mode: "expression",
-      expression: ["get", "NAME"],
-    },
+    textField: { mode: "expression", expression: ["get", "NAME"] },
     textSize: {
-      mode: "zoom",
-      value: [
-        [8, 6],
-        [12, 12],
+      mode: "fixed",
+      style: [
+        [8, 0],
+        [11.9, 0],
+        [12, 9],
         [15, 12],
       ],
     },
@@ -77,12 +75,13 @@ export const municipalities: LayerConfig = {
 
   interaction: {
     idField: "NAME",
-    hoverPopupContent: "<h1>{{name}}</h1>",
-    clickPopupContent: "<h1>{{name}}</h1>",
+    hoverPopupContent: "<h1>{{NAME}}</h1>",
+    clickPopupContent: "<h1>{{NAME}}</h1>",
   },
 
+
+  legend: false,
   renderOptions: {
     filter: ["!=", "NAME", "PITTSBURGH"],
-    noLegend: true,
   },
 };

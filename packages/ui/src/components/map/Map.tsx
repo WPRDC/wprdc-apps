@@ -8,14 +8,7 @@
 "use client";
 
 import type { LayerConfig, MapState } from "@wprdc/types";
-import {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { forwardRef, useCallback, useEffect, useMemo, useRef, useState, } from "react";
 import { TbToggleLeft, TbToggleRightFilled } from "react-icons/tb";
 import type {
   MapGeoJSONFeature,
@@ -24,7 +17,7 @@ import type {
   Point,
   ViewStateChangeEvent,
 } from "react-map-gl/maplibre";
-import { Map as ReactMapGL, NavigationControl } from "react-map-gl/maplibre";
+import { GeolocateControl, Map as ReactMapGL, NavigationControl, } from "react-map-gl/maplibre";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../button";
 import { BasemapMenu } from "./BasemapMenu";
@@ -38,8 +31,7 @@ import { throttle } from "lodash";
 import { Selection } from "react-aria-components";
 
 import Mustache from "mustache";
-import { ControlsLegend } from "./ControlsLegend.tsx";
-import { GeolocateControl } from "react-map-gl/maplibre";
+import { Legend } from "./Legend.tsx";
 
 const DEFAULT_MIN_ZOOM = 9;
 const DEFAULT_MAX_ZOOM = 22;
@@ -49,7 +41,7 @@ const DEFAULT_ZOOM = 11;
 
 const NODE_ENV = process.env.NODE_ENV ?? "development";
 
-export const Map = forwardRef<MapRef, MapProps>(function _Map(
+export const Map = forwardRef<MapRef, MapProps>(function Map_(
   {
     id,
     children,
@@ -85,7 +77,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
   const _mapRef = useRef<MapRef>(null);
   const mapRef = ref ?? _mapRef;
 
-  const [innerLayers, setInnerLayers] = useState<LayerConfig[]>(
+  const [innerLayers, _] = useState<LayerConfig[]>(
     defaultLayers ?? [],
   );
 
@@ -93,19 +85,6 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
     () => propsLayers ?? innerLayers,
     [innerLayers, propsLayers],
   );
-
-  const handleLayerChange = useMemo(() => {
-    const defaultOnLayerChange = (layer: LayerConfig) => {
-      setInnerLayers(
-        layers.map((l) => {
-          if (l.slug === layer.slug) return layer;
-          return l;
-        }),
-      );
-    };
-
-    return propsOnLayerChange ?? defaultOnLayerChange;
-  }, [propsOnLayerChange]);
 
   const [basemap, setBasemap] = useState<keyof typeof basemaps>("basic");
   const [zoomText, setZoomText] = useState<string>(
@@ -380,8 +359,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       style={{ position: "relative", ...style }}
     >
       <NavigationControl showCompass visualizePitch />
-      <GeolocateControl fitBoundsOptions={{maxZoom: 18}} />
-
+      <GeolocateControl fitBoundsOptions={{ maxZoom: 18 }} />
 
       <div className="absolute right-12 top-2 flex flex-col items-end space-y-2">
         <div>
@@ -427,14 +405,7 @@ export const Map = forwardRef<MapRef, MapProps>(function _Map(
       ) : null}
 
       <div className="absolute bottom-10 right-2.5">
-        <ControlsLegend
-          layers={layers}
-          selectedLayers={visibleLayerCategories}
-          onSelectionChange={handleLayerVisibilityChange}
-          onStyleChange={handleLayerChange}
-        >
-          {legendExtras}
-        </ControlsLegend>
+        <Legend layers={layers}>{legendExtras}</Legend>
       </div>
 
       {withScrollZoomControl ? (

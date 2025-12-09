@@ -1,49 +1,100 @@
 import { useMemo } from "react";
 import { Layer } from "react-map-gl/maplibre";
 import type { SymbologyLayerProps } from "../Map.types";
-import { parseConfig } from "../parse";
-import { Selection } from "react-aria-components";
+import { parseSymbology } from "../parse";
+import {
+  LayerConfig, PolygonSymbologyConfig,
+  RawPolygonSymbologyConfig,
+  SimplifiedSymbologyConfig,
+} from "@wprdc/types";
 
 export function PolygonLayer({
   layer,
   sourceLayer,
   context,
-}: SymbologyLayerProps): React.ReactElement {
+}: SymbologyLayerProps<PolygonSymbologyConfig>) {
+  if (layer.symbology.mode === "raw") {
+    const { slug } = layer;
+    const filter = layer.renderOptions?.filter;
+    const symbology = layer.symbology as RawPolygonSymbologyConfig;
+    return (
+      <>
+        <Layer
+          id={`${slug}-fill`}
+          source={slug}
+          source-layer={sourceLayer}
+          type="fill"
+          filter={filter ?? true}
+          maxzoom={layer.tiles.maxZoom ?? 22}
+          minzoom={layer.tiles.minZoom ?? 0}
+          paint={symbology.fillPaint}
+          layout={symbology.fillLayout}
+        />
+        <Layer
+          id={`${slug}-fill`}
+          source={slug}
+          source-layer={sourceLayer}
+          type="line"
+          filter={filter ?? true}
+          maxzoom={layer.tiles.maxZoom ?? 22}
+          minzoom={layer.tiles.minZoom ?? 0}
+          paint={symbology.linePaint}
+          layout={symbology.lineLayout}
+        />
+      </>
+    );
+  }
+
+  return (
+    <SimplePolygonLayer
+      layer={layer}
+      sourceLayer={sourceLayer}
+      context={context}
+    />
+  );
+}
+
+function SimplePolygonLayer({
+  layer,
+  sourceLayer,
+  context,
+}: SymbologyLayerProps<PolygonSymbologyConfig>): React.ReactElement {
   const { slug } = layer;
 
   const {
-    color,
-    opacity,
-    borderOpacity,
-    borderWidth,
-    borderColor,
+    fillColor,
+    fillOpacity,
+    strokeColor,
+    strokeWidth,
+    strokeOpacity,
     lineSortKey,
     textField,
     textSize,
   } = useMemo(() => {
-    return parseConfig(layer, context);
+    return parseSymbology(
+      layer as LayerConfig<SimplifiedSymbologyConfig>,
+      context,
+    );
   }, [layer, context]);
 
   // hide layers if they are hidden in map state
 
-
   let filter = layer.renderOptions?.filter;
-
 
   return (
     <>
       <Layer
-        filter={filter ?? true}
         id={`${slug}-fill`}
-        maxzoom={layer.tileSource.maxZoom ?? 22}
-        minzoom={layer.tileSource.minZoom ?? 0}
-        paint={{
-          "fill-color": color,
-          "fill-opacity": opacity,
-        }}
         source={slug}
         source-layer={sourceLayer}
         type="fill"
+        filter={filter ?? true}
+        maxzoom={layer.tiles.maxZoom ?? 22}
+        minzoom={layer.tiles.minZoom ?? 0}
+        paint={{
+          "fill-color": fillColor,
+          "fill-opacity": fillOpacity,
+        }}
       />
       <Layer
         filter={filter ?? true}
@@ -53,12 +104,12 @@ export function PolygonLayer({
           "line-join": "miter",
           "line-sort-key": lineSortKey ?? 1,
         }}
-        maxzoom={layer.tileSource.maxZoom ?? 22}
-        minzoom={layer.tileSource.minZoom ?? 0}
+        maxzoom={layer.tiles.maxZoom ?? 22}
+        minzoom={layer.tiles.minZoom ?? 0}
         paint={{
-          "line-color": borderColor,
-          "line-opacity": borderOpacity,
-          "line-width": borderWidth,
+          "line-color": strokeColor,
+          "line-opacity": strokeOpacity,
+          "line-width": strokeWidth,
         }}
         source={slug}
         source-layer={sourceLayer}
@@ -87,8 +138,8 @@ export function PolygonLayer({
             "text-halo-color": "rgb(255,255,255, 0.8)",
             // "text-halo-blur": 1,
           }}
-          maxzoom={layer.tileSource.maxZoom ?? 22}
-          minzoom={layer.tileSource.minZoom ?? 0}
+          maxzoom={layer.tiles.maxZoom ?? 22}
+          minzoom={layer.tiles.minZoom ?? 0}
           source={slug}
           source-layer={sourceLayer}
         />

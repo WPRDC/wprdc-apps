@@ -1,4 +1,4 @@
+import { config } from "@wprdc/eslint-config/react-internal";
+
 /** @type {import("eslint").Linter.Config} */
-module.exports = {
-  extends: ["@wprdc/eslint-config/react.js"],
-};
+export default config;

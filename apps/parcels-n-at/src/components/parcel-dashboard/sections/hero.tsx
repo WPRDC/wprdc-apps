@@ -14,6 +14,7 @@ export async function Hero({
   try {
     await fetch(imgURL, { redirect: "error" });
   } catch (error) {
+    console.warn("Parcel image not found:", error);
     noImage = true;
   }
 

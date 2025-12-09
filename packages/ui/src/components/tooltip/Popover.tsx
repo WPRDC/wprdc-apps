@@ -24,7 +24,7 @@ export function Popover(props: PopoverProps): React.ReactElement {
         }`
       }
     >
-      <Dialog className="max-w-screen-md h-full flex flex-col">{props.children}</Dialog>
+      <Dialog className="max-w-(--breakpoint-md) h-full flex flex-col">{props.children}</Dialog>
     </RAPopover>
   );
 }

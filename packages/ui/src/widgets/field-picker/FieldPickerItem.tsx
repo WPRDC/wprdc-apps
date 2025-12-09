@@ -20,9 +20,9 @@ export function FieldPickerItem<T extends DatastoreRecord = DatastoreRecord>({
       }
       textValue={fieldName}
     >
-      <div className="flex-grow overflow-hidden leading-none">
+      <div className="grow overflow-hidden leading-none">
         <Text
-          className="block w-full truncate overflow-ellipsis text-sm font-semibold leading-none"
+          className="block w-full truncate text-ellipsis text-sm font-semibold leading-none"
           slot="description"
         >
           {info?.label && !!info.label.length ? info.label : fieldName}

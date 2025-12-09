@@ -68,7 +68,7 @@ export function InfoTooltip({
         <Header className="mb-1 font-mono text-xs font-bold uppercase text-gray-500">
           Info
         </Header>
-        <div className="flex-grow italic">{info}</div>
+        <div className="grow italic">{info}</div>
       </Popover>
     </DialogTrigger>
   );

@@ -76,7 +76,7 @@ export function FieldPicker<T extends DatastoreRecord>({
 
       <ListBox
         {...props}
-        className="w-full flex-grow overflow-auto rounded-sm border border-stone-400 p-1"
+        className="w-full grow overflow-auto rounded-sm border border-stone-400 p-1"
         onSelectionChange={handleSelectionChange}
         selectedKeys={_selection}
         selectionMode="multiple"

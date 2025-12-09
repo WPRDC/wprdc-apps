@@ -27,7 +27,7 @@ export function PaginationControl({
         </A>
       ) : (
         <button
-          className="text-textSecondary dark:text-textSecondaryDark inline-block"
+          className="text-text-secondary dark:text-text-secondary-dark inline-block"
           disabled
           aria-label="Previous page"
         >
@@ -43,7 +43,7 @@ export function PaginationControl({
               </A>
             ) : (
               <button
-                className="text-textSecondary font-black dark:text-textSecondaryDark"
+                className="text-text-secondary font-black dark:text-text-secondary-dark"
                 disabled
                 aria-disabled
               >
@@ -63,7 +63,7 @@ export function PaginationControl({
         </A>
       ) : (
         <div
-          className="text-textSecondary dark:text-textSecondaryDark inline-block"
+          className="text-text-secondary dark:text-text-secondary-dark inline-block"
           aria-hidden="true"
           aria-label="Next page"
         >

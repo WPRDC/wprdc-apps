@@ -25,7 +25,7 @@ export function PopupImage({
   return (
     <div className={twMerge("h-full w-full max-w-full", className)}>
       <DialogTrigger>
-        <Button className="relative h-full w-full border border-stone-800 shadow-lg active:shadow-sm hover:shadow-2xl dark:border-textSecondaryDark">
+        <Button className="relative h-full w-full border border-stone-800 shadow-lg active:shadow-sm hover:shadow-2xl dark:border-text-secondary-dark">
           <Image {...thumbnailProps} fill  objectFit="cover"/>
         </Button>
         <ModalOverlay isDismissable>

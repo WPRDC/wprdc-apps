@@ -114,7 +114,7 @@ export default function Index({
                       currentMenuItem?.id === menuItem.id ? "true" : "false"
                     }
                     onClick={handleMenuClick(menuItem)}
-                    className="dark:hover:text-primary dark:hover:bg-backgroundDark dark:ring-textSecondaryDark ring-textSecondary flex h-full w-full items-center rounded-sm px-2 py-4 hover:font-black hover:ring-1 md:py-2 lg:h-fit lg:w-fit"
+                    className="dark:hover:text-primary dark:hover:bg-background-dark dark:ring-text-secondary-dark ring-text-secondary flex h-full w-full items-center rounded-sm px-2 py-4 hover:font-black hover:ring-1 md:py-2 lg:h-fit lg:w-fit"
                   >
                     {menuItem.primaryLink?.label}
                     {currentMenuItem?.id === menuItem.id ? (
@@ -126,7 +126,7 @@ export default function Index({
 
                   <ul
                     className={classNames(
-                      "border-textSecondary ml-4 bg-white lg:ml-0 lg:w-full lg:border-b dark:bg-black",
+                      "border-text-secondary ml-4 bg-white lg:ml-0 lg:w-full lg:border-b dark:bg-black",
                       currentMenuItem?.id === menuItem.id
                         ? "lg:absolute lg:left-0 lg:m-1 lg:pt-1"
                         : "hidden",
@@ -144,7 +144,7 @@ export default function Index({
                             <Link
                               onClick={closeMenu}
                               href={subMenuItem.link?.url ?? "#"}
-                              className="hover:ring-primary dark:hover:bg-backgroundDark decoration-primary my-1 block p-2 hover:bg-amber-100 hover:ring-2"
+                              className="hover:ring-primary dark:hover:bg-background-dark decoration-primary my-1 block p-2 hover:bg-amber-100 hover:ring-2"
                             >
                               <div className="text-lg font-semibold">
                                 {subMenuItem.link?.label}
@@ -154,7 +154,7 @@ export default function Index({
                                 )}
                               </div>
                               {!!subMenuItem.deatailLine && (
-                                <div className="text-textSecondary dark:text-textSecondaryDark text-sm">
+                                <div className="text-text-secondary dark:text-text-secondary-dark text-sm">
                                   {subMenuItem.deatailLine}
                                 </div>
                               )}
@@ -166,7 +166,7 @@ export default function Index({
                                     <Link
                                       onClick={closeMenu}
                                       href={subItem.url ?? "#"}
-                                      className="hover:ring-primary dark:hover:bg-backgroundDark decoration-primary my-1 block p-2 hover:bg-amber-100 hover:ring-2"
+                                      className="hover:ring-primary dark:hover:bg-background-dark decoration-primary my-1 block p-2 hover:bg-amber-100 hover:ring-2"
                                     >
                                       {subItem.label}
                                     </Link>

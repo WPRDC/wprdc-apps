@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@import "@wprdc/ui/styles.css";
+
+
+@theme inline {
+  --font-mono: var(--font-jetbrains-mono);
+
+}

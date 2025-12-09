@@ -6,8 +6,6 @@ import React, { type ReactElement } from "react";
 import { BiX } from "react-icons/bi";
 import { type ToastProps } from "./Toast.types";
 
-// Reuse the Button from your component library. See below for details.
-
 export function Toast<T extends React.ReactNode>({
   state,
   ...props
@@ -19,6 +17,8 @@ export function Toast<T extends React.ReactNode>({
     ref,
   );
 
+
+  // @ts-ignore
   return (
     <div
       {...toastProps}

@@ -65,7 +65,7 @@ export function LayerMenu({
       );
       setCurrentOwnerAddress(ownerAddress);
     }
-  }, [dialogIsOpen]);
+  }, [dialogIsOpen, ownerAddress, selectedLayers]);
 
   /** When submitting the form, generate query params and update the history  */
   const handleSubmit = (close: () => void) => () => {
@@ -107,10 +107,10 @@ export function LayerMenu({
                     Layer Options
                   </Heading>
 
-                  <div className="flex flex-grow flex-col overflow-auto">
+                  <div className="flex grow flex-col overflow-auto">
                     <div className="mb-8">
                       <h2 className="text-xs font-bold uppercase">
-                        Highlight parcels by owner's address
+                        Highlight parcels by owner&apos;s address
                       </h2>
                       {!!currentOwnerAddress && (
                         <div className="text-sm">

@@ -10,7 +10,8 @@
     "sourceMap": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
     "jsx": "react",
     "skipLibCheck": true,
     "noEmit": true

@@ -4,23 +4,27 @@ import {
   fetchCityViolationsRecords,
   fetchCondemnedStatusRecords,
   fetchConservatorshipRecordRecords,
+  fetchEBLL,
   fetchFiledAssessmentAppealsRecord,
   fetchForeclosureFilingsRecords,
+  fetchLeadLineRecord,
   fetchPLIPermitRecords,
   fetchPropertySaleTransactionsRecords,
   fetchTaxLiensWithCurrentStatusRecords,
+  fetchWaterProvider,
 } from "@wprdc/api";
 import type {
   ArchiveAssessmentAppeal,
   CityViolation,
   ConservatorshipRecord,
+  EBLL,
   FiledAssessmentAppeal,
   ForeclosureFiling,
   PLIPermit,
   PropertyAssessment,
   TaxLienWithCurrentStatus,
 } from "@wprdc/types";
-import { PropertySaleTransaction } from "@wprdc/types";
+import { LeadLine, PropertySaleTransaction, WaterProvider } from "@wprdc/types";
 import React, { Suspense } from "react";
 import {
   ConnectedSection,
@@ -42,6 +46,7 @@ import { HeadingSection, HeadingSkeleton } from "./sections/headingSection";
 import { Section } from "./components/Section";
 import { PopupImage } from "@wprdc/ui";
 import { CondemnedPropertiesSection } from "@/components/parcel-dashboard/sections/condemned-properties-section.tsx";
+import { LeadRiskSection } from "@/components/parcel-dashboard/sections/lead-risk.tsx";
 
 export interface PropertyDashboardProps {
   parcelID?: string;
@@ -58,7 +63,6 @@ export function PropertyDashboard({
         <HeadingSection parcelID={parcelID} />
       </Suspense>
 
-
       {/* Owner */}
       <ConnectedSection<PropertyAssessment>
         id="owner"
@@ -70,7 +74,6 @@ export function PropertyDashboard({
         section={OwnerSection}
         datasetLinks={["https://data.wprdc.org/dataset/property-assessments"]}
       />
-
 
       {/* Assessed Values */}
       <ConnectedSection<PropertyAssessment>
@@ -177,6 +180,8 @@ export function PropertyDashboard({
         ]}
       />
 
+
+
       {/* PLI Permits */}
       <ConnectedSection<PLIPermit>
         id="pli-permits"
@@ -189,7 +194,7 @@ export function PropertyDashboard({
         datasetLinks={["https://data.wprdc.org/dataset/pli-permits"]}
       />
 
-      {/* Code Violations*/}
+      {/* Code Violations */}
       <ConnectedSection<CityViolation>
         id="code-violations"
         label="Pittsburgh Code Violations"
@@ -200,6 +205,30 @@ export function PropertyDashboard({
         parcelID={parcelID}
         datasetLinks={[
           "https://data.wprdc.org/dataset/pittsburgh-pli-violations-report",
+        ]}
+      />
+
+      <MultiConnectedSection<{
+        lead: LeadLine;
+        assessment: PropertyAssessment;
+        violations: CityViolation;
+        provider: WaterProvider;
+        ebll: EBLL
+      }>
+        id="lead-risk"
+        label="Lead Exposure Risks"
+        section={LeadRiskSection}
+        getters={{
+          lead: fetchLeadLineRecord,
+          assessment: fetchAssessmentRecord,
+          violations: fetchCityViolationsRecords,
+          provider: fetchWaterProvider,
+          ebll: fetchEBLL,
+        }}
+        parcelID={parcelID}
+        datasetLinks={[
+          "https://data.wprdc.org/dataset/allegheny-county-elevated-blood-lead-level-rates",
+          "https://data.wprdc.org/dataset/lead-risk",
         ]}
       />
 

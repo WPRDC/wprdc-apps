@@ -28,8 +28,6 @@ export default async function Page({
   const {
     parcel,
     ownerAddr,
-    classes,
-    ownerOccupied,
     z,
     zoomPan: _zoomPan,
     selectedLayers,
@@ -37,7 +35,6 @@ export default async function Page({
 
   const parcelID = parcel ? String(parcel) : undefined;
   const ownerAddress = ownerAddr ? String(ownerAddr) : undefined;
-  const useClasses = classes ? String(classes) : undefined;
 
   const zoomPan = _zoomPan ?? z;
   const geocodeResponse = await fetch(
@@ -67,7 +64,7 @@ export default async function Page({
           />
         </div>
 
-        <div className="fixed bottom-12 right-4 z-40 flex flex-col lg:hidden">
+        <div className="fixed right-4 bottom-12 z-40 flex flex-col lg:hidden">
           <MapPopup
             selectedParcel={parcelID}
             ownerAddress={ownerAddress}
@@ -88,7 +85,7 @@ export default async function Page({
                 </h1>
                 <div className="prose prose-lg">
                   <p>
-                    The <strong>Parcels N'at Data Explorer</strong> provides a
+                    The <strong>Parcels N&apos;at Data Explorer</strong> provides a
                     user-friendly, realtime view of data about parcels across
                     Allegheny County.
                   </p>
@@ -109,7 +106,11 @@ export default async function Page({
 
                 <p>
                   You can find the source code for this application on in our{" "}
-                  <a href="https://github.com/wprdc/wprdc-apps" target="_blank">
+                  <a
+                    href="https://github.com/wprdc/wprdc-apps"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     apps monorepo
                   </a>
                   .
@@ -121,7 +122,11 @@ export default async function Page({
                 <p>
                   Aggregate statistics in the <a href="/explore">Explorer</a>{" "}
                   and <a href="/indicators">Indicators</a> views use our{" "}
-                  <a href="https://github.com/wprdc/spacerat" target="_blank">
+                  <a
+                    href="https://github.com/wprdc/spacerat"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     <strong>Spatial Relational Toolkit</strong> library{" "}
                     (SpaceRAT)
                   </a>
@@ -135,6 +140,7 @@ export default async function Page({
                     <a
                       href="https://en.wikipedia.org/wiki/Gazetteer"
                       target="_blank"
+                      rel="noreferrer"
                     >
                       gazetteer
                     </a>{" "}
@@ -142,7 +148,11 @@ export default async function Page({
                   </li>
                   <li>
                     and by defining how data in{" "}
-                    <a href="https://data.wprdc.org" target="_blank">
+                    <a
+                      href="https://data.wprdc.org"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       the data center
                     </a>{" "}
                     describes those geographies.

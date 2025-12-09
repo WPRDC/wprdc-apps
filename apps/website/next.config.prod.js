@@ -1,7 +1,5 @@
-const IgnorePlugin = require("webpack").IgnorePlugin;
-
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
   output: "standalone",
   reactStrictMode: true,
   typescript: {
@@ -22,18 +20,6 @@ module.exports = {
     ],
   },
 
-  webpack: (config, { isServer }) => {
-    if (isServer) {
-      config.plugins.push(
-        new IgnorePlugin({
-          resourceRegExp: /original-fs/,
-          contextRegExp: /adm-zip/,
-        }),
-      );
-    }
-    return config;
-  },
-
   redirects: async () => {
     return [
       {
@@ -44,3 +30,5 @@ module.exports = {
     ];
   },
 };
+
+export default nextConfig;

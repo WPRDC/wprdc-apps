@@ -1,0 +1,14 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "env": [
+        "NEXT_PUBLIC_STRAPI_API_URL",
+        "NEXT_PUBLIC_HOUSECAT_HOST",
+        "NEXT_PUBLIC_API_HOST",
+        "HOUSECAT_HOST",
+        "SPACERAT_HOST"
+      ]
+    }
+  }
+}

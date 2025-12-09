@@ -20,7 +20,7 @@ export function SalesSection({
   sales: PropertySaleTransaction;
   assessment: PropertyAssessment;
 }>): React.ReactElement {
-  const { records, fields } = sales;
+  const { records } = sales;
   const assessmentRecord = assessment.records[0];
 
   const assessmentSales: SimpleSalesRecord[] = [];
@@ -69,6 +69,7 @@ export function SalesSection({
     .sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
     .reverse();
 
+
   return (
     <div className="max-w-lg">
       <Table
@@ -81,7 +82,7 @@ export function SalesSection({
           label: "Sale Date",
           info: assessment.fields.SALEDATE.info?.notes,
         }}
-        data={orderedSales.map(({ date, price, type }) => [
+        data={orderedSales.map(({ price, type }) => [
           formatDollars(price),
           {
             value: type,

@@ -1,4 +1,6 @@
-import { GeoType } from "@wprdc/types";
+"use client";
+
+import { CircleSymbologyConfig, GeoType, LayerConfig, LineSymbologyConfig, PolygonSymbologyConfig } from "@wprdc/types";
 import { Source } from "react-map-gl/maplibre";
 import { CircleLayer } from "./layers/circle";
 import { LineLayer } from "./layers/line";
@@ -15,30 +17,30 @@ export function LayerGroup({
   return (
     <Source
       id={layer.slug}
-      maxzoom={layer.tileSource.maxZoom ?? 22}
-      minzoom={layer.tileSource.minZoom ?? 0}
+      maxzoom={layer.tiles.maxZoom ?? 22}
+      minzoom={layer.tiles.minZoom ?? 0}
       type="vector"
-      url={layer.tileSource.tileJSONSource}
+      url={layer.tiles.source}
     >
-      {layer.type === GeoType.Point && (
+      {layer.symbology.geoType === GeoType.Point && (
         <CircleLayer
           context={context}
-          layer={layer}
-          sourceLayer={layer.tileSource.sourceLayer}
+          layer={layer as LayerConfig<CircleSymbologyConfig>}
+          sourceLayer={layer.tiles.sourceLayer}
         />
       )}
-      {layer.type === GeoType.Polygon && (
+      {layer.symbology.geoType === GeoType.Polygon && (
         <PolygonLayer
           context={context}
-          layer={layer}
-          sourceLayer={layer.tileSource.sourceLayer}
+          layer={layer as LayerConfig<PolygonSymbologyConfig>}
+          sourceLayer={layer.tiles.sourceLayer}
         />
       )}
-      {layer.type === GeoType.Line && (
+      {layer.symbology.geoType === GeoType.Line && (
         <LineLayer
           context={context}
-          layer={layer}
-          sourceLayer={layer.tileSource.sourceLayer}
+          layer={layer as LayerConfig<LineSymbologyConfig>}
+          sourceLayer={layer.tiles.sourceLayer}
         />
       )}
     </Source>

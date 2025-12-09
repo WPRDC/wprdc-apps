@@ -45,10 +45,10 @@ export function HoverPopup({
             {!!i && (
               <div className="flex items-center">
                 <div className="w-8 border-t border-stone-700" />
-                <div className="mx-1 w-fit flex-shrink italic leading-none">
+                <div className="mx-1 w-fit shrink italic leading-none">
                   and
                 </div>
-                <div className="flex-grow border-t border-stone-700" />
+                <div className="grow border-t border-stone-700" />
               </div>
             )}
             <div className="w-full px-1 py-1 text-left hover:bg-primary/20 hover:backdrop-blur-md">
@@ -88,11 +88,11 @@ export function ClickPopup({
           <div key={`${i}`}>
             {!!i && (
               <div className="flex items-center">
-                <div className="w-8 flex-shrink border-t border-stone-700" />
-                <div className="mx-1 w-fit flex-shrink italic leading-none">
+                <div className="w-8 shrink border-t border-stone-700" />
+                <div className="mx-1 w-fit shrink italic leading-none">
                   or
                 </div>
-                <div className="flex-grow border-t border-stone-700" />
+                <div className="grow border-t border-stone-700" />
               </div>
             )}
             <Button

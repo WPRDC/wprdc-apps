@@ -27,7 +27,7 @@ export function BasemapMenu({
     <MenuTrigger>
       <Button style={{ background: "white" }}>Switch Basemap</Button>
       <Popover
-        className="rounded-sm bg-white p-2 shadow border border-stone-800"
+        className="rounded-sm bg-white p-2 shadow-md border border-stone-800"
         placement="bottom right"
       >
         <GridMenu

@@ -16,7 +16,7 @@ export function LoadingMessage({
   const displayName = name ? ` ${name}` : "";
   let msg = "Loading...";
   if (message) msg = message;
-  else if (displayName) `Loading ${displayName}...`;
+  else if (displayName) msg = `Loading ${displayName}...`;
 
   return (
     <div

@@ -12,7 +12,7 @@ export function TabList<T extends object = object>({
     <RATabList<T>
       {...props}
       className={twMerge(
-        "flex flex-shrink-0 orientation-vertical:flex-col",
+        "flex shrink-0 orientation-vertical:flex-col",
         className,
       )}
     />

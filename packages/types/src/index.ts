@@ -6,4 +6,7 @@ export * from "./models";
 export * from "./martin";
 export * from "./housecat";
 
-export type { VisualizationSpec } from "react-vega";
+import type { VisualizationSpec } from "vega-embed";
+
+
+export { VisualizationSpec };

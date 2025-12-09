@@ -13,7 +13,7 @@ import { tw } from "../../util";
 import type { ButtonProps, ButtonVariant } from "./Button.types";
 
 // export styles for use with other components
-export const buttonBaseStyle = tw`cursor-pointer rounded border px-1 py-1 font-mono text-sm font-semibold uppercase leading-none shadow active:shadow-sm hover:shadow-md focus-visible:ring-2 focus-visible:ring-focused`;
+export const buttonBaseStyle = tw`cursor-pointer rounded border px-1 py-1 font-mono text-sm font-semibold uppercase leading-none shadow-md active:shadow-sm hover:shadow-md focus-visible:ring-2 focus-visible:ring-focused`;
 export const buttonVariants: Record<ButtonVariant, string> = {
   primary: tw`border-2 border-text bg-primary text-black dark:border-text hover:bg-wprdc-200`,
   success: tw`"border-green-900 bg-green-800 text-white  hover:bg-green-100 `,

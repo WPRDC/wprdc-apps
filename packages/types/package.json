@@ -17,28 +17,30 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "peerDependencies": {
-    "react": "^19.0.0"
+    "react": "^19.2.1"
   },
   "dependencies": {
-    "@maplibre/maplibre-gl-style-spec": "^23.3.0",
-    "@react-types/shared": "^3.30.0",
-    "@strapi/strapi": "^5.11.3",
-    "html-react-parser": "^5.2.2",
-    "maplibre-gl": "^5.6.1",
-    "react-map-gl": "^8.0.4"
+    "@maplibre/maplibre-gl-style-spec": "^24.3.1",
+    "@react-types/shared": "^3.32.1",
+    "@strapi/strapi": "^5.31.3",
+    "html-react-parser": "^5.2.10",
+    "maplibre-gl": "^5.14.0",
+    "react-map-gl": "^8.1.0",
+    "react-vega": "^8.0.0",
+    "vega": "^6.2.0",
+    "vega-embed": "^7.1.0",
+    "vega-lite": "^6.4.1"
   },
   "devDependencies": {
-    "@react-types/shared": "^3.30.0",
+    "@react-types/shared": "^3.32.1",
     "@types/geojson": "^7946.0.16",
-    "@types/node": "^22.13.10",
-    "@types/react": "^19.0.12",
-    "@types/react-dom": "^19.0.4",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "@wprdc/eslint-config": "workspace:*",
-    "@wprdc/tailwind-config": "workspace:*",
     "@wprdc/typescript-config": "workspace:*",
-    "react": "^19.0.0",
-    "react-vega": "^7.6.0",
-    "tsup": "^8.5.0",
-    "typescript": "^5.8.3"
+    "react": "^19.2.1",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
   }
 }

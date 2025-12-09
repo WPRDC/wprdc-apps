@@ -12,9 +12,9 @@ interface SearchParams {
 export default async function Page({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 }): Promise<React.ReactElement> {
-  const { mapset, geog, variant, question, stat } = searchParams;
+  const { mapset, geog, variant, question, stat } = await searchParams;
 
   const mapSets = await fetchMapSets();
   const selectedMapSet = await fetchMapSet(mapset ?? mapSets[0].id);

@@ -67,7 +67,7 @@ export function MapControls({
     setEmbedCode(
       `<iframe width="800" height="600" src="${url}&zoomPan=1"></iframe>`,
     );
-  }, []);
+  }, [parcelID, pathname]);
 
   const handleCopy = (url: string, toastState: ToastState<ReactNode>) => () => {
     if (typeof window !== "undefined") navigator.clipboard.writeText(url);
@@ -96,7 +96,7 @@ export function MapControls({
                 <Dialog>
                   <ToastProvider>
                     {(state) => (
-                      <div className="flex max-w-screen-sm flex-col items-stretch space-y-4">
+                      <div className="flex max-w-(--breakpoint-sm) flex-col items-stretch space-y-4">
                         <div>
                           <div className="flex items-center space-x-2">
                             <p className="text-xl font-bold">Link</p>
@@ -184,6 +184,7 @@ export function MapControls({
                 <MenuItem id="tax-liens">Tax Liens</MenuItem>
                 <MenuItem id="foreclosure">Foreclosure</MenuItem>
                 <MenuItem id="conservatorship">Conservatorship</MenuItem>
+                <MenuItem id="lead-risk">Lead Exposure Risks</MenuItem>
               </Menu>
             </Popover>
           </MenuTrigger>
