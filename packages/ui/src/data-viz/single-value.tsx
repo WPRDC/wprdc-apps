@@ -38,7 +38,6 @@ export interface SingleValueVizProps<T extends Value = Value> {
 export function SingleValueViz<T extends Value>({
   value,
   label,
-  variant,
   info,
   icon: Icon,
   className,
@@ -47,16 +46,16 @@ export function SingleValueViz<T extends Value>({
 }: SingleValueVizProps<T>): React.ReactElement {
   return (
     <div
-      className={twMerge("rounded-sm border border-black bg-white", className)}
+      className={twMerge("rounded-xs border border-black bg-white", className)}
     >
       <div className="flex items-start bg-black px-2 text-white">
         <div className="flex items-center space-x-1 py-1.5">
-          {!!Icon && <Icon />}
-          <dt className="pr-1 font-mono text-sm font-bold uppercase leading-none">
+          {!!Icon && <Icon className="size-3.5" />}
+          <dt className="pr-1 font-mono text-xs font-bold uppercase leading-none" >
             {label}
           </dt>
         </div>
-        <div className="py-0.5 leading-none">
+        <div className="py-0.5 leading-none text-xs">
           {!!info && <InfoTooltip dark size="S" info={info} />}
         </div>
       </div>
@@ -64,7 +63,7 @@ export function SingleValueViz<T extends Value>({
       <div>
         <dd
           className={twMerge(
-            "px-2 py-2 font-mono text-2xl font-bold leading-none",
+            "px-2 py-2 font-mono text-sm font-bold leading-none",
           )}
         >
           {format(value ?? children)}

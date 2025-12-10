@@ -16,7 +16,7 @@ import {
   TabPanel,
   Tabs,
 } from "@wprdc/ui";
-import { PropertyDashboard } from "@/components/parcel-dashboard";
+import { ParcelDashboard } from "@/components/parcel-dashboard";
 
 interface QueriedStats extends QuestionRecord {
   fairmarkettotal: {
@@ -130,7 +130,7 @@ export default async function Page({
               <TabPanel key={pid} id={pid}>
                 <div className="max-h-200 max-w-(--breakpoint-sm) overflow-auto rounded-sm border border-black">
                   {/* todo: render differently in embed mode (e.g. no map buttons) */}
-                  <PropertyDashboard parcelID={pid} />
+                  <ParcelDashboard parcelID={pid} />
                 </div>
               </TabPanel>
             ))}

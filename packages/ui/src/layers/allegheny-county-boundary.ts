@@ -20,8 +20,9 @@ export const alleghenyCountyBoundary: LayerConfig<SimplifiedSymbologyConfig> = {
   },
 
   tiles: {
-    source: "https://data.wprdc.org/tiles/county-border",
-    sourceLayer: "56e47f38-30af-46a5-ac5f-50438e420a4a",
+    source:
+      "https://data.wprdc.org/tiles/table.09900a13-ab5d-4e41-94f8-7e4d129e9a4c._geom",
+    sourceLayer: "table.09900a13-ab5d-4e41-94f8-7e4d129e9a4c._geom",
   },
 
   legend: false,

@@ -1,7 +1,13 @@
 "use client";
-
-import { VegaEmbed, VegaEmbedProps } from "react-vega";
+import { VegaEmbedProps } from "react-vega";
 import { twMerge } from "tailwind-merge";
+
+import dynamic from "next/dynamic";
+
+// fixes issue in dev where a set gets passed from a server to a client component
+const VegaEmbed = dynamic(() => import("react-vega").then((m) => m.VegaEmbed), {
+  ssr: false,
+});
 
 export type ChartVizProps = VegaEmbedProps;
 

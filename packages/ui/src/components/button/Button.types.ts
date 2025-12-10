@@ -22,4 +22,5 @@ export interface ButtonProps extends RAButtonProps {
   className?: string;
   children?: React.ReactNode;
   icon?: IconType;
+  size?: "sm" | "md" | "lg";
 }

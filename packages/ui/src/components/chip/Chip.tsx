@@ -33,7 +33,7 @@ export function Chip({
     >
       <span
         className={twMerge(
-          "flex w-fit items-center space-x-1 rounded-md border-2 px-1 font-semibold not-italic",
+          "flex w-fit items-center space-x-1 rounded-xs border-2 px-1 font-semibold not-italic",
           size === "S" && "border font-medium",
           size === 'L' && "text-lg",
           variant === "default" && "",

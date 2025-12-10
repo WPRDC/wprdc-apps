@@ -15,7 +15,6 @@ import {
 } from "@wprdc/ui";
 import {
   TbBorderCorners,
-  TbChevronsDown,
   TbCopy,
   TbExternalLink,
   TbShare2,
@@ -76,13 +75,14 @@ export function MapControls({
 
   return (
     <div>
-      <div className="grid grid-cols-2 gap-2 md:flex scroll-mt-28 space-x-2 pb-4" id="menu">
+      <div className="flex space-x-2 pb-4" id="menu">
         {/* Map Menu */}
         <div>
           <Button
             icon={TbBorderCorners}
             onPress={handleZoomPan}
             variant="primary"
+            size="sm"
           >
             Center on Map
           </Button>
@@ -90,7 +90,9 @@ export function MapControls({
         {/* Share menu*/}
         <div>
           <DialogTrigger>
-            <Button icon={TbShare2}>Share&hellip;</Button>
+            <Button icon={TbShare2} size="sm">
+              Share&hellip;
+            </Button>
             <ModalOverlay isDismissable>
               <Modal isDismissable>
                 <Dialog>
@@ -136,23 +138,45 @@ export function MapControls({
         {/* Links */}
         <div>
           <MenuTrigger>
-            <Button icon={TbExternalLink}>Other Sites&hellip;</Button>
+            <Button icon={TbExternalLink} size="sm">
+              Other Sites&hellip;
+            </Button>
             <Popover>
               <Menu className="flex flex-col border border-black">
-                <MenuItem href={acRealEstatePortalLink} target="_blank" className="flex gap-0.5 underline items-center">
+                <MenuItem
+                  href={acRealEstatePortalLink}
+                  target="_blank"
+                  className="flex items-center gap-0.5 underline"
+                >
                   <div>County Real Estate Portal</div> <TbExternalLink />
                 </MenuItem>
-                <MenuItem href={oneStopPGHInsights} target="_blank" className="flex gap-0.5 underline items-center">
+                <MenuItem
+                  href={oneStopPGHInsights}
+                  target="_blank"
+                  className="flex items-center gap-0.5 underline"
+                >
                   <div>OneStopPGH Insights</div> <TbExternalLink />
                 </MenuItem>
-                <MenuItem href={googleMapsLink} target="_blank" className="flex gap-0.5 underline items-center">
+                <MenuItem
+                  href={googleMapsLink}
+                  target="_blank"
+                  className="flex items-center gap-0.5 underline"
+                >
                   <div>Google Maps</div> <TbExternalLink />
                 </MenuItem>
-                <MenuItem href={appleMapsLink} target="_blank" className="flex gap-0.5 underline items-center">
+                <MenuItem
+                  href={appleMapsLink}
+                  target="_blank"
+                  className="flex items-center gap-0.5 underline"
+                >
                   <div>Apple Maps </div>
                   <TbExternalLink />
                 </MenuItem>
-                <MenuItem href={streetViewLink} target="_blank" className="flex gap-0.5 underline items-center">
+                <MenuItem
+                  href={streetViewLink}
+                  target="_blank"
+                  className="flex items-center gap-0.5 underline"
+                >
                   <div>Google Street View</div> <TbExternalLink />
                 </MenuItem>
               </Menu>
@@ -162,7 +186,6 @@ export function MapControls({
         {/* Nav Menu */}
         <nav id="dashboard-navigation">
           <MenuTrigger>
-            <Button icon={TbChevronsDown}>Jump To&hellip;</Button>
             <Popover>
               <Menu
                 onAction={(key) => router.push(`#${key}`)}

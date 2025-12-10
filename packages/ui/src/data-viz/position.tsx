@@ -1,11 +1,8 @@
 import React, { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 import type { IconType } from "react-icons";
-import {
-  TbCircle,
-  TbCircleFilled,
-  TbSquareRotatedFilled,
-} from "react-icons/tb";
+import { TbCircleFilled, TbSquareRotatedFilled, } from "react-icons/tb";
+import { InfoTooltip } from "../components";
 
 interface Option {
   label: string;
@@ -54,14 +51,19 @@ export function PositionViz({
   return (
     <div
       className={twMerge(
-        "w-fill my-2 rounded-sm border border-black bg-white",
+        "w-fill my-2 rounded-xs border border-black bg-white",
         className,
       )}
     >
-      <div className="flex items-center space-x-1 bg-black px-2 py-1.5 text-white">
-        {!!Icon && <Icon />}
-        <div className="pr-1 font-mono text-sm uppercase leading-none">
-          {label}
+      <div className="flex items-start bg-black px-2 text-white">
+        <div className="flex items-center space-x-1 py-1.5">
+          {!!Icon && <Icon className="size-3.5" />}
+          <div className="pr-1 font-mono text-xs font-bold uppercase leading-none">
+            {label}
+          </div>
+        </div>
+        <div className="py-0.5 leading-none text-xs">
+          {!!info && <InfoTooltip dark size="S" info={info} />}
         </div>
       </div>
       <div className="flex flex-col py-2">

@@ -28,18 +28,21 @@ export function ConnectedFieldPicker<
   const [fields, setFields] = useState<DatastoreField<T>[]>();
 
   useEffect(() => {
-    fetch(`/api/fields/${table}`)
-      .then((res) => res.json())
-      .then((data: { fields: DatastoreField<T>[] }) => {
-        setFields(
-          data.fields.filter(fieldFilter<T>([...ignoredFields, parcelIDField])),
-        );
-        setIsLoading(false);
-      })
-      .catch((err: unknown) => {
-        console.error(err);
-      });
-  }, [ignoredFields, parcelIDField, table]);
+    if (!fields?.length)
+      fetch(`/api/fields/${table}`)
+        .then((res) => res.json())
+        .then((data: { fields: DatastoreField<T>[] }) => {
+          setFields(
+            data.fields.filter(
+              fieldFilter<T>([...ignoredFields, parcelIDField]),
+            ),
+          );
+          setIsLoading(false);
+        })
+        .catch((err: unknown) => {
+          console.error(err);
+        });
+  }, [fields?.length, ignoredFields, parcelIDField, table]);
 
   if (isLoading)
     return (

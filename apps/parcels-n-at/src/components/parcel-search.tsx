@@ -69,7 +69,7 @@ export function ParcelSearch(): React.ReactElement {
   );
 
   return (
-    <div className="relative w-full bg-white">
+    <div className="relative w-full rounded-md bg-white">
       <Autocomplete
         inputValue={list.filterText}
         onInputChange={handleInputChange}
@@ -79,7 +79,7 @@ export function ParcelSearch(): React.ReactElement {
             <BiSearchAlt2 className="mx-1 size-8 text-white" />
           </div>
           <Input
-            className="w-full rounded-r border-2 border-stone-800 px-2 py-1"
+            className="w-full rounded-r-md border-2 border-stone-800 px-2 py-1"
             placeholder="Search by address or parcel ID"
           />
 

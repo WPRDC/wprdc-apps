@@ -34,6 +34,7 @@ export function Button({
   children,
   variant,
   icon: Icon,
+  size = "md",
   ...buttonProps
 }: ButtonProps): React.ReactElement {
   return (
@@ -42,6 +43,9 @@ export function Button({
       className={twMerge(
         buttonBaseStyle,
         buttonVariants[variant ?? "default"],
+        size == "sm" && "text-xs py-0",
+        size == "md" && "text-sm py-0.5",
+        size == "lg" && "text-base",
         dense && buttonDenseStyle,
         buttonProps.isDisabled && buttonDisabledStyle,
         className,

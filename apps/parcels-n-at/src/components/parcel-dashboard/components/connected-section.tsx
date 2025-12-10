@@ -19,9 +19,11 @@ export function ConnectedSection<T extends DatastoreRecord>({
   defaultOpen = true,
   ...props
 }: ConnectedSectionProps<T>): React.ReactElement {
-
   return (
-    <Suspense fallback={<Loader />} key={props.parcelID}>
+    <Suspense
+      fallback={<Loader label={label} description={description} />}
+      key={props.parcelID}
+    >
       <div className={className}>
         <Section
           id={id}
@@ -58,7 +60,10 @@ export function MultiConnectedSection<T extends DatastoreRecordSet>({
   ...props
 }: MultiConnectedSectionProps<T>): React.ReactElement {
   return (
-    <Suspense fallback={<Loader />} key={props.parcelID}>
+    <Suspense
+      fallback={<Loader label={label} description={description} />}
+      key={props.parcelID}
+    >
       <Section
         id={id}
         className={className}
@@ -85,7 +90,6 @@ export async function MultiConnectedSectionContent<
     keys.map((k) => getters[k](parcelID)),
   );
 
-
   const childProps: MultiSourceSectionProps<T> = keys.reduce<
     Partial<MultiSourceSectionProps<T>>
   >(
@@ -96,10 +100,28 @@ export async function MultiConnectedSectionContent<
   return <Section {...childProps} {...sectionProps} />;
 }
 
-function Loader() {
+type LabelProps = Pick<
+  ConnectedSectionProps<DatastoreRecord>,
+  "label" | "description"
+>;
+
+function Loader(props: LabelProps) {
   return (
-    <div className="w-fit">
-      <LoadingMessage message="Loading..." size="S" />
+    <div className="group/section mt-3 rounded border border-stone-200 bg-white p-3">
+      <div className="list-none decoration-2 hover:text-stone-800">
+        <div className="flex w-full items-center justify-between">
+          {!!props.label && (
+            <h2 className="text-2xl font-bold">{props.label}</h2>
+          )}
+        </div>
+        {!!props.description && (
+          <p className="mt-2 mb-1 text-sm">{props.description}</p>
+        )}
+      </div>
+
+      <div className="py-4">
+        <LoadingMessage message="Loading..." size="M" />
+      </div>
     </div>
   );
 }

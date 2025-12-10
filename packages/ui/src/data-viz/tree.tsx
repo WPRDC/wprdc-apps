@@ -54,10 +54,10 @@ export function TreeViz({
   icon: Icon,
 }: TreeVizProps): React.ReactElement {
   return (
-    <div className="w-fit rounded-sm border border-black">
-      <div className="flex items-center space-x-1 bg-black px-2 py-1.5 text-white">
-        {!!Icon && <Icon />}
-        <div className="pr-1 font-mono text-sm uppercase leading-none">
+    <div className="w-fit rounded-xs border border-black text-xs ">
+      <div className="flex items-center space-x-1 font-bold bg-black px-2 py-1.5 text-white">
+        {!!Icon && <Icon className="size-3.5"  />}
+        <div className="pr-1 font-mono text-xs uppercase leading-none">
           {label}
         </div>
       </div>
@@ -78,13 +78,13 @@ export function TreeVizItem<T extends Value = Value>({
   value,
 }: TreeVizItemProps<T>): React.ReactElement {
   return (
-    <li className="mt-2 pr-1">
-      <div className="flex items-center leading-none">
-        <div className="flex items-center font-mono text-sm font-medium leading-none text-black">
+    <li className="pr-1">
+      <div className="flex items-center leading-none mb-1">
+        <div className="flex items-center font-mono text-xs font-medium leading-none text-black">
           {!!Icon && <Icon />}
           <div className="leading-none">{label}</div>:
         </div>
-        <div className="ml-1 font-mono text-lg font-black leading-none">
+        <div className="ml-1 font-mono text-sm font-black leading-none">
           {format(value)}
         </div>
       </div>

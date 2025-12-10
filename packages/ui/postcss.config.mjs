@@ -4,6 +4,4 @@ const config = {
     "@tailwindcss/postcss": {},
   },
 };
-
-// eslint-disable-next-line no-undef -- config
-module.exports = config;
+export default config;

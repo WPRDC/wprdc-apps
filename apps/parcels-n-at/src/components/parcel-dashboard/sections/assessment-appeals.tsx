@@ -25,12 +25,12 @@ export function AssessmentAppealsSection({
 }>): React.ReactElement {
   return (
     <div>
-      <section className="mb-4 border-b pb-4 lg:mr-4">
-        <h3 className="mb-1 mt-3.5 text-2xl font-bold">Active Appeal</h3>
+      <section className="mb-4 pb-4 lg:mr-4">
+        <h3 className="mb-1 text-lg font-bold">Active Appeal</h3>
         <FiledAssessmentAppealsSection {...filed} />
       </section>
       <section>
-        <h3 className="mb-1 mt-3.5 text-2xl font-bold">Finished Appeals</h3>
+        <h3 className="mt-3.5 mb-1 text-lg font-bold">Finished Appeals</h3>
         <ArchiveSection {...archive} />
       </section>
     </div>
@@ -51,9 +51,9 @@ function ArchiveSection({
             .map((record: ArchiveAssessmentAppeal) => (
               <Card key={record["TAX YEAR"]}>
                 <article>
-                  <h4 className="mb-1 text-2xl font-bold">
-                    <span>Tax Year:</span>{" "}
-                    <span className="font-mono">{record["TAX YEAR"]}</span>
+                  <h4 className="mb-1 text-lg font-bold">
+                    <span>Tax Year</span>{" "}
+                    <span className="">{record["TAX YEAR"]}</span>
                   </h4>
 
                   <DataListViz
@@ -80,61 +80,66 @@ function ArchiveSection({
                       ] as SingleValueVizProps[]
                     }
                   />
-                  <Table
-                    label="Pre vs Post Appeal"
-                    columns={["Land", "Building", "Total"]}
-                    rows={["Pre", "Post", "Difference"]}
-                    format={formatDollars}
-                    totalRow
-                    totalCol
-                    data={[
-                      [
-                        record["PRE APPEAL LAND"],
-                        record["PRE APPEAL BLDG"],
-                        record["PRE APPEAL TOTAL"],
-                      ],
-                      [
-                        record["POST APPEAL LAND"],
-                        record["POST APPEAL BLDG"],
-                        record["POST APPEAL TOTAL"],
-                      ],
-                      [
-                        record["PRE APPEAL LAND"] - record["POST APPEAL LAND"],
-                        record["PRE APPEAL BLDG"] - record["POST APPEAL BLDG"],
-                        record["PRE APPEAL TOTAL"] -
+                  <div className="py-2">
+                    <Table
+                      label="Pre vs Post Appeal"
+                      columns={["Land", "Building", "Total"]}
+                      rows={["Pre", "Post", "Difference"]}
+                      format={formatDollars}
+                      totalRow
+                      totalCol
+                      data={[
+                        [
+                          record["PRE APPEAL LAND"],
+                          record["PRE APPEAL BLDG"],
+                          record["PRE APPEAL TOTAL"],
+                        ],
+                        [
+                          record["POST APPEAL LAND"],
+                          record["POST APPEAL BLDG"],
                           record["POST APPEAL TOTAL"],
-                      ],
-                    ]}
-                  />
-
-                  <Table
-                    label="Pre Appeal vs Current Value"
-                    columns={["Land", "Building", "Total"]}
-                    rows={["Pre", "Current", "Difference"]}
-                    format={formatDollars}
-                    totalRow
-                    totalCol
-                    data={[
-                      [
-                        record["PRE APPEAL LAND"],
-                        record["PRE APPEAL BLDG"],
-                        record["PRE APPEAL TOTAL"],
-                      ],
-                      [
-                        record["CURRENT LAND VALUE"],
-                        record["CURRENT BLDG VALUE"],
-                        record["CURRENT TOTAL VALUE"],
-                      ],
-                      [
-                        record["PRE APPEAL LAND"] -
+                        ],
+                        [
+                          record["PRE APPEAL LAND"] -
+                            record["POST APPEAL LAND"],
+                          record["PRE APPEAL BLDG"] -
+                            record["POST APPEAL BLDG"],
+                          record["PRE APPEAL TOTAL"] -
+                            record["POST APPEAL TOTAL"],
+                        ],
+                      ]}
+                    />
+                  </div>
+                  <div className="py-2">
+                    <Table
+                      label="Pre Appeal vs Current Value"
+                      columns={["Land", "Building", "Total"]}
+                      rows={["Pre", "Current", "Difference"]}
+                      format={formatDollars}
+                      totalRow
+                      totalCol
+                      data={[
+                        [
+                          record["PRE APPEAL LAND"],
+                          record["PRE APPEAL BLDG"],
+                          record["PRE APPEAL TOTAL"],
+                        ],
+                        [
                           record["CURRENT LAND VALUE"],
-                        record["PRE APPEAL BLDG"] -
                           record["CURRENT BLDG VALUE"],
-                        record["PRE APPEAL TOTAL"] -
                           record["CURRENT TOTAL VALUE"],
-                      ],
-                    ]}
-                  />
+                        ],
+                        [
+                          record["PRE APPEAL LAND"] -
+                            record["CURRENT LAND VALUE"],
+                          record["PRE APPEAL BLDG"] -
+                            record["CURRENT BLDG VALUE"],
+                          record["PRE APPEAL TOTAL"] -
+                            record["CURRENT TOTAL VALUE"],
+                        ],
+                      ]}
+                    />
+                  </div>
                 </article>
               </Card>
             ))}

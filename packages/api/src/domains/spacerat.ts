@@ -54,7 +54,7 @@ export interface SpaceRATResponse<T extends QuestionRecord = QuestionRecord> {
     stats: StatsResult<T>;
     /** Subgeog record-level data used to calculate `stats` */
     records: SpaceRATRecord[];
-    /** Error message if there is was an issue */
+    /** Error message if there was an issue */
     error?: string;
   };
 }
@@ -137,7 +137,6 @@ export async function fetchSpaceratQuery<
       },
     };
   }
-
 }
 
 export interface SpaceRATRESTResponse<

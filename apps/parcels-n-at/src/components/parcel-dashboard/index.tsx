@@ -1,3 +1,3 @@
-export * from "./PropertyDashboard";
+export * from "./parcel-dashboard.tsx";
 
 export * from "./components/util";

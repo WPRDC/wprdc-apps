@@ -1,5 +1,5 @@
 import React from "react";
-import { PropertyDashboard } from "@/components/parcel-dashboard";
+import { ParcelDashboard } from "@/components/parcel-dashboard";
 
 interface Params {
   parcel: string;
@@ -17,7 +17,7 @@ export default async function Page({
   return (
     <div className="bg-wprdc-50 w-full overflow-x-auto">
       <div className="mx-auto max-w-(--breakpoint-md) border-2 border-black bg-white">
-        <PropertyDashboard parcelID={parcelID} />
+        <ParcelDashboard parcelID={parcelID} />
       </div>
     </div>
   );

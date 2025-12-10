@@ -31,12 +31,9 @@ export interface DataListVizProps<T extends DatastoreRecord> {
 }
 
 export function DataListViz<T extends DatastoreRecord>({
-  label,
   items,
-  variant = "default",
   fields,
   record,
-  colorBand = true,
   icon: Icon,
 }: DataListVizProps<T>): React.ReactElement {
   const hasStrings = items.some((item) => typeof item === "string");
@@ -71,7 +68,7 @@ export function DataListViz<T extends DatastoreRecord>({
   }));
 
   return (
-    <dl className="rounded-sm border border-black">
+    <dl className="rounded-xs border border-black">
       {formattedItems.map((item) => (
         <div className={twMerge("first-of-type:pt-0")} key={item.id}>
           <div className="flex items-start bg-black px-2 text-white">
@@ -82,11 +79,11 @@ export function DataListViz<T extends DatastoreRecord>({
               </dt>
             </div>
 
-            <div className="py-0.5 leading-none">
-              {!!item.info && <InfoTooltip size="S" info={item.info} />}
+            <div className="py-0.5 leading-none text-xs">
+              {!!item.info && <InfoTooltip dark size="S" info={item.info} />}
             </div>
           </div>
-          <dd className="bg-white p-2 pb-3 font-mono text-sm font-medium">
+          <dd className="bg-white px-2 pt-1 pb-1.5 font-mono text-sm font-medium">
             {item.content}
           </dd>
         </div>

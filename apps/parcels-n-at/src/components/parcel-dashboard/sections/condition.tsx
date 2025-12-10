@@ -1,7 +1,7 @@
 import type { PropertyAssessment } from "@wprdc/types";
 import { PositionViz } from "@wprdc/ui";
 import type { SectionProps } from "../types";
-import { ClassChip } from "@/components/parcel-dashboard/components/ClassChip";
+import { ClassChip } from "@/components/parcel-dashboard/components/class-chip";
 
 export function ConditionSection({
   fields,
