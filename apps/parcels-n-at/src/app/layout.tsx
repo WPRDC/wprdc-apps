@@ -75,12 +75,6 @@ export default function RootLayout({
             >
               <TbPackage /> <span>Bulk&nbsp;Downloader</span>
             </a>
-            <a
-              className="hover:bg-primary flex items-center space-x-0.5 hover:underline"
-              href="/indicators?maps=assessments&geog=hood&variant=_default_&question=countytotal&stat=median&mapset=assessments"
-            >
-              <TbMathFunction /> <span>Indicators</span>
-            </a>
           </div>
         </Navbar>
         <main className="h-full xl:flex xl:overflow-hidden">{children}</main>

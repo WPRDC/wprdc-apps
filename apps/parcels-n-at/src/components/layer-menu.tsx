@@ -98,7 +98,7 @@ export function LayerMenu({
           <Modal
             isOpen={dialogIsOpen}
             isDismissable
-            className="max-h-3/4 flex rounded-sm border border-stone-800 bg-white p-2 shadow"
+            className="flex max-h-3/4 rounded-sm border border-stone-800 bg-white p-2 shadow"
           >
             <Dialog className="flex max-h-full flex-col overflow-hidden">
               {({ close }) => (
@@ -146,7 +146,7 @@ export function LayerMenu({
                       >
                         {availableLayers.map((l) => (
                           <ListBoxItem
-                            className="selected:bg-green-100 group cursor-pointer rounded-sm border border-stone-800 p-1 ring-stone-800 focus:bg-stone-100 focus:ring-1"
+                            className="group cursor-pointer rounded-sm border border-stone-800 p-1 ring-stone-800 focus:bg-stone-100 focus:ring-1 data-selected:bg-green-100"
                             key={l.slug}
                             id={l.slug}
                           >
@@ -166,20 +166,23 @@ export function LayerMenu({
                               {!!l.warning && (
                                 <div className="ml-0.5">
                                   <InfoTooltip
-                                  warning
-                                  info={
-                                    <div className="overflow-auto">
-                                      <Content className="text-sm" markdown={l.warning}></Content>
-                                      <div>
-                                        {!!l.source.url && (
-                                          <A external href={l.source.url}>
-                                            Source Dataset
-                                          </A>
-                                        )}
+                                    warning
+                                    info={
+                                      <div className="overflow-auto">
+                                        <Content
+                                          className="text-sm"
+                                          markdown={l.warning}
+                                        ></Content>
+                                        <div>
+                                          {!!l.source.url && (
+                                            <A external href={l.source.url}>
+                                              Source Dataset
+                                            </A>
+                                          )}
+                                        </div>
                                       </div>
-                                    </div>
-                                  }
-                                />
+                                    }
+                                  />
                                 </div>
                               )}
                             </div>
