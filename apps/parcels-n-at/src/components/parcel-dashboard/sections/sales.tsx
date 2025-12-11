@@ -12,7 +12,6 @@ interface SimpleSalesRecord {
   type?: string;
 }
 
-
 export function SalesSection({
   sales,
   assessment,
@@ -69,28 +68,31 @@ export function SalesSection({
     .sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
     .reverse();
 
-
   return (
     <div className="max-w-lg">
-      <Table
-        columns={[
-          { label: "Price", info: assessment.fields.SALEPRICE.info?.notes },
-          { label: "Type", info: assessment.fields.SALEDESC.info?.notes },
-        ]}
-        rows={orderedSales.map(({ date }) => formatDate(date) as string)}
-        rowLabel={{
-          label: "Sale Date",
-          info: assessment.fields.SALEDATE.info?.notes,
-        }}
-        data={orderedSales.map(({ price, type }) => [
-          formatDollars(price),
-          {
-            value: type,
-            format: (t?: Value | null) =>
-              t ?? <Typography.Note>not recorded</Typography.Note>,
-          },
-        ])}
-      />
+      {orderedSales.length ? (
+        <Table
+          columns={[
+            { label: "Price", info: assessment.fields.SALEPRICE.info?.notes },
+            { label: "Type", info: assessment.fields.SALEDESC.info?.notes },
+          ]}
+          rows={orderedSales.map(({ date }) => formatDate(date) as string)}
+          rowLabel={{
+            label: "Sale Date",
+            info: assessment.fields.SALEDATE.info?.notes,
+          }}
+          data={orderedSales.map(({ price, type }) => [
+            formatDollars(price),
+            {
+              value: type,
+              format: (t?: Value | null) =>
+                t ?? <Typography.Note>not recorded</Typography.Note>,
+            },
+          ])}
+        />
+      ) : (
+        <Typography.Note>No records found.</Typography.Note>
+      )}
     </div>
   );
 }

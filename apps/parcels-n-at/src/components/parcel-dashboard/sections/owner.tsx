@@ -1,8 +1,3 @@
-import {
-  fetchSpaceratQuery,
-  QuestionRecord,
-  SpaceRATResponse,
-} from "@wprdc/api";
 import { fetchOwnerName } from "@/actions";
 
 import type { PropertyAssessment } from "@wprdc/types";
@@ -14,7 +9,11 @@ import {
 } from "@wprdc/ui";
 import React from "react";
 import { SectionProps } from "@/components/parcel-dashboard/types";
-import { TbAlertTriangle } from "react-icons/tb"; // list of addresses that should not be used in owner aggregation for legal reasons only (i.e. legislated privacy requirements)
+import { TbAlertTriangle } from "react-icons/tb";
+import { ClassChip } from "@/components/parcel-dashboard/components/class-chip.tsx";
+import Link from "next/link";
+
+const BASE_URL = process.env.BASE_URL ?? "";
 
 // list of addresses that should not be used in owner aggregation for legal reasons only (i.e. legislated privacy requirements)
 const OWNER_AGG_BLACKLIST = (
@@ -38,43 +37,24 @@ export interface OwnerInfoProps {
   assessmentRecord: PropertyAssessment;
 }
 
-interface QueriedStats extends QuestionRecord {
-  fairmarkettotal: {
-    first_quartile: number;
-    max: number;
-    mean: number;
-    median: number;
-    min: number;
-    mode: number;
-    n: number;
-    stddev: number;
-    sum: number;
-    third_quartile: number;
-  };
+export interface OwnerPropertyRecord {
+  owner: string | null;
+  parcels: {
+    id: string;
+    address: string;
+    useClass: string;
+    assessmentValue: number;
+    yearBuilt: string;
+  }[];
 }
-
-type QueryResponse = SpaceRATResponse<QueriedStats>;
 
 export async function OwnerInfo({
   parcelID,
   assessmentRecord,
 }: OwnerInfoProps): Promise<React.ReactElement> {
   const owner = await fetchOwnerName(parcelID);
-  const ownerSearch = `${(assessmentRecord.CHANGENOTICEADDRESS1 ?? "")
-    .trim()
-    .replace(/\s+/g, " ")}%`;
 
-  const response: QueryResponse = await fetchSpaceratQuery<QueriedStats>({
-    question: ["fairmarkettotal"],
-    region: ["county.42003"],
-    filter: "by_owner",
-    filterArg: ownerSearch,
-    queryRecords: true,
-  });
-
-  const { records, stats, error } = response.results;
-  const mainStats = stats["county.42003"];
-
+  // get owned parcel details
   const ownerAddr = [
     assessmentRecord.CHANGENOTICEADDRESS1,
     assessmentRecord.CHANGENOTICEADDRESS2,
@@ -83,18 +63,31 @@ export async function OwnerInfo({
   ]
     .join("")
     .replace(/\s+/g, " ");
+  const ownerSearch = ownerAddr + "%";
 
-  const otherPropertyRecords = records.filter((r) => r.region !== parcelID);
+  const parcelResponse = await fetch(
+    `${BASE_URL}/api/parcels/owner/parcels/?ownerAddress=${ownerSearch}`,
+  );
+  const { parcels }: OwnerPropertyRecord = await parcelResponse.json();
+
+  const otherPropertyRecords = parcels
+    .filter((p) => p.id !== parcelID)
+    .sort((a, b) => b.assessmentValue - a.assessmentValue);
 
   const inBlackList = OWNER_AGG_BLACKLIST.includes(ownerAddr);
+
+  const totalValue = parcels.reduce(
+    (sum, parcel) => sum + parcel.assessmentValue,
+    0,
+  );
 
   return (
     <div>
       <div>
         <div className="mb-4">
-          <div className="flex space-x-1 text-sm font-semibold text-orange-400">
-            <TbAlertTriangle className="mt-0.5 mr-2 size-4" />
-            <span>Warning</span>
+          <div className="flex space-x-1 text-xs font-bold text-orange-400">
+            <TbAlertTriangle className="mt-0.5 mr-1 size-3" />
+            <span className="uppercase">Warning</span>
           </div>
           <div>
             <Typography.Note>
@@ -120,7 +113,7 @@ export async function OwnerInfo({
           <h3 className="mb-1 text-lg font-bold">
             Summary of Holdings in Allegheny County
           </h3>
-          {inBlackList || !!error || !mainStats ? (
+          {inBlackList ? (
             <Typography.Note>
               There was an error getting aggregate statistics. If this error
               persists{" "}
@@ -136,12 +129,12 @@ export async function OwnerInfo({
                   {
                     id: "parcel-count",
                     label: "Number of Parcels",
-                    value: mainStats?.fairmarkettotal.n,
+                    value: parcels.length,
                   },
                   {
                     id: "total-parcel-value",
                     label: "Total Assessed Value",
-                    value: mainStats?.fairmarkettotal.sum,
+                    value: totalValue,
                     format: formatDollars,
                   },
                 ]}
@@ -151,21 +144,37 @@ export async function OwnerInfo({
                 <h4 className="-ml-1 px-1 text-lg font-bold">
                   Other Properties in Allegheny County
                 </h4>
-                <div className="box-content border-stone-600 pt-1 pr-0 pb-3.5 text-sm">
+                <div className="mb-3 box-content max-h-96 w-fit min-w-2/3 overflow-auto rounded-xs border border-stone-400 p-3 text-sm">
                   {otherPropertyRecords.length ? (
-                    <ul className="w-fill max-h-96 overflow-auto rounded-xs border border-black bg-white">
+                    <ul className="w-fill space-y-2 bg-white">
                       {otherPropertyRecords.map(
-                        ({ region: pid, address }, i) => (
+                        (
+                          { id: pid, address, assessmentValue, useClass },
+                          i,
+                        ) => (
                           <li
                             key={`${pid}-${i}`}
-                            className="border-t px-2 py-0.5 first:border-t-0 even:bg-gray-100"
+                            className="group hover:bg-wprdc-200 rounded-sm border px-2 py-1 even:bg-gray-100"
                           >
-                            <A
-                              className="font-mono"
-                              href={`/explore?parcel=${pid}&zoomPan=1`}
-                            >
-                              {address} ({pid})
-                            </A>
+                            <Link href={`/explore?parcel=${pid}&zoomPan=1`}>
+                              <ClassChip
+                                className="text-[.6rem] leading-2.5"
+                                parcelClass={useClass}
+                              />
+                              <div className="font-bold group-hover:underline">
+                                {address}
+                              </div>
+                              <div className="font-mono text-xs font-semibold">
+                                {pid}
+                              </div>
+
+                              <div className="text-xs font-semibold">
+                                <span>Assessed Value: </span>
+                                <span className="font-mono">
+                                  {formatDollars(assessmentValue)}
+                                </span>
+                              </div>
+                            </Link>
                           </li>
                         ),
                       )}

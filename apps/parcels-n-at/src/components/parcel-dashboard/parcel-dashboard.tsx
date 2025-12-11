@@ -76,8 +76,8 @@ export function ParcelDashboard({
           <Tab className="line-clamp-1" id="sales">
             Sales
           </Tab>
-          <Tab className="line-clamp-1" id="lead-risk">
-            Lead Risk
+          <Tab className="line-clamp-1" id="health-risks">
+            Health Risks
           </Tab>
           <Tab className="line-clamp-1" id="financial-issues">
             Financial Risks
@@ -262,7 +262,7 @@ export function ParcelDashboard({
           </TabPanel>
 
           {/* Lead Data */}
-          <TabPanel id="lead-risk">
+          <TabPanel id="health-risks">
             <MultiConnectedSection<{
               lead: LeadLine;
               assessment: PropertyAssessment;

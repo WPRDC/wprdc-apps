@@ -131,7 +131,7 @@ export function IndicatorMap({
   );
 
   function handleChartHover(...args: unknown[]) {
-    console.log(args);
+    console.debug(args);
   }
 
   function handleMapHover(features: MapGeoJSONFeature[]) {
