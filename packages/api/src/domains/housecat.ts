@@ -84,6 +84,7 @@ export async function housecatLogin(
  */
 export async function fetchLoggedInToHousecat(token?: string) {
   const url = `${HOST}/accounts/user/`;
+  console.log(url);
   const headers = _headers(token);
   const response = await fetch(url, {
     credentials: "include",

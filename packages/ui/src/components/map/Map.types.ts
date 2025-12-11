@@ -91,7 +91,7 @@ export interface MapProps {
   showZoom?: boolean;
 
   /** Callback used when clicking map to navigate */
-  onNavigate?: (feature: MapGeoJSONFeature, mapState: MapState) => void;
+  onNavigate?: (feature: MapGeoJSONFeature, mapState?: MapState) => void;
 
   /** Override map's CSS style */
   style?: React.CSSProperties;
