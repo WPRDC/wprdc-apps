@@ -89,8 +89,10 @@ export function CodeViolationsSection({
   return (
     <div>
       <p className="mb-2 font-medium">
-        <span className="font-mono font-bold">{records.length}</span> Code
-        violations found
+        <span className="font-mono font-bold">
+          {Object.keys(byCasefile).length}
+        </span>{" "}
+        Code violations found
       </p>
       <div className="max-h-[440px] w-fit overflow-auto border border-stone-300 p-3">
         <CardList>
