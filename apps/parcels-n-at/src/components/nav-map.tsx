@@ -14,7 +14,7 @@ import { LayerConfig } from "@wprdc/types";
 import { OverlayTriggerStateContext } from "react-aria-components";
 import { BiX } from "react-icons/bi";
 import { GeocodeResponse } from "@wprdc/api";
-import { LayerMenu } from "@/components/layer-menu.tsx";
+import { LayerMenu } from "@/components/layer-menu";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY ?? "missing";
 
@@ -41,7 +41,7 @@ export function NavMap({
   availableLayers = [],
   selectedLayers = [],
   layers = [],
-                         bbox,
+  bbox,
   zoomPan,
   mapID = "navMap",
 }: NavMapProps): React.ReactElement {
@@ -62,7 +62,6 @@ export function NavMap({
   // fit bounds on props change
   useEffect(() => {
     if (zoomPan && bbox && mapRef.current) {
-
       const map = mapRef.current.getMap();
       map.fitBounds(bbox, { padding: 30 });
     }
@@ -103,7 +102,7 @@ export function NavMap({
     <Map
       id={mapID}
       initialViewState={{ zoom: 15.5 }}
-      layers={[ ...contextLayers, parcelLayer, ...layers]}
+      layers={[...contextLayers, parcelLayer, ...layers]}
       mapTilerAPIKey={API_KEY}
       maxZoom={19}
       minZoom={11}
@@ -111,7 +110,7 @@ export function NavMap({
       onNavigate={(feature: MapGeoJSONFeature) => {
         if (modalState) modalState.close();
         const params = new URLSearchParams(searchParams);
-        params.delete('zoomPan')
+        params.delete("zoomPan");
         params.set("parcel", feature.properties.parcel_id as string);
 
         router.push(`/explore?${params.toString()}`);
@@ -136,7 +135,7 @@ export function NavMap({
       }
     >
       {/* Mobile close button */}
-      <div className="absolute bottom-12 right-4 z-50 block lg:hidden">
+      <div className="absolute right-4 bottom-12 z-50 block lg:hidden">
         <Button
           className="border-2 p-1 shadow-xl"
           variant="danger"
@@ -147,11 +146,11 @@ export function NavMap({
       </div>
 
       {/* Parcel Search*/}
-      <div className="absolute w-96 left-4 top-4 max-lg:hidden">
+      <div className="absolute top-4 left-4 w-96 max-lg:hidden">
         <ParcelSearch />
       </div>
 
-      <div className="absolute right-12 top-12">
+      <div className="absolute top-12 right-12">
         <LayerMenu
           availableLayers={availableLayers}
           selectedLayers={selectedLayers}
