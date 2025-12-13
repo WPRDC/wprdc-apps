@@ -148,8 +148,6 @@ export async function getContentByID<T extends StrapiBase>(
   const queryParams = { locale: lang, populate };
   const options = { headers: { Authorization: `Bearer ${token}` } };
 
-  console.log(path, id, queryParams);
-
   return (await fetchAPI<T>(
     `${path}/${id}`,
     queryParams,

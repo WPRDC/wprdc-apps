@@ -49,7 +49,7 @@ export function LeadRiskSection({
           especially where the water has high acidity or low mineral content
           that corrodes pipes and fixtures. Homes built before 1986 are more
           likely to have lead pipes, fixtures and solder.
-          <div className="mb-4 mt-1">
+          <div className="mt-1 mb-4">
             <A
               href="https://www.epa.gov/lead/protect-your-family-sources-lead#water"
               target="_blank"
@@ -89,8 +89,14 @@ export function LeadRiskSection({
       </section>
 
       <section className="mb-6">
-        <h3 className="mb-2 text-xl font-bold">Census Tract Elevated Blood Lead Level (EBLL) Rates</h3>
-        <SingleValueViz id="ebll-2020" label="% of children in census tract who were tested and had EBLL in 2020" value={ebllData} />
+        <h3 className="mb-2 text-xl font-bold">
+          Census Tract Elevated Blood Lead Level (EBLL) Rates
+        </h3>
+        <SingleValueViz
+          id="ebll-2020"
+          label="% of children in census tract who were tested and had EBLL in 2020"
+          value={ebllData}
+        />
       </section>
 
       <section className="mb-6">
@@ -99,7 +105,7 @@ export function LeadRiskSection({
           If your home was built before 1978, it is more likely to have
           lead-based paint. In 1978, the federal government banned consumer uses
           of lead-based paint, but some states banned it even earlier.
-          <div className="mb-4 mt-1">
+          <div className="mt-1 mb-4">
             <A
               href="https://www.epa.gov/lead/protect-your-family-sources-lead#sl-home"
               target="_blank"
@@ -125,7 +131,6 @@ export function LeadRiskSection({
             <CodeViolationsSection
               records={lead_violations}
               fields={violations.fields}
-              minimal
             />
           )}
         </div>

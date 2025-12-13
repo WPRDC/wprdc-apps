@@ -74,7 +74,7 @@ export function DataListViz<T extends DatastoreRecord>({
           <div className="flex items-start bg-black px-2 text-white">
             <div className="flex items-center space-x-1 py-1.5">
               {!!Icon && <Icon />}
-              <dt className="pr-1 font-mono text-sm font-bold uppercase leading-none">
+              <dt className="pr-1 font-mono text-xs font-bold uppercase leading-none">
                 {item.label}
               </dt>
             </div>
@@ -83,7 +83,7 @@ export function DataListViz<T extends DatastoreRecord>({
               {!!item.info && <InfoTooltip dark size="S" info={item.info} />}
             </div>
           </div>
-          <dd className="bg-white px-2 pt-1 pb-1.5 font-mono text-sm font-medium">
+          <dd className="bg-white px-2 pt-1 pb-1.5 font-mono text-xs font-medium">
             {item.content}
           </dd>
         </div>

@@ -1,9 +1,10 @@
 import type { CityViolation } from "@wprdc/types";
 import { Chip, DataListViz, formatLongDate, Typography } from "@wprdc/ui";
 import { SectionProps } from "@/components/parcel-dashboard/types";
-import { TbCaretDown, TbCaretRight } from "react-icons/tb";
-import { CardList } from "@/components/parcel-dashboard/components/card-list";
-import { Card } from "@/components/parcel-dashboard/components/card";
+import {
+  DetailList,
+  DetailListItem,
+} from "@/components/parcel-dashboard/components/detail-list.tsx";
 
 /** Groups set of PLI violations by Casefile */
 export function groupByCasefile(
@@ -56,8 +57,7 @@ export function groupByCasefile(
 
 export function CodeViolationsSection({
   records,
-  minimal,
-}: SectionProps<CityViolation> & { minimal?: boolean }): React.ReactElement {
+}: SectionProps<CityViolation>): React.ReactElement {
   if (!records.length)
     return <Typography.Note>No violations found</Typography.Note>;
 
@@ -86,6 +86,98 @@ export function CodeViolationsSection({
       .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
   }
 
+  const items: DetailListItem[] = Object.entries(byCasefile)
+    .reverse()
+    .map(([casefile, casefileRecord]) => {
+      const details = getCasefileDetails(casefileRecord);
+      const dates = getCasefileDates(casefileRecord);
+      const dataList = [
+        {
+          id: "violation",
+          label: "Violation",
+          value: details.violation_description,
+        },
+        {
+          id: "start",
+          label: "Date Opened",
+          value: dates[0],
+          format: formatLongDate,
+        },
+        {
+          id: "last-updated",
+          label: "Last Investigation",
+          value: dates[dates.length - 1],
+          format: formatLongDate,
+        },
+        {
+          id: "code-section",
+          label: "Code Section",
+          value: details.violation_code_section,
+        },
+        {
+          id: "instructions",
+          label: "Instructions",
+          value: details.violation_spec_instructions,
+        },
+      ];
+
+      return {
+        title: casefile,
+        topLeft: details.investigation_date,
+        topRight: (
+          <Chip
+            variant={details.status === "CLOSED" ? "success" : "warning"}
+            label={details.status}
+          />
+        ),
+        details: (
+          <div>
+            <div>
+              <DataListViz items={dataList} />
+            </div>
+            <h4 className="mt-4 text-lg font-bold">Investigation History</h4>
+            <div className=" ">
+              {[...Object.entries(casefileRecord)]
+                .sort(
+                  (a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime(),
+                )
+                .map(([date, investigationRecords]) => (
+                  <section key={date}>
+                    <h5 className="mt-4 mb-2 font-bold">
+                      {new Date(date).toLocaleDateString("en-US", {
+                        timeZone: "UTC",
+                        dateStyle: "long",
+                      })}
+                    </h5>
+                    <div
+                      key={`${investigationRecords[0].investigation_findings}`}
+                      className="mt-2"
+                    >
+                      <DataListViz
+                        items={[
+                          {
+                            id: "findings",
+                            label: "Findings",
+                            value:
+                              investigationRecords[0].investigation_findings,
+                          },
+                          {
+                            id: "outcome",
+                            label: "Outcome",
+                            value:
+                              investigationRecords[0].investigation_outcome,
+                          },
+                        ]}
+                      />
+                    </div>
+                  </section>
+                ))}
+            </div>
+          </div>
+        ),
+      };
+    });
+
   return (
     <div>
       <p className="mb-2 font-medium">
@@ -94,122 +186,8 @@ export function CodeViolationsSection({
         </span>{" "}
         Code violations found
       </p>
-      <div className="max-h-[440px] w-fit overflow-auto border border-stone-300 p-3">
-        <CardList>
-          {Object.entries(byCasefile)
-            .reverse()
-            .map(([casefile, casefileRecord]) => {
-              const details = getCasefileDetails(casefileRecord);
-              const dates = getCasefileDates(casefileRecord);
-              let dataList = [
-                {
-                  id: "violation",
-                  label: "Violation",
-                  value: details.violation_description,
-                },
-              ];
-
-              if (!minimal)
-                dataList = Array.prototype.concat(dataList, [
-                  {
-                    id: "start",
-                    label: "Date Opened",
-                    value: dates[0],
-                    format: formatLongDate,
-                  },
-                  {
-                    id: "last-updated",
-                    label: "Last Investigation",
-                    value: dates[dates.length - 1],
-                    format: formatLongDate,
-                  },
-                  {
-                    id: "code-section",
-                    label: "Code Section",
-                    value: details.violation_code_section,
-                  },
-                  {
-                    id: "instructions",
-                    label: "Instructions",
-                    value: details.violation_spec_instructions,
-                  },
-                ]);
-              return (
-                <Card key={casefile}>
-                  <article key={casefile}>
-                    <div className="mb-3 flex items-center justify-between">
-                      <h3 className="mb-1 text-lg font-bold">
-                        Casefile <span className="font-mono">{casefile}</span>
-                      </h3>
-                      <Chip
-                        variant={
-                          details.status === "CLOSED" ? "success" : "warning"
-                        }
-                        label={details.status}
-                      ></Chip>
-                    </div>
-
-                    <div className="">
-                      <DataListViz items={dataList} />
-                    </div>
-
-                    {!minimal && (
-                      <details className="group mt-6">
-                        <summary className="group/summary flex w-fit cursor-pointer list-none items-center decoration-2 hover:text-stone-800">
-                          <TbCaretRight className="block size-5 group-open:hidden"></TbCaretRight>
-                          <TbCaretDown className="hidden size-5 group-open:block"></TbCaretDown>
-                          <h4 className="group-hover/summary:bg-primary -ml-1 px-1 text-xl font-bold">
-                            Investigation History
-                          </h4>
-                        </summary>
-                        <div className="ml-2 box-content border-l-4 border-stone-600 p-3.5 pr-0">
-                          {[...Object.entries(casefileRecord)]
-                            .sort(
-                              (a, b) =>
-                                new Date(a[0]).getTime() -
-                                new Date(b[0]).getTime(),
-                            )
-                            .map(([date, investigationRecords]) => (
-                              <section key={date}>
-                                <h5 className="mt-4 mb-2 text-lg font-bold">
-                                  {new Date(date).toLocaleDateString("en-US", {
-                                    timeZone: "UTC",
-                                    dateStyle: "long",
-                                  })}
-                                </h5>
-                                <div
-                                  key={`${investigationRecords[0].investigation_findings}`}
-                                  className="mt-2"
-                                >
-                                  <DataListViz
-                                    items={[
-                                      {
-                                        id: "findings",
-                                        label: "Findings",
-                                        value:
-                                          investigationRecords[0]
-                                            .investigation_findings,
-                                      },
-                                      {
-                                        id: "outcome",
-                                        label: "Outcome",
-                                        value:
-                                          investigationRecords[0]
-                                            .investigation_outcome,
-                                      },
-                                    ]}
-                                  />
-                                </div>
-                              </section>
-                            ))}
-                        </div>
-                      </details>
-                    )}
-                  </article>
-                </Card>
-              );
-            })}
-        </CardList>
+      <div className="w-full">
+        <DetailList items={items} />
       </div>
     </div>
   );
