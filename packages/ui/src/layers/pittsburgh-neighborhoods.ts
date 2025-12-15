@@ -19,9 +19,8 @@ export const pittsburghNeighborhoodLayer: LayerConfig = {
   },
 
   tiles: {
-    source:
-      "https://data.wprdc.org/tiles/table.4af8e160-57e9-4ebf-a501-76ca1b42fc99._geom",
-    sourceLayer: "table.4af8e160-57e9-4ebf-a501-76ca1b42fc99._geom",
+    source: "https://data.wprdc.org/tiles/table.neighborhood_index.geom",
+    sourceLayer: "table.neighborhood_index.geom",
     minZoom: 7,
     maxZoom: 14.8,
   },
@@ -74,8 +73,8 @@ export const pittsburghNeighborhoodLayer: LayerConfig = {
     },
   },
   interaction: {
-    idField: "hood",
-    hoverPopupContent: `<h1>{{hood}}</h1>`,
+    idField: "id",
+    hoverPopupContent: `<h1>{{name}}</h1>`,
     clickPopupContent: "",
   },
 

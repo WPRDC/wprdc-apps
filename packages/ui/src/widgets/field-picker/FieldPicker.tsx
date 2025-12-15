@@ -36,9 +36,9 @@ export function FieldPicker<T extends DatastoreRecord>({
     updateSelection(new Set());
   }
 
-  const selectionCount: string = useMemo(() => {
-    if (typeof internalSelection === "string") return String(fields.length);
-    return String(internalSelection.size);
+  const selectionCount: number = useMemo(() => {
+    if (internalSelection === "all") return fields.length;
+    return internalSelection.size;
   }, [fields.length, internalSelection]);
 
   // use controlled state if available
@@ -91,7 +91,7 @@ export function FieldPicker<T extends DatastoreRecord>({
       </ListBox>
 
       <div className="w-full text-right text-xs">
-        {selectionCount} field{selectionCount === "1" ? "" : "s"} selected
+        {selectionCount} field{selectionCount === 1 ? "" : "s"} selected
       </div>
     </Group>
   );

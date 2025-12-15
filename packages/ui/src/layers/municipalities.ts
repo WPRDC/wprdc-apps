@@ -6,6 +6,7 @@ export const municipalities: LayerConfig = {
   title: "Allegheny County Municipalities",
   description: "Towns, Cities, Boroughs, etc. in Allegheny County",
 
+
   source: {
     slug: "allegheny-county-municipalities",
     title: "Allegheny County Municipal Boundaries",
@@ -20,8 +21,8 @@ export const municipalities: LayerConfig = {
 
   tiles: {
     source:
-      "https://data.wprdc.org/tiles/table.b0cb0249-d1ba-45b7-9918-dc86fa8af04c._geom",
-    sourceLayer: "table.b0cb0249-d1ba-45b7-9918-dc86fa8af04c._geom",
+      "https://data.wprdc.org/tiles/table.municipality_index.geom",
+    sourceLayer: "table.municipality_index.geom",
     minZoom: 7,
     maxZoom: 14.8,
   },
@@ -74,14 +75,11 @@ export const municipalities: LayerConfig = {
   },
 
   interaction: {
-    idField: "NAME",
-    hoverPopupContent: "<h1>{{NAME}}</h1>",
-    clickPopupContent: "<h1>{{NAME}}</h1>",
+    idField: "id",
+    hoverPopupContent: "<h1>{{name}}</h1>",
+    clickPopupContent: "<h1>{{name}}</h1>",
   },
 
 
   legend: false,
-  renderOptions: {
-    filter: ["!=", "NAME", "PITTSBURGH"],
-  },
 };

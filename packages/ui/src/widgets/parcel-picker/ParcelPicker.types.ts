@@ -8,6 +8,7 @@ export interface ParcelPickerProps {
   onDrawCountChange?: (n: number, loading: boolean) => void;
   className?: string;
   selection?: ParcelSelectionOptions;
+  ownerAddresses?: string[];
 }
 
 export interface ParcelSelectionOptions {
@@ -16,6 +17,9 @@ export interface ParcelSelectionOptions {
 
   /** List of shapes under which parcels should be searched */
   drawnAreas: GeoJSONFeature[];
+
+  /** List of owner addresses to search with */
+  ownerAddresses: string[];
 
   // todo: add custom SQL query
 }

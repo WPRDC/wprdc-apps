@@ -13,7 +13,7 @@ import {
   municipalities as _municipalities,
   parcelLayer,
   pittsburghBoundary,
-  pittsburghNeighborhoodLayer,
+  pittsburghNeighborhoodLayer as _pittsburghNeighborhoodLayer,
 } from "../../layers";
 import { flattenPolygons } from "../../util/geo";
 import { ModeOverlay } from "./ModeOverlay";
@@ -26,7 +26,21 @@ const municipalities: LayerConfig = {
   ..._municipalities,
   renderOptions: {
     ..._municipalities.renderOptions,
-    filter: ["!=", ["get", "NAME"], "PITTSBURGH"],
+    filter: [
+      "step",
+      ["zoom"],
+      ["literal", true],
+      9.1,
+      ["!=", ["get", "name"], "Pittsburgh"],
+    ],
+  },
+};
+
+const pittsburghNeighborhoodLayer: LayerConfig = {
+  ..._pittsburghNeighborhoodLayer,
+  tiles: {
+    ..._pittsburghNeighborhoodLayer.tiles,
+    minZoom: 9.99,
   },
 };
 
@@ -42,6 +56,7 @@ export function ParcelPicker({
   initialViewState,
   onDrawCountChange,
   className,
+  ownerAddresses = [],
   selection: _selection,
 }: ParcelPickerProps): React.ReactElement {
   // Zoom level of the map
@@ -54,6 +69,7 @@ export function ParcelPicker({
       [municipalities.slug]: [],
     },
     drawnAreas: [],
+    ownerAddresses: ownerAddresses,
   });
 
   // Shapes drawn on map using draw control
@@ -62,7 +78,8 @@ export function ParcelPicker({
   const { selectedFeatures, drawnAreas } = _selection ?? innerSelection;
 
   useEffect(() => {
-    if (onSelectionChange) onSelectionChange({ selectedFeatures, drawnAreas });
+    if (onSelectionChange)
+      onSelectionChange({ selectedFeatures, drawnAreas, ownerAddresses });
   }, [onSelectionChange, drawnAreas, selectedFeatures]);
 
   const setDrawnAreas = useCallback(
@@ -70,6 +87,7 @@ export function ParcelPicker({
       const newSelection: ParcelSelectionOptions = {
         selectedFeatures,
         drawnAreas: newAreas,
+        ownerAddresses,
       };
       if (onSelectionChange) onSelectionChange(newSelection);
       setInnerSelection(newSelection);
@@ -84,6 +102,7 @@ export function ParcelPicker({
       const newSelection: ParcelSelectionOptions = {
         selectedFeatures: newFeatureSelection,
         drawnAreas,
+        ownerAddresses,
       };
       if (onSelectionChange) onSelectionChange(newSelection);
       setInnerSelection(newSelection);
@@ -105,12 +124,11 @@ export function ParcelPicker({
           const layerID: string = primaryFeature.source;
           const regionLayerConfig: LayerConfig = layerLookup[layerID];
 
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- maplibre uses any
           const regionID: string = regionLayerConfig.interaction
-              ? primaryFeature.properties[regionLayerConfig.interaction.idField]
-              : "",
-            // toggle the region IDs presence in the selected list
-            oldSelection: string[] = selectedFeatures[layerID];
+            ? primaryFeature.properties[regionLayerConfig.interaction.idField]
+            : "";
+          // toggle the region IDs presence in the selected list
+          const oldSelection: string[] = selectedFeatures[layerID];
           setSelectedFeatures({
             ...selectedFeatures,
             [layerID]: oldSelection.includes(regionID)
@@ -153,7 +171,6 @@ export function ParcelPicker({
             onDrawCountChange(data.parcelCount, false);
           })
           .catch((err: unknown) => {
-            // eslint-disable-next-line no-console -- nothing else we can really do here
             console.error(err);
           });
       }
@@ -172,8 +189,8 @@ export function ParcelPicker({
         initialViewState={initialViewState}
         layers={[
           parcelLayer,
-          municipalities,
           pittsburghNeighborhoodLayer,
+          municipalities,
           pittsburghBoundary,
           alleghenyCountyBoundary,
         ]}

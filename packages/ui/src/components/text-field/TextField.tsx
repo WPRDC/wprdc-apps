@@ -44,7 +44,7 @@ export function TextField({
       ) : (
         <Input
           placeholder={placeholder}
-          className="rounded-sm border border-stone-800 p-1"
+          className="w-full rounded-sm border border-stone-800 p-1"
         />
       )}
     </RATextField>

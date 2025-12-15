@@ -25,6 +25,20 @@ const REGION_SLUGS: AdminRegionLayerSlug[] = [
 
 const BASE_URL = process.env.BASE_URL ?? "";
 
+async function getParcelsByOwners(ownerAddresses: string[]) {
+  if (!ownerAddresses.length) return [];
+
+  const addresses = ownerAddresses.map((a) => a.trim());
+
+  const records = await sql<ParcelSearchRecord[]>`
+      SELECT parcel_id
+      FROM spacerat.parcel_index
+      WHERE "owner_address" IN ${sql(addresses)}
+    `;
+
+  return records.map((r) => r.parcel_id);
+}
+
 /**
  * Queries the DB to get a list of IDs for parcels that fall within the
  *  boundaries of the selected layer features.
@@ -34,26 +48,125 @@ async function getParcelsInRegion(
   selectedIDs: string[],
 ): Promise<string[]> {
   const layerConfig = dataLayers[layerSlug];
-  const { interaction, source } = layerConfig;
-  const { resourceID } = source;
+  const { interaction } = layerConfig;
   const { idField } = interaction ?? {};
   // query all parcels that fall under the select regions
   // todo: replace references to parcel_index table with env vars
 
-  const records = await sql<ParcelSearchRecord[]>`
-      SELECT parcel_id 
-      FROM spacerat.parcel_index 
+  if (layerSlug === "pittsburgh-neighborhoods") {
+    const records = await sql<ParcelSearchRecord[]>`
+      SELECT parcel_id
+      FROM spacerat.parcel_index
       WHERE ST_Intersects(
-        geom, 
-        (
-          SELECT ST_Union(_geom)
-          FROM ${sql(resourceID)} 
-          WHERE ${sql(idField)} IN ${sql(selectedIDs)}
-        )
-      )
+              geom,
+              (SELECT ST_Union(geom)
+               FROM spacerat.neighborhood_index
+               WHERE ${sql(idField ?? "")} IN ${sql(selectedIDs)})
+            )
     `;
 
-  return records.map((r) => r.parcel_id);
+    return records.map((r) => r.parcel_id);
+  }
+
+  // note: the cities have municodes for each ward so we need special conditions for those munies
+  if (layerSlug === "allegheny-county-municipalities") {
+    // get set of city municode first chars
+    const wardStarts: string[] = Array.from(
+      selectedIDs.reduce<Set<string>>((results, id) => {
+        if (["1", "2", "3", "4"].includes(id.charAt(0)))
+          return results.add(id.charAt(0));
+        else return results;
+      }, new Set()),
+    );
+
+    let cityPattern: string | undefined = undefined;
+    if (wardStarts.length) {
+      cityPattern = `(${wardStarts.join("*|")}*)`;
+    }
+
+    if (cityPattern) {
+      console.log(cityPattern);
+
+      const records = await sql<ParcelSearchRecord[]>`
+      SELECT parcel_id
+      FROM spacerat.parcel_index
+      WHERE municode IN ${sql(selectedIDs)} 
+        OR municode ~ ${cityPattern}`;
+      console.log(records);
+      return records.map((r) => r.parcel_id);
+    } else {
+      const records = await sql<ParcelSearchRecord[]>`
+      SELECT parcel_id
+      FROM spacerat.parcel_index
+      WHERE municode IN ${sql(selectedIDs)}`;
+
+      return records.map((r) => r.parcel_id);
+    }
+  }
+
+  return [];
+}
+
+function getParcelQuery(selection: Record<LayerSlug, string[]>): string {
+  // query all parcels that fall under the select regions
+  // todo: replace references to parcel_index table with env vars
+
+  let query: string = "";
+
+  if (selection["pittsburgh-neighborhoods"].length) {
+    query += `
+      SELECT parcel_id
+      FROM spacerat.parcel_index
+      WHERE ST_Intersects(
+              geom,
+              (SELECT ST_Union(geom)
+               FROM spacerat.neighborhood_index
+               WHERE id IN ('${selection["pittsburgh-neighborhoods"].join("', '")})')
+            )
+    `;
+  }
+
+  if (
+    selection["pittsburgh-neighborhoods"].length &&
+    selection["allegheny-county-municipalities"].length
+  ) {
+    query += `
+    UNION
+    `;
+  }
+  if (selection["allegheny-county-municipalities"].length) {
+    // get set of city municode first chars
+    const wardStarts: string[] = Array.from(
+      selection["allegheny-county-municipalities"].reduce<Set<string>>(
+        (results, id) => {
+          if (["1", "2", "3", "4"].includes(id.charAt(0)))
+            return results.add(id.charAt(0));
+          else return results;
+        },
+        new Set(),
+      ),
+    );
+
+    let cityPattern: string | undefined = undefined;
+    if (wardStarts.length) {
+      cityPattern = `^(${wardStarts.join(".*|")}.*)`;
+    }
+
+    if (cityPattern) {
+      query += `
+      SELECT parcel_id
+      FROM spacerat.parcel_index
+      WHERE municode IN ('${selection["allegheny-county-municipalities"].join("', '")}') 
+        OR municode ~ '${cityPattern}'`;
+    } else {
+      query += `
+      SELECT parcel_id
+      FROM spacerat.parcel_index
+      WHERE municode IN ('${selection["allegheny-county-municipalities"].join("', '")}')`;
+    }
+  }
+
+  return query;
 }
 
 async function getParcelsUnderFeature(
@@ -78,6 +191,8 @@ async function getParcelsUnderFeature(
 async function getDatasetParcelData(
   dataset: Dataset,
   parcelIDs: string[],
+  ownerParcelIDs: string[],
+  regionParcelQuery: string,
   fieldSelection: "all" | Key[],
   fields: DatastoreField[],
 ): Promise<Record<string, string | number | boolean>[]> {
@@ -86,13 +201,49 @@ async function getDatasetParcelData(
     ? fields.filter(datasetFieldFilter(dataset)).map((field) => field.id)
     : (fieldSelection as string[]);
 
-  return sql`
+  console.log("🎅🏻", parcelIDs);
+
+  if (ownerParcelIDs.length) {
+    if (parcelIDs.length) {
+      return sql`
           SELECT ${sql(dataset.parcelIDField)} as parcel_id, ${sql(fieldNames)}
           FROM ${sql(dataset.table)}
-          WHERE ${sql(dataset.parcelIDField)} IN ${sql(parcelIDs)};
+          WHERE (${sql(dataset.parcelIDField)} IN ${sql(parcelIDs)}
+            OR ${sql(dataset.parcelIDField)} IN (${sql.unsafe(regionParcelQuery)}))
+            AND ${sql(dataset.parcelIDField)} IN ${sql(ownerParcelIDs)};
         `;
+    } else {
+      return sql`
+          SELECT ${sql(dataset.parcelIDField)} as parcel_id, ${sql(fieldNames)}
+          FROM ${sql(dataset.table)}
+          WHERE ${sql(dataset.parcelIDField)} IN (${sql.unsafe(regionParcelQuery)})
+            AND ${sql(dataset.parcelIDField)} IN ${sql(ownerParcelIDs)};
+        `;
+    }
+  } else {
+    if (parcelIDs.length) {
+      return sql`
+          SELECT ${sql(dataset.parcelIDField)} as parcel_id, ${sql(fieldNames)}
+          FROM ${sql(dataset.table)}
+          WHERE ${sql(dataset.parcelIDField)} IN ${sql(parcelIDs)}
+            OR ${sql(dataset.parcelIDField)} IN (${sql.unsafe(regionParcelQuery)});
+        `;
+    } else {
+      return sql`
+          SELECT ${sql(dataset.parcelIDField)} as parcel_id, ${sql(fieldNames)}
+          FROM ${sql(dataset.table)}
+          WHERE ${sql(dataset.parcelIDField)} IN (${sql.unsafe(regionParcelQuery)});
+        `;
+    }
+  }
 }
 
+/**
+ * Endpoint
+ *
+ * @param request
+ * @constructor
+ */
 export async function GET(request: NextRequest): Promise<NextResponse> {
   // Parse params
   const searchParams = request.nextUrl.searchParams;
@@ -105,6 +256,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     searchParams.get("drawnAreas") ?? "[]",
   ) as GeoJSONFeature[];
 
+  const ownerAddresses = JSON.parse(
+    searchParams.get("ownerAddresses") ?? "[]",
+  ) as string[];
+
   const fieldSelection = JSON.parse(
     searchParams.get("fieldSelection") ?? "{}",
   ) as Record<string, "all" | Key[]>;
@@ -113,18 +268,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     searchParams.get("listSelection") ?? "[]",
   ) as string[];
 
+  // Get parcel query
+
   // Get set of selected parcels
   // directly-selected parcels and list-entered parcels
   const selectedParcels = selectedFeatures.parcels.concat(listSelection);
 
   // get parcels under the selected admin regions
-  const regionParcelLists: string[][] = await Promise.all(
-    REGION_SLUGS.map((slug) => {
-      const selection = selectedFeatures[slug];
-      if (selection.length) return getParcelsInRegion(slug, selection);
-      return Promise.resolve([]);
-    }),
-  );
+  const regionParcelQuery: string = getParcelQuery(selectedFeatures);
 
   // get parcels under the draw areas
   const drawingParcelLists: string[][] = await Promise.all(
@@ -132,13 +283,15 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   );
 
   // set of all selected parcels with no duplicates
-  const allParcels = Array.from(
-    new Set<string>(
-      selectedParcels
-        .concat(regionParcelLists.flat())
-        .concat(drawingParcelLists.flat()),
-    ),
+  let allParcels = Array.from(
+    new Set<string>(selectedParcels.concat(drawingParcelLists.flat())),
   );
+
+  let ownerParcelIDs: string[] = [];
+  // if also searching by owner
+  if (ownerAddresses.length) {
+    ownerParcelIDs = await getParcelsByOwners(ownerAddresses);
+  }
 
   // fieldSelection is keyed by table names
   const dataTables = Object.keys(fieldSelection);
@@ -171,6 +324,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       return getDatasetParcelData(
         currentDataset,
         allParcels,
+        ownerParcelIDs,
+        regionParcelQuery,
         fieldSelection[table],
         filteredFields,
       );
@@ -267,6 +422,10 @@ Data Files
   // add manifest to zip file
   readmeText += `\nSources\n  ${sources.join("\n  ")}`;
   zip.addFile("README.txt", Buffer.from(readmeText));
+
+  if (ownerAddresses.length) {
+    readmeText += `\nOwner Addresses\n  ${ownerAddresses.join("\n  ")}`;
+  }
 
   return new NextResponse(zip.toBuffer(), {
     headers: { "Content-Type": "application/x-zip" },

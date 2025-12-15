@@ -1,6 +1,6 @@
 "use client";
 
-import type { AsyncListData } from "react-stately";
+import type { AsyncListData, SelectionMode } from "react-stately";
 import { Selection, useAsyncList } from "react-stately";
 import type { OwnerSearchRow } from "@wprdc/types";
 import {
@@ -19,10 +19,12 @@ const BASE_URL = process.env.BASE_URL ?? "";
 export interface OwnerSearchProps {
   onSelectionChangeAction: (address: string) => void;
   selectedAddress?: string;
+  selectionMode?: SelectionMode;
 }
 
 export function OwnerSearch({
   onSelectionChangeAction,
+  selectionMode = "single",
 }: OwnerSearchProps): React.ReactElement {
   const list: AsyncListData<OwnerSearchRow> = useAsyncList<OwnerSearchRow>({
     async load({ signal, filterText }) {
@@ -99,7 +101,7 @@ export function OwnerSearch({
         {list.items.length > 0 && (
           <ListBox
             className="absolute z-50 w-full border border-black bg-white"
-            selectionMode="single"
+            selectionMode={selectionMode}
             items={list.items}
             onSelectionChange={handleSelectionChange}
             shouldFocusOnHover
@@ -111,7 +113,7 @@ export function OwnerSearch({
                 textValue={item.ownerAddress}
               >
                 <Text
-                  className="block truncate font-semibold leading-none"
+                  className="block truncate leading-none font-semibold"
                   slot="label"
                 >
                   {item.ownerAddress}

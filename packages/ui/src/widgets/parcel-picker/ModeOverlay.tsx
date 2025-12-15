@@ -33,27 +33,42 @@ export function ModeOverlay({
       </div>
       <div>
         <div className="text-base font-bold">
-          {zoom > 15
-            ? "Selecting Individual Parcels"
-            : "Selecting Parcels by Neighborhood and Municipality"}
+          {zoom > 15 && "Selecting Individual Parcels"}
+          {zoom <= 15 &&
+            zoom >= 10 &&
+            "Selecting Parcels by Neighborhood and Municipality"}
+          {zoom < 10 && "Selecting Municipality"}
         </div>
+
         <div className="text-sm italic">
-          {zoom > 15 ? (
+          {zoom > 15 && (
             <div>
+              <span className="font-medium">Zoom out</span> to select{" "}
               <span className="font-medium">
-                <span>Zoom out</span>
-              </span>{" "}
-              to select{" "}
-              <span className="font-medium">
-                Parcels by Neighborhood and/or Municipality
+                Parcels by Pittsburgh Neighborhood and/or Municipality
               </span>
             </div>
-          ) : (
+          )}
+          {zoom <= 15 && zoom >= 10 && (
             <div>
+              <div>
+                <span className="font-medium">Zoom in</span> to select{" "}
+                <span className="font-medium">Parcels one-by-one</span>
+              </div>
+              <div>
+                <span className="font-medium">Zoom out</span> to select{" "}
+                <span className="font-medium">
+                  By Municipalities (including Pittsburgh)
+                </span>
+              </div>
+            </div>
+          )}
+          {zoom < 10 && (
+            <div>
+              <span className="font-medium">Zoom in</span> to select{" "}
               <span className="font-medium">
-                <span>Zoom in</span>
-              </span>{" "}
-              to select <span className="font-medium">Parcels one-by-one</span>
+                Parcels by Pittsburgh Neighborhood and/or Municipality
+              </span>
             </div>
           )}
         </div>

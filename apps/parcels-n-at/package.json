@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@react-types/shared": "^3.32.1",
+    "@tailwindcss/postcss": "^4.1.17",
     "@wprdc/api": "workspace:*",
     "@wprdc/types": "workspace:*",
     "@wprdc/ui": "workspace:*",
@@ -23,6 +24,7 @@
     "next": "16.0.10",
     "postgres": "^3.4.7",
     "react": "^19.2.3",
+    "react-aria": "^3.44.0",
     "react-aria-components": "^1.13.0",
     "react-dom": "^19.2.3",
     "react-icons": "^5.5.0",
@@ -33,7 +35,6 @@
     "slugify": "^1.6.6",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.17",
-    "@tailwindcss/postcss": "^4.1.17",
     "tailwindcss-react-aria-components": "^2.0.1"
   },
   "devDependencies": {

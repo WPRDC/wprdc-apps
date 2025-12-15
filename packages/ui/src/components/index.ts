@@ -10,6 +10,7 @@ export * from "./data-type-icon";
 export * from "./dialog";
 export * from "./divider";
 export * from "./error-message";
+export * from "./filter-list";
 export * from "./grid-menu";
 export * from "./heading";
 export * from "./image";

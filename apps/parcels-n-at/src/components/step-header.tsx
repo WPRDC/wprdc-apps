@@ -11,8 +11,8 @@ export function StepHeader({
 }: StepHeaderProps): React.ReactElement {
   return (
     <div className="my-1 flex items-center">
-      <div className="bg-primary mr-2 flex size-8 items-center justify-center rounded-full border-4 border-black ">
-        <div className="pl-0.5 font-mono text-2xl font-bold leading-none">
+      <div className="bg-primary mr-2 flex size-8 items-center justify-center rounded-full border-4 border-black">
+        <div className="pl-px font-mono text-2xl leading-none font-bold">
           {step}
         </div>
       </div>

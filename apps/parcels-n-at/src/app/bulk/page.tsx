@@ -2,7 +2,10 @@
 
 import {
   Button,
+  FilterList,
+  FilterListItem,
   Heading,
+  LoadingMessage,
   municipalities,
   parcelLayer,
   ParcelPicker,
@@ -14,37 +17,57 @@ import {
   TabPanel,
   Tabs,
 } from "@wprdc/ui";
-
-import { useCallback, useMemo, useRef, useState } from "react";
-import type { Key } from "react-stately";
-import { TbCodeDots, TbDownload, TbList, TbMap } from "react-icons/tb";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Key } from "react-stately";
+import {
+  TbCodeDots,
+  TbDownload,
+  TbHomeDollar,
+  TbList,
+  TbMap,
+  TbPointer,
+} from "react-icons/tb";
 import { FieldMenu } from "@/components/field-menu";
 import { datasets } from "@/datasets";
 import { formatShortDate } from "@/util";
 import { StepHeader } from "@/components/step-header";
-import { ParcelListForm } from "@/components/parcel-list-form";
 import { OldSelectionForm } from "@/components/old-selection-form";
+import { ParcelListForm } from "@/components/parcel-list-form.tsx";
+import { OwnerSelect } from "@/components/owner-select.tsx";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
+
+const BASE_URL = process.env.BASE_URL ?? "";
+
+function compareItems(a: FilterListItem, b: FilterListItem) {
+  if (a.name < b.name) {
+    return -1;
+  }
+  if (a.name == b.name) {
+    return 0;
+  }
+  return 1;
+}
 
 export default function Page(): React.ReactElement {
   const linkRef = useRef<HTMLAnchorElement>(null);
 
+  const [muniOptions, setMuniOptions] = useState<FilterListItem[]>([]);
+  const [hoodOptions, setHoodOptions] = useState<FilterListItem[]>([]);
+
   const [drawnCount, setDrawnCount] = useState<number>(0);
   const [drawLoading, setDrawLoading] = useState<boolean>(false);
-  const [mapSelection, setMapSelection] =
-    useState<ParcelSelectionOptions>({
-      selectedFeatures: {
-        [parcelLayer.slug]: [],
-        [pittsburghNeighborhoodLayer.slug]: [],
-        [municipalities.slug]: [],
-      },
-      drawnAreas: [],
-    });
-
+  const [mapSelection, setMapSelection] = useState<ParcelSelectionOptions>({
+    selectedFeatures: {
+      [parcelLayer.slug]: [],
+      [pittsburghNeighborhoodLayer.slug]: [],
+      [municipalities.slug]: [],
+    },
+    drawnAreas: [],
+    ownerAddresses: [],
+  });
 
   const [listSelection, setListSelection] = useState<string[]>([]);
-
 
   const [downloading, setDownloading] = useState(false);
 
@@ -52,10 +75,46 @@ export default function Page(): React.ReactElement {
     Record<string, "all" | Key[]>
   >({});
 
+  useEffect(() => {
+    fetch(`${BASE_URL}/api/regions/neighborhood`)
+      .then((res) => res.json())
+      .then((data: { records: FilterListItem[] }) =>
+        setHoodOptions(data.records.toSorted(compareItems)),
+      );
+    fetch(`${BASE_URL}/api/regions/municipality`)
+      .then((res) => res.json())
+      .then((data: { records: FilterListItem[] }) =>
+        setMuniOptions(data.records.toSorted(compareItems)),
+      );
+  }, []);
+
+  const handleDirectSelection =
+    (layerSlug: string) =>
+    (selection: Key[]): void => {
+      setMapSelection({
+        selectedFeatures: {
+          ...mapSelection.selectedFeatures,
+          [layerSlug]: selection.map((s) => s.toString()),
+        },
+        drawnAreas: mapSelection.drawnAreas,
+        ownerAddresses: mapSelection.ownerAddresses,
+      });
+    };
+
+  function handleOwnerSelectionChange(addresses: string[]) {
+    console.log("🎅🏻", addresses);
+    setMapSelection({
+      selectedFeatures: mapSelection.selectedFeatures,
+      drawnAreas: mapSelection.drawnAreas,
+      ownerAddresses: addresses,
+    });
+  }
+
   function handleDownload(): void {
     const params = new URLSearchParams({
       selectedFeatures: JSON.stringify(mapSelection.selectedFeatures),
       drawnAreas: JSON.stringify(mapSelection.drawnAreas),
+      ownerAddresses: JSON.stringify(mapSelection.ownerAddresses),
       listSelection: JSON.stringify(listSelection),
       fieldSelection: JSON.stringify(fieldSelection),
     });
@@ -148,13 +207,13 @@ export default function Page(): React.ReactElement {
 
   return (
     <div className="w-full overflow-auto">
-      <div className="mx-auto max-w-(--breakpoint-xl) px-4 pb-36 pt-4">
+      <div className="mx-auto max-w-(--breakpoint-xl) px-4 pt-4 pb-36">
         <div className="pb-1">
           <Heading className="m-0 mb-1 p-0" level={1}>
             Download parcel data from the WPRDC
           </Heading>
 
-          <div className="text-xl font-medium italic text-gray-800">
+          <div className="text-xl font-medium text-gray-800 italic">
             The data you want, for the parcels you&apos;re interested in.
           </div>
         </div>
@@ -164,23 +223,32 @@ export default function Page(): React.ReactElement {
           <StepHeader step={1}>Select Parcels</StepHeader>
           <div className="px-9 pb-2 text-lg font-medium">
             Select the parcels you want covered in your download. You can build
-            search area using the map (recommended), provide a list of parcel
-            IDs or reuse a search area from a previous download.
+            search area using the selection regions (in a list or on a map),
+            provide a list of parcel IDs or reuse a search area from a previous
+            download.
           </div>
           <div className="pl-9 text-base font-medium">
-            <div className="pb-2" />
+            <div className="pb-4" />
             <Tabs>
-              <TabList className="">
+              <TabList className="w-full">
+                <Tab id="regions" className="flex items-center space-x-1">
+                  <TbPointer />
+                  <div>Region Picker</div>
+                </Tab>
                 <Tab id="map" className="flex items-center space-x-1">
                   <TbMap />
                   <div>Map</div>
+                </Tab>
+                <Tab id="ownership" className="flex items-center space-x-1">
+                  <TbHomeDollar />
+                  <div>Ownership</div>
                 </Tab>
                 <Tab
                   id="parcel-id-list"
                   className="flex items-center space-x-1"
                 >
                   <TbList />
-                  <div>List</div>
+                  <div>Parcel ID List</div>
                 </Tab>
                 <Tab
                   id="upload selection"
@@ -190,6 +258,50 @@ export default function Page(): React.ReactElement {
                   <div>Upload</div>
                 </Tab>
               </TabList>
+              <TabPanel id="regions" className="border-t border-stone-800 p-2">
+                <div className="mb-2">
+                  Directly select the municipalities and/or Pittsburgh
+                  neighborhoods in which you&apos;d like parcel data.
+                </div>
+
+                <div className="flex gap-8">
+                  <div className="w-full max-w-96">
+                    {muniOptions.length ? (
+                      <FilterList
+                        label="Pick Municipalities"
+                        selectionMode="multiple"
+                        initialItems={muniOptions}
+                        initialSelectedKeys={
+                          mapSelection.selectedFeatures[municipalities.slug]
+                        }
+                        onChange={handleDirectSelection(municipalities.slug)}
+                      />
+                    ) : (
+                      <LoadingMessage />
+                    )}
+                  </div>
+                  <div className="w-full max-w-96">
+                    {hoodOptions.length ? (
+                      <FilterList
+                        label="Pick Neighorbhoods"
+                        selectionMode="multiple"
+                        initialItems={hoodOptions}
+                        initialSelectedKeys={
+                          mapSelection.selectedFeatures[
+                            pittsburghNeighborhoodLayer.slug
+                          ]
+                        }
+                        onChange={handleDirectSelection(
+                          pittsburghNeighborhoodLayer.slug,
+                        )}
+                      />
+                    ) : (
+                      <LoadingMessage />
+                    )}
+                  </div>
+                </div>
+              </TabPanel>
+
               <TabPanel id="map" className="border-t border-stone-800 p-2">
                 <div className="">
                   Use the map to select parcels by any mixture of:
@@ -212,6 +324,19 @@ export default function Page(): React.ReactElement {
               </TabPanel>
 
               <TabPanel
+                id="ownership"
+                className="border-t border-stone-800 p-2"
+              >
+                <OwnerSelect
+                  label="Select owners"
+                  initialItems={mapSelection.ownerAddresses.map((address) => ({
+                    address,
+                  }))}
+                  onChange={handleOwnerSelectionChange}
+                />
+              </TabPanel>
+
+              <TabPanel
                 id="parcel-id-list"
                 className="border-t border-stone-800 p-2"
               >
@@ -220,7 +345,7 @@ export default function Page(): React.ReactElement {
                   previous search.
                 </div>
 
-                <ParcelListForm onChange={setListSelection}/>
+                <ParcelListForm onChange={setListSelection} />
               </TabPanel>
               <TabPanel
                 id="upload selection"
@@ -236,7 +361,7 @@ export default function Page(): React.ReactElement {
         </div>
 
         {/* Select Fields */}
-        <div className="mt-2 flex flex-col overflow-auto border-t border-gray-400 py-4">
+        <div className="mt-2 flex flex-col overflow-auto py-4">
           <StepHeader step={2}>Select Fields</StepHeader>
           <div className="px-9 pb-2 text-lg font-medium">
             Select all fields you want in your download.
@@ -257,7 +382,7 @@ export default function Page(): React.ReactElement {
               Review your selection and download your parcel data.
             </div>
             <div className="pb-1">
-              <div className="pt-2 text-sm font-bold leading-none">
+              <div className="pt-2 text-sm leading-none font-bold">
                 Parcel Selection:
               </div>
               <div className="flex leading-none">
@@ -279,6 +404,12 @@ export default function Page(): React.ReactElement {
                   </span>
                   <span className="mx-1 text-xs">Municipalities</span>
                 </div>
+                <div className="mr-1 after:content-['|']">
+                  <span className="font-mono text-sm font-bold">
+                    {mapSelection.ownerAddresses.length}
+                  </span>
+                  <span className="mx-1 text-xs">Owners</span>
+                </div>
                 <div className="flex items-baseline">
                   <div className="font-mono text-sm font-bold">
                     {drawLoading ? (
@@ -293,7 +424,7 @@ export default function Page(): React.ReactElement {
             </div>
 
             <div className="pb-4">
-              <div className="pt-2 text-sm font-bold leading-none">
+              <div className="pt-2 text-sm leading-none font-bold">
                 Field Selection:
               </div>
               <div className="flex items-baseline leading-none">
@@ -318,7 +449,7 @@ export default function Page(): React.ReactElement {
               <a className="hidden" ref={linkRef} />
               <Button
                 variant="primary"
-                className="min-w-52 mx-0 mt-2 p-0"
+                className="mx-0 mt-2 min-w-52 p-0"
                 isDisabled={!downloadEnabled}
                 onPress={handleDownload}
               >
@@ -327,7 +458,9 @@ export default function Page(): React.ReactElement {
                   <div className="text-2xl">Download</div>
                 </div>
                 <div className="h-1">
-                  {downloading && <Spinner color="#0e7490" className="w-full" line />}
+                  {downloading && (
+                    <Spinner color="#0e7490" className="w-full" line />
+                  )}
                 </div>
               </Button>
 

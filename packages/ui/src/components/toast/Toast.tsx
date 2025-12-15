@@ -17,13 +17,11 @@ export function Toast<T extends React.ReactNode>({
     ref,
   );
 
-
-  // @ts-ignore
   return (
     <div
       {...toastProps}
       ref={ref}
-      className="flex items-center space-x-1 rounded-sm border border-black bg-primary/75 py-1 pl-2 pr-1 font-medium shadow-sm backdrop-blur-sm"
+      className="bg-primary/75 flex items-center space-x-1 rounded-sm border border-black py-1 pr-1 pl-2 font-medium shadow-sm backdrop-blur-sm"
     >
       <div {...contentProps}>
         <div {...titleProps}>{props.toast.content}</div>

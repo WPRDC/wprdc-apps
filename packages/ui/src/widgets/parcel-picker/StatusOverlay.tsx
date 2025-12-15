@@ -23,7 +23,7 @@ export function StatusOverlay({
     selectedFeatures[municipalities.slug].length;
 
   return (
-    <div className="absolute bottom-12 right-4 rounded border border-stone-700 bg-white p-2">
+    <div className="absolute right-4 bottom-12 rounded border border-stone-700 bg-white p-2">
       <table>
         <tbody className="text-xs">
           <tr>
