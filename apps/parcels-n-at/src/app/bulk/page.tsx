@@ -319,6 +319,7 @@ export default function Page(): React.ReactElement {
                   mapTilerAPIKey={API_KEY}
                   onDrawCountChange={handleDrawing}
                   onSelectionChange={setMapSelection}
+                  ownerAddresses={mapSelection.ownerAddresses}
                   selection={mapSelection}
                 />
               </TabPanel>
