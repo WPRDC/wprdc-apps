@@ -42,7 +42,7 @@ export function OwnerSelect({ label, onChange, ...props }: OwnerSelectProps) {
   return (
     <Group className="flex flex-col">
       <Label className="text font-bold text-stone-600 uppercase">{label}</Label>
-      <OwnerSearch onSelectionChangeAction={handleAddItem} />
+      <OwnerSearch dense onSelectionChangeAction={handleAddItem} />
 
       <Label id={labelID} className="mt-2">
         Selected Owners

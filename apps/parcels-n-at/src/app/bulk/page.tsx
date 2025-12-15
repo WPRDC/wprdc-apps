@@ -327,6 +327,9 @@ export default function Page(): React.ReactElement {
                 id="ownership"
                 className="border-t border-stone-800 p-2"
               >
+                <div className="pb-4">
+                  Limit your selection to parcels with a specific owner address.
+                </div>
                 <OwnerSelect
                   label="Select owners"
                   initialItems={mapSelection.ownerAddresses.map((address) => ({

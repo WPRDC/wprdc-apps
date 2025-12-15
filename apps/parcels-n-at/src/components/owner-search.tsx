@@ -13,6 +13,7 @@ import {
 } from "react-aria-components";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { useCallback } from "react";
+import { twMerge } from "tailwind-merge";
 
 const BASE_URL = process.env.BASE_URL ?? "";
 
@@ -20,11 +21,13 @@ export interface OwnerSearchProps {
   onSelectionChangeAction: (address: string) => void;
   selectedAddress?: string;
   selectionMode?: SelectionMode;
+  dense?: boolean;
 }
 
 export function OwnerSearch({
   onSelectionChangeAction,
   selectionMode = "single",
+  dense = false,
 }: OwnerSearchProps): React.ReactElement {
   const list: AsyncListData<OwnerSearchRow> = useAsyncList<OwnerSearchRow>({
     async load({ signal, filterText }) {
@@ -64,9 +67,19 @@ export function OwnerSearch({
         inputValue={list.filterText}
         onInputChange={list.setFilterText}
       >
-        <SearchField className="flex w-96 min-w-52 text-lg">
-          <div className="flex h-12 items-center rounded-l-md border-r border-stone-800 bg-stone-900">
-            <BiSearchAlt2 className="mx-1 size-8 text-white" />
+        <SearchField
+          className={twMerge(
+            "flex w-96 min-w-52",
+            dense ? "text-sm" : "text-lg",
+          )}
+        >
+          <div className="flex items-center rounded-l-md border-r border-stone-800 bg-stone-900">
+            <BiSearchAlt2
+              className={twMerge(
+                "mx-1 text-white",
+                dense ? "size-4" : "size-8",
+              )}
+            />
           </div>
           <Input
             className="w-full rounded-r border-2 border-stone-800 px-2 py-1"

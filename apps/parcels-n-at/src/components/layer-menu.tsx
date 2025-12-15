@@ -2,12 +2,11 @@
 
 import { LayerConfig } from "@wprdc/types";
 import type { Selection } from "react-stately";
-import { DialogTrigger, Heading, Label } from "react-aria-components";
+import { DialogTrigger, Heading, Label, Dialog } from "react-aria-components";
 import {
   A,
   Button,
   Content,
-  Dialog,
   InfoTooltip,
   ListBox,
   ListBoxItem,
