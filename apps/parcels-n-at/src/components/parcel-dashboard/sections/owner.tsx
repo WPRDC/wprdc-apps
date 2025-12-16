@@ -89,6 +89,9 @@ export async function OwnerInfo({
 
   const airbnbURL = `https://www.airbnb.com/s/${addressNumber}-${streetName.replace(" ", "-")}-${city}--PA/homes`;
 
+  //https://pittsburgh.craigslist.org/search/pittsburgh-pa/apa?query=1245%20INGHAM%20ST#search=2~gallery~0
+  const craigslistURL = `https://pittsburgh.craigslist.org/search/pittsburgh-pa/apa?query=${addressNumber} ${streetName}`;
+
   return (
     <div>
       <div>
@@ -211,9 +214,14 @@ export async function OwnerInfo({
           Links to address searches in rental listing sites. These are just for
           research purposes and not definitive.
         </Typography.Note>
-        <p>
-          <A href={airbnbURL}>airbnb</A>
-        </p>
+        <ul>
+          <li>
+            <A href={airbnbURL}>airbnb</A>
+          </li>
+          <li>
+            <A href={craigslistURL}>craigslist</A>
+          </li>
+        </ul>
       </div>
     </div>
   );
