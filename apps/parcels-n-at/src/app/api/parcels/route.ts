@@ -121,7 +121,7 @@ function getParcelQuery(selection: Record<LayerSlug, string[]>): string {
               geom,
               (SELECT ST_Union(geom)
                FROM spacerat.neighborhood_index
-               WHERE id IN ('${selection["pittsburgh-neighborhoods"].join("', '")})')
+               WHERE id IN ('${selection["pittsburgh-neighborhoods"].join("', '")}'))
             )
     `;
   }
@@ -165,6 +165,8 @@ function getParcelQuery(selection: Record<LayerSlug, string[]>): string {
       WHERE municode IN ('${selection["allegheny-county-municipalities"].join("', '")}')`;
     }
   }
+
+  console.log(query);
 
   return query;
 }
