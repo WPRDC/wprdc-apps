@@ -81,6 +81,14 @@ export async function OwnerInfo({
     0,
   );
 
+  const {
+    PROPERTYADDRESS: streetName = "",
+    PROPERTYCITY: city = "",
+    PROPERTYHOUSENUM: addressNumber = "",
+  } = assessmentRecord;
+
+  const airbnbURL = `https://www.airbnb.com/s/${addressNumber}-${streetName.replace(" ", "-")}-${city}--PA/homes`;
+
   return (
     <div>
       <div>
@@ -196,6 +204,16 @@ export async function OwnerInfo({
             </div>
           )}
         </section>
+      </div>
+      <div className="mt-4">
+        <h2 className="text-xl font-bold">Search Rental Listings</h2>
+        <Typography.Note>
+          Links to address searches in rental listing sites. These are just for
+          research purposes and not definitive.
+        </Typography.Note>
+        <p>
+          <A href={airbnbURL}>airbnb</A>
+        </p>
       </div>
     </div>
   );
