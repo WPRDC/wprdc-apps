@@ -22,6 +22,7 @@ export async function GET(
       status: "too-short",
     });
 
+  // address search
   let rankedParcels: RankedParcelIndex[] = await sql<RankedParcelIndex[]>`
       SELECT parcel_id,
              class,
@@ -38,6 +39,8 @@ export async function GET(
       LIMIT 10
   `;
 
+  // parcel ID search - strip all non number/letters to standardize the inputs
+
   if (searchTerm.length > 10) {
     const idMatchedParcels: RankedParcelIndex[] = await sql<
       RankedParcelIndex[]
@@ -53,7 +56,7 @@ export async function GET(
                zip,
                address
         FROM spacerat.parcel_index
-        WHERE lower(parcel_id) LIKE ${searchTerm} || '%'
+        WHERE lower(parcel_id) LIKE ${searchTerm.replaceAll(/[^^a-zA-Z0-9]/gm, "")} || '%'
         LIMIT 2
     `;
     rankedParcels = idMatchedParcels.concat(rankedParcels);

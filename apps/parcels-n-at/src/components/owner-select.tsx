@@ -1,7 +1,7 @@
+import React from "react";
+import { ListOptions, useListData } from "react-stately";
 import { Button, ListBox, Typography } from "@wprdc/ui";
 import { Group, Label, ListBoxItem, Selection } from "react-aria-components";
-import React, { useMemo } from "react";
-import { Key, ListOptions, useListData } from "react-stately";
 import { useId } from "react-aria";
 import { TbX } from "react-icons/tb";
 import { OwnerSearch } from "@/components/owner-search.tsx";

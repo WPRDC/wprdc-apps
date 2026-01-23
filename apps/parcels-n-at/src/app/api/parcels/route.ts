@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import type { DatastoreField, GeoJSONFeature } from "@wprdc/types";
 import type { LayerSlug } from "@wprdc/ui";
-import { asDataDict, dataLayers } from "@wprdc/ui";
+import { asDataDict } from "@wprdc/ui";
 import type { Key } from "react-aria-components";
 import AdmZip from "adm-zip";
 import sql from "@/db";
@@ -13,15 +13,6 @@ import { datasetFieldFilter, fieldFilter } from "@/util";
 interface ParcelSearchRecord {
   parcel_id: string;
 }
-
-type AdminRegionLayerSlug =
-  | "pittsburgh-neighborhoods"
-  | "allegheny-county-municipalities";
-
-const REGION_SLUGS: AdminRegionLayerSlug[] = [
-  "pittsburgh-neighborhoods",
-  "allegheny-county-municipalities",
-];
 
 const BASE_URL = process.env.BASE_URL ?? "";
 
@@ -40,73 +31,10 @@ async function getParcelsByOwners(ownerAddresses: string[]) {
 }
 
 /**
- * Queries the DB to get a list of IDs for parcels that fall within the
- *  boundaries of the selected layer features.
+ * Generate a subquery to filter to parcel IDs within regions.
+ *
+ * @param selection - selection parameters that define what regions to filter by
  */
-async function getParcelsInRegion(
-  layerSlug: AdminRegionLayerSlug,
-  selectedIDs: string[],
-): Promise<string[]> {
-  const layerConfig = dataLayers[layerSlug];
-  const { interaction } = layerConfig;
-  const { idField } = interaction ?? {};
-  // query all parcels that fall under the select regions
-  // todo: replace references to parcel_index table with env vars
-
-  if (layerSlug === "pittsburgh-neighborhoods") {
-    const records = await sql<ParcelSearchRecord[]>`
-      SELECT parcel_id
-      FROM spacerat.parcel_index
-      WHERE ST_Intersects(
-              geom,
-              (SELECT ST_Union(geom)
-               FROM spacerat.neighborhood_index
-               WHERE ${sql(idField ?? "")} IN ${sql(selectedIDs)})
-            )
-    `;
-
-    return records.map((r) => r.parcel_id);
-  }
-
-  // note: the cities have municodes for each ward so we need special conditions for those munies
-  if (layerSlug === "allegheny-county-municipalities") {
-    // get set of city municode first chars
-    const wardStarts: string[] = Array.from(
-      selectedIDs.reduce<Set<string>>((results, id) => {
-        if (["1", "2", "3", "4"].includes(id.charAt(0)))
-          return results.add(id.charAt(0));
-        else return results;
-      }, new Set()),
-    );
-
-    let cityPattern: string | undefined = undefined;
-    if (wardStarts.length) {
-      cityPattern = `(${wardStarts.join("*|")}*)`;
-    }
-
-    if (cityPattern) {
-      console.log(cityPattern);
-
-      const records = await sql<ParcelSearchRecord[]>`
-      SELECT parcel_id
-      FROM spacerat.parcel_index
-      WHERE municode IN ${sql(selectedIDs)} 
-        OR municode ~ ${cityPattern}`;
-      console.log(records);
-      return records.map((r) => r.parcel_id);
-    } else {
-      const records = await sql<ParcelSearchRecord[]>`
-      SELECT parcel_id
-      FROM spacerat.parcel_index
-      WHERE municode IN ${sql(selectedIDs)}`;
-
-      return records.map((r) => r.parcel_id);
-    }
-  }
-
-  return [];
-}
-
 function getParcelQuery(selection: Record<LayerSlug, string[]>): string {
   // query all parcels that fall under the select regions
   // todo: replace references to parcel_index table with env vars
@@ -166,12 +94,15 @@ function getParcelQuery(selection: Record<LayerSlug, string[]>): string {
     }
   }
 
-  console.log(query);
-
   return query;
 }
 
-async function getParcelsUnderFeature(
+/**
+ * Returns a list of IDs for parcels that intersect a give shape
+ *
+ * @param feature - GeoJSON feature that represents the shape
+ */
+async function getParcelsUnderShape(
   feature: GeoJSONFeature,
 ): Promise<string[]> {
   // todo: replace references to parcel_index table with env vars
@@ -182,6 +113,22 @@ async function getParcelsUnderFeature(
         geom, 
         ST_GeomFromGeoJSON(${JSON.stringify(feature.geometry)})
       )
+    `;
+
+  return records.map((r) => r.parcel_id);
+}
+
+/**
+ * Returns a list of IDs for parcels that fall within administrative regions.
+ *
+ * @param selection - selection parameters that define what regions to filter by */
+async function getParcelsInRegions(
+  selection: Record<LayerSlug, string[]>,
+): Promise<string[]> {
+  const regionSubquery = getParcelQuery(selection);
+
+  const records = await sql<ParcelSearchRecord[]>`
+       ${sql.unsafe(regionSubquery)}
     `;
 
   return records.map((r) => r.parcel_id);
@@ -202,8 +149,6 @@ async function getDatasetParcelData(
   const fieldNames: string[] = selectedAll
     ? fields.filter(datasetFieldFilter(dataset)).map((field) => field.id)
     : (fieldSelection as string[]);
-
-  console.log("🎅🏻", parcelIDs);
 
   if (ownerParcelIDs.length) {
     if (parcelIDs.length) {
@@ -241,6 +186,32 @@ async function getDatasetParcelData(
 }
 
 /**
+ * Generates a CSV string from a list of objects.
+ *
+ * @param data - list of row objects
+ */
+function asCSV(
+  data: Record<string, string | number | boolean | null | undefined>[],
+): string {
+  const headers: string[] = Object.keys(data[0]);
+
+  return data.reduce<string>(
+    (csv, row) => {
+      // wrap in quotes and comma-separate
+      const rowString = headers
+        .map((header) => {
+          const datum = row[header];
+          if (datum === null || datum === undefined) return "";
+          return `"${datum}"`;
+        })
+        .join(",");
+      return csv.concat(`${rowString}\n`);
+    },
+    `${headers.join(",")}\n`,
+  );
+}
+
+/**
  * Endpoint
  *
  * @param request
@@ -271,28 +242,33 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   ) as string[];
 
   // Get parcel query
-
   // Get set of selected parcels
   // directly-selected parcels and list-entered parcels
   const selectedParcels = selectedFeatures.parcels.concat(listSelection);
 
-  // get parcels under the selected admin regions
+  // get subquery for filtering by the selected admin regions
   const regionParcelQuery: string = getParcelQuery(selectedFeatures);
 
   // get parcels under the draw areas
   const drawingParcelLists: string[][] = await Promise.all(
-    drawnAreas.map((drawnArea) => getParcelsUnderFeature(drawnArea)),
+    drawnAreas.map((drawnArea) => getParcelsUnderShape(drawnArea)),
   );
 
-  // set of all selected parcels with no duplicates
+  // get set of all selected parcels with no duplicates
+  const regionParcels: string[] = await getParcelsInRegions(selectedFeatures);
   let allParcels = Array.from(
-    new Set<string>(selectedParcels.concat(drawingParcelLists.flat())),
+    new Set<string>(
+      selectedParcels.concat(drawingParcelLists.flat()).concat(regionParcels),
+    ),
   );
 
   let ownerParcelIDs: string[] = [];
   // if also searching by owner
   if (ownerAddresses.length) {
     ownerParcelIDs = await getParcelsByOwners(ownerAddresses);
+    allParcels = allParcels.filter((parcel) => {
+      ownerParcelIDs.includes(parcel);
+    });
   }
 
   // fieldSelection is keyed by table names
@@ -354,8 +330,7 @@ Generated on: ${new Date().toLocaleString()}
 Metadata Files
   data-dictionary.csv   - definitions of fields found in data files
 
-  parcels.txt           - list of parcels found within all selection parameters
-
+  parcels.txt           - list of parcels found within all selection parameters${ownerAddresses.length ? "\n\n  owner-addresses       - list of owner addresses used to filter the data\n\n" : "\n\n"}
   selection/parcel-selection.json - serialized form of parcel selection used to
                                     generate this output, can be uploaded/copied 
                                     to form to reuse.
@@ -367,6 +342,13 @@ Metadata Files
 
 Data Files
 `;
+
+  if (ownerAddresses.length) {
+    zip.addFile(
+      "owner-addresses.txt",
+      Buffer.from(ownerAddresses.join("\n"), "utf8"),
+    );
+  }
 
   const sources: string[] = [];
   Object.entries(results).forEach(([table, tableData], i) => {
@@ -429,29 +411,8 @@ Data Files
     readmeText += `\nOwner Addresses\n  ${ownerAddresses.join("\n  ")}`;
   }
 
+  // @ts-expect-error - todo: figure out proper typing for next response of zip file
   return new NextResponse(zip.toBuffer(), {
     headers: { "Content-Type": "application/x-zip" },
   });
-}
-
-function asCSV(
-  data: Record<string, string | number | boolean | null | undefined>[],
-): string {
-  const headers: string[] = Object.keys(data[0]);
-
-  return data.reduce<string>(
-    (csv, row) => {
-      // wrap in quotes and comma-separate
-      const rowString = headers.map((h) => renderCell(row[h])).join(",");
-      return csv.concat(`${rowString}\n`);
-    },
-    `${headers.join(",")}\n`,
-  );
-}
-
-function renderCell(
-  datum: string | number | boolean | null | undefined,
-): string {
-  if (datum === null || datum === undefined) return "";
-  return `"${datum}"`;
 }
