@@ -70,10 +70,8 @@ function CircleIcon({ style }: HTMLProps<HTMLDivElement>) {
   return <div className="h-3 w-3 rounded-full border-2" style={style} />;
 }
 
-
 function asCSS(geoType: GeoType, style: LegendItemOptions) {
-  const { fillColor, fillOpacity, strokeColor, strokeWidth } =
-    style;
+  const { fillColor, fillOpacity, strokeColor, strokeWidth } = style;
 
   switch (geoType) {
     case GeoType.Line:
@@ -92,13 +90,8 @@ function asCSS(geoType: GeoType, style: LegendItemOptions) {
   }
 }
 
-export function FixedLegendRow({
-  geoType,
-  style,
-  label,
-}: FixedLegendOptions) {
-  const cssStyle: CSSProperties = asCSS(geoType, style)
-
+export function FixedLegendRow({ geoType, style, label }: FixedLegendOptions) {
+  const cssStyle: CSSProperties = asCSS(geoType, style);
   return (
     <div className="flex items-center space-x-2 pb-1">
       {geoType === GeoType.Polygon && <PolygonIcon style={cssStyle} />}
@@ -110,7 +103,6 @@ export function FixedLegendRow({
     </div>
   );
 }
-
 
 export function CategoryLegendRow({
   title,
@@ -152,11 +144,7 @@ export function CategoryLegendRow({
   //todo: handle matrix of categories
   return <div></div>;
 }
-export function RampLegendRow({
-  title,
-  baseStyle,
-  styles,
-}: RampLegendOptions) {
+export function RampLegendRow({ title, baseStyle, styles }: RampLegendOptions) {
   // todo; handle with category styles
   return (
     <div>

@@ -8,11 +8,13 @@ import { largePublicOwners } from "@/layers/large-public-owners";
 import { countyMVA } from "@/layers/ac-mva";
 import { pittsburghHOLC } from "@/layers/pittsburgh-holc";
 import { pre78parcels } from "@/layers/pre-78-parcels";
-import { waterSuppliers } from "@/layers/water-suppliers.ts";
-import { parcelLeadlineStatus } from "@/layers/parcel-leadline-status.ts";
+import { waterSuppliers } from "@/layers/water-suppliers";
+import { parcelLeadlineStatus } from "@/layers/parcel-leadline-status";
+import { ownerOccupiedParcels } from "@/layers/owner-occupied-parcels";
 
 export const availableLayers = [
   parcelUseClasses,
+  ownerOccupiedParcels,
   vacantParcels,
   municipalities,
   pittsburghNeighborhoods,
