@@ -5,7 +5,7 @@ export const ownerOccupiedParcels: LayerConfig = {
   slug: "owner-occupied",
   title: "Owner Occupied Parcels",
   description:
-    "Properties likely occupied by their owner: the owner claims a homestead exemption, or the owner address matches the property address.s",
+    "Properties likely occupied by their owner: the owner claims a homestead exemption, or the owner address matches the property address.",
 
   source: {
     slug: "owner-occupied",
