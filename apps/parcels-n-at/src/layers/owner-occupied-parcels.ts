@@ -4,7 +4,8 @@ import { GeoType } from "@wprdc/types";
 export const ownerOccupiedParcels: LayerConfig = {
   slug: "owner-occupied",
   title: "Owner Occupied Parcels",
-  description: "Properties likely occupied by their owner.",
+  description:
+    "Properties likely occupied by their owner: the owner claims a homestead exemption, or the owner address matches the property address.s",
 
   source: {
     slug: "owner-occupied",
