@@ -22,6 +22,7 @@ export interface NavbarProps {
   projectTitle?: ReactNode;
   fullWidth?: boolean;
   children?: ReactNode;
+  logoHref?: string;
 }
 
 export interface LogoProps {
@@ -29,4 +30,5 @@ export interface LogoProps {
   darkSrc?: Source;
   component?: ImageComponent;
   imageProps?: LogoImageProps;
+  href?: string;
 }

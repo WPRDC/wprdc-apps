@@ -101,65 +101,6 @@ export default async function Page({
               <div className="mr-4 w-full pb-8">
                 <ParcelSearch />
               </div>
-
-              <div className="prose prose-lg mt-12">
-                <h2 className="text-2xl font-bold">Source Code</h2>
-
-                <p>
-                  You can find the source code for this application on in our{" "}
-                  <a
-                    href="https://github.com/wprdc/wprdc-apps"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    apps monorepo
-                  </a>
-                  .
-                </p>
-                <h3 className="text-xl font-bold">
-                  Powered by SpaceRAT technology!
-                </h3>
-
-                <p>
-                  Aggregate statistics in the <a href="/explore">Explorer</a>{" "}
-                  and <a href="/indicators">Indicators</a> views use our{" "}
-                  <a
-                    href="https://github.com/wprdc/spacerat"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <strong>Spatial Relational Toolkit</strong> library
-                    (SpaceRAT)
-                  </a>
-                  .
-                </p>
-
-                <p>SpaceRAT provides realtime aggregate statistics by</p>
-                <ol>
-                  <li>
-                    maintaining a custom{" "}
-                    <a
-                      href="https://en.wikipedia.org/wiki/Gazetteer"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      gazetteer
-                    </a>{" "}
-                    of local geographies
-                  </li>
-                  <li>
-                    and by defining how data in{" "}
-                    <a
-                      href="https://data.wprdc.org"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      the data center
-                    </a>{" "}
-                    describes those geographies.
-                  </li>
-                </ol>
-              </div>
             </article>
           )}
         </div>

@@ -4,9 +4,10 @@ import "./globals.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "@wprdc/ui/styles.css";
 import { Navbar } from "@wprdc/ui";
-import { TbCompass, TbMathFunction, TbPackage } from "react-icons/tb";
+import { TbBook2, TbCompass, TbPackage } from "react-icons/tb";
 import { twMerge } from "tailwind-merge";
 import Script from "next/script";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Parcels N'at",
@@ -49,33 +50,49 @@ export default function RootLayout({
         className={`${jetbrainsMono.variable} flex h-screen flex-col overflow-auto antialiased xl:overflow-hidden`}
       >
         <Navbar
-          darkLogoSrc="/wprdc-mark-dark.png"
           fullWidth
+          darkLogoSrc="/wprdc-mark-dark.png"
           logoSrc="/wprdc-mark-light.png"
+          logoHref="https://wprdc.org"
           projectTitle={
-            <div className="bg-primary w-fit rounded-sm border border-stone-400 px-1.5 py-0 font-mono text-lg font-black text-black">
+            <Link
+              href="/"
+              className="bg-primary w-fit rounded-sm border border-stone-400 px-1.5 py-0 font-mono text-lg font-black text-black decoration-2 underline-offset-2 hover:underline"
+            >
               Parcels N&apos;at
-            </div>
+            </Link>
           }
         >
-          <div
+          <ul
             className={twMerge(
               "flex flex-col justify-end space-y-4 pb-4 pl-4 text-xl leading-none font-semibold lg:flex-row lg:space-y-0 lg:space-x-4 lg:px-8 lg:pb-0",
             )}
           >
-            <a
-              className="hover:bg-primary flex items-center space-x-0.5 hover:underline"
-              href="/explore"
-            >
-              <TbCompass /> <span>Explorer</span>
-            </a>
-            <a
-              className="hover:bg-primary flex items-center space-x-0.5 hover:underline"
-              href="/bulk"
-            >
-              <TbPackage /> <span>Bulk&nbsp;Downloader</span>
-            </a>
-          </div>
+            <li>
+              <Link
+                className="hover:bg-primary flex items-center space-x-0.5 hover:underline"
+                href="/explore"
+              >
+                <TbCompass /> <span>Explorer</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="hover:bg-primary flex items-center space-x-0.5 hover:underline"
+                href="/bulk"
+              >
+                <TbPackage /> <span>Bulk&nbsp;Downloader</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="hover:bg-primary flex items-center space-x-0.5 hover:underline"
+                href="/about"
+              >
+                <TbBook2 /> <span>Learn More</span>
+              </Link>
+            </li>
+          </ul>
         </Navbar>
         <main className="h-full xl:flex xl:overflow-hidden">{children}</main>
       </body>

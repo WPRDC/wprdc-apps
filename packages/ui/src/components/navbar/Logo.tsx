@@ -1,19 +1,20 @@
 import { twMerge } from "tailwind-merge";
-import { A } from "../a";
 import type { LogoProps } from "./Navbar.types";
+import Link from "next/link";
 
 export function Logo({
   src,
   darkSrc,
   component: Component = "img",
   imageProps,
+  href,
 }: LogoProps): React.ReactElement {
   const width = imageProps?.width ?? 384;
   const height = imageProps?.height ?? 46;
 
   const _darkSrc = darkSrc ?? src;
   return (
-    <A href="/">
+    <Link href={href ?? "/"}>
       <Component
         alt={imageProps?.alt ?? "Site Logo"}
         className={twMerge(imageProps?.className, "block dark:hidden")}
@@ -28,6 +29,6 @@ export function Logo({
         src={_darkSrc}
         width={width}
       />
-    </A>
+    </Link>
   );
 }

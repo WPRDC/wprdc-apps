@@ -22,6 +22,11 @@ export function LeadRiskSection({
   provider: WaterProvider;
   ebll: EBLL;
 }>): React.ReactElement {
+  console.log(assessment);
+  console.log(lead);
+
+  if (!lead.records.length || !assessment.records.length) return <></>;
+
   const year_built = assessment.records[0].YEARBLT;
 
   const lead_violations = violations.records.filter(
@@ -77,12 +82,12 @@ export function LeadRiskSection({
             <SingleValueViz
               id="private-side"
               label="Property-side"
-              value={lead.records[0].private_status ?? "Unknown"}
+              value={lead.records[0]?.private_status ?? "Unknown"}
             />
             <SingleValueViz
               id="public-side"
               label="Public-side"
-              value={lead.records[0].public_status ?? "Unknown"}
+              value={lead.records[0]?.public_status ?? "Unknown"}
             />
           </div>
         </div>
