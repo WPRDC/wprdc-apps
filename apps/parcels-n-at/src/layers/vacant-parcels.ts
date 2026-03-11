@@ -26,6 +26,14 @@ export const vacantParcels: LayerConfig = {
   renderOptions: {
     filter: ["==", "is_vacant", true],
   },
+  legend: {
+    geoType: GeoType.Polygon,
+    slug: "vacant",
+    title: "Vacant Parcels",
+    type: "fixed",
+    style: { fillColor: "#000", fillOpacity: 0.8, strokeColor: "#000" },
+    label: "Vacant",
+  },
   symbology: {
     mode: "simplified",
     geoType: GeoType.Polygon,

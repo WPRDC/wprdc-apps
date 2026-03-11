@@ -133,14 +133,14 @@ export function LayerMenu({
                     >
                       Toggle extra map layers
                     </Label>
-                    <div className="overflow-auto">
+                    <div className="overflow-auto border p-2">
                       <ListBox
                         id="mapContextLayerPicker"
                         selectionMode="multiple"
                         onSelectionChange={handleMenuSelection}
                         selectedKeys={currentSelection}
                         disallowEmptySelection={false}
-                        className="grid grid-cols-1 gap-1.5 p-1 pr-2"
+                        className="grid grid-cols-1 gap-1.5 p-1 pr-2 lg:grid-cols-2"
                         shouldFocusOnHover
                       >
                         {availableLayers.map((l) => (
@@ -153,14 +153,17 @@ export function LayerMenu({
                               <BiCheck className="group-selected:block hidden size-5 text-green-900" />
                               <div className="group-selected:hidden block size-5" />
                               <div className="font-semibold">{l.title}</div>
+
                               {!!l.source.url && !l.warning && (
-                                <InfoTooltip
-                                  info={
-                                    <A external href={l.source.url}>
-                                      Source Dataset
-                                    </A>
-                                  }
-                                />
+                                <div>
+                                  <InfoTooltip
+                                    info={
+                                      <A external href={l.source.url}>
+                                        Source Dataset
+                                      </A>
+                                    }
+                                  />
+                                </div>
                               )}
                               {!!l.warning && (
                                 <div className="ml-0.5">

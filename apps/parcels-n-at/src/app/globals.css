@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "@wprdc/ui/styles.css";
+@plugin "tailwindcss-react-aria-components";
+
 
 
 @theme inline {

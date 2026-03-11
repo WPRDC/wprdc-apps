@@ -5,8 +5,8 @@ import { darken } from "@wprdc/ui";
 export const parcelLeadlineStatus: LayerConfig = {
   slug: "parcel-leadline-status",
   title: "Parcels by Water Line Lead Status",
-  description: "Status of pipe material used on private (property) and public (street) water lines per parcel. Only available for certain water providers.",
-
+  description:
+    "Status of pipe material used on private (property) and public (street) water lines per parcel. Only available for certain water providers.",
 
   source: {
     slug: "parcel-leadline-status",
@@ -21,15 +21,28 @@ export const parcelLeadlineStatus: LayerConfig = {
   },
 
   tiles: {
-    source: "https://data.wprdc.org/tiles/map.parcel_level_lead_info.parcel_geom",
+    source:
+      "https://data.wprdc.org/tiles/map.parcel_level_lead_info.parcel_geom",
     sourceLayer: "map.parcel_level_lead_info.parcel_geom",
     minZoom: 10,
   },
 
   renderOptions: {
-    filter: ['!=', ['get', 'final_private_lead_status'], ['literal', null]]
+    filter: ["!=", ["get", "final_private_lead_status"], ["literal", null]],
   },
 
+  legend: {
+    slug: "leadline-status-legend",
+    geoType: GeoType.Polygon,
+    title: "Water Line Lead Status",
+    baseStyle: { strokeColor: "#000" },
+    type: "category",
+    styles: [
+      { slug: "lead", label: "Lead", style: { fillColor: "green" } },
+      { slug: "not-lead", label: "Not Lead", style: { fillColor: "#C68346" } },
+      { slug: "unknown", label: "Unknown", style: { fillColor: "#FFF" } },
+    ],
+  },
 
   symbology: {
     mode: "simplified",
@@ -39,9 +52,14 @@ export const parcelLeadlineStatus: LayerConfig = {
       mode: "category",
       field: "final_private_lead_status",
       style: [
-        { slug: "lead" ,value: "LEAD", label: "Lead", style: "green" },
-        { slug: "not-lead" ,value: "NOT LEAD", label: "Not Lead", style: "#C68346" },
-        { slug: "unknown" ,value: "UNKNOWN", label: "Unknown", style: "#FFF" },
+        { slug: "lead", value: "LEAD", label: "Lead", style: "green" },
+        {
+          slug: "not-lead",
+          value: "NOT LEAD",
+          label: "Not Lead",
+          style: "#C68346",
+        },
+        { slug: "unknown", value: "UNKNOWN", label: "Unknown", style: "#FFF" },
       ],
     },
 
@@ -49,14 +67,29 @@ export const parcelLeadlineStatus: LayerConfig = {
       mode: "category",
       field: "final_public_status",
       style: [
-        { slug: "lead" ,value: "LEAD", label: "Lead", style: darken(.2)("green") },
-        { slug: "not-lead" ,value: "NOT LEAD", label: "Not Lead", style: darken(.2)("#C68346")  },
-        { slug: "unknown" ,value: "UNKNOWN", label: "Unknown", style: darken(.2)("#FFF") },
+        {
+          slug: "lead",
+          value: "LEAD",
+          label: "Lead",
+          style: darken(0.2)("green"),
+        },
+        {
+          slug: "not-lead",
+          value: "NOT LEAD",
+          label: "Not Lead",
+          style: darken(0.2)("#C68346"),
+        },
+        {
+          slug: "unknown",
+          value: "UNKNOWN",
+          label: "Unknown",
+          style: darken(0.2)("#FFF"),
+        },
       ],
     },
 
     fillOpacity: {
-      mode:  "fixed",
+      mode: "fixed",
       style: [
         [9, 1],
         [12, 0.8],
@@ -64,7 +97,7 @@ export const parcelLeadlineStatus: LayerConfig = {
     },
 
     strokeOpacity: {
-      mode:  "fixed",
+      mode: "fixed",
       style: [
         [9, 1],
         [12, 0.8],
@@ -72,7 +105,7 @@ export const parcelLeadlineStatus: LayerConfig = {
     },
 
     strokeWidth: {
-      mode:  "fixed",
+      mode: "fixed",
       style: [
         [10, 0],
         [12, 1],

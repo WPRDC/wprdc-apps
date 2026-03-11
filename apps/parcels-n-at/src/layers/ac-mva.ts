@@ -27,10 +27,36 @@ export const countyMVA: LayerConfig = {
     maxZoom: 18.8,
   },
 
+  legend: {
+    geoType: GeoType.Polygon,
+    title: "Market Value Analysis Grade (2021)",
+    baseStyle: { strokeColor: "#000" },
+    type: "category",
+    slug: "mva-legend",
+    styles: [
+      { slug: "a", label: "A", style: { fillColor: "#9F87C7" } },
+      { slug: "b", label: "B", style: { fillColor: "#7DA3DE" } },
+      { slug: "c", label: "C", style: { fillColor: "#A2C0EB" } },
+      { slug: "d", label: "D", style: { fillColor: "#82A6AD" } },
+      { slug: "e", label: "E", style: { fillColor: "#9DD9C5" } },
+      { slug: "f", label: "F", style: { fillColor: "#F5A895" } },
+      { slug: "g", label: "G", style: { fillColor: "#F7D163" } },
+      { slug: "h", label: "H", style: { fillColor: "#FED78E" } },
+      { slug: "i", label: "I", style: { fillColor: "#F5F57A" } },
+      { slug: "j", label: "J", style: { fillColor: "#DEDE3C" } },
+      {
+        slug: "nc",
+        label: "Insufficient Data",
+        style: { fillColor: "#bbb" },
+      },
+    ],
+  },
+
   symbology: {
     mode: "simplified",
     geoType: GeoType.Polygon,
-    fillColor:{
+
+    fillColor: {
       mode: "category",
       field: "MVA21",
 
@@ -47,7 +73,7 @@ export const countyMVA: LayerConfig = {
         { slug: "j", value: "J", label: "J", style: "#DEDE3C" },
         { slug: "nc", value: "NC", label: "Insufficient Data", style: "#bbb" },
       ],
-      defaultStyle: "#000"
+      defaultStyle: "#000",
     },
 
     strokeColor: {
@@ -71,7 +97,7 @@ export const countyMVA: LayerConfig = {
         { slug: "j", value: "J", label: "J", style: 0.8 },
         { slug: "nc", value: "NC", label: "Insufficient Data", style: 0.6 },
       ],
-      defaultStyle: 0
+      defaultStyle: 0,
     },
     strokeOpacity: {
       mode: "fixed",

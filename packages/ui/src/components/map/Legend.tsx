@@ -99,7 +99,7 @@ export function FixedLegendRow({ geoType, style, label }: FixedLegendOptions) {
       {geoType === GeoType.Line && (
         <PiLineSegmentsFill className="h-4 w-4" style={cssStyle} />
       )}
-      <div className="text-xs font-medium">{label}</div>
+      {label && <div className="text-xs font-medium">{label}</div>}
     </div>
   );
 }
@@ -114,7 +114,6 @@ export function CategoryLegendRow({
   if (!secondaryStyles)
     return (
       <div>
-        <div>{title}</div>
         {styles.map(({ style, label, slug }) => (
           <div key={slug} className="flex items-center space-x-2 pb-1">
             {geoType === GeoType.Polygon && (

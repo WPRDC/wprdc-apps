@@ -45,7 +45,6 @@ import {
   getSelectedID,
 } from "./util";
 
-
 /**
  *
  * Converts wprdc layer configuration to maplibre expressions.
@@ -336,7 +335,7 @@ export function legendFromOption(
   }
 
   // a ramp
-  if (!!rampField) {
+  if (rampField) {
     return {
       slug,
       title,
