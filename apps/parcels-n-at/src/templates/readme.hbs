@@ -1,0 +1,42 @@
+README
+
+This archive contains a customized parcel data extraction from:
+
+https://www.wprdc.org/parcels-n-at
+
+--------------------------------------------------------------------------------
+
+Generated on: {{generatedOn}}
+
+Metadata Files
+data-dictionary.csv   - definitions of fields found in data files
+
+parcels.txt           - list of parcels found within all selection parameters
+{{#if hasOwnerAddresses}}
+  owner-addresses.txt   - list of owner addresses used to filter the data
+{{/if}}
+selection/parcel-selection.json - serialized form of parcel selection used to
+generate this output, can be uploaded/copied
+to form to reuse.
+
+selection/field-selection.json  - serialized form of field selection used to
+generate this output, can be uploaded/copied
+to form to reuse.
+
+
+Data Files
+{{#each dataFiles}}
+  {{this}}
+{{/each}}
+
+Sources
+{{#each sources}}
+  {{this}}
+{{/each}}
+{{#if hasOwnerAddresses}}
+
+  Owner Addresses
+  {{#each ownerAddresses}}
+    {{this}}
+  {{/each}}
+{{/if}}

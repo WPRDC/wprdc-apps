@@ -1,7 +1,7 @@
 "use client";
 
 import type { DatastoreRecord } from "@wprdc/types";
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import type { Selection } from "react-aria-components";
 import { Group, Label, ListBox } from "react-aria-components";
 import { TbCheck, TbX } from "react-icons/tb";
@@ -15,6 +15,8 @@ export function FieldPicker<T extends DatastoreRecord>({
   onSelectionChange,
   ...props
 }: FieldPickerProps<T>): React.ReactElement {
+  const labelID = useId();
+
   const [internalSelection, setInternalSelection] = useState<Selection>(
     new Set(),
   );
@@ -47,7 +49,7 @@ export function FieldPicker<T extends DatastoreRecord>({
   return (
     <Group className="flex h-full w-full flex-col">
       <div className="flex items-center justify-between">
-        <Label>
+        <Label id={labelID}>
           <Typography.Label>Select field(s)</Typography.Label>
         </Label>
         <div className="flex space-x-1 pb-1">
@@ -76,6 +78,7 @@ export function FieldPicker<T extends DatastoreRecord>({
 
       <ListBox
         {...props}
+        aria-labelledby={labelID}
         className="w-full grow overflow-auto rounded-sm border border-stone-400 p-1"
         onSelectionChange={handleSelectionChange}
         selectedKeys={_selection}

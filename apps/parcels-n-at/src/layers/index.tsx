@@ -25,7 +25,7 @@ export const availableLayers = [
   pittsburghBoundary,
 
   pre78parcels,
-  // waterSuppliers,
+  waterSuppliers,
   parcelLeadlineStatus,
   largePublicOwners,
 ];

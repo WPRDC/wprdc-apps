@@ -41,7 +41,7 @@ export interface DatastoreFieldDataDictionaryEntry {
 }
 
 /**
- * Result data within response from  CKAN datastore_search
+ * Result data within response from CKAN datastore_search
  */
 export interface QueryResult<T extends DatastoreRecord> {
   /** Resource UUID */

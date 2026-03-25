@@ -94,6 +94,33 @@ export const datasets: Record<string, Dataset[]> = {
       parcelIDField: "parcel_id",
     },
   ],
+
+  "Lead Risk Data": [
+    {
+      title: "Lead Line Status",
+      slug: "lead-line-status",
+      table: ParcelTable.LeadLine,
+      datasetURL: "https://data.wprdc.org/dataset/lead-risk",
+      pghOnly: false,
+      parcelIDField: "parcel_id",
+    },
+    {
+      title: "Parcel-Level Census Tract EBLL",
+      slug: "parcel-level-census-tract-ebll",
+      table: ParcelTable.EBLL,
+      datasetURL: "https://data.wprdc.org/dataset/lead-risk",
+      pghOnly: false,
+      parcelIDField: "parcel_id",
+    },
+    {
+      title: "Water Provider",
+      slug: "water-provider",
+      table: ParcelTable.WaterProvider,
+      datasetURL: "https://data.wprdc.org/dataset/pa-public-water-systems",
+      pghOnly: false,
+      parcelIDField: "PIN",
+    },
+  ],
 };
 
 /**

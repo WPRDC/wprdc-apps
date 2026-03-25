@@ -35,7 +35,7 @@ export function formatShortDate(date: Date): string {
  *
  * @param parcelID - potential parcelID string to test
  */
-export function isValidParcelIDForm(parcelID: string): boolean {
+export function isPossibleValidParcelIDForm(parcelID: string): boolean {
   const test = /[a-zA-Z0-9]{16}/g;
   return test.exec(parcelID) !== null;
 }

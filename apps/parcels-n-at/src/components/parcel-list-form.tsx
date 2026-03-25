@@ -2,7 +2,7 @@
 
 import { TextField, Typography, Upload } from "@wprdc/ui";
 import { useCallback, useState } from "react";
-import { isValidParcelIDForm } from "@/util";
+import { isPossibleValidParcelIDForm } from "@/util";
 
 export interface ParcelListFormProps {
   onChange: (parcelIDs: string[]) => void;
@@ -14,7 +14,7 @@ function extractIDs(text: string): [string[], string | undefined] {
   let validCount = 0;
   const parcelIDs: string[] = text.split(/[\r\n]+/).map((line) => line.trim());
   parcelIDs.forEach((id) => {
-    if (isValidParcelIDForm(id)) validCount++;
+    if (isPossibleValidParcelIDForm(id)) validCount++;
   });
 
   let error: string | undefined;
@@ -34,11 +34,14 @@ export function ParcelListForm({
   const [value, setValue] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
 
-  const handleChange = useCallback((text: string) => {
-    setValue(text);
-    const [ids, ] = extractIDs(text);
-    onChange(ids);
-  }, [onChange]);
+  const handleChange = useCallback(
+    (text: string) => {
+      setValue(text);
+      const [ids] = extractIDs(text);
+      onChange(ids);
+    },
+    [onChange],
+  );
 
   const handleFileChange = useCallback(
     async function handleFileChange(f: File): Promise<void> {

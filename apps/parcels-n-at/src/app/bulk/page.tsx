@@ -189,21 +189,7 @@ export default function Page(): React.ReactElement {
     [fieldSelection],
   );
 
-  const downloadEnabled = useMemo(
-    () =>
-      (!!parcelsSelected ||
-        !!neighborhoodsSelected ||
-        !!municipalitiesSelected ||
-        !!drawnCount) &&
-      !!fieldsSelected,
-    [
-      drawnCount,
-      fieldsSelected,
-      municipalitiesSelected,
-      neighborhoodsSelected,
-      parcelsSelected,
-    ],
-  );
+  const downloadEnabled = !!fieldsSelected;
 
   return (
     <div className="w-full overflow-auto">
@@ -226,6 +212,10 @@ export default function Page(): React.ReactElement {
             search area using the selection regions (in a list or on a map),
             provide a list of parcel IDs or reuse a search area from a previous
             download.
+          </div>
+          <div className="px-9 pb-2 font-bold">
+            If you don&apos;t select a region or parcels, the download will be
+            limited all of Allegheny County.
           </div>
           <div className="pl-9 text-base font-medium">
             <div className="pb-4" />
@@ -451,6 +441,14 @@ export default function Page(): React.ReactElement {
             </div>
             <div>
               <a className="hidden" ref={linkRef} />
+              {(!selectedParcels.length ||
+                !selectedNeighborhoods.length ||
+                !selectedParcels.length) && (
+                <p className="italic">
+                  <strong>NOTE:</strong> Downloads from all of Allegheny County
+                  will take a while to complete.
+                </p>
+              )}
               <Button
                 variant="primary"
                 className="mx-0 mt-2 min-w-52 p-0"
