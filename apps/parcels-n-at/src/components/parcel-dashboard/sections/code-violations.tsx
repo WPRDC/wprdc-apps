@@ -13,6 +13,8 @@ export function groupByCasefile(
   const byCasefile = records.reduce<Record<string, CityViolation[]>>(
     (acc, curr) => {
       const cfn = curr.casefile_number;
+      console.log("🙋🏼‍♂️", curr.investigation_date);
+      if (!curr.investigation_date) return acc;
       if (!Object.prototype.hasOwnProperty.call(acc, cfn)) {
         acc[cfn] = [];
       }

@@ -219,7 +219,7 @@ export interface CityViolation extends DatastoreRecord {
   address: string;
   parcel_id: string;
   status: string;
-  investigation_date: string;
+  investigation_date?: string;
   violation_description: string;
   violation_code_section: string;
   violation_spec_instructions: string;

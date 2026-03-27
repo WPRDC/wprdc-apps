@@ -31,8 +31,9 @@ export function LeadRiskSection({
 
   const lead_violations = violations.records.filter(
     (r) =>
-      r.violation_code_section.includes("782.01") ||
-      r.violation_code_section.includes("620B.01"),
+      !!r.violation_code_section &&
+      (r.violation_code_section.includes("782.01") ||
+        r.violation_code_section.includes("620B.01")),
   );
 
   let ebllData: string | number = "Not Available";
