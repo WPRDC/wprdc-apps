@@ -48,3 +48,32 @@ dist/
 storybook-static
 
 .idea
+
+# python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+.env/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# jupyter
+.ipynb_checkpoints/
+
+# etl logs
+tools/etl/parcels-solr/logs/

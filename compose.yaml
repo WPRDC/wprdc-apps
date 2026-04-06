@@ -1,33 +1,74 @@
-version: "3"
-
 services:
   parcels-n-at:
-    container_name: web
+    profiles: [parcels-n-at]
     build:
       context: .
-      dockerfile: ./apps/parcels-n-at/Dockerfile
-    env_file:
-      - .env
-    restart: always
+      dockerfile: apps/parcels-n-at/Dockerfile
     ports:
       - "3033:3000"
+    environment:
+      NEXT_PUBLIC_MAPTILER_API_KEY: ${NEXT_PUBLIC_MAPTILER_API_KEY}
+      BASE_URL: ${BASE_URL}
+      CKAN_API_TOKEN: ${CKAN_API_TOKEN}
+      PGHOST: ${PGHOST}
+      PGPORT: ${PGPORT}
+      PGDATABASE: ${PGDATABASE}
+      PGUSERNAME: ${PGUSERNAME}
+      PGPASSWORD: ${PGPASSWORD}
+      NEXT_PUBLIC_API_HOST: ${NEXT_PUBLIC_API_HOST}
+      NEXT_PUBLIC_OWNER_AGG_BLACKLIST: ${NEXT_PUBLIC_OWNER_AGG_BLACKLIST}
+      SOLR_URL: http://solr:8983
+    depends_on:
+      solr:
+        condition: service_healthy
+
+  solr:
+    profiles: [parcels-n-at, solr, etl]
+    image: solr:9.10.1
+    volumes:
+      - solr_data:/var/solr
+      - ./tools/solr/configsets/parcels:/configsets/parcels:ro
+    command: solr-precreate parcels /configsets/parcels
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8983/solr/parcels/admin/ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  etl:
+    profiles: [etl]
+    build:
+      context: .
+      dockerfile: tools/etl/parcels-solr/Dockerfile
+    environment:
+      SOLR_URL: http://solr:8983/solr/parcels
+      PGHOST: ${PGHOST}
+      PGPORT: ${PGPORT}
+      PGDATABASE: ${PGDATABASE}
+      PGUSERNAME: ${PGUSERNAME}
+      PGPASSWORD: ${PGPASSWORD}
+    networks:
+      - default
+    depends_on:
+      solr:
+        condition: service_healthy
 
   housecat:
-    container_name: housecat
+    profiles: [housecat]
     build:
       context: .
-      dockerfile: ./apps/housecat/Dockerfile
-    environment:
-      HOUSECAT_HOST: https://www.housecatpgh.org/api
-    restart: always
+      dockerfile: apps/housecat/Dockerfile
+    ports:
+      - "3001:3000"
+
+  website:
+    profiles: [website]
+    build:
+      context: .
+      dockerfile: apps/website/Dockerfile
     ports:
       - "3000:3000"
 
-  website:
-    container_name: website
-    build:
-      context: .
-      dockerfile: ./apps/website/Dockerfile
-    restart: always
-    ports:
-      - "3000:3000"
+volumes:
+  solr_data:

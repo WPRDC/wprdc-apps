@@ -15,10 +15,10 @@ import type {
   RankedParcelIndex,
   TaxLienWithCurrentStatus,
 } from "@wprdc/types";
+import { CondemnedStatus, LeadLine, WaterProvider } from "@wprdc/types";
 
 import { fetchFields, fetchSQLSearch, toFieldLookup } from "../fetch-util";
 import type { APIResult } from "../types";
-import { CondemnedStatus, LeadLine, WaterProvider } from "@wprdc/types";
 
 export enum ParcelTable {
   Assessment = "65855e14-549e-4992-b5be-d629afc676fa",
@@ -58,16 +58,17 @@ async function _fetchParcelRecords<T extends DatastoreRecord>(
   parcelID: string | string[],
   table: ParcelTable,
   queryParams?: Record<string, string | number>,
+  filterClause?: string,
 ): Promise<Partial<QueryResult<T>>> {
   const parcelIDField = parcelIDFields[table];
   const parcelIDs = Array.isArray(parcelID) ? parcelID : [parcelID];
 
-  const { records } = await fetchSQLSearch<T>(
-    `SELECT *
+  let query = `SELECT *
      FROM "${table}"
-     WHERE "${parcelIDField}" IN (${parcelIDs.map((pid) => `'${pid}'`).join(", ")})`,
-    queryParams,
-  );
+     WHERE "${parcelIDField}" IN (${parcelIDs.map((pid) => `'${pid}'`).join(", ")})`;
+  if (filterClause) query = query.concat(` AND (${filterClause})`);
+
+  const { records } = await fetchSQLSearch<T>(query, queryParams);
 
   const fields = await fetchFields(table);
   return { fields, records };
@@ -77,14 +78,15 @@ export async function fetchParcelRecords<T extends DatastoreRecord>(
   parcelID: string | string[],
   table: ParcelTable,
   queryParams?: Record<string, string | number>,
+  filterClause?: string,
 ): Promise<APIResult<T>> {
   const { records, fields } = await _fetchParcelRecords<T>(
     parcelID,
     table,
     queryParams,
+    filterClause,
   );
   if (!records || !fields) {
-     
     console.warn(`Nothing found for ${String(parcelID)} on table ${table}.`);
     return { fields: undefined, records: undefined };
   }
@@ -151,7 +153,12 @@ export const fetchPLIPermitRecords = (
 export const fetchCityViolationsRecords = (
   parcelID: string | string[],
 ): Promise<APIResult<CityViolation>> =>
-  fetchParcelRecords<CityViolation>(parcelID, ParcelTable.CityViolations);
+  fetchParcelRecords<CityViolation>(
+    parcelID,
+    ParcelTable.CityViolations,
+    undefined,
+    "violation_description IS NOT NULL",
+  );
 
 export const fetchForeclosureFilingsRecords = (
   parcelID: string | string[],

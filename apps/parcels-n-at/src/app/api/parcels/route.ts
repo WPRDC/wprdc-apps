@@ -166,7 +166,6 @@ async function getDatasetParcelData(
       ? fields.filter(datasetFieldFilter(dataset)).map((f) => f.id)
       : (fieldSelection as string[]);
 
-  console.log(dataset.slug, fieldNames);
   return reserved`
     SELECT ${reserved(dataset.parcelIDField)} as parcel_id, ${reserved(fieldNames)}
     FROM ${reserved(dataset.table)}

@@ -22,9 +22,6 @@ export function LeadRiskSection({
   provider: WaterProvider;
   ebll: EBLL;
 }>): React.ReactElement {
-  console.log(assessment);
-  console.log(lead);
-
   if (!lead.records.length || !assessment.records.length) return <></>;
 
   const year_built = assessment.records[0].YEARBLT;

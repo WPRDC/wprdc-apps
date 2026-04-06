@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema name="parcels" version="1.6">
+
+    <uniqueKey>parcel_id</uniqueKey>
+
+    <field name="_version_" type="plong" indexed="false" stored="false"/>
+
+    <!-- Identity -->
+    <field name="parcel_id" type="string" indexed="true" stored="true" required="true"/>
+    <field name="parcel_id_short" type="string" indexed="true" stored="true"/>
+    <field name="block_lot" type="string" indexed="true" stored="true"/>
+
+    <!-- Address -->
+    <field name="name" type="text_general" indexed="true" stored="true"/>
+    <field name="address" type="text_general" indexed="true" stored="true"/>
+    <field name="housenum" type="string" indexed="true" stored="true"/>
+    <field name="fraction" type="string" indexed="true" stored="true"/>
+    <field name="unit" type="string" indexed="true" stored="true"/>
+    <field name="street" type="text_general" indexed="true" stored="true"/>
+    <field name="city" type="string" indexed="true" stored="true"/>
+    <field name="state" type="string" indexed="true" stored="true"/>
+    <field name="zip" type="string" indexed="true" stored="true"/>
+    <field name="owner_address" type="text_general" indexed="true" stored="true"/>
+
+    <!-- Administrative -->
+    <field name="municode" type="string" indexed="true" stored="true"/>
+    <field name="class" type="string" indexed="true" stored="true"/>
+    <field name="year_built" type="pint" indexed="true" stored="true"/>
+    <field name="fair_market_total" type="pfloat" indexed="true" stored="true"/>
+
+    <!-- Flags -->
+    <field name="owner_occupied" type="boolean" indexed="true" stored="true"/>
+    <field name="is_vacant" type="boolean" indexed="true" stored="true"/>
+    <field name="has_sold" type="boolean" indexed="true" stored="true"/>
+
+    <!-- Spatial -->
+    <field name="location" type="location" indexed="true" stored="true"/>
+
+    <!-- Full text search -->
+    <field name="_text_" type="text_general" indexed="true" stored="false" multiValued="true"/>
+
+    <copyField source="address" dest="_text_"/>
+    <copyField source="owner_address" dest="_text_"/>
+    <copyField source="street" dest="_text_"/>
+
+    <!-- Field types -->
+    <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
+    <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+    <fieldType name="pint" class="solr.IntPointField" docValues="true"/>
+    <fieldType name="plong" class="solr.LongPointField" docValues="true"/>
+    <fieldType name="pfloat" class="solr.FloatPointField" docValues="true"/>
+    <fieldType name="location" class="solr.LatLonPointSpatialField" docValues="true"/>
+
+    <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+        <analyzer type="index">
+            <tokenizer class="solr.StandardTokenizerFactory"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+            <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+        </analyzer>
+        <analyzer type="query">
+            <tokenizer class="solr.StandardTokenizerFactory"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+            <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+            <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+        </analyzer>
+    </fieldType>
+
+</schema>

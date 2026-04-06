@@ -1,10 +1,41 @@
 import type { PLIPermit } from "@wprdc/types";
-import { DataListViz, formatDate, formatDollars, Typography } from "@wprdc/ui";
+import {
+  Chip,
+  DataListViz,
+  formatDate,
+  formatDollars,
+  Typography,
+} from "@wprdc/ui";
 import type { SectionProps } from "../types";
 import {
   DetailList,
   DetailListItem,
 } from "@/components/parcel-dashboard/components/detail-list.tsx";
+
+export const STATUS_VARIANT_MAP: Record<
+  string,
+  "default" | "info" | "success" | "warning" | "danger"
+> = {
+  "in review": "info",
+  "stop work": "danger",
+  "ready for issue": "info",
+  "amendment application incomplete": "warning",
+  "amendment review": "info",
+  "amendment requested": "warning",
+  issued: "success",
+  expired: "info",
+  "applicant revisions": "warning",
+  revoked: "danger",
+  "amendment applicant revisions": "warning",
+  "application finalization": "info",
+  completed: "success",
+};
+
+export function getStatusVariant(
+  status: string,
+): "default" | "info" | "success" | "warning" | "danger" {
+  return STATUS_VARIANT_MAP[status.toLowerCase()] ?? "default";
+}
 
 export function PLIPermitsSection({
   fields,
@@ -21,7 +52,13 @@ export function PLIPermitsSection({
     .map((record) => ({
       title: record.permit_id,
       topLeft: formatDate(record.issue_date),
-      topRight: record.permit_type,
+      topRight: (
+        <Chip
+          variant={getStatusVariant(record.status)}
+          label={record.status.toUpperCase()}
+        />
+      ),
+
       details: (
         <DataListViz
           fields={fields}

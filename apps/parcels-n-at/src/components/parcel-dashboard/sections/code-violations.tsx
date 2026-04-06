@@ -6,15 +6,24 @@ import {
   DetailListItem,
 } from "@/components/parcel-dashboard/components/detail-list.tsx";
 
-/** Groups set of PLI violations by Casefile */
-export function groupByCasefile(
+export interface CasefileGroup {
+  /** The row containing violation/code details — should be one per casefile */
+  violation: CityViolation | undefined;
+  /** All other rows (investigation activity), newest first */
+  investigations: CityViolation[];
+}
+
+const parseDate = (d: string): Date => {
+  // M/D/YY -> M/D/20YY to avoid JS interpreting as 1900s
+  return new Date(d.replace(/\/(\d{2})$/, "/20$1"));
+};
+
+export function groupByCaseFile(
   records: CityViolation[],
-): Record<string, Record<string, CityViolation[]>> {
+): Record<string, CasefileGroup> {
   const byCasefile = records.reduce<Record<string, CityViolation[]>>(
     (acc, curr) => {
       const cfn = curr.casefile_number;
-      console.log("🙋🏼‍♂️", curr.investigation_date);
-      if (!curr.investigation_date) return acc;
       if (!Object.prototype.hasOwnProperty.call(acc, cfn)) {
         acc[cfn] = [];
       }
@@ -24,37 +33,42 @@ export function groupByCasefile(
     {},
   );
 
-  const casefilesInDateOrder = Object.fromEntries(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    Object.entries(byCasefile).sort(([_, a], [__, b]) => {
-      const aStart = a.sort((c, d) =>
-        c.investigation_date.localeCompare(d.investigation_date),
-      )[0].investigation_date;
-      const bStart = b.sort((c, d) =>
-        c.investigation_date.localeCompare(d.investigation_date),
-      )[0].investigation_date;
-      return new Date(aStart).getTime() - new Date(bStart).getTime();
+  return Object.fromEntries(
+    Object.entries(byCasefile).map(([cfn, cfRecords]) => {
+      const violation = cfRecords.find((r) => !!r.violation_code_section);
+
+      const investigations = cfRecords
+        .filter((r) => !r.violation_code_section)
+        .sort((a, b) => {
+          if (!a.investigation_date && !b.investigation_date) return 0;
+          if (!a.investigation_date) return 1;
+          if (!b.investigation_date) return -1;
+          return (
+            parseDate(b.investigation_date).getTime() -
+            parseDate(a.investigation_date).getTime()
+          );
+        });
+
+      return [cfn, { violation, investigations }];
     }),
   );
+}
 
-  // further reduce to be keyed by date
-  return Object.entries(casefilesInDateOrder).reduce(
-    (byCasefileByDate, [dateStr, rawRecords]) => {
-      byCasefileByDate[dateStr] = rawRecords.reduce(
-        (byDate, v) => {
-          const date = v.investigation_date;
-          if (!Object.prototype.hasOwnProperty.call(byDate, date)) {
-            byDate[date] = [];
-          }
-          byDate[date].push(v);
-          return byDate;
-        },
-        {} as Record<string, CityViolation[]>,
-      );
-      return byCasefileByDate;
-    },
-    {} as Record<string, Record<string, CityViolation[]>>,
+/** Get the last record for a casefile to use for top-level details */
+function getCasefileDetails(records: CityViolation[]): CityViolation {
+  const flatRecords = records.reduce<CityViolation[]>(
+    (acc, cur) => acc.concat(cur),
+    [],
   );
+  // return latest entry
+  return flatRecords.sort((a, b) => b._id - a._id)[0];
+}
+
+/** Get dates of investigation for a casefile in ascending order */
+function getCasefileDates(records: CityViolation[]): string[] {
+  return records
+    .map((r) => r.investigation_date ?? "")
+    .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
 }
 
 export function CodeViolationsSection({
@@ -63,36 +77,20 @@ export function CodeViolationsSection({
   if (!records.length)
     return <Typography.Note>No violations found</Typography.Note>;
 
-  const byCasefile = groupByCasefile(records);
-
-  /** Get last record for casefile to use for top-level details */
-  function getCasefileDetails(
-    record: Record<string, CityViolation[]>,
-  ): CityViolation {
-    const flatRecords = Object.values(record).reduce(
-      (acc, cur) => acc.concat(cur),
-      [],
-    );
-    // return latest entry
-    return flatRecords.sort((a, b) => b._id - a._id)[0];
-  }
-
-  /** Get dates of investigation for a casefile in ascending order */
-  function getCasefileDates(record: Record<string, CityViolation[]>): string[] {
-    const flatRecords = Object.values(record).reduce(
-      (acc, cur) => acc.concat(cur),
-      [],
-    );
-    return flatRecords
-      .map((r) => r.investigation_date)
-      .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-  }
+  const byCasefile = groupByCaseFile(records);
 
   const items: DetailListItem[] = Object.entries(byCasefile)
+    .filter(([, caseFileGroup]) => caseFileGroup.violation)
     .reverse()
-    .map(([casefile, casefileRecord]) => {
-      const details = getCasefileDetails(casefileRecord);
-      const dates = getCasefileDates(casefileRecord);
+    .map(([casefile, caseFileGroup]) => {
+      const details = getCasefileDetails([
+        caseFileGroup.violation as CityViolation,
+        ...caseFileGroup.investigations,
+      ]);
+      const dates = getCasefileDates([
+        caseFileGroup.violation as CityViolation,
+        ...caseFileGroup.investigations,
+      ]);
       const dataList = [
         {
           id: "violation",
@@ -128,7 +126,9 @@ export function CodeViolationsSection({
         topLeft: details.investigation_date,
         topRight: (
           <Chip
-            variant={details.status === "CLOSED" ? "success" : "warning"}
+            variant={
+              details.status.toLowerCase() === "closed" ? "success" : "warning"
+            }
             label={details.status}
           />
         ),
@@ -139,9 +139,11 @@ export function CodeViolationsSection({
             </div>
             <h4 className="mt-4 text-lg font-bold">Investigation History</h4>
             <div className=" ">
-              {[...Object.entries(casefileRecord)]
+              {caseFileGroup.investigations
                 .sort(
-                  (a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime(),
+                  (a, b) =>
+                    new Date(a.investdigation_date as string).getTime() -
+                    new Date(b.investigation_date as string).getTime(),
                 )
                 .map(([date, investigationRecords]) => (
                   <section key={date}>

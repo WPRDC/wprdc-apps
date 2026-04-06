@@ -1,0 +1,20 @@
+# Direct source -> dest mappings from spacerat.parcel_index
+map:
+  parcel_id: parcel_id
+  block_lot: block_lot
+  class: class
+  housenum: housenum
+  fraction: fraction
+  unit: unit
+  street: street
+  city: city
+  state: state
+  zip: zip
+  address: address
+  owner_address: owner_address
+  municode: municode
+  fair_market_total: fair_market_total
+  year_built: year_built
+  owner_occupied: owner_occupied
+  is_vacant: is_vacant
+  has_sold: has_sold

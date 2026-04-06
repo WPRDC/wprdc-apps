@@ -102,7 +102,6 @@ export default function Page(): React.ReactElement {
     };
 
   function handleOwnerSelectionChange(addresses: string[]) {
-    console.log("🎅🏻", addresses);
     setMapSelection({
       selectedFeatures: mapSelection.selectedFeatures,
       drawnAreas: mapSelection.drawnAreas,

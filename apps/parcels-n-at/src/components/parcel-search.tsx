@@ -2,7 +2,7 @@
 
 import type { AsyncListData } from "react-stately";
 import { Selection, useAsyncList } from "react-stately";
-import type { RankedParcelIndex } from "@wprdc/types";
+import type { ParcelSearchResult } from "@wprdc/types";
 import {
   Autocomplete,
   Input,
@@ -16,27 +16,27 @@ import { getClassificationColor } from "@/components/parcel-dashboard";
 import { useCallback } from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
 
-const BASE_URL = process.env.BASE_URL ?? "";
-
 export function ParcelSearch(): React.ReactElement {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const list: AsyncListData<RankedParcelIndex> =
-    useAsyncList<RankedParcelIndex>({
+  const list: AsyncListData<ParcelSearchResult> =
+    useAsyncList<ParcelSearchResult>({
       async load({ signal, filterText }) {
+        if (!filterText?.trim()) return { items: [] };
+
         const response = await fetch(
-          BASE_URL + `/api/parcels/search?q=${filterText ?? ""}`,
-          {
-            signal,
-          },
+          `/api/parcels/search?q=${encodeURIComponent(filterText)}`,
+          { signal },
         );
+
+        if (!response.ok) return { items: [] };
+
         const { results } = (await response.json()) as {
-          results: RankedParcelIndex[];
+          results: ParcelSearchResult[];
         };
-        return {
-          items: results,
-        };
+
+        return { items: results };
       },
     });
 
@@ -49,14 +49,12 @@ export function ParcelSearch(): React.ReactElement {
 
   const handleSelectionChange = useCallback(
     (keys: Selection): void => {
-      // clear search
       list.setFilterText("");
 
       const params = new URLSearchParams(searchParams);
       params.delete("zoomPan");
       params.append("zoomPan", "1");
 
-      // extract selected key and navigate
       const key =
         typeof keys === "string" ? list.items[0] : Array.from(keys)[0];
 
@@ -129,13 +127,13 @@ export function ParcelSearch(): React.ReactElement {
                       className="mx-2 mt-1 flex size-8 items-center rounded-sm border border-black"
                       style={{
                         backgroundColor: getClassificationColor(
-                          item.class,
+                          item.class ?? "",
                           true,
                         ),
                       }}
                     >
                       <div className="w-full text-center font-mono text-xl font-bold text-white">
-                        {item.class.substring(0, 1).toUpperCase()}
+                        {item.class?.substring(0, 1).toUpperCase()}
                       </div>
                     </div>
                     <Text
