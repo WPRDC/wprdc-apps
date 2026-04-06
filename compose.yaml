@@ -17,7 +17,7 @@ services:
       PGPASSWORD: ${PGPASSWORD}
       NEXT_PUBLIC_API_HOST: ${NEXT_PUBLIC_API_HOST}
       NEXT_PUBLIC_OWNER_AGG_BLACKLIST: ${NEXT_PUBLIC_OWNER_AGG_BLACKLIST}
-      SOLR_URL: http://solr:8983
+      SOLR_URL: http://solr:8983/solr/parcels 
     depends_on:
       solr:
         condition: service_healthy
