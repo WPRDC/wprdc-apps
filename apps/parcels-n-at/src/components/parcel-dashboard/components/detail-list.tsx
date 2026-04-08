@@ -32,7 +32,7 @@ export function DetailList({ items }: DetailListProps) {
             </Button>
             <ModalOverlay isDismissable>
               <Modal>
-                <Dialog className="max-h-[75vh] max-w-xl">
+                <Dialog className="max-h-[75vh] max-w-xl min-w-sm">
                   <div className="flex w-full items-start justify-between pr-2 font-mono text-xs">
                     <div>{item.topLeft}</div>
                     <div>{item.topRight}</div>

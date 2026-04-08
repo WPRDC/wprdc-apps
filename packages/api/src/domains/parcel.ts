@@ -28,7 +28,7 @@ export enum ParcelTable {
   PLIPermit = "f4d1177a-f597-4c32-8cbf-7885f56253f6",
   CityViolations = "70c06278-92c5-4040-ab28-17671866f81c",
   ForeclosureFilings = "foreclosure_filings",
-  TaxLiensWithCurrentStatus = "tax_liens_with_current_status",
+  TaxLiensWithCurrentStatus = "65d0d259-3e58-49d3-bebb-80dc75f61245",
   ConservatorshipRecord = "fd64c179-b5af-4263-9275-fb581705d878",
   ParcelBoundaries = "858bbc0f-b949-4e22-b4bb-1a78fef24afc",
   CondemnedStatus = "0a963f26-eb4b-4325-bbbc-3ddf6a871410",
