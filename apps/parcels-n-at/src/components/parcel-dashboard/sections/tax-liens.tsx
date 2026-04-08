@@ -75,7 +75,7 @@ export function TaxLiensSection({
           <div className="mt-2.5 mb-2 font-bold">
             {records.length} Record{records.length === 1 ? "" : "s"}
           </div>
-          <div className="flex flex-col space-y-2">
+          <div className="flex flex-col space-y-4">
             {records.map((record) => (
               <DataListViz
                 key={record.filing_date}
