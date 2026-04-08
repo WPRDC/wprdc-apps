@@ -75,49 +75,51 @@ export function TaxLiensSection({
           <div className="mt-2.5 mb-2 font-bold">
             {records.length} Record{records.length === 1 ? "" : "s"}
           </div>
-          {records.map((record) => (
-            <DataListViz
-              key={record.filing_date}
-              items={[
-                {
-                  id: "dtd",
-                  label: "Docket",
-                  info: fields.dtd.info?.notes,
-                  value: record.dtd,
-                },
-                {
-                  id: "filing_date",
-                  label: "Filing Date",
-                  info: fields.filing_date.info?.notes,
-                  value: formatDate(record.filing_date),
-                },
-                {
-                  id: "tax_year",
-                  label: "Tax Year",
-                  info: fields.tax_year.info?.notes,
-                  value: record.tax_year,
-                },
-                {
-                  id: "amount",
-                  label: "Amount",
-                  info: fields.amount.info?.notes,
-                  value: formatDollars(record.amount),
-                },
-                {
-                  id: "assignee",
-                  label: "Holder of Lien",
-                  info: fields.assignee.info?.notes,
-                  value: record.assignee,
-                },
-                {
-                  id: "status",
-                  label: "Status",
-                  info: fields.satisfied.info?.notes,
-                  value: record.satisfied ? "Satisfied" : "Unsatisfied",
-                },
-              ]}
-            />
-          ))}
+          <div className="flex flex-col space-y-2">
+            {records.map((record) => (
+              <DataListViz
+                key={record.filing_date}
+                items={[
+                  {
+                    id: "dtd",
+                    label: "Docket",
+                    info: fields.dtd.info?.notes,
+                    value: record.dtd,
+                  },
+                  {
+                    id: "filing_date",
+                    label: "Filing Date",
+                    info: fields.filing_date.info?.notes,
+                    value: formatDate(record.filing_date),
+                  },
+                  {
+                    id: "tax_year",
+                    label: "Tax Year",
+                    info: fields.tax_year.info?.notes,
+                    value: record.tax_year,
+                  },
+                  {
+                    id: "amount",
+                    label: "Amount",
+                    info: fields.amount.info?.notes,
+                    value: formatDollars(record.amount),
+                  },
+                  {
+                    id: "assignee",
+                    label: "Holder of Lien",
+                    info: fields.assignee.info?.notes,
+                    value: record.assignee,
+                  },
+                  {
+                    id: "status",
+                    label: "Status",
+                    info: fields.satisfied.info?.notes,
+                    value: record.satisfied ? "Satisfied" : "Unsatisfied",
+                  },
+                ]}
+              />
+            ))}
+          </div>
           <A
             className="mt-2 mb-1"
             variant="button"
