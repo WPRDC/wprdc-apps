@@ -43,6 +43,9 @@ export function TaxLiensSection({
 
   // total value of liens
   const sum = records.reduce((acc, record) => acc + record.amount, 0);
+  const unsatisfiedSum = records
+    .filter((record) => !record.satisfied)
+    .reduce((acc, record) => acc + record.amount, 0);
 
   const items: DetailListItem[] = sortedGroupedRecords.map(
     ({ dtd, records }) => ({
@@ -64,7 +67,7 @@ export function TaxLiensSection({
               items={[
                 {
                   id: "total_amount",
-                  label: "Total Amount",
+                  label: "Amount",
                   value: formatDollars(
                     records.reduce((acc, record) => acc + record.amount, 0),
                   ),
@@ -91,6 +94,12 @@ export function TaxLiensSection({
                     label: "Filing Date",
                     info: fields.filing_date.info?.notes,
                     value: formatDate(record.filing_date),
+                  },
+                  {
+                    id: "last_docket_entry",
+                    label: "Last Change to Docket",
+                    info: fields.last_docket_entry.info?.notes,
+                    value: record.last_docket_entry,
                   },
                   {
                     id: "tax_year",
@@ -131,7 +140,7 @@ export function TaxLiensSection({
           <Typography.Note>
             The Court Records site will require you to pass a CAPTCHA to access
             the details. Once you complete the CAPTCHA, this link will take you
-            to the details page.
+            to the details page, otherwise it will take you to a "login" page.
           </Typography.Note>
         </div>
       ),
@@ -154,10 +163,20 @@ export function TaxLiensSection({
                 label: "# Unsatisfied",
                 value: records.filter((record) => !record.satisfied).length,
               },
+            ]}
+          />
+          <SingleValueVizCollection
+            items={[
               {
                 id: "total_value",
-                label: "Total Value",
+                label: "Total Amount",
                 value: sum,
+                format: formatDollars,
+              },
+              {
+                id: "unsatisfied_value",
+                label: "Amount Unsatisfied",
+                value: unsatisfiedSum,
                 format: formatDollars,
               },
             ]}
