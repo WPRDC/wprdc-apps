@@ -6,6 +6,7 @@ import { Dialog, Modal, ModalOverlay, Typography } from "@wprdc/ui";
 
 export interface DetailListItem {
   title: string;
+  subtitle?: string;
   topLeft: ReactNode;
   topRight: ReactNode;
   details: ReactNode;
@@ -28,6 +29,11 @@ export function DetailList({ items }: DetailListProps) {
               <h3 className="mt-0.5 mb-1 font-mono text-lg leading-none font-black">
                 {item.title}
               </h3>
+              {item.subtitle && (
+                <div className="mb-1.5 text-sm font-semibold">
+                  {item.subtitle}
+                </div>
+              )}
               <Typography.Note>Click For Details</Typography.Note>
             </Button>
             <ModalOverlay isDismissable>

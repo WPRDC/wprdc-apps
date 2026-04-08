@@ -81,7 +81,7 @@ export function TaxLiensSection({
           <div className="flex flex-col space-y-4">
             {records.map((record) => (
               <DataListViz
-                key={record.filing_date}
+                key={`${record.filing_date}-${record.tax_year}`}
                 items={[
                   {
                     id: "dtd",
