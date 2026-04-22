@@ -1,10 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  basePath: "/greenprint",
+  assetPrefix: "/greenprint",
   reactStrictMode: true,
   transpilePackages: ["@wprdc/ui", "@wprdc/api", "@wprdc/types"],
   typescript: {
     ignoreBuildErrors: true,
   },
+  output: "standalone",
 
   // transpilePackages: ["@wprdc/ui", "@wprdc/types"],
   images: {

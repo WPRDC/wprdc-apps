@@ -28,7 +28,7 @@ export default async function Home({
         </div>
       </MapProvider>
       <div className="relative w-full max-w-md overflow-auto border-l border-blue-800">
-        <ParcelDashboard parcelID={parcelID} />
+        {/*<ParcelDashboard parcelID={parcelID} />*/}
       </div>
     </main>
   );

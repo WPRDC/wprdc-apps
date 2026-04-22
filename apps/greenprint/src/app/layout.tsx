@@ -21,6 +21,8 @@ export const metadata: Metadata = {
   description: "",
 };
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,7 +35,7 @@ export default function RootLayout({
       >
         <header className="flex items-end border-b-2 border-black px-7 pb-2">
           <Image
-            src="/logo_alone.png"
+            src={`${BASE_PATH}/logo_alone.png`}
             alt="Greenprint logo"
             width={90.42}
             height={128}

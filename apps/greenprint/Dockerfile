@@ -43,7 +43,7 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 USER nextjs
 
-COPY --from=installer /app/apps/greenprint/next.config.ts .
+COPY --from=installer /app/apps/greenprint/next.config.prod.ts ./next.config.ts
 COPY --from=installer /app/apps/greenprint/package.json .
 
 COPY --from=installer --chown=nextjs:nodejs /app/apps/greenprint/.next/standalone ./
