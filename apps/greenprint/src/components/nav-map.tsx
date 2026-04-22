@@ -145,11 +145,6 @@ export function NavMap({
         </Button>
       </div>
 
-      {/* Parcel Search*/}
-      <div className="absolute top-4 left-4 w-96 max-lg:hidden">
-        <ParcelSearch />
-      </div>
-
       <Source
         type="vector"
         id="vacant"
