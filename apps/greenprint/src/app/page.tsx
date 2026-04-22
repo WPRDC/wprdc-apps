@@ -4,6 +4,7 @@ import { MapProvider } from "@/components/map-provider";
 import { ParcelDashboard } from "@/components/parcel-dashboard";
 import { LAYER_QUERY_KEY } from "@/util.ts";
 import { flatLayers } from "@/layers";
+import React from "react";
 
 export default async function Home({
   searchParams,
@@ -28,7 +29,13 @@ export default async function Home({
         </div>
       </MapProvider>
       <div className="relative w-full max-w-md overflow-auto border-l border-blue-800">
-        {/*<ParcelDashboard parcelID={parcelID} />*/}
+        {parcelID ? (
+          <div>
+            <ParcelDashboard parcelID={String(parcelID)} />
+          </div>
+        ) : (
+          <></>
+        )}{" "}
       </div>
     </main>
   );
