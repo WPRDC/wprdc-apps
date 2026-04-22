@@ -16,6 +16,8 @@ import { getClassificationColor } from "@/components/parcel-dashboard";
 import { useCallback } from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
+
 export function ParcelSearch(): React.ReactElement {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -26,7 +28,7 @@ export function ParcelSearch(): React.ReactElement {
         if (!filterText?.trim()) return { items: [] };
 
         const response = await fetch(
-          `/api/parcels/search?q=${encodeURIComponent(filterText)}`,
+          `${BASE_URL}/api/parcels/search?q=${encodeURIComponent(filterText)}`,
           { signal },
         );
 
