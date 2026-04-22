@@ -2,7 +2,6 @@ import type { PropertyAssessment } from "@wprdc/types";
 import { VisualizationSpec } from "@wprdc/types";
 import { useMemo } from "react";
 import {
-  ChartViz,
   Chip,
   formatDollars,
   SingleValueVizCollection,
@@ -192,10 +191,6 @@ export function AssessedValuesSection({
             formatDollars(v as string, { notation, compactDisplay: "long" })
           }
           rows={["Local", "County", "Fair Market"]}
-        />
-        <ChartViz
-          className="w-full border-t-0 pt-3.5"
-          spec={{ ...spec, data: { values: vegaData }}}
         />
       </section>
     </div>

@@ -1,7 +1,29 @@
-import type { NextConfig } from "next";
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  transpilePackages: ["@wprdc/ui", "@wprdc/api", "@wprdc/types"],
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  output: "standalone",
 
-const nextConfig: NextConfig = {
-  /* config options here */
+  // transpilePackages: ["@wprdc/ui", "@wprdc/types"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "iasworld.alleghenycounty.us",
+        port: "",
+        pathname: "/iasworld/iDoc2/Services/**",
+      },
+      {
+        protocol: "https",
+        hostname: "iasworld.alleghenycounty.us",
+        port: "",
+        pathname: "/iasworld/maintain/services/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
