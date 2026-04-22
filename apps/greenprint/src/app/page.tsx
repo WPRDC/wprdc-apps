@@ -19,14 +19,12 @@ export default async function Home({
 
   const layers = flatLayers.filter((layer) => selectedKeys.has(layer.slug));
 
-  console.log(flatLayers, Array.from(selectedKeys), layers);
-
   return (
     <main className="flex flex-grow overflow-hidden">
       <LayerMenu />
       <MapProvider>
         <div className="max-h-full flex-grow">
-          <NavMap />
+          <NavMap layers={layers} />
         </div>
       </MapProvider>
       <div className="relative w-full max-w-md overflow-auto border-l border-blue-800">
