@@ -31,6 +31,7 @@ services:
       - "3034:3000"
     environment:
       NEXT_PUBLIC_MAPTILER_API_KEY: ${NEXT_PUBLIC_MAPTILER_API_KEY}
+      BASE_URL: ${BASE_URL}
       PGHOST: ${PGHOST}
       PGPORT: ${PGPORT}
       PGDATABASE: ${PGDATABASE}

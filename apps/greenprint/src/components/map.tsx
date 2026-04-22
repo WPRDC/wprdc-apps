@@ -2,7 +2,7 @@
 import { Map as _Map, MapProps } from "@wprdc/ui";
 import { flatLayers } from "@/layers";
 import { useMemo } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { LAYER_QUERY_KEY } from "@/util.ts";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
