@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Roboto_Condensed } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "@wprdc/ui/styles.css";
 import Image from "next/image";
@@ -26,8 +26,10 @@ const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export default function RootLayout({
   children,
+  parcel,
 }: Readonly<{
   children: React.ReactNode;
+  parcel: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -51,7 +53,12 @@ export default function RootLayout({
             </div>
           </div>
         </header>
-        {children}
+        <main className="flex flex-grow overflow-hidden">
+          {children}
+          <div className="relative w-full max-w-md overflow-auto border-l border-blue-800">
+            {parcel}
+          </div>
+        </main>
       </body>
       <Script id="matomo code">
         {`

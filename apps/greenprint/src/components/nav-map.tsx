@@ -9,12 +9,12 @@ import {
   MapRef,
   Source,
 } from "react-map-gl/maplibre";
-import { ParcelSearch } from "@/components/parcel-search";
 import { LayerConfig } from "@wprdc/types";
 import { OverlayTriggerStateContext } from "react-aria-components";
 import { BiX } from "react-icons/bi";
 import { GeocodeResponse } from "@wprdc/api";
-import { LayerMenu } from "@/components/layer-menu";
+import { LAYER_QUERY_KEY } from "@/util.ts";
+import { flatLayers } from "@/layers";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY ?? "missing";
 
@@ -36,11 +36,7 @@ export interface NavMapProps {
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export function NavMap({
-  selectedParcel,
   ownerAddress,
-  availableLayers = [],
-  selectedLayers = [],
-  layers = [],
   bbox,
   zoomPan,
   mapID = "navMap",
@@ -51,12 +47,15 @@ export function NavMap({
   const router = useRouter();
   const pathName = usePathname();
   const searchParams = useSearchParams();
+  const selectedParcel = searchParams.get("parcel");
 
-  const layerSelection = useMemo(() => {
-    if (typeof selectedLayers === "string") {
-      return new Set([selectedLayers]);
-    }
-    return new Set(selectedLayers ?? []);
+  const selectedLayers = searchParams.get(LAYER_QUERY_KEY);
+
+  console.log(selectedParcel);
+
+  const layers = useMemo(() => {
+    const keys = new Set(selectedLayers?.split(",").filter(Boolean) ?? []);
+    return flatLayers.filter((l) => keys.has(l.slug));
   }, [selectedLayers]);
 
   // fit bounds on props change
@@ -85,13 +84,6 @@ export function NavMap({
     }
   }
 
-  const contextLayers = useMemo(() => {
-    if (!layerSelection.size) {
-      return [];
-    }
-    return availableLayers.filter((l) => layerSelection.has(l.slug));
-  }, [availableLayers, layerSelection]);
-
   function handleOwnerClear() {
     const params = new URLSearchParams(searchParams);
     params.delete("ownerAddr");
@@ -102,10 +94,10 @@ export function NavMap({
     <Map
       id={mapID}
       initialViewState={{ zoom: 15.5 }}
-      layers={[...contextLayers, parcelLayer, ...layers]}
+      layers={[...layers]}
       mapTilerAPIKey={API_KEY}
       maxZoom={19}
-      minZoom={11}
+      minZoom={9}
       onLoad={handleMapLoad}
       onNavigate={(feature: MapGeoJSONFeature) => {
         if (modalState) modalState.close();

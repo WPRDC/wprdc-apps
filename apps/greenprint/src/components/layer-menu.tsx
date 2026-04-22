@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useMemo } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { ListBox, ListBoxSection, Header } from "react-aria-components";
 import type { Selection } from "react-aria-components";
 import { LayerMenuItem } from "@/components/layer-menu-item";
@@ -9,7 +9,6 @@ import layers from "@/layers";
 import { LAYER_QUERY_KEY } from "@/util.ts";
 
 export function LayerMenu() {
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -35,9 +34,18 @@ export function LayerMenu() {
         params.set(LAYER_QUERY_KEY, Array.from(nextSet).join(","));
       }
       const qs = params.toString();
-      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+      window.history.replaceState(
+        null,
+        "",
+        qs ? `${pathname}?${qs}` : pathname,
+      );
+      window.history.replaceState(
+        null,
+        "",
+        qs ? `${pathname}?${qs}` : pathname,
+      );
     },
-    [searchParams, router, pathname],
+    [searchParams, pathname],
   );
 
   return (
