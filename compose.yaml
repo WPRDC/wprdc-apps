@@ -17,10 +17,25 @@ services:
       PGPASSWORD: ${PGPASSWORD}
       NEXT_PUBLIC_API_HOST: ${NEXT_PUBLIC_API_HOST}
       NEXT_PUBLIC_OWNER_AGG_BLACKLIST: ${NEXT_PUBLIC_OWNER_AGG_BLACKLIST}
-      SOLR_URL: http://solr:8983/solr/parcels 
+      SOLR_URL: http://solr:8983/solr/parcels
     depends_on:
       solr:
         condition: service_healthy
+
+  greenprint:
+    profiles: [greenprint]
+    build:
+      context: .
+      dockerfile: apps/greenprint/Dockerfile
+    ports:
+      - "3034:3000"
+    environment:
+      NEXT_PUBLIC_MAPTILER_API_KEY: ${NEXT_PUBLIC_MAPTILER_API_KEY}
+      PGHOST: ${PGHOST}
+      PGPORT: ${PGPORT}
+      PGDATABASE: ${PGDATABASE}
+      PGUSERNAME: ${PGUSERNAME}
+      PGPASSWORD: ${PGPASSWORD}
 
   solr:
     profiles: [parcels-n-at, solr, etl]
