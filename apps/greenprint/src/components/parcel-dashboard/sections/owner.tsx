@@ -167,7 +167,7 @@ export async function OwnerInfo({
                             key={`${pid}-${i}`}
                             className="group hover:bg-wprdc-200 rounded-sm border px-2 py-1 even:bg-gray-100"
                           >
-                            <Link href={`/explore?parcel=${pid}&zoomPan=1`}>
+                            <Link href={`/?parcel=${pid}&zoomPan=1`}>
                               <ClassChip
                                 className="text-[.6rem] leading-2.5"
                                 parcelClass={useClass}
@@ -198,7 +198,7 @@ export async function OwnerInfo({
                   <A
                     variant="button"
                     buttonVariant="primary"
-                    href={`/explore?parcel=${parcelID}&ownerAddr=${ownerAddr}`}
+                    href={`/?parcel=${parcelID}&ownerAddr=${ownerAddr}`}
                   >
                     Highlight owner&apos;s properties on the map
                   </A>

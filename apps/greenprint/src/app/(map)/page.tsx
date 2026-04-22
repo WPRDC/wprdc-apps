@@ -1,15 +1,19 @@
 import { LayerMenu } from "@/components/layer-menu";
 import { NavMap } from "@/components/nav-map.tsx";
 import { MapProvider } from "@/components/map-provider";
-import React from "react";
+import React, { Suspense } from "react";
 
 export default async function Home() {
   return (
     <>
-      <LayerMenu />
+      <Suspense fallback={null}>
+        <LayerMenu />
+      </Suspense>
       <MapProvider>
         <div className="max-h-full flex-grow">
-          <NavMap />
+          <Suspense fallback={null}>
+            <NavMap />
+          </Suspense>
         </div>
       </MapProvider>
     </>
