@@ -26,7 +26,7 @@ export function LineLayer({
         source={slug}
         source-layer={sourceLayer}
         type="line"
-        filter={filter}
+        filter={filter ?? true}
         layout={layer.symbology.layout as LineLayoutSpec}
         paint={layer.symbology.paint as LinePaintSpec}
       />
@@ -45,7 +45,7 @@ export function LineLayer({
       source={slug}
       source-layer={sourceLayer}
       type="line"
-      filter={filter}
+      filter={filter ?? true}
       layout={{}}
       paint={{
         "line-color": strokeColor,

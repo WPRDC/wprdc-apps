@@ -1,0 +1,166 @@
+"use client";
+
+import type { AsyncListData } from "react-stately";
+import { Selection, useAsyncList } from "react-stately";
+import type { ParcelSearchResult } from "@wprdc/types";
+import {
+  Autocomplete,
+  Input,
+  ListBox,
+  ListBoxItem,
+  SearchField,
+  Text,
+} from "react-aria-components";
+import { useRouter, useSearchParams } from "next/navigation";
+import { getClassificationColor } from "@/components/parcel-dashboard";
+import { useCallback } from "react";
+import { BiSearchAlt2 } from "react-icons/bi";
+
+export function ParcelSearch(): React.ReactElement {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const list: AsyncListData<ParcelSearchResult> =
+    useAsyncList<ParcelSearchResult>({
+      async load({ signal, filterText }) {
+        if (!filterText?.trim()) return { items: [] };
+
+        const response = await fetch(
+          `/api/parcels/search?q=${encodeURIComponent(filterText)}`,
+          { signal },
+        );
+
+        if (!response.ok) return { items: [] };
+
+        const { results } = (await response.json()) as {
+          results: ParcelSearchResult[];
+        };
+
+        return { items: results };
+      },
+    });
+
+  const handleInputChange = useCallback(
+    (text: string) => {
+      list.setFilterText(text);
+    },
+    [list],
+  );
+
+  const handleSelectionChange = useCallback(
+    (keys: Selection): void => {
+      list.setFilterText("");
+
+      const params = new URLSearchParams(searchParams);
+      params.delete("zoomPan");
+      params.append("zoomPan", "1");
+
+      const key =
+        typeof keys === "string" ? list.items[0] : Array.from(keys)[0];
+
+      params.delete("parcel");
+      params.append("parcel", key.toString());
+
+      if (key) router.push(`/explore?${params.toString()}`);
+    },
+    [list, router, searchParams],
+  );
+
+  return (
+    <div className="relative w-full rounded-md bg-white">
+      <Autocomplete
+        inputValue={list.filterText}
+        onInputChange={handleInputChange}
+      >
+        <SearchField className="flex min-w-48 text-lg">
+          <div className="flex h-12 items-center rounded-l-md border-r border-stone-800 bg-stone-900">
+            <BiSearchAlt2 className="mx-1 size-8 text-white" />
+          </div>
+          <Input
+            className="w-full rounded-r-md border-2 border-stone-800 px-2 py-1"
+            placeholder="Search by address or parcel ID"
+          />
+
+          {list.isLoading && (
+            <div className="absolute right-2 flex h-full items-center">
+              <svg
+                className="h-5 w-5 animate-spin text-black"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="#000"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="#000"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            </div>
+          )}
+        </SearchField>
+
+        {list.items.length > 0 && (
+          <ListBox
+            className="absolute z-50 w-full border border-black bg-white"
+            selectionMode="single"
+            items={list.items}
+            onSelectionChange={handleSelectionChange}
+            shouldFocusOnHover
+          >
+            {(item) => (
+              <ListBoxItem
+                className="group w-full cursor-pointer focus:bg-stone-200"
+                id={item.parcel_id}
+                textValue={item.address}
+              >
+                <div className="py-1">
+                  <div className="flex items-center overflow-hidden">
+                    <div
+                      className="mx-2 mt-1 flex size-8 items-center rounded-sm border border-black"
+                      style={{
+                        backgroundColor: getClassificationColor(
+                          item.class ?? "",
+                          true,
+                        ),
+                      }}
+                    >
+                      <div className="w-full text-center font-mono text-xl font-bold text-white">
+                        {item.class?.substring(0, 1).toUpperCase()}
+                      </div>
+                    </div>
+                    <Text
+                      className="block truncate text-base font-medium"
+                      slot="label"
+                    >
+                      <div className="leading-none font-semibold">
+                        {item.housenum} {item.street} {item.unit}
+                      </div>
+                      <div className="text-xs leading-none">
+                        {item.city}, {item.state} {item.zip}
+                      </div>
+                    </Text>
+                  </div>
+
+                  <Text
+                    className="ml-12 block font-mono text-xs text-gray-800"
+                    slot="description"
+                  >
+                    {item.parcel_id}
+                  </Text>
+                </div>
+              </ListBoxItem>
+            )}
+          </ListBox>
+        )}
+      </Autocomplete>
+    </div>
+  );
+}

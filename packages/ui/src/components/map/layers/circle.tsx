@@ -5,7 +5,8 @@ import { parseSymbology } from "../parse";
 import { FilterSpecification } from "@maplibre/maplibre-gl-style-spec";
 import {
   CircleLayoutSpec,
-  CirclePaintSpec, CircleSymbologyConfig,
+  CirclePaintSpec,
+  CircleSymbologyConfig,
   LayerConfig,
   SimplifiedSymbologyConfig,
 } from "@wprdc/types";
@@ -20,14 +21,14 @@ export function CircleLayer({
   const filter: FilterSpecification | undefined = layer.renderOptions?.filter;
 
   if (layer.symbology.mode === "raw") {
-    const symbology = layer.symbology as RawCircleSymbologyConfig
+    const symbology = layer.symbology as RawCircleSymbologyConfig;
     return (
       <Layer
         id={`${slug}-circle`}
         source={slug}
         source-layer={sourceLayer}
         type="circle"
-        filter={filter}
+        filter={filter ?? true}
         paint={symbology.paint as CirclePaintSpec}
         layout={symbology.layout as CircleLayoutSpec}
       />
@@ -47,7 +48,7 @@ export function CircleLayer({
       source={slug}
       source-layer={sourceLayer}
       type="circle"
-      filter={filter}
+      filter={filter ?? true}
       layout={{}}
       paint={{
         "circle-color": fillColor,
@@ -63,7 +64,6 @@ export function CircleLayer({
           2,
         ],
       }}
-
     />
   );
 }

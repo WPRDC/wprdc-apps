@@ -67,8 +67,9 @@ export interface InteractionOptions {
 }
 
 /** Properties common among all layers */
-export interface LayerConfig<S extends SymbologyConfig = SymbologyConfig>
-  extends Identifiable {
+export interface LayerConfig<
+  S extends SymbologyConfig = SymbologyConfig,
+> extends Identifiable {
   /** Description of the layer/dataset. Can be markdown */
   description: string;
 
@@ -80,6 +81,9 @@ export interface LayerConfig<S extends SymbologyConfig = SymbologyConfig>
 
   /** Tileserver details */
   tiles: TileSource;
+
+  /** Geographic extent */
+  extent?: { label: string; bbox: [number, number, number, number] };
 
   /** Configuration for the layer's feature symbology */
   symbology: S;

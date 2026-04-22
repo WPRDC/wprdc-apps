@@ -92,7 +92,7 @@ export default async function Page({
                   </p>
                   <p></p>
                   <p>
-                    You can <strong>click on parcels on the map</strong> or{" "}
+                    c You can <strong>click on parcels on the map</strong> or{" "}
                     <strong>search by address or parcel ID</strong>.
                   </p>
                 </div>

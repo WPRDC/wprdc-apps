@@ -4,7 +4,6 @@ export * from "./breadcrumbs";
 export * from "./button";
 export * from "./card";
 export * from "./chip";
-export * from "./color-picker";
 export * from "./combo-box";
 export * from "./data-type-icon";
 export * from "./dialog";
@@ -34,6 +33,6 @@ export * from "./tooltip";
 export * from "./typography";
 export * from "./upload";
 
-export * from "./color-picker";
+// export * from "./color-picker";
 export * from "./input";
 export * from "./list-box";

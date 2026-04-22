@@ -1,0 +1,10 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "inputs": ["$TURBO_DEFAULT$", ".env.local"],
+      "outputs": [".next/**", "!.next/cache/**"],
+      "env": ["PGHOST", "PGPORT", "PGDATABASE", "PGUSERNAME", "PGPASSWORD"]
+    }
+  }
+}

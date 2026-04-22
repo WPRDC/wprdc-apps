@@ -1,4 +1,5 @@
 services:
   solr:
+    # expose solr ports in dev
     ports:
       - "8983:8983"

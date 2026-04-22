@@ -1,19 +1,14 @@
 "use client";
 
-import { Button, Map } from "@wprdc/ui";
-import { useRouter } from "next/navigation";
+import { Map } from "@wprdc/ui";
 import {
   Layer,
   LayerProps,
-  MapGeoJSONFeature,
   MapRef,
   Source,
   SourceProps,
 } from "react-map-gl/maplibre";
-import { OverlayTriggerStateContext } from "react-aria-components";
-import { BiX } from "react-icons/bi";
-import { useContext, useRef, useState } from "react";
-import { ViewState } from "react-map-gl/mapbox-legacy";
+import { useRef } from "react";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 

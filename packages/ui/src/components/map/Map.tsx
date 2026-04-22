@@ -8,7 +8,14 @@
 "use client";
 
 import type { LayerConfig, MapState } from "@wprdc/types";
-import { forwardRef, useCallback, useEffect, useMemo, useRef, useState, } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { TbToggleLeft, TbToggleRightFilled } from "react-icons/tb";
 import type {
   MapGeoJSONFeature,
@@ -17,7 +24,11 @@ import type {
   Point,
   ViewStateChangeEvent,
 } from "react-map-gl/maplibre";
-import { GeolocateControl, Map as ReactMapGL, NavigationControl, } from "react-map-gl/maplibre";
+import {
+  GeolocateControl,
+  Map as ReactMapGL,
+  NavigationControl,
+} from "react-map-gl/maplibre";
 import { twMerge } from "tailwind-merge";
 import { Button } from "../button";
 import { BasemapMenu } from "./BasemapMenu";
@@ -40,6 +51,7 @@ const DEFAULT_LATITUDE = 40.44;
 const DEFAULT_ZOOM = 11;
 
 const NODE_ENV = process.env.NODE_ENV ?? "development";
+const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY ?? "";
 
 export const Map = forwardRef<MapRef, MapProps>(function Map_(
   {
@@ -77,9 +89,7 @@ export const Map = forwardRef<MapRef, MapProps>(function Map_(
   const _mapRef = useRef<MapRef>(null);
   const mapRef = ref ?? _mapRef;
 
-  const [innerLayers, _] = useState<LayerConfig[]>(
-    defaultLayers ?? [],
-  );
+  const [innerLayers, _] = useState<LayerConfig[]>(defaultLayers ?? []);
 
   const layers = useMemo(
     () => propsLayers ?? innerLayers,
@@ -347,7 +357,7 @@ export const Map = forwardRef<MapRef, MapProps>(function Map_(
         drawingMode === "simple_select" ? interactiveLayerIDs : []
       }
       scrollZoom={canScrollZoom}
-      mapStyle={`${basemaps[basemap].url}?key=${mapTilerAPIKey ?? ""}`}
+      mapStyle={`${basemaps[basemap].url}?key=${mapTilerAPIKey ?? API_KEY}`}
       maxZoom={maxZoom ?? DEFAULT_MAX_ZOOM}
       minZoom={minZoom ?? DEFAULT_MIN_ZOOM}
       onClick={handleClick}
@@ -361,7 +371,7 @@ export const Map = forwardRef<MapRef, MapProps>(function Map_(
       <NavigationControl showCompass visualizePitch />
       <GeolocateControl fitBoundsOptions={{ maxZoom: 18 }} />
 
-      <div className="absolute right-12 top-2 flex flex-col items-end space-y-2">
+      <div className="absolute top-2 right-12 flex flex-col items-end space-y-2">
         <div>
           <BasemapMenu onSelection={setBasemap} selectedBasemap={basemap} />
         </div>
@@ -387,9 +397,9 @@ export const Map = forwardRef<MapRef, MapProps>(function Map_(
                 )}
               />
             </Button>
-            <div className="rounded border bg-white/80 px-1 text-right text-sm italic leading-none backdrop-blur">
+            <div className="rounded border bg-white/80 px-1 text-right text-sm leading-none italic backdrop-blur">
               or hold{" "}
-              <span className="inline-block rounded border border-gray-500 px-[3px] font-mono text-xs font-bold not-italic leading-none">
+              <span className="inline-block rounded border border-gray-500 px-[3px] font-mono text-xs leading-none font-bold not-italic">
                 {onMac ? "⌘" : "ctrl"}
               </span>{" "}
               to scroll wheel zoom
@@ -399,17 +409,17 @@ export const Map = forwardRef<MapRef, MapProps>(function Map_(
       </div>
 
       {showZoom || NODE_ENV === "development" ? (
-        <div className="absolute bottom-1 right-1/2 rounded border bg-white/80 p-0.5 text-xs font-bold backdrop-blur">
+        <div className="absolute right-1/2 bottom-1 rounded border bg-white/80 p-0.5 text-xs font-bold backdrop-blur">
           <span className="font-mono leading-none">{zoomText}</span>
         </div>
       ) : null}
 
-      <div className="absolute bottom-10 right-2.5">
+      <div className="absolute right-2.5 bottom-10">
         <Legend layers={layers}>{legendExtras}</Legend>
       </div>
 
       {withScrollZoomControl ? (
-        <div className="absolute right-12 top-8" />
+        <div className="absolute top-8 right-12" />
       ) : null}
 
       {useDrawControls ? (
@@ -429,6 +439,7 @@ export const Map = forwardRef<MapRef, MapProps>(function Map_(
           <LayerGroup
             context={{
               selectedIDs,
+              clickedFeatures: null,
               hoveredFeatures,
               hoveredPoint,
               clickedPoint,

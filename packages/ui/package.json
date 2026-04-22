@@ -20,11 +20,13 @@
     "update": "pnpm update"
   },
   "peerDependencies": {
-    "react": "^19.2.3"
+    "react": "^19.2.5",
+    "maplibre-gl": "^5.0.0",
+    "react-map-gl": "^8.0.0"
   },
   "dependencies": {
     "@mapbox/mapbox-gl-draw": "^1.5.1",
-    "@maplibre/maplibre-gl-style-spec": "^24.4.0",
+    "@maplibre/maplibre-gl-style-spec": "^24.8.1",
     "@react-aria/toast": "3.0.8",
     "@react-stately/toast": "3.1.2",
     "@react-stately/data": "3.14.1",
@@ -36,13 +38,11 @@
     "classnames": "^2.5.1",
     "domhandler": "^5.0.3",
     "lodash": "^4.17.21",
-    "maplibre-gl": "^5.14.0",
     "mustache": "^4.2.0",
-    "next": "16.0.10",
+    "next": "16.2.4",
     "react-aria": "^3.44.0",
-    "react-aria-components": "^1.13.0",
+    "react-aria-components": "^1.17.0",
     "react-icons": "^5.5.0",
-    "react-map-gl": "^8.1.0",
     "react-markdown": "^10.1.0",
     "react-spinners": "^0.17.0",
     "react-stately": "^3.42.0",
@@ -64,15 +64,17 @@
     "@types/mapbox__mapbox-gl-draw": "^1.4.9",
     "@types/mustache": "^4.2.6",
     "@types/node": "^24.10.1",
-    "@types/react": "^19.2.7",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@types/sanitize-html": "^2.16.0",
     "@wprdc/eslint-config": "workspace:*",
     "@wprdc/typescript-config": "workspace:*",
     "autoprefixer": "^10.4.22",
+    "maplibre-gl": "^5.23.0",
     "postcss": "^8.5.6",
     "postcss-load-config": "^6.0.1",
-    "react": "^19.2.3",
+    "react": "^19.2.5",
+    "react-map-gl": "^8.1.1",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3"
   }
