@@ -15,6 +15,7 @@ RUN apk update
 
 WORKDIR /app
 COPY . .
+COPY /apps/greenprint/next.config.prod.ts ./next.config.ts
 COPY /apps/greenprint/.env.local /app/apps/greenprint/.env.local
 
 RUN turbo prune greenprint --docker
@@ -24,6 +25,7 @@ RUN apk add --no-cache libc6-compat
 RUN apk update
 WORKDIR /app
 
+COPY /apps/greenprint/next.config.prod.ts ./next.config.ts
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
