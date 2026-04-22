@@ -15,7 +15,6 @@ RUN apk update
 
 WORKDIR /app
 COPY . .
-COPY /apps/greenprint/next.config.prod.ts ./next.config.ts
 COPY /apps/greenprint/.env.local /app/apps/greenprint/.env.local
 
 RUN turbo prune greenprint --docker
@@ -25,17 +24,19 @@ RUN apk add --no-cache libc6-compat
 RUN apk update
 WORKDIR /app
 
-COPY /apps/greenprint/next.config.prod.ts ./next.config.ts
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --from=builder /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
+
 RUN pnpm install
 
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
 COPY --from=builder /app/apps/greenprint/.env.local /app/apps/greenprint/.env.local
+COPY apps/greenprint/next.config.prod.ts apps/greenprint/next.config.ts
 
+RUN pnpm --filter greenprint add sharp
 RUN turbo run build --filter=greenprint
 
 FROM alpine AS runner
@@ -43,6 +44,7 @@ WORKDIR /app
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+
 USER nextjs
 
 COPY --from=installer /app/apps/greenprint/next.config.prod.ts ./next.config.ts
