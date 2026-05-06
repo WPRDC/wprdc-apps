@@ -1,11 +1,11 @@
-import type { CondemnedProperties } from "@wprdc/types";
+import type { CondemnedStatus } from "@wprdc/types";
 import { SingleValueVizCollection, Typography } from "@wprdc/ui";
 import type { SectionProps } from "../types";
 
 export function CondemnedPropertiesSection({
   fields,
   records,
-}: SectionProps<CondemnedProperties>): React.ReactElement {
+}: SectionProps<CondemnedStatus>): React.ReactElement {
   if (!records.length)
     return <Typography.Note>No condemnation record found.</Typography.Note>;
 
@@ -24,8 +24,8 @@ export function CondemnedPropertiesSection({
           {
             id: "date",
             label: "Date",
-            value: record.date,
-            info: fields.date.info?.notes,
+            value: record.create_date,
+            info: fields.create_date.info?.notes,
           },
           {
             id: "latest_inspection_result",

@@ -301,7 +301,7 @@ export interface CondemnedStatus extends DatastoreRecord {
   address: string;
   owner: string;
   property_type: string;
-  date: string;
+  create_date: string;
   latest_inspection_result: string;
   latest_inspection_score: string;
   inspection_status: string;
