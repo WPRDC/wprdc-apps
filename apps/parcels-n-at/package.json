@@ -12,8 +12,8 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf .next"
   },
   "dependencies": {
-    "@react-types/shared": "^3.32.1",
-    "@tailwindcss/postcss": "^4.1.17",
+    "@react-types/shared": "^3.34.0",
+    "@tailwindcss/postcss": "^4.3.0",
     "@wprdc/api": "workspace:*",
     "@wprdc/types": "workspace:*",
     "@wprdc/ui": "workspace:*",
@@ -26,8 +26,8 @@
     "postgres": "^3.4.7",
     "react": "^19.2.5",
     "react-aria": "^3.44.0",
-    "react-aria-components": "^1.13.0",
-    "react-dom": "^19.2.5",
+    "react-aria-components": "^1.17.0",
+    "react-dom": "^19.2.6",
     "react-icons": "^5.5.0",
     "react-map-gl": "^8.1.1",
     "react-stately": "^3.42.0",

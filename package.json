@@ -16,11 +16,11 @@
     "eslint": "9.39.1"
   },
   "devDependencies": {
-    "prettier": "^3.8.1",
-    "prettier-plugin-tailwindcss": "^0.7.2",
-    "turbo": "^2.9.6"
+    "prettier": "^3.8.3",
+    "prettier-plugin-tailwindcss": "^0.8.0",
+    "turbo": "^2.9.14"
   },
-  "packageManager": "pnpm@10.25.0",
+  "packageManager": "pnpm@11.1.2",
   "engines": {
     "node": ">=20"
   },
