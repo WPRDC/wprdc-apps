@@ -63,7 +63,17 @@ function buildParcelSubquery(
     `);
   }
 
-  if (!parts.length) return null;
+  if (!parts.length) {
+    if (ownerAddresses.length) {
+      const addresses = ownerAddresses.map((a) => a.trim());
+      return sql`
+      SELECT parcel_id
+      FROM spacerat.parcel_index
+      WHERE owner_address = ANY(${sql.array(addresses)}::text[])
+    `;
+    }
+    return null;
+  }
 
   const unioned = parts.reduce(unionQueries);
 
