@@ -1,6 +1,6 @@
 services:
   parcels-n-at:
-    profiles: [parcels-n-at]
+    profiles: [ parcels-n-at ]
     build:
       context: .
       dockerfile: apps/parcels-n-at/Dockerfile
@@ -18,17 +18,18 @@ services:
       NEXT_PUBLIC_API_HOST: ${NEXT_PUBLIC_API_HOST}
       NEXT_PUBLIC_OWNER_AGG_BLACKLIST: ${NEXT_PUBLIC_OWNER_AGG_BLACKLIST}
       SOLR_URL: http://solr:8983/solr/parcels
-    depends_on:
-      solr:
-        condition: service_healthy
+      HEALTHCHECK_PARCEL_ID: ${HEALTHCHECK_PARCEL_ID:-0002B00051000000}
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3000/explore?parcel='+process.env.HEALTHCHECK_PARCEL_ID).then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 40s
+    labels:
+      - autoheal=true
 
   greenprint:
-    profiles: [greenprint]
+    profiles: [ greenprint ]
     build:
       context: .
       dockerfile: apps/greenprint/Dockerfile
@@ -43,27 +44,27 @@ services:
       PGUSERNAME: ${PGUSERNAME}
       PGPASSWORD: ${PGPASSWORD}
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
 
   solr:
-    profiles: [parcels-n-at, solr, etl]
+    profiles: [ parcels-n-at, solr, etl ]
     image: solr:9.10.1
     volumes:
       - solr_data:/var/solr
       - ./tools/solr/configsets/parcels:/configsets/parcels:ro
     command: solr-precreate parcels /configsets/parcels
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8983/solr/parcels/admin/ping"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8983/solr/parcels/admin/ping" ]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 30s
 
   etl:
-    profiles: [etl]
+    profiles: [ etl ]
     build:
       context: .
       dockerfile: tools/etl/parcels-solr/Dockerfile
@@ -81,7 +82,7 @@ services:
         condition: service_healthy
 
   housecat:
-    profiles: [housecat]
+    profiles: [ housecat ]
     build:
       context: .
       dockerfile: apps/housecat/Dockerfile
@@ -89,12 +90,20 @@ services:
       - "3001:3000"
 
   website:
-    profiles: [website]
+    profiles: [ website ]
     build:
       context: .
       dockerfile: apps/website/Dockerfile
     ports:
       - "3000:3000"
+
+  autoheal:
+    image: willfarrell/autoheal
+    restart: always
+    environment:
+      AUTOHEAL_CONTAINER_LABEL: autoheal
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
   solr_data:
