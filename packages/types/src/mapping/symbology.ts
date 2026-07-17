@@ -155,6 +155,7 @@ export interface CategorySymbologyOptions<T extends StyleValue = StyleValue> {
 
   /** Style used when no category is matched */
   defaultStyle?: OptionallyInteractive<T>;
+
 }
 
 export type DecisionOperator = "==" | "!=" | ">" | "<" | "<=" | ">=";
@@ -183,6 +184,9 @@ export interface CaseSymbologyOptions<T extends StyleValue = StyleValue> {
 
   /** Style used when no category is matched */
   defaultStyle?: OptionallyInteractive<T>;
+
+  /** Style used when value is null */
+  nullStyle?: OptionallyInteractive<T>;
 }
 
 export type RampType =

@@ -17,13 +17,13 @@ export function Legend({
   layers,
   children,
 }: LegendProps): React.ReactElement | null {
-  const filteredLayers = layers?.filter(
+  const visibleLayers = layers?.filter(
     (l: LayerConfig) =>
       l.legend || (l.symbology.mode === "simplified" && l.legend !== false),
   );
 
   // hide layer when empty
-  if (!filteredLayers?.length) {
+  if (!visibleLayers?.length) {
     return null;
   }
 
@@ -33,7 +33,7 @@ export function Legend({
         Legend
       </div>
 
-      {filteredLayers.map((item) => (
+      {visibleLayers.map((item) => (
         <LegendItem key={item.slug} layer={item} />
       ))}
 
@@ -43,10 +43,11 @@ export function Legend({
 }
 
 export function LegendItem({ layer }: LegendItemProps): React.ReactElement {
+  console.log('🗺️', layer)
   const legendProps = layer.legend
     ? layer.legend
     : legendFromOption(layer as LayerConfig<SimplifiedSymbologyConfig>);
-
+  console.log("🧭", legendProps)
   if (!legendProps) return <></>;
 
   return (
@@ -73,6 +74,8 @@ function CircleIcon({ style }: HTMLProps<HTMLDivElement>) {
 function asCSS(geoType: GeoType, style: LegendItemOptions) {
   const { fillColor, fillOpacity, strokeColor, strokeWidth } = style;
 
+  console.log("🎨", style)
+
   switch (geoType) {
     case GeoType.Line:
       return {
@@ -91,7 +94,10 @@ function asCSS(geoType: GeoType, style: LegendItemOptions) {
 }
 
 export function FixedLegendRow({ geoType, style, label }: FixedLegendOptions) {
+  console.log('🦉', style)
   const cssStyle: CSSProperties = asCSS(geoType, style);
+
+  console.log('💅', cssStyle);
   return (
     <div className="flex items-center space-x-2 pb-1">
       {geoType === GeoType.Polygon && <PolygonIcon style={cssStyle} />}

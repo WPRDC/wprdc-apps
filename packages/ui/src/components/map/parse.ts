@@ -202,7 +202,7 @@ export function parseOption<T extends StyleValue>(
       ] as MatchExpression;
 
     case "case":
-      const caseRecords = symbologyRecord.style;
+      { const caseRecords = symbologyRecord.style;
       let caseExpressionRecords: CaseRecords = [
         [
           caseRecords[0].operator,
@@ -222,15 +222,29 @@ export function parseOption<T extends StyleValue>(
         );
       }
 
-      return [
+      const nullExpression = symbologyRecord.nullStyle ?  [ ["!", ["has", `${symbologyRecord.field}`]], "#ccc"] : []
+
+      console.log("caseExpressionRecords", [
         "case",
+        ...nullExpression,
         ...caseExpressionRecords,
         parseSymbologyOption(
           symbologyRecord.defaultStyle ?? defaultValue,
           layer,
           context,
         ),
-      ] as CaseExpression;
+      ]);
+
+      return [
+        "case",
+        ...nullExpression,
+        ...caseExpressionRecords,
+        parseSymbologyOption(
+          symbologyRecord.defaultStyle ?? defaultValue,
+          layer,
+          context,
+        ),
+      ] as CaseExpression; }
 
     case "ramp":
       const rampRecords = symbologyRecord.style;
@@ -447,9 +461,9 @@ function generateBaseStyle(
     const record = symbology[curr] as FixedSymbologyOptions;
     return {
       ...acc,
-      [curr]: symbology[curr]
+      ...(symbology[curr]
         ? mapStyleToLegendStyle(curr, record.style, zoom)
-        : DEFAULT_COLOR,
+        : { [curr]: DEFAULT_COLOR }),
     };
   }, {});
 }

@@ -89,7 +89,6 @@ const layers: Record<
       golfCourses,
       growPghGardens,
       // landTrustProperty,
-      lotsToLove,
       municipalParks,
       parkNode,
       pghParksOpenspace,

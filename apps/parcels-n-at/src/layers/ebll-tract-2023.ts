@@ -19,8 +19,9 @@ export const pittsburghNeighborhoods: LayerConfig = {
   },
 
   tiles: {
-    source: "https://data.wprdc.org/tiles/table.neighborhood_index.geom",
-    sourceLayer: "table.neighborhood_index.geom",
+    source:
+      "https://data.wprdc.org/tiles/table.4af8e160-57e9-4ebf-a501-76ca1b42fc99._geom",
+    sourceLayer: "table.4af8e160-57e9-4ebf-a501-76ca1b42fc99._geom",
     minZoom: 7,
     maxZoom: 14.8,
   },
@@ -39,11 +40,7 @@ export const pittsburghNeighborhoods: LayerConfig = {
     },
     fillOpacity: {
       mode: "fixed",
-      style: [
-        [8, 0.2],
-        [14.5, 0.2],
-        [15, 0],
-      ],
+      style: 0,
     },
     strokeOpacity: {
       mode: "fixed",
@@ -64,9 +61,13 @@ export const pittsburghNeighborhoods: LayerConfig = {
     textField: { mode: "expression", expression: ["get", "hood"] },
     textSize: {
       mode: "fixed",
-      style: 12,
+      style: [
+        [8, 0],
+        [11.9, 0],
+        [12, 9],
+        [15, 12],
+      ],
     },
   },
-
   legend: false,
 };

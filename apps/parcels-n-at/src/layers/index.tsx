@@ -11,6 +11,7 @@ import { pre78parcels } from "@/layers/pre-78-parcels";
 import { waterSuppliers } from "@/layers/water-suppliers";
 import { parcelLeadlineStatus } from "@/layers/parcel-leadline-status";
 import { ownerOccupiedParcels } from "@/layers/owner-occupied-parcels";
+import { ebllTract2024 } from "@/layers/ebll-tract-2024";
 
 export const availableLayers = [
   parcelUseClasses,
@@ -28,4 +29,5 @@ export const availableLayers = [
   waterSuppliers,
   parcelLeadlineStatus,
   largePublicOwners,
+  ebllTract2024,
 ];
