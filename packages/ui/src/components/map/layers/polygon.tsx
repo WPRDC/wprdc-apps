@@ -33,7 +33,7 @@ export function PolygonLayer({
           layout={symbology.fillLayout}
         />
         <Layer
-          id={`${slug}-fill`}
+          id={`${slug}-line`}
           source={slug}
           source-layer={sourceLayer}
           type="line"

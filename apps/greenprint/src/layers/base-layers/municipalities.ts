@@ -30,18 +30,18 @@ export const municipalities: LayerConfig = {
     geoType: GeoType.Polygon,
     fillColor: {
       mode: "fixed",
-      style: { default: "#FFF", selected: "#FCEC52", hovered: "#bae6fd" },
+      style: "#FFF",
     },
     strokeColor: {
       mode: "fixed",
-      style: { default: "#000", selected: "#000", hovered: "#bae6fd" },
+      style: "#000",
     },
     fillOpacity: {
       mode: "fixed",
       style: [
-        [8, { default: 0.2, selected: 0.4, hovered: 0.7 }],
-        [14.5, { default: 0.2, selected: 0.4, hovered: 0.7 }],
-        [15, { default: 0, selected: 0, hovered: 0 }],
+        [8, 0.2],
+        [14.5, 0.2],
+        [15, 0],
       ],
     },
     strokeOpacity: {
@@ -55,9 +55,9 @@ export const municipalities: LayerConfig = {
     strokeWidth: {
       mode: "fixed",
       style: [
-        [8, { default: 1, selected: 2, hovered: 2.5 }],
-        [12, { default: 1, selected: 2, hovered: 2.5 }],
-        [14.5, { default: 4, selected: 8, hovered: 10 }],
+        [8, 1],
+        [12, 1],
+        [14.5, 4],
       ],
     },
     textField: { mode: "expression", expression: ["get", "NAME"] },

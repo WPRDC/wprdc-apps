@@ -32,6 +32,23 @@ export function LineLayer({
       />
     );
 
+  return (
+    <SimpleLineLayer
+      layer={layer}
+      sourceLayer={sourceLayer}
+      context={context}
+    />
+  );
+}
+
+function SimpleLineLayer({
+  layer,
+  sourceLayer,
+  context,
+}: SymbologyLayerProps<LineSymbologyConfig>): React.ReactElement {
+  const { slug } = layer;
+  const filter: FilterSpecification | undefined = layer.renderOptions?.filter;
+
   const { strokeColor, strokeWidth } = useMemo(() => {
     return parseSymbology(
       layer as LayerConfig<SimplifiedSymbologyConfig>,

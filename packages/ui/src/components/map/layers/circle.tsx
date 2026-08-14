@@ -35,6 +35,23 @@ export function CircleLayer({
     );
   }
 
+  return (
+    <SimpleCircleLayer
+      layer={layer}
+      sourceLayer={sourceLayer}
+      context={context}
+    />
+  );
+}
+
+function SimpleCircleLayer({
+  layer,
+  sourceLayer,
+  context,
+}: SymbologyLayerProps<CircleSymbologyConfig>): React.ReactElement {
+  const { slug } = layer;
+  const filter: FilterSpecification | undefined = layer.renderOptions?.filter;
+
   const { fillColor, strokeColor } = useMemo(() => {
     return parseSymbology(
       layer as LayerConfig<SimplifiedSymbologyConfig>,

@@ -6,6 +6,7 @@ import { TbSquareRoundedChevronDown, TbX } from "react-icons/tb";
 import type { ClickPopupProps, PopupProps } from "../Map.types";
 import { PopupRow } from "./PopupRow";
 import { MapGeoJSONFeature } from "react-map-gl/maplibre";
+import { filterSelectableFeatures } from "../util";
 
 export function HoverPopup({
   features,
@@ -29,12 +30,18 @@ export function HoverPopup({
     return Object.values(filtered);
   }, [features, layers]);
 
+  // only selectable features end up in the click selection menu
+  const selectableCount = useMemo(
+    () => filterSelectableFeatures(filteredFeatures, layers).length,
+    [filteredFeatures, layers],
+  );
+
   return (
     <div
       className="pointer-events-none absolute border-2 border-black/40 bg-white/80 backdrop-blur-md"
       style={{ left: point.x + 12, top: point.y + 12 }}
     >
-      {filteredFeatures.length > 1 && (
+      {selectableCount > 1 && (
         <div className="px-2 pt-1 text-left text-xs font-bold">
           Click to open selection menu
         </div>

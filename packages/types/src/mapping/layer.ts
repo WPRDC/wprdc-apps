@@ -52,6 +52,17 @@ export interface InteractionOptions {
   ignoreCase?: ExpressionSpecification;
 
   /**
+   * Whether this layer's features can be selected by clicking them.
+   *
+   * Context/overlay layers are hoverable but, by default, are not selection
+   * targets - only layers that opt in are offered in the click selection menu
+   * and passed to navigation.
+   *
+   * @defaultValue false
+   */
+  selectable?: boolean;
+
+  /**
    *  Mustache template that renders the contents of the popup on hover
    *
    * todo: decide what data gets passed to template

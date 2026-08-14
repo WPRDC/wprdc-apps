@@ -37,7 +37,11 @@ import DrawControl from "./DrawControl";
 import { LayerGroup } from "./LayerGroup";
 import type { MapProps } from "./Map.types";
 import { ClickPopup, HoverPopup, SimplePopupWrapper } from "./popup";
-import { extractFeatures } from "./util";
+import {
+  extractFeatures,
+  filterSelectableFeatures,
+  getInteractiveLayerID,
+} from "./util";
 import { throttle } from "lodash";
 import { Selection } from "react-aria-components";
 
@@ -237,20 +241,22 @@ export const Map = forwardRef<MapRef, MapProps>(function Map_(
   const handleClick = useCallback(
     (e: MapLayerMouseEvent): void => {
       const features = extractFeatures(e);
+      // context layers are hoverable but aren't selection targets
+      const selectableFeatures = filterSelectableFeatures(features, layers);
 
-      setClickedFeatures(features);
-      if (!!features && features.length > 1) {
+      setClickedFeatures(selectableFeatures);
+      if (selectableFeatures.length > 1) {
         // @ts-ignore
         setClickedPoint(e.point);
       } else setClickedPoint(null);
       // if the map is used for navigation
-      if (onNavigate && features && features.length === 1)
-        handleNavigate(features[0]);
+      if (onNavigate && selectableFeatures.length === 1)
+        handleNavigate(selectableFeatures[0]);
       if (onClick) {
         onClick(features ?? [], mapState, e);
       }
     },
-    [handleNavigate, mapState, onClick, onNavigate],
+    [handleNavigate, layers, mapState, onClick, onNavigate],
   );
 
   /** Called with each key press within the map */
@@ -315,9 +321,9 @@ export const Map = forwardRef<MapRef, MapProps>(function Map_(
 
   // IDs of layers that will pass data to map event handlers
   const interactiveLayerIDs = useMemo(() => {
-    // use fill layers for interaction
+    // the maplibre layer used for interaction depends on the layer's geometry
     const autoLayerIDs =
-      layers?.filter((l) => !!l.interaction).map((l) => `${l.slug}-fill`) ?? [];
+      layers?.filter((l) => !!l.interaction).map(getInteractiveLayerID) ?? [];
     // join with interactive ids provided in props
     return autoLayerIDs.concat(manualInteractiveLayerIDs);
   }, [layers, manualInteractiveLayerIDs]);

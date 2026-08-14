@@ -62,6 +62,7 @@ export const parcels: LayerConfig = {
   // interaction
   interaction: {
     idField: "parcel_id",
+    selectable: true,
     hoverPopupContent: `
       <h1 class="text-lg font-bold">
         <div class="font-sans leading-none">{{housenum}} {{street}}</div>
