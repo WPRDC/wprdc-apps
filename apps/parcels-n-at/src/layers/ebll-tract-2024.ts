@@ -1,6 +1,11 @@
 import type { LayerConfig } from "@wprdc/types";
 import { GeoType } from "@wprdc/types";
 
+/** Years available in the `table.ebll_tracts.geom` tile source. */
+const EBLL_YEARS = [
+  2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024,
+].reverse();
+
 export const ebllTract2024: LayerConfig = {
   slug: "ebll-tract-2024",
   title: "EBLL by Tract (2024)",
@@ -32,27 +37,27 @@ export const ebllTract2024: LayerConfig = {
     fillColor: {
       mode: "case",
       field: "percentEBLL2024",
-      defaultStyle: "#f00",
+      defaultStyle: "#ccc",
       nullStyle: "#ccc",
       style: [
         {
           slug: "low",
           label: "< 10%",
-          style: "#00f",
+          style: "#2c7fb8",
           operator: "<",
           operand: 10,
         },
         {
           slug: "medium",
           label: "10-20%",
-          style: "#0f0",
+          style: "#7fcdbb",
           operator: "<",
           operand: 20,
         },
         {
           slug: "high",
           label: "> 20%",
-          style: "#f00",
+          style: "#edf8b1",
           operator: "<",
           operand: 100,
         },
@@ -60,11 +65,11 @@ export const ebllTract2024: LayerConfig = {
     },
     strokeColor: {
       mode: "fixed",
-      style: "#FFF",
+      style: "#000",
     },
     fillOpacity: {
       mode: "fixed",
-      style: 1,
+      style: 0.6,
     },
     strokeOpacity: {
       mode: "fixed",
@@ -90,13 +95,23 @@ export const ebllTract2024: LayerConfig = {
       <h1 class="text-lg font-bold">
         <div class="font-sans leading-none">EBLL 2024</div>
       </h1>
-      <div class="font-bold text-md leading-none mt-2"><b>% Kids w/ EBLL:</b> {{percentEBLL2024}}</div>
+      <p><span class="text-xs font-bold">Tract: </span><span class="text-xs font-mono">{{id}}</span></p>
+      
+      <table class="mt-1 text-xs w-full">
+            <caption class="text-xs font-bold text-left italic">% Kids w/ EBLL</caption>
+        <thead>
+          <tr class="border-b-1"><th class="pr-2 text-left">Year</th><th class="text-left">%</th></tr>
+        </thead>
+        <tbody>
+${EBLL_YEARS.map(
+      (year) => `          <tr class="even:bg-gray-200">
+            <td class="pr-2">${year}</td>
+            <td>{{#percentEBLL${year}}}{{percentEBLL${year}}}%{{/percentEBLL${year}}}{{^percentEBLL${year}}}{{#note${year}}}{{note${year}}}{{/note${year}}}{{^note${year}}}N/A{{/note${year}}}{{/percentEBLL${year}}}</td>
+          </tr>`,
+    ).join("\n")}
+        </tbody>
+      </table>
     `,
-    clickPopupContent: `
-      <h1 class="text-lg font-bold">
-        <div class="font-sans leading-none">EBLL 2024</div>
-      </h1>
-      <div class="font-bold text-md leading-none mt-2"><b>% Kids w/ EBLL</b>{{percentEBLL2024}}</div>
-    `,
+    clickPopupContent: "",
   },
 };

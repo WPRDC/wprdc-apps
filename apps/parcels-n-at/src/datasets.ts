@@ -105,9 +105,11 @@ export const datasets: Record<string, Dataset[]> = {
       parcelIDField: "parcel_id",
     },
     {
+      // bulk export joins on parcel ID, so it uses the parcel-level resource.
+      // the dashboard reads the newer tract-level table (ParcelTable.EBLL).
       title: "Parcel-Level Census Tract EBLL",
       slug: "parcel-level-census-tract-ebll",
-      table: ParcelTable.EBLL,
+      table: ParcelTable.ParcelLevelEBLL,
       datasetURL: "https://data.wprdc.org/dataset/lead-risk",
       pghOnly: false,
       parcelIDField: "parcel_id",

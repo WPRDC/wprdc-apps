@@ -2,11 +2,12 @@ import type { MultiSourceSectionProps } from "../types";
 import {
   CityViolation,
   EBLL,
+  EBLL_YEARS,
   LeadLine,
   PropertyAssessment,
   WaterProvider,
 } from "@wprdc/types";
-import { A, Chip, SingleValueViz, Typography } from "@wprdc/ui";
+import { A, Chip, SingleValueViz, Table, Typography } from "@wprdc/ui";
 import { CodeViolationsSection } from "@/components/parcel-dashboard/sections/code-violations.tsx";
 
 export function LeadRiskSection({
@@ -33,15 +34,10 @@ export function LeadRiskSection({
         r.violation_code_section.includes("620B.01")),
   );
 
-  let ebllData: string | number = "Not Available";
+  const ebllRecord: EBLL | undefined = ebll.records[0];
 
-  if (ebll.records.length) {
-    ebllData = (ebll.records[0].census_tract_ebll_2020 ??
-      ebll.records[0].note2020) as string | number;
-    if (ebllData === "Censored") {
-      ebllData = "Censored (< 50 children tested in tract)";
-    }
-  }
+  // most recent year first
+  const ebllYears = [...EBLL_YEARS].reverse();
 
   return (
     <div className="">
@@ -95,11 +91,55 @@ export function LeadRiskSection({
         <h3 className="mb-2 text-xl font-bold">
           Census Tract Elevated Blood Lead Level (EBLL) Rates
         </h3>
-        <SingleValueViz
-          id="ebll-2020"
-          label="% of children in census tract who were tested and had EBLL in 2020"
-          value={ebllData}
-        />
+        <div className="mb-2 text-sm">
+          Percent of children in this parcel&apos;s census tract who
+          <em> were tested</em> and had an elevated blood lead level. Rates are
+          not reported for tracts with fewer than 50 children tested.
+        </div>
+
+        {!ebllRecord ? (
+          <Typography.Note>No data available for this parcel.</Typography.Note>
+        ) : (
+          <>
+            <div className="my-2">
+              <SingleValueViz
+                id="ebll-2021-2024"
+                label="% w/ EBLL, 2021-2024 combined"
+                value={formatEBLLRate(
+                  ebllRecord.percentEBLL2021_2024,
+                  ebllRecord.note2021_2024,
+                )}
+              />
+            </div>
+            <div className="max-w-lg">
+              <Table
+                rowLabel="Year"
+                columns={[{ label: "% w/ EBLL" }, { label: "Note" }]}
+                rows={ebllYears.map(String)}
+                data={ebllYears.map((year) => [
+                  {
+                    value: ebllRecord[`percentEBLL${year}`] as number | null,
+                    format: (rate) =>
+                      typeof rate === "number" ? (
+                        `${rate}%`
+                      ) : (
+                        <Typography.Note>N/A</Typography.Note>
+                      ),
+                  },
+                  {
+                    value: ebllRecord[`note${year}`] as string | null,
+                    format: (note) =>
+                      note ? (
+                        <span className="text-xs">{note}</span>
+                      ) : (
+                        <Typography.Note>—</Typography.Note>
+                      ),
+                  },
+                ])}
+              />
+            </div>
+          </>
+        )}
       </section>
 
       <section className="mb-6">
@@ -140,6 +180,13 @@ export function LeadRiskSection({
       </section>
     </div>
   );
+}
+
+/** Show the rate when there is one, otherwise fall back to that period's note */
+function formatEBLLRate(rate: number | null, note: string | null): string {
+  if (typeof rate === "number") return `${rate}%`;
+  if (note === "Censored") return "Censored (< 50 children tested in tract)";
+  return note ?? "Not Available";
 }
 
 const YearBuiltChip = ({ year }: { year?: number }) => {

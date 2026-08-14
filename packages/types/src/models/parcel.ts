@@ -35,12 +35,51 @@ export interface LeadLine extends DatastoreRecord {
   private_status: string;
 }
 
+/**
+ * Rate of elevated blood lead levels (EBLL) among children *tested* in a
+ * census tract.
+ *
+ * Published by tract - `parcel_id` is joined on when fetched for a parcel.
+ * Each year has a matching `note<year>` that explains a missing or unreliable
+ * percentage (e.g. "Censored", "Unstable percent, interpret with caution").
+ */
 export interface EBLL extends DatastoreRecord {
   parcel_id: string;
-  census_tract: string;
-  census_tract_ebll_2020: number;
-  note2020: string;
+  CensusTract: string;
+
+  percentEBLL2015: number | null;
+  note2015: string | null;
+  percentEBLL2016: number | null;
+  note2016: string | null;
+  percentEBLL2017: number | null;
+  note2017: string | null;
+  percentEBLL2018: number | null;
+  note2018: string | null;
+  percentEBLL2019: number | null;
+  note2019: string | null;
+  percentEBLL2020: number | null;
+  note2020: string | null;
+  percentEBLL2021: number | null;
+  note2021: string | null;
+  percentEBLL2022: number | null;
+  note2022: string | null;
+  percentEBLL2023: number | null;
+  note2023: string | null;
+  percentEBLL2024: number | null;
+  note2024: string | null;
+
+  /** 2015-2020 combined */
+  percentEBLL15_20: number | null;
+  note15_20: string | null;
+  /** 2021-2024 combined */
+  percentEBLL2021_2024: number | null;
+  note2021_2024: string | null;
 }
+
+/** Years with their own EBLL rate, oldest first */
+export const EBLL_YEARS = [
+  2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024,
+] as const;
 
 export interface WaterProvider extends DatastoreRecord {
   PIN: string;

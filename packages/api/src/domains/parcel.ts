@@ -34,8 +34,19 @@ export enum ParcelTable {
   CondemnedStatus = "0a963f26-eb4b-4325-bbbc-3ddf6a871410",
   LeadLine = "2ddfd798-b71a-4f78-bc17-8c54c6a30511",
   WaterProvider = "e85ee57f-5231-41c3-b955-62404157bd14",
-  EBLL = "39e8ae7e-5dca-421e-b87d-8cec34c91950",
+  /** EBLL rates by census tract, 2015-2024 */
+  EBLL = "8432f1ad-c5bf-447f-b34b-160d8ee063b6",
+  /** EBLL rates through 2020, pre-joined to parcels. Only kept for bulk export. */
+  ParcelLevelEBLL = "39e8ae7e-5dca-421e-b87d-8cec34c91950",
 }
+
+/**
+ * Parcel centroids with geographic identifiers.
+ *
+ * Used to look up the census tract a parcel sits in so that tract-level
+ * datasets can be fetched for a parcel.
+ */
+const PARCEL_CENTROIDS = "3fab7152-3f11-4788-8372-4c33f86ea813";
 
 export const parcelIDFields: Record<ParcelTable, string> = {
   [ParcelTable.Assessment]: "PARID",
@@ -51,7 +62,9 @@ export const parcelIDFields: Record<ParcelTable, string> = {
   [ParcelTable.CondemnedStatus]: "parcel_id",
   [ParcelTable.LeadLine]: "parcel_id",
   [ParcelTable.WaterProvider]: "PIN",
-  [ParcelTable.EBLL]: "parcel_id",
+  // tract-level table - parcels reach it through PARCEL_CENTROIDS, see fetchEBLL
+  [ParcelTable.EBLL]: "CensusTract",
+  [ParcelTable.ParcelLevelEBLL]: "parcel_id",
 };
 
 async function _fetchParcelRecords<T extends DatastoreRecord>(
@@ -100,10 +113,33 @@ export const fetchLeadLineRecord = (
 ): Promise<APIResult<LeadLine>> =>
   fetchParcelRecords<LeadLine>(parcelID, ParcelTable.LeadLine);
 
-export const fetchEBLL = (
+/**
+ * Fetch EBLL rates for the census tract(s) the provided parcel(s) sit in.
+ *
+ * The EBLL data is published by census tract, so parcels are matched to their
+ * tract using the county parcel centroid file.  The parcel's ID is joined onto
+ * each record as `parcel_id`.
+ */
+export async function fetchEBLL(
   parcelID: string | string[],
-): Promise<APIResult<EBLL>> =>
-  fetchParcelRecords<EBLL>(parcelID, ParcelTable.EBLL);
+): Promise<APIResult<EBLL>> {
+  const parcelIDs = Array.isArray(parcelID) ? parcelID : [parcelID];
+
+  const sql = `SELECT c."PIN" AS parcel_id, e.*
+     FROM "${ParcelTable.EBLL}" e
+              JOIN "${PARCEL_CENTROIDS}" c ON e."CensusTract" = c."GEOID"::text
+     WHERE c."PIN" IN (${parcelIDs.map((pid) => `'${pid}'`).join(", ")})`;
+
+  const { records } = await fetchSQLSearch<EBLL>(sql);
+  const fields = await fetchFields(ParcelTable.EBLL);
+
+  if (!records || !fields) {
+    console.warn(`No EBLL data found for ${String(parcelID)}.`);
+    return { fields: undefined, records: undefined };
+  }
+
+  return { fields: toFieldLookup(fields), records };
+}
 
 export const fetchWaterProvider = (
   parcelID: string | string[],
