@@ -35,6 +35,26 @@ export function extractFeatures(
   return features;
 }
 
+/**
+ * Narrows a list of features to the ones that can be selected by clicking.
+ *
+ * Configured layers must opt in with `interaction.selectable`, so context
+ * layers stay hoverable without acting as selection targets.  Features with no
+ * matching layer config (i.e. layers made interactive through the
+ * `interactiveLayerIDs` prop) have no place to opt in, so they are kept.
+ */
+export function filterSelectableFeatures(
+  features: MapGeoJSONFeature[] | null,
+  layers?: LayerConfig[],
+): MapGeoJSONFeature[] {
+  if (!features) return [];
+  return features.filter((feature) => {
+    const layer = layers?.find((l) => l.slug === feature.source);
+    if (!layer) return true;
+    return !!layer.interaction?.selectable;
+  });
+}
+
 export const DEFAULT_LINE_OPACITY = 0.9;
 export const DEFAULT_FILL_OPACITY = 0.7;
 export const DEFAULT_STROKE_WIDTH: OptionallyZoomInteractive<number> = [

@@ -10,6 +10,7 @@ import type {
   FixedSymbologyOptions,
   InteractiveExpression,
   InterpolationExpression,
+  InterpolationExpressionRecord,
   LabeledLegendStyleRecord,
   LayerConfig,
   LegendItemOptions,
@@ -224,17 +225,6 @@ export function parseOption<T extends StyleValue>(
 
       const nullExpression = symbologyRecord.nullStyle ?  [ ["!", ["has", `${symbologyRecord.field}`]], "#ccc"] : []
 
-      console.log("caseExpressionRecords", [
-        "case",
-        ...nullExpression,
-        ...caseExpressionRecords,
-        parseSymbologyOption(
-          symbologyRecord.defaultStyle ?? defaultValue,
-          layer,
-          context,
-        ),
-      ]);
-
       return [
         "case",
         ...nullExpression,
@@ -269,12 +259,23 @@ export function parseOption<T extends StyleValue>(
         ] as StepExpression;
       }
 
+      // maplibre requires interpolation stops in ascending order
+      const orderedRampRecords = [...rampRecords].sort(
+        (a, b) => a.value - b.value,
+      );
+
       return [
         "interpolate",
         rampTypeToInterpolationSpec(symbologyRecord.type),
         ["get", symbologyRecord.field],
-        1,
-        "#000",
+        ...orderedRampRecords.reduce<InterpolationExpressionRecord>(
+          (acc, { value, style }) => [
+            ...acc,
+            value,
+            parseSymbologyOption(style, layer, context),
+          ],
+          [],
+        ),
       ] as InterpolationExpression;
 
     case "expression":
@@ -438,7 +439,7 @@ function mapStyleToLegendStyle(
   // if a zoom style, pick the style at this zoom, or first style if zoom is too low
   if (Array.isArray(style)) {
     styleAtZoom = style[0][1];
-    for (let i = 0; i++; i < style.length) {
+    for (let i = 0; i < style.length; i++) {
       const styleZoom = style[i][0];
       if (styleZoom < zoom) styleAtZoom = style[i][1];
     }
