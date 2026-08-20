@@ -9,6 +9,12 @@ import {
 } from "@wprdc/types";
 import { A, Chip, SingleValueViz, Table, Typography } from "@wprdc/ui";
 import { CodeViolationsSection } from "@/components/parcel-dashboard/sections/code-violations.tsx";
+import {
+  TbAlertCircle,
+  TbAlertTriangle,
+  TbAlertTriangleFilled,
+} from "react-icons/tb";
+import React from "react";
 
 export function LeadRiskSection({
   lead,
@@ -41,6 +47,26 @@ export function LeadRiskSection({
 
   return (
     <div className="">
+      <section className="mb-6 w-full">
+        <div className="flex items-center space-x-1 text-xs font-black text-green-500">
+          <TbAlertCircle className="mt-0.5 mr-1 size-4" />
+          <span className="uppercase">Resource</span>
+        </div>
+        <p className="text-sm font-bold italic">
+          If your child has been tested and has an elevated blood lead level,
+          help is available. Get the Lead Out Pittsburgh has a helpful guide on
+          what you can do next.
+        </p>
+        <A
+          href="https://gettheleadoutpgh.org/learn-more/help-for-lead-exposure/"
+          target="_blank"
+          variant="button"
+          buttonVariant="primary"
+          className="py-0.5 text-xs"
+        >
+          See the guide
+        </A>
+      </section>
       <section className="mb-6 w-full">
         <h3 className="mb-2 text-xl font-bold">Water Lines</h3>
         <div className="w-full text-sm">
