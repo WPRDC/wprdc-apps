@@ -66,6 +66,14 @@ export const datasets: Record<string, Dataset[]> = {
       parcelIDField: "pin",
     },
     {
+      title: "Delinquent Real Estate Taxes",
+      slug: "delinquent-real-estate-taxes",
+      table: ParcelTable.DelinquentTaxes,
+      datasetURL: "https://data.wprdc.org/dataset/delinquent-real-estate-taxes",
+      ignoredFields: ["asof_date"],
+      parcelIDField: "parcel_id",
+    },
+    {
       title: "Conservatorship Filings",
       slug: "conservatorship-filings",
       table: ParcelTable.ConservatorshipRecord,

@@ -4,6 +4,7 @@ import {
   fetchCityViolationsRecords,
   fetchCondemnedStatusRecords,
   fetchConservatorshipRecordRecords,
+  fetchDelinquentTaxesRecords,
   fetchEBLL,
   fetchFiledAssessmentAppealsRecord,
   fetchForeclosureFilingsRecords,
@@ -17,6 +18,7 @@ import type {
   ArchiveAssessmentAppeal,
   CityViolation,
   ConservatorshipRecord,
+  DelinquentTax,
   EBLL,
   FiledAssessmentAppeal,
   ForeclosureFiling,
@@ -39,6 +41,7 @@ import { CodeViolationsSection } from "./sections/code-violations";
 import { PLIPermitsSection } from "./sections/pli-permits";
 import { TaxContextSection } from "./sections/tax-context";
 import { TaxLiensSection } from "./sections/tax-liens";
+import { DelinquentTaxesSection } from "./sections/delinquent-taxes";
 import { ForeclosureFilingSection } from "./sections/foreclosure";
 import { ConservatorshipRecordSection } from "./sections/conservatoriship";
 import { HeadingSection, HeadingSkeleton } from "./sections/heading-section";
@@ -289,6 +292,18 @@ export function ParcelDashboard({
 
           {/* Liens and Foreclosure Filings */}
           <TabPanel id="financial-issues">
+            <ConnectedSection<DelinquentTax>
+              label="Delinquent Real Estate Taxes"
+              description="Unpaid county real estate taxes, by tax year"
+              className="col-span-6 row-span-1"
+              getter={fetchDelinquentTaxesRecords}
+              parcelID={parcelID}
+              section={DelinquentTaxesSection}
+              datasetLinks={[
+                "https://data.wprdc.org/dataset/delinquent-real-estate-taxes",
+              ]}
+            />
+
             <ConnectedSection<TaxLienWithCurrentStatus>
               label="Tax Liens"
               description="Filed and satisfied liens against the property"

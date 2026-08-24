@@ -4,6 +4,7 @@ import type {
   ConservatorshipRecord,
   CoordinatePair,
   DatastoreRecord,
+  DelinquentTax,
   EBLL,
   FiledAssessmentAppeal,
   ForeclosureFiling,
@@ -30,6 +31,7 @@ export enum ParcelTable {
   ForeclosureFilings = "foreclosure_filings",
   TaxLiensWithCurrentStatus = "65d0d259-3e58-49d3-bebb-80dc75f61245",
   ConservatorshipRecord = "fd64c179-b5af-4263-9275-fb581705d878",
+  DelinquentTaxes = "96e9d6b2-3e1a-4a0c-8ef6-23a049c263d8",
   ParcelBoundaries = "858bbc0f-b949-4e22-b4bb-1a78fef24afc",
   CondemnedStatus = "0a963f26-eb4b-4325-bbbc-3ddf6a871410",
   LeadLine = "2ddfd798-b71a-4f78-bc17-8c54c6a30511",
@@ -59,6 +61,7 @@ export const parcelIDFields: Record<ParcelTable, string> = {
   [ParcelTable.ForeclosureFilings]: "pin",
   [ParcelTable.TaxLiensWithCurrentStatus]: "pin",
   [ParcelTable.ConservatorshipRecord]: "pin",
+  [ParcelTable.DelinquentTaxes]: "parcel_id",
   [ParcelTable.CondemnedStatus]: "parcel_id",
   [ParcelTable.LeadLine]: "parcel_id",
   [ParcelTable.WaterProvider]: "PIN",
@@ -219,6 +222,11 @@ export const fetchConservatorshipRecordRecords = (
     parcelID,
     ParcelTable.ConservatorshipRecord,
   );
+
+export const fetchDelinquentTaxesRecords = (
+  parcelID: string | string[],
+): Promise<APIResult<DelinquentTax>> =>
+  fetchParcelRecords<DelinquentTax>(parcelID, ParcelTable.DelinquentTaxes);
 
 export const fetchCondemnedStatusRecords = (
   parcelID: string | string[],

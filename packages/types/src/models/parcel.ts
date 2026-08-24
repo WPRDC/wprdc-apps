@@ -294,6 +294,25 @@ export interface TaxLienWithCurrentStatus extends DatastoreRecord {
   satisfied: string;
 }
 
+/** One year of unpaid county real estate tax on a parcel. */
+export interface DelinquentTax extends DatastoreRecord {
+  ar_id: string;
+  /** Tax year, published as text (e.g. "2009"). */
+  year: string;
+  parcel_id: string;
+  parcel_id_formatted: string;
+  muni_name: string | null;
+  school_district: string | null;
+  /** Only populated for the small share of records with recorded payments. */
+  last_pay_date: string | null;
+  penalties: number;
+  interest: number | null;
+  orig_bill: number;
+  /** Only populated for the small share of records with recorded payments. */
+  total_payments: number | null;
+  asof_date: string;
+}
+
 export interface ConservatorshipRecord extends DatastoreRecord {
   pin: string;
   block_lot: string;
