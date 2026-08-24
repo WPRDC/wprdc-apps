@@ -1,6 +1,7 @@
 import {
   fetchAssessmentAppealsRecords,
   fetchAssessmentRecord,
+  fetchCityTaxDelinquencyRecords,
   fetchCityViolationsRecords,
   fetchCondemnedStatusRecords,
   fetchConservatorshipRecordRecords,
@@ -16,6 +17,7 @@ import {
 } from "@wprdc/api";
 import type {
   ArchiveAssessmentAppeal,
+  CityTaxDelinquency,
   CityViolation,
   ConservatorshipRecord,
   DelinquentTax,
@@ -292,15 +294,22 @@ export function ParcelDashboard({
 
           {/* Liens and Foreclosure Filings */}
           <TabPanel id="financial-issues">
-            <ConnectedSection<DelinquentTax>
+            <MultiConnectedSection<{
+              county: DelinquentTax;
+              city: CityTaxDelinquency;
+            }>
               label="Delinquent Real Estate Taxes"
-              description="Unpaid county real estate taxes, by tax year"
+              description="Unpaid county real estate taxes by tax year, plus City of Pittsburgh delinquency"
               className="col-span-6 row-span-1"
-              getter={fetchDelinquentTaxesRecords}
+              getters={{
+                county: fetchDelinquentTaxesRecords,
+                city: fetchCityTaxDelinquencyRecords,
+              }}
               parcelID={parcelID}
               section={DelinquentTaxesSection}
               datasetLinks={[
                 "https://data.wprdc.org/dataset/delinquent-real-estate-taxes",
+                "https://data.wprdc.org/dataset/city-of-pittsburgh-property-tax-delinquency",
               ]}
             />
 

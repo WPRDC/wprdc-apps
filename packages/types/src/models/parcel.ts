@@ -313,6 +313,33 @@ export interface DelinquentTax extends DatastoreRecord {
   asof_date: string;
 }
 
+/**
+ * City of Pittsburgh property tax delinquency - one row per delinquent parcel,
+ * split into the current year and everything prior. Amounts are never null.
+ */
+export interface CityTaxDelinquency extends DatastoreRecord {
+  /** County-format parcel ID. Literal "invalid input" where the city ID could not be converted. */
+  pin: string;
+  address: string | null;
+  billing_city: string | null;
+  current_delq_tax: number;
+  current_delq_pi: number;
+  /** Count of prior delinquent years, not a year number. */
+  prior_years: number;
+  prior_delq_tax: number;
+  prior_delq_pi: number;
+  state_description: string | null;
+  neighborhood: string | null;
+  council_district: string | null;
+  ward: string | null;
+  public_works_division: string | null;
+  pli_division: string | null;
+  police_zone: string | null;
+  fire_zone: string | null;
+  longitude: number | null;
+  latitude: number | null;
+}
+
 export interface ConservatorshipRecord extends DatastoreRecord {
   pin: string;
   block_lot: string;
