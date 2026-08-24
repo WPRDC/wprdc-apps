@@ -1,9 +1,11 @@
 import {
   fetchAssessmentAppealsRecords,
   fetchAssessmentRecord,
+  fetchCityTaxDelinquencyRecords,
   fetchCityViolationsRecords,
   fetchCondemnedStatusRecords,
   fetchConservatorshipRecordRecords,
+  fetchDelinquentTaxesRecords,
   fetchEBLL,
   fetchFiledAssessmentAppealsRecord,
   fetchForeclosureFilingsRecords,
@@ -15,8 +17,10 @@ import {
 } from "@wprdc/api";
 import type {
   ArchiveAssessmentAppeal,
+  CityTaxDelinquency,
   CityViolation,
   ConservatorshipRecord,
+  DelinquentTax,
   EBLL,
   FiledAssessmentAppeal,
   ForeclosureFiling,
@@ -39,6 +43,7 @@ import { CodeViolationsSection } from "./sections/code-violations";
 import { PLIPermitsSection } from "./sections/pli-permits";
 import { TaxContextSection } from "./sections/tax-context";
 import { TaxLiensSection } from "./sections/tax-liens";
+import { DelinquentTaxesSection } from "./sections/delinquent-taxes";
 import { ForeclosureFilingSection } from "./sections/foreclosure";
 import { ConservatorshipRecordSection } from "./sections/conservatoriship";
 import { HeadingSection, HeadingSkeleton } from "./sections/heading-section";
@@ -289,6 +294,25 @@ export function ParcelDashboard({
 
           {/* Liens and Foreclosure Filings */}
           <TabPanel id="financial-issues">
+            <MultiConnectedSection<{
+              county: DelinquentTax;
+              city: CityTaxDelinquency;
+            }>
+              label="Delinquent Real Estate Taxes"
+              description="Unpaid county real estate taxes by tax year, plus City of Pittsburgh delinquency"
+              className="col-span-6 row-span-1"
+              getters={{
+                county: fetchDelinquentTaxesRecords,
+                city: fetchCityTaxDelinquencyRecords,
+              }}
+              parcelID={parcelID}
+              section={DelinquentTaxesSection}
+              datasetLinks={[
+                "https://data.wprdc.org/dataset/delinquent-real-estate-taxes",
+                "https://data.wprdc.org/dataset/city-of-pittsburgh-property-tax-delinquency",
+              ]}
+            />
+
             <ConnectedSection<TaxLienWithCurrentStatus>
               label="Tax Liens"
               description="Filed and satisfied liens against the property"

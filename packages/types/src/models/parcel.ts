@@ -294,6 +294,52 @@ export interface TaxLienWithCurrentStatus extends DatastoreRecord {
   satisfied: string;
 }
 
+/** One year of unpaid county real estate tax on a parcel. */
+export interface DelinquentTax extends DatastoreRecord {
+  ar_id: string;
+  /** Tax year, published as text (e.g. "2009"). */
+  year: string;
+  parcel_id: string;
+  parcel_id_formatted: string;
+  muni_name: string | null;
+  school_district: string | null;
+  /** Only populated for the small share of records with recorded payments. */
+  last_pay_date: string | null;
+  penalties: number;
+  interest: number | null;
+  orig_bill: number;
+  /** Only populated for the small share of records with recorded payments. */
+  total_payments: number | null;
+  asof_date: string;
+}
+
+/**
+ * City of Pittsburgh property tax delinquency - one row per delinquent parcel,
+ * split into the current year and everything prior. Amounts are never null.
+ */
+export interface CityTaxDelinquency extends DatastoreRecord {
+  /** County-format parcel ID. Literal "invalid input" where the city ID could not be converted. */
+  pin: string;
+  address: string | null;
+  billing_city: string | null;
+  current_delq_tax: number;
+  current_delq_pi: number;
+  /** Count of prior delinquent years, not a year number. */
+  prior_years: number;
+  prior_delq_tax: number;
+  prior_delq_pi: number;
+  state_description: string | null;
+  neighborhood: string | null;
+  council_district: string | null;
+  ward: string | null;
+  public_works_division: string | null;
+  pli_division: string | null;
+  police_zone: string | null;
+  fire_zone: string | null;
+  longitude: number | null;
+  latitude: number | null;
+}
+
 export interface ConservatorshipRecord extends DatastoreRecord {
   pin: string;
   block_lot: string;

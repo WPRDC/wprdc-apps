@@ -66,6 +66,22 @@ export const datasets: Record<string, Dataset[]> = {
       parcelIDField: "pin",
     },
     {
+      title: "Delinquent Real Estate Taxes",
+      slug: "delinquent-real-estate-taxes",
+      table: ParcelTable.DelinquentTaxes,
+      datasetURL: "https://data.wprdc.org/dataset/delinquent-real-estate-taxes",
+      ignoredFields: ["asof_date"],
+      parcelIDField: "parcel_id",
+    },
+    {
+      title: "City of Pittsburgh Tax Delinquency",
+      slug: "city-of-pittsburgh-property-tax-delinquency",
+      table: ParcelTable.CityTaxDelinquency,
+      datasetURL:
+        "https://data.wprdc.org/dataset/city-of-pittsburgh-property-tax-delinquency",
+      parcelIDField: "pin",
+    },
+    {
       title: "Conservatorship Filings",
       slug: "conservatorship-filings",
       table: ParcelTable.ConservatorshipRecord,
