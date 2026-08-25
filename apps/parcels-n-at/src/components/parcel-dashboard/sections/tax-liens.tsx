@@ -32,7 +32,9 @@ export function TaxLiensSection({
   );
 
   // sort by filing date
-  const sortedGroupedRecords = Object.entries(groupedRecords).map(
+  const sortedGroupedRecords = Object.entries(groupedRecords).sort(
+    ([, a], [, b]) => Date.parse(b[0].filing_date) - Date.parse(a[0].filing_date),
+  ).map(
     ([dtd, records]) => ({
       dtd,
       records: records.sort(
