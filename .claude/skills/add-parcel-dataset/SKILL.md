@@ -166,8 +166,12 @@ touched, and compare against a clean tree before blaming your change.
 
 ## Greenprint
 
+Greenprint is being sunset. **Do not mirror dataset work into it**, even though
 `apps/greenprint/src/components/parcel-dashboard/` is a near-copy of the
-parcels-n-at dashboard and shares `@wprdc/api` fetchers - changing a record type
-or a fetcher breaks it too. Diff the two section files; if they are identical,
-mirror the change. If they have diverged, fix greenprint's copy on its own terms
-and mention it.
+parcels-n-at dashboard.
+
+It does share `@wprdc/api` fetchers and `@wprdc/types` record types, so a change
+to those can still break its build. Adding a new table, fetcher, or record type
+is additive and safe. If you instead change or remove something greenprint
+already uses, do the minimum needed to keep it compiling and say so - do not port
+the new section over.

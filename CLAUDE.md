@@ -11,6 +11,10 @@ This is a monorepo maintained using [Turborepo](https://turbo.build/repo/docs) f
 The codebase is structured as follows:
 
 - **`/apps`**: Contains applications that utilize packages from `/packages`.
+    - `greenprint` is **being sunset**. Do not mirror new work into it, even where
+      its files are near-copies of `parcels-n-at`. Only touch it when a change to a
+      shared package (`@wprdc/api`, `@wprdc/types`, `@wprdc/ui`) would otherwise
+      break its build, and say so when you do.
 - **`/packages`**:  Contains shared libraries and configurations, including:
     - `@wprdc/ui`: React component library.
     - `@wprdc/api`: Typescript library providing APIs to CKAN and domain-specific APIs.

@@ -148,7 +148,9 @@ function or the layer will render without ever firing an event.
 - **parcels-n-at**: add to the `availableLayers` array in
   `apps/parcels-n-at/src/layers/index.tsx`. That array feeds the layer menu, and
   layers are toggled by `slug` through the `layers` search param.
-- **greenprint**: add to the right category in the `layers` record in
+- **greenprint**: being sunset - only register a layer here if the request is
+  explicitly about greenprint, and never mirror a parcels-n-at layer into it. If
+  it does apply, add to the right category in the `layers` record in
   `apps/greenprint/src/layers/index.tsx` (`interactive`, `base`,
   `natural-features`, `transportation`, `urban-green-features`, …).
 
