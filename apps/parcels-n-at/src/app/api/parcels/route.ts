@@ -176,11 +176,14 @@ async function getDatasetParcelData(
       ? fields.filter(datasetFieldFilter(dataset)).map((f) => f.id)
       : (fieldSelection as string[]);
 
+  // The table is aliased and its ID column qualified because several datasets name
+  // that column `parcel_id`, which is also the only column on selected_parcels -
+  // unqualified, Postgres rejects the reference as ambiguous.
   return reserved`
-    SELECT ${reserved(dataset.parcelIDField)} as parcel_id, ${reserved(fieldNames)}
-    FROM ${reserved(dataset.table)}
+    SELECT d.${reserved(dataset.parcelIDField)} as parcel_id, ${reserved(fieldNames)}
+    FROM ${reserved(dataset.table)} d
     JOIN selected_parcels
-      ON ${reserved(dataset.parcelIDField)} = selected_parcels.parcel_id;
+      ON d.${reserved(dataset.parcelIDField)} = selected_parcels.parcel_id;
   `;
 }
 
