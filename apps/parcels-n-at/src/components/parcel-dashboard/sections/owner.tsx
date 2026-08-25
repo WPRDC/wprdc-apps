@@ -16,9 +16,10 @@ import Link from "next/link";
 const BASE_URL = process.env.BASE_URL ?? "";
 
 // list of addresses that should not be used in owner aggregation for legal reasons only (i.e. legislated privacy requirements)
-const OWNER_AGG_BLACKLIST = (
-  process.env.NEXT_PUBLIC_OWNER_AGG_BLACKLIST ?? ""
-).split(",");
+const OWNER_AGG_BLACKLIST = (process.env.NEXT_PUBLIC_OWNER_AGG_BLACKLIST ?? "")
+  .split(",")
+  .map((address) => address.trim())
+  .filter(Boolean);
 
 export function OwnerSection({
   records,
@@ -62,19 +63,27 @@ export async function OwnerInfo({
     assessmentRecord.CHANGENOTICEADDRESS4,
   ]
     .join("")
-    .replace(/\s+/g, " ");
-  const ownerSearch = ownerAddr + "%";
+    .replace(/\s+/g, " ")
+    .trim();
 
-  const parcelResponse = await fetch(
-    `${BASE_URL}/api/parcels/owner/parcels/?ownerAddress=${ownerSearch}`,
-  );
-  const { parcels }: OwnerPropertyRecord = await parcelResponse.json();
+  // ~2% of parcels have no owner address on file. Untrimmed, those searched for
+  // " %", which the route trimmed to a bare "%" - matching every parcel in the
+  // county and returning ~585k rows. Skip the aggregation instead.
+  const noAddress = !ownerAddr;
+  const inBlackList = !noAddress && OWNER_AGG_BLACKLIST.includes(ownerAddr);
+  const skipAggregation = noAddress || inBlackList;
+
+  let parcels: OwnerPropertyRecord["parcels"] = [];
+  if (!skipAggregation) {
+    const parcelResponse = await fetch(
+      `${BASE_URL}/api/parcels/owner/parcels/?ownerAddress=${ownerAddr}%`,
+    );
+    ({ parcels } = (await parcelResponse.json()) as OwnerPropertyRecord);
+  }
 
   const otherPropertyRecords = parcels
     .filter((p) => p.id !== parcelID)
     .sort((a, b) => b.assessmentValue - a.assessmentValue);
-
-  const inBlackList = OWNER_AGG_BLACKLIST.includes(ownerAddr);
 
   const totalValue = parcels.reduce(
     (sum, parcel) => sum + parcel.assessmentValue,
@@ -124,7 +133,12 @@ export async function OwnerInfo({
           <h3 className="mb-1 text-lg font-bold">
             Summary of Holdings in Allegheny County
           </h3>
-          {inBlackList ? (
+          {noAddress ? (
+            <Typography.Note>
+              No owner address is on file for this parcel, so holdings cannot be
+              aggregated.
+            </Typography.Note>
+          ) : inBlackList ? (
             <Typography.Note>
               There was an error getting aggregate statistics. If this error
               persists{" "}

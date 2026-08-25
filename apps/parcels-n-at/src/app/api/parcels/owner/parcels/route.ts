@@ -18,7 +18,9 @@ export async function GET(
   const searchParams = request.nextUrl.searchParams;
   const ownerAddress = searchParams.get("ownerAddress")?.trim();
 
-  if (!ownerAddress) {
+  // A pattern of nothing but wildcards matches every parcel in the county. The
+  // caller appends the "%", so trimming alone never yields an empty string here.
+  if (!ownerAddress || !ownerAddress.replaceAll("%", "").trim()) {
     return NextResponse.json({
       owner: "",
       parcels: [],
