@@ -64,7 +64,7 @@ export function MapView({
       <Source
         type="vector"
         id="parcels"
-        url="https://data.wprdc.org/tiles/table.parcel_index.geom"
+        url="https://data.wprdc.org/tiles/map.parcel_index.geom"
         minzoom={12}
       >
         <Layer
@@ -72,7 +72,7 @@ export function MapView({
           key={`${projectID}-fill`}
           type="fill"
           minzoom={12}
-          source-layer="table.parcel_index.geom"
+          source-layer="map.parcel_index.geom"
           paint={{
             "fill-opacity": 0.7,
             "fill-color": "#14b8a6",
@@ -84,7 +84,7 @@ export function MapView({
           key={`${projectID}-line`}
           type="line"
           minzoom={12}
-          source-layer="table.parcel_index.geom"
+          source-layer="map.parcel_index.geom"
           paint={{
             "line-opacity": 0.9,
             "line-color": "#042f2e",
