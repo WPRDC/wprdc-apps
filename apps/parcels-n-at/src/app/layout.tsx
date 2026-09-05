@@ -3,12 +3,13 @@ import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "@wprdc/ui/styles.css";
-import { Navbar } from "@wprdc/ui";
-import { TbBook2, TbCompass, TbPackage } from "react-icons/tb";
+import { Button, Navbar, ToastProvider } from "@wprdc/ui";
+import { TbBook2, TbCompass, TbCopy, TbPackage } from "react-icons/tb";
 import { twMerge } from "tailwind-merge";
 import Script from "next/script";
 import Link from "next/link";
 import { Providers } from "@/app/providers.tsx";
+import { Notice } from "@/components/notice.tsx";
 
 export const metadata: Metadata = {
   title: "Parcels N'at",
@@ -96,7 +97,9 @@ export default function RootLayout({
               </li>
             </ul>
           </Navbar>
+          <Notice />
           <main className="h-full xl:flex xl:overflow-hidden">{children}</main>
+
         </body>
       </Providers>
     </html>
