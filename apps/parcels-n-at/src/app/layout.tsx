@@ -3,7 +3,7 @@ import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "@wprdc/ui/styles.css";
-import { Button, Navbar, ToastProvider } from "@wprdc/ui";
+import { A, Button, Navbar, ToastProvider } from "@wprdc/ui";
 import { TbBook2, TbCompass, TbCopy, TbPackage } from "react-icons/tb";
 import { twMerge } from "tailwind-merge";
 import Script from "next/script";
@@ -23,6 +23,11 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
   variable: "--font-jetbrains-mono",
 });
+
+
+
+const FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLScLWlo9RWi7oyKp0HceliCwPuTHo3kqPtncc5_s_2rBhinwHQ/viewform";
 
 export default function RootLayout({
   children,
@@ -99,7 +104,12 @@ export default function RootLayout({
           </Navbar>
           <Notice />
           <main className="h-full xl:flex xl:overflow-hidden">{children}</main>
-
+          <aside className="absolute top-1 right-2 text-xs z-50">
+            <span>👋</span>
+            <A href={FORM_URL} target="_blank" rel="noopener noreferrer">
+              Tell us how you use Parcels N&apos;at
+            </A>
+          </aside>
         </body>
       </Providers>
     </html>

@@ -18,9 +18,6 @@ import { TbX } from "react-icons/tb";
 import Link from "next/link";
 import { A } from "../a";
 
-const FORM_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLScLWlo9RWi7oyKp0HceliCwPuTHo3kqPtncc5_s_2rBhinwHQ/viewform";
-
 export function Navbar({
   logoSrc,
   darkLogoSrc,
@@ -110,14 +107,6 @@ export function Navbar({
           >
             {children}
           </nav>
-
-          <aside className="absolute top-1 right-2 text-xs">
-            <span>👋</span>
-            <A href={FORM_URL} target="_blank" rel="noopener noreferrer">
-              Tell us how you use Parcels N&apos;at
-            </A>
-
-          </aside>
         </div>
       </div>
     </div>
