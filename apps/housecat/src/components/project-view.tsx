@@ -190,8 +190,8 @@ export async function ProjectView({
                 </div>
               </div>
               {/* for each record in the section*/}
-              {recordData.map((record) => (
-                <div key={record.slug} className={""}>
+              {recordData.map((record, i) => (
+                <div key={i} className={""}>
                   <MiniTable schemaEntry={section} record={record} />
                 </div>
               ))}
