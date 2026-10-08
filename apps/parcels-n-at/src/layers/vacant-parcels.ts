@@ -19,8 +19,8 @@ export const vacantParcels: LayerConfig = {
   },
 
   tiles: {
-    source: "https://data.wprdc.org/tiles/table.parcel_index.geom",
-    sourceLayer: "table.parcel_index.geom",
+    source: "https://data.wprdc.org/tiles/map.parcel_index.geom",
+    sourceLayer: "map.parcel_index.geom",
     minZoom: 13,
   },
   renderOptions: {

@@ -161,7 +161,7 @@ export function NavMap({
       <Source
         type="vector"
         id="vacant"
-        url="https://data.wprdc.org/tiles/table.parcel_index.geom"
+        url="https://data.wprdc.org/tiles/map.parcel_index.geom"
         minzoom={13}
       >
         {/* Owner address*/}
@@ -170,7 +170,7 @@ export function NavMap({
           key={`${ownerAddress}-fill`}
           type="fill"
           minzoom={13}
-          source-layer="table.parcel_index.geom"
+          source-layer="map.parcel_index.geom"
           paint={{
             "fill-opacity": [
               "match",
@@ -187,7 +187,7 @@ export function NavMap({
           key={`${ownerAddress}-line`}
           type="line"
           minzoom={13}
-          source-layer="table.parcel_index.geom"
+          source-layer="map.parcel_index.geom"
           paint={{
             "line-opacity": [
               "match",

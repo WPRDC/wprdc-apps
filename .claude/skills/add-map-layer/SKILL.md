@@ -23,7 +23,7 @@ curl -s "https://data.wprdc.org/tiles/<SOURCE>" | python3 -m json.tool
 Two source flavors are in use:
 
 - `table.<view_name>.geom` - a prepared table on the tile server
-  (e.g. `table.parcel_index.geom`, `table.ebll_tracts.geom`).
+  (e.g. `map.parcel_index.geom`, `table.ebll_tracts.geom`).
 - `table.<ckan-resource-uuid>._geom` - a CKAN datastore resource published
   directly (e.g. `table.4af8e160-57e9-4ebf-a501-76ca1b42fc99._geom`).
 
