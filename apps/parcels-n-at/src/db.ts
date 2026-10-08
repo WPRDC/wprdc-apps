@@ -2,8 +2,9 @@ import "server-only";
 
 import postgres from "postgres";
 
+// will use psql environment variables, except PGSSLMODE, which postgres.js ignores
 const sql = postgres({
-  /* options */
-}); // will use psql environment variables
+  ssl: "prefer",
+});
 
 export default sql;
