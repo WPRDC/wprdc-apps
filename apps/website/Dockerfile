@@ -3,10 +3,11 @@ FROM node:20-alpine AS alpine
 # setup pnpm on the alpine base
 FROM alpine AS base
 ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+ENV PATH="$PNPM_HOME/bin:$PNPM_HOME:$PATH"
 
-RUN npm install -g corepack@latest
+
 RUN corepack enable
+RUN npm install -g corepack@latest
 RUN pnpm install turbo --global
 
 FROM base AS builder
