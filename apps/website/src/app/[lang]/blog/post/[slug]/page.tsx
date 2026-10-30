@@ -1,5 +1,6 @@
 import { getContentBySlug } from "@wprdc/api";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import React from "react";
 import { CMSBlog } from "@wprdc/types";
 import { BreadcrumbItem, Breadcrumbs } from "@/components/breadcrumbs";
@@ -32,6 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     lang,
     "*",
   );
+  if (!posts[0]) notFound();
 
   return {
     title: `WPRDC | ${posts[0].title}`,
@@ -47,7 +49,7 @@ export default async function BlogRoute({ params }: Props) {
     "*",
   );
 
-  // todo: handle 404 if not posts
+  if (!posts[0]) notFound();
   const { title, subtitle, article, author, publishDate, tags } = posts[0];
   const path: BreadcrumbItem[] = [
     {

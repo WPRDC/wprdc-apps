@@ -31,7 +31,7 @@ export default async function HomePage() {
           <Content
             variant="large"
             className="my-8"
-            dangerouslySetInnerHTML={{ __html: searchSection?.description }}
+            dangerouslySetInnerHTML={{ __html: searchSection?.description ?? "" }}
           />
           <div className="mt-4">
             {buttons.map((button) => (

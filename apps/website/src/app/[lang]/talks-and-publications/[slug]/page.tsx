@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import React from "react";
 import { getContentBySlug } from "@wprdc/api";
 import { CMSArtifact } from "@wprdc/types";
@@ -34,6 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     lang,
     "*",
   );
+  if (!artifact.data[0]) notFound();
   return {
     title: `WPRDC | ${artifact.data[0].title}`,
   };
@@ -48,6 +50,7 @@ export default async function ArtifactsRoute({ params }: Props) {
     lang,
     "*",
   );
+  if (!artifact.data[0]) notFound();
   const { title, subtitle, description, relatedPages, url, images } =
     artifact.data[0];
 

@@ -15,12 +15,51 @@ import {
 
 export const DEFAULT_PAGE_SIZE = 10;
 
+/** Thrown when Strapi responds with a non-2xx status */
+export class StrapiError extends Error {
+  status: number;
+
+  constructor(path: string, status: number, statusText: string) {
+    super(`Strapi request to ${path} failed: ${status} ${statusText}`);
+    this.name = "StrapiError";
+    this.status = status;
+  }
+}
+
+/**
+ * Converts Strapi v4 response shapes to the flat v5 shape.
+ *
+ * v4 nests entry fields under `attributes` and wraps relations/media in
+ * `{ data: ... }`.  v5 responses pass through unchanged.
+ */
+export function flattenStrapiV4(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(flattenStrapiV4);
+  if (value === null || typeof value !== "object") return value;
+
+  const obj = value as Record<string, unknown>;
+  const keys = Object.keys(obj);
+
+  // relation/media wrapper: { data: {...} | [...] | null }
+  if (keys.length === 1 && keys[0] === "data") return flattenStrapiV4(obj.data);
+
+  // entry: { id, attributes: {...} }
+  if ("attributes" in obj && obj.attributes && typeof obj.attributes === "object") {
+    const { attributes, ...rest } = obj;
+    return flattenStrapiV4({ ...rest, ...(attributes as object) });
+  }
+
+  return Object.fromEntries(
+    Object.entries(obj).map(([k, v]) => [k, flattenStrapiV4(v)]),
+  );
+}
+
 /** Fetch wrapper */
 export async function fetchAPI<T extends StrapiBase>(
   path: string,
   queryParams: object = {},
   options: object = {},
 ): Promise<StrapiResponse<T> | StrapiListResponse<T>> {
+  let response: Response;
   try {
     // Merge default and user options
     const mergedOptions = {
@@ -40,14 +79,22 @@ export async function fetchAPI<T extends StrapiBase>(
     )}`;
 
     // Make API call
-    const response = await fetch(requestUrl, mergedOptions);
-    return await response.json();
+    response = await fetch(requestUrl, mergedOptions);
   } catch (error) {
     console.error(error);
     throw new Error(
       `Please check if your server is running and you set all the required tokens.`,
     );
   }
+
+  if (!response.ok) {
+    throw new StrapiError(path, response.status, response.statusText);
+  }
+
+  const { data, ...rest } = await response.json();
+  return { ...rest, data: flattenStrapiV4(data) } as
+    | StrapiResponse<T>
+    | StrapiListResponse<T>;
 }
 
 /** Returns base URL for all Strapi calls */

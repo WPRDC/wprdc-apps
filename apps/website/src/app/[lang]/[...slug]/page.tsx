@@ -10,6 +10,7 @@ import { getContentBySlug } from "@wprdc/api";
 import { CMSPage } from "@wprdc/types";
 import { Content } from "@wprdc/ui";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import React from "react";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { processContent } from "@/lib/parsing";
@@ -28,6 +29,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     params.slug,
     params.lang,
   );
+  if (!page.data[0]) notFound();
   return {
     title: `WPRDC | ${page.data[0].title}`,
   };
@@ -42,6 +44,7 @@ export default async function PageRoute(props: Props) {
     params.lang,
     "*",
   );
+  if (!page.data[0]) notFound();
   const { title, subtitle, body } =
     page.data[0];
 

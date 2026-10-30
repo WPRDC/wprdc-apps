@@ -13,6 +13,7 @@ import { getContentBySlug } from "@wprdc/api";
 import { CMSTool } from "@wprdc/types";
 import { Content } from "@wprdc/ui";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import React from "react";
 import { processContent } from "@/lib/parsing";
 
@@ -31,6 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     lang,
     "*",
   );
+  if (!projects[0]) notFound();
 
   return {
     title: `WPRDC | ${projects[0].title}`,
@@ -46,7 +48,7 @@ export default async function ProjectRoute({ params }: Props) {
     "*",
   );
 
-  // todo: handle 404 if not posts
+  if (!projects[0]) notFound();
   const { title, subtitle, description, url, screenshots } =
     projects[0];
   const path: BreadcrumbItem[] = [

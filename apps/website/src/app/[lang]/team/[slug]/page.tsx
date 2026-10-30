@@ -10,6 +10,7 @@ import { getContentBySlug } from "@wprdc/api";
 import { CMSAuthor } from "@wprdc/types";
 import { Content } from "@wprdc/ui";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import React from "react";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { processContent } from "@/lib/parsing";
@@ -44,6 +45,7 @@ export default async function PageRoute({ params }: Props) {
   const { slug, lang } = await params;
 
   const author = await getContentBySlug<CMSAuthor>("/authors", slug, lang);
+  if (!author.data[0]) notFound();
   const { name, email, bio } = author.data[0];
 
   return (
