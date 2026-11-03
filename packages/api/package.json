@@ -26,12 +26,12 @@
     "react-aria": "^3.53.1"
   },
   "devDependencies": {
-    "@types/node": "^24.19.2",
-    "@types/qs": "^6.14.0",
+    "@types/node": "^22.20.5",
+    "@types/qs": "^6.15.1",
     "@types/react": "^19.3.0",
     "@wprdc/eslint-config": "workspace:*",
     "@wprdc/typescript-config": "workspace:*",
-    "tsup": "^8.5.1",
-    "typescript": "^5.9.3"
+    "tsup": "^9.0.0",
+    "typescript": "^6.0.3"
   }
 }
