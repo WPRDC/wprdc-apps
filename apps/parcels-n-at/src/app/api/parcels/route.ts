@@ -6,7 +6,7 @@ import { asDataDict } from "@wprdc/ui";
 import type { Key } from "react-aria-components";
 import AdmZip from "adm-zip";
 import type postgres from "postgres";
-import sql from "@/db";
+import sql, { sqlPrimary } from "@/db";
 import type { Dataset } from "@/datasets";
 import { datasetsByTable } from "@/datasets";
 import { datasetFieldFilter, fieldFilter } from "@/util";
@@ -22,6 +22,17 @@ const readmeTemplate = Handlebars.compile(
     "utf-8",
   ),
 );
+
+/**
+ * Builds a Postgres text[] from a list of strings.
+ *
+ * The values are sent as JSON because postgres.js can't serialize `sql.array()`
+ * params until it has fetched the server's array types, so the first such query
+ * on a fresh pool fails with "malformed array literal".
+ */
+function textArray(values: string[]): postgres.PendingQuery<postgres.Row[]> {
+  return sql`ARRAY(SELECT jsonb_array_elements_text(${sql.json(values)}))`;
+}
 
 function unionQueries(
   a: postgres.PendingQuery<postgres.Row[]>,
@@ -46,7 +57,7 @@ function buildParcelSubquery(
 
   if (parcelIDs.length) {
     parts.push(
-      sql`SELECT UNNEST(${sql.array(parcelIDs)}::text[]) AS parcel_id`,
+      sql`SELECT UNNEST(${textArray(parcelIDs)}) AS parcel_id`,
     );
   }
 
@@ -69,7 +80,7 @@ function buildParcelSubquery(
       return sql`
       SELECT parcel_id
       FROM spacerat.parcel_index
-      WHERE owner_address = ANY(${sql.array(addresses)}::text[])
+      WHERE owner_address = ANY(${textArray(addresses)})
     `;
     }
     return null;
@@ -85,7 +96,7 @@ function buildParcelSubquery(
       WHERE p.parcel_id IN (
         SELECT parcel_id
         FROM spacerat.parcel_index
-        WHERE owner_address = ANY(${sql.array(addresses)}::text[])
+        WHERE owner_address = ANY(${textArray(addresses)})
       )
     `;
   }
@@ -273,14 +284,15 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     dataTables.map((table, i) => [table, tableFields[i]]),
   );
 
-  const reserved = await sql.reserve();
+  // the temp table needs a writable connection, so this runs on the primary
+  const reserved = await sqlPrimary.reserve();
 
   let data: Record<string, string | number | boolean>[][] = [];
   let allParcelIDs: { parcel_id: string }[] = [];
 
   try {
     // drop temp table if it exists from a previous request on this connection
-    await reserved`DROP TABLE IF EXISTS selected_parcels`;
+    await reserved`DROP TABLE IF EXISTS pg_temp.selected_parcels`;
 
     // create a temp table of selected parcel IDs with a default of all parcels if no subquery provided
     await reserved`

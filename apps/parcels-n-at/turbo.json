@@ -6,6 +6,7 @@
       "outputs": [".next/**", "!.next/cache/**"],
       "env": [
         "PGHOST",
+        "PGHOST_RO",
         "PGPORT",
         "PGDATABASE",
         "PGUSERNAME",
