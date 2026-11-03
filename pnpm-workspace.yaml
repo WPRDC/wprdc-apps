@@ -7,3 +7,8 @@ allowBuilds:
   esbuild: true
   sharp: true
   unrs-resolver: true
+overrides:
+  # keep react and react-dom on the same version everywhere; react-dom requires
+  # an exact match at runtime ("Incompatible React versions")
+  react: 19.3.1
+  react-dom: 19.3.1

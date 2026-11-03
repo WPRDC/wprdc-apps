@@ -13,20 +13,15 @@
     "release": "turbo run build --filter=docs^... && changeset publish"
   },
   "peerDependencies": {
-    "eslint": "9.39.1"
+    "eslint": "9.39.5"
   },
   "devDependencies": {
-    "prettier": "^3.8.3",
+    "prettier": "^3.9.10",
     "prettier-plugin-tailwindcss": "^0.8.0",
-    "turbo": "^2.9.14"
+    "turbo": "^2.11.10"
   },
   "packageManager": "pnpm@11.1.2",
   "engines": {
     "node": ">=20"
-  },
-  "pnpm": {
-    "overrides": {
-      "maplibre-gl": "5.23.0"
-    }
   }
 }
