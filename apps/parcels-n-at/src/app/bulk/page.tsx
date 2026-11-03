@@ -34,6 +34,7 @@ import { StepHeader } from "@/components/step-header";
 import { OldSelectionForm } from "@/components/old-selection-form";
 import { ParcelListForm } from "@/components/parcel-list-form.tsx";
 import { OwnerSelect } from "@/components/owner-select.tsx";
+import type { OwnerSearchRow } from "@wprdc/types";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
 
@@ -69,11 +70,68 @@ export default function Page(): React.ReactElement {
 
   const [listSelection, setListSelection] = useState<string[]>([]);
 
+  const [selectedTab, setSelectedTab] = useState<Key>("regions");
+
+  // owner addresses passed in the url (`?ownerAddress=`) that didn't exactly match
+  // an owner address in parcel_index
+  const [unmatchedOwnerAddresses, setUnmatchedOwnerAddresses] = useState<
+    string[]
+  >([]);
+
+  // bumped after seeding from the url to remount OwnerSelect, which only reads
+  // its initial items on mount
+  const [ownerSelectVersion, setOwnerSelectVersion] = useState(0);
+
   const [downloading, setDownloading] = useState(false);
 
   const [fieldSelection, setFieldSelection] = useState<
     Record<string, "all" | Key[]>
   >({});
+
+  // seed the owner selection from `?ownerAddress=` (repeatable). Only addresses
+  // that exactly match one the owner search returns are used, so the download
+  // matches the same parcels as picking that address in the search.
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search)
+      .getAll("ownerAddress")
+      .map((address) => address.trim())
+      .filter(Boolean);
+    if (!requested.length) return;
+
+    setSelectedTab("ownership");
+
+    const controller = new AbortController();
+    Promise.all(
+      requested.map((address) =>
+        fetch(
+          `${BASE_URL}/api/parcels/owners/search?${new URLSearchParams({ address }).toString()}`,
+          { signal: controller.signal },
+        )
+          .then((res) => res.json() as Promise<{ results: OwnerSearchRow[] }>)
+          .then(({ results }) =>
+            results.some((r) => r.ownerAddress === address),
+          ),
+      ),
+    )
+      .then((found) => {
+        const matched = requested.filter((_, i) => found[i]);
+        setUnmatchedOwnerAddresses(requested.filter((_, i) => !found[i]));
+        if (matched.length) {
+          setMapSelection((current) => ({
+            ...current,
+            ownerAddresses: Array.from(
+              new Set([...current.ownerAddresses, ...matched]),
+            ),
+          }));
+          setOwnerSelectVersion((v) => v + 1);
+        }
+      })
+      .catch((err: unknown) => {
+        if (!controller.signal.aborted) console.error(err);
+      });
+
+    return () => controller.abort();
+  }, []);
 
   useEffect(() => {
     fetch(`${BASE_URL}/api/regions/neighborhood`)
@@ -218,7 +276,7 @@ export default function Page(): React.ReactElement {
           </div>
           <div className="pl-9 text-base font-medium">
             <div className="pb-4" />
-            <Tabs>
+            <Tabs selectedKey={selectedTab} onSelectionChange={setSelectedTab}>
               <TabList className="w-full">
                 <Tab id="regions" className="flex items-center space-x-1">
                   <TbPointer />
@@ -320,7 +378,21 @@ export default function Page(): React.ReactElement {
                 <div className="pb-4">
                   Limit your selection to parcels with a specific owner address.
                 </div>
+                {!!unmatchedOwnerAddresses.length && (
+                  <div className="mb-4 rounded-sm border border-orange-400 bg-orange-50 p-2 text-sm">
+                    <p>
+                      No owner address matches the following exactly. Search for
+                      the owner below and pick an address from the results.
+                    </p>
+                    <ul className="list-inside list-disc font-mono">
+                      {unmatchedOwnerAddresses.map((address) => (
+                        <li key={address}>{address}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
                 <OwnerSelect
+                  key={ownerSelectVersion}
                   label="Select owners"
                   initialItems={mapSelection.ownerAddresses.map((address) => ({
                     address,

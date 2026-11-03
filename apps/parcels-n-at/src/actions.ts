@@ -1,6 +1,7 @@
 "use server";
 
 import { JSDOM } from "jsdom";
+import sql from "@/db";
 
 export async function fetchOwnerName(parcelID: string): Promise<string> {
   // id of span element where the owner name is stored
@@ -23,4 +24,19 @@ export async function fetchOwnerName(parcelID: string): Promise<string> {
   // extract the owner name
   if (owner) return owner;
   return "NOT FOUND";
+}
+
+/**
+ * Gets a parcel's owner address as stored in parcel_index - the exact string the
+ * owner search returns and the bulk downloader matches on.
+ */
+export async function fetchIndexedOwnerAddress(
+  parcelID: string,
+): Promise<string | null> {
+  const [record] = await sql<{ owner_address: string | null }[]>`
+    SELECT owner_address
+    FROM spacerat.parcel_index
+    WHERE parcel_id = ${parcelID}
+  `;
+  return record?.owner_address ?? null;
 }

@@ -1,4 +1,4 @@
-import { fetchOwnerName } from "@/actions";
+import { fetchIndexedOwnerAddress, fetchOwnerName } from "@/actions";
 
 import type { PropertyAssessment } from "@wprdc/types";
 import {
@@ -72,6 +72,13 @@ export async function OwnerInfo({
   const noAddress = !ownerAddr;
   const inBlackList = !noAddress && OWNER_AGG_BLACKLIST.includes(ownerAddr);
   const skipAggregation = noAddress || inBlackList;
+
+  // The bulk downloader matches owners on parcel_index.owner_address exactly, and
+  // the CHANGENOTICEADDRESS fields joined above don't always produce that string,
+  // so link with the parcel's indexed owner address.
+  const indexedOwnerAddr = skipAggregation
+    ? null
+    : await fetchIndexedOwnerAddress(parcelID);
 
   let parcels: OwnerPropertyRecord["parcels"] = [];
   if (!skipAggregation) {
@@ -216,6 +223,15 @@ export async function OwnerInfo({
                   >
                     Highlight owner&apos;s properties on the map
                   </A>
+                  {!!indexedOwnerAddr && (
+                    <A
+                      variant="button"
+                      buttonVariant="primary"
+                      href={`/bulk?${new URLSearchParams({ ownerAddress: indexedOwnerAddr }).toString()}`}
+                    >
+                      Download data for owner&apos;s properties
+                    </A>
+                  )}
                 </div>
               </div>
             </div>
