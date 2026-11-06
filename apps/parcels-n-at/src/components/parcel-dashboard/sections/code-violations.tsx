@@ -139,43 +139,34 @@ export function CodeViolationsSection({
             </div>
             <h4 className="mt-4 text-lg font-bold">Investigation History</h4>
             <div className=" ">
-              {caseFileGroup.investigations
-                .sort(
-                  (a, b) =>
-                    new Date(a.investdigation_date as string).getTime() -
-                    new Date(b.investigation_date as string).getTime(),
-                )
-                .map(([date, investigationRecords]) => (
-                  <section key={date}>
-                    <h5 className="mt-4 mb-2 font-bold">
-                      {new Date(date).toLocaleDateString("en-US", {
-                        timeZone: "UTC",
-                        dateStyle: "long",
-                      })}
-                    </h5>
-                    <div
-                      key={`${investigationRecords[0].investigation_findings}`}
-                      className="mt-2"
-                    >
-                      <DataListViz
-                        items={[
-                          {
-                            id: "findings",
-                            label: "Findings",
-                            value:
-                              investigationRecords[0].investigation_findings,
-                          },
-                          {
-                            id: "outcome",
-                            label: "Outcome",
-                            value:
-                              investigationRecords[0].investigation_outcome,
-                          },
-                        ]}
-                      />
-                    </div>
-                  </section>
-                ))}
+              {/* already sorted newest first by groupByCaseFile */}
+              {caseFileGroup.investigations.map((investigation) => (
+                <section key={investigation._id}>
+                  <h5 className="mt-4 mb-2 font-bold">
+                    {investigation.investigation_date
+                      ? parseDate(
+                          investigation.investigation_date,
+                        ).toLocaleDateString("en-US", { dateStyle: "long" })
+                      : "Date unknown"}
+                  </h5>
+                  <div className="mt-2">
+                    <DataListViz
+                      items={[
+                        {
+                          id: "findings",
+                          label: "Findings",
+                          value: investigation.investigation_findings,
+                        },
+                        {
+                          id: "outcome",
+                          label: "Outcome",
+                          value: investigation.investigation_outcome,
+                        },
+                      ]}
+                    />
+                  </div>
+                </section>
+              ))}
             </div>
           </div>
         ),

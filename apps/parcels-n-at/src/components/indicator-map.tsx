@@ -40,12 +40,12 @@ import {
 
 import { Layer, type MapGeoJSONFeature, Source } from "react-map-gl/maplibre";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { ckmeans } from "simple-statistics";
 
 import chroma from "chroma-js";
-import type { VisualizationSpec } from "@wprdc/types";
+import type { VegaLiteSpec } from "@wprdc/types";
 import { twMerge } from "tailwind-merge";
 
 const API_KEY = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
@@ -129,10 +129,6 @@ export function IndicatorMap({
       },
     [pathname, router, searchParams],
   );
-
-  function handleChartHover(...args: unknown[]) {
-    console.debug(args);
-  }
 
   function handleMapHover(features: MapGeoJSONFeature[]) {
     function getFormat(question?: Question): SpaceRATValueFormat {
@@ -333,10 +329,6 @@ export function IndicatorMap({
     }));
   }, [data, selectedQuestionID, selectedStatID]);
 
-  const signalListeners = useMemo(() => {
-    return { hover: handleChartHover };
-  }, []);
-
   return (
     <div className="flex h-full">
       <div className="w-4/12">
@@ -526,9 +518,8 @@ export function IndicatorMap({
             <ChartViz
               spec={{
                 ...histogramSpec(breaks, popupProps?.label ?? ""),
-                data: { values: vegaData },
+                data: { values: vegaData ?? [] },
               }}
-              signalListeners={signalListeners}
             />
           </div>
         </div>
@@ -616,7 +607,7 @@ export function HoverPopup({
   );
 }
 
-const histogramSpec = (breaks: number[], region: string): VisualizationSpec => {
+const histogramSpec = (breaks: number[], region: string): VegaLiteSpec => {
   const colors = chroma.scale("GnBu").colors(breaks.length + 1);
 
   return {
@@ -625,16 +616,6 @@ const histogramSpec = (breaks: number[], region: string): VisualizationSpec => {
     data: { name: "table" },
     mark: "bar",
     width: "container",
-    signals: [
-      {
-        name: "tooltip",
-        value: {},
-        on: [
-          { events: "rect:mouseover", update: "datum" },
-          { events: "rect:mouseout", update: "{}" },
-        ],
-      },
-    ],
     encoding: {
       x: {
         field: "region",

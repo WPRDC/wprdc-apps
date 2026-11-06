@@ -9,7 +9,6 @@ import type {
   CategorySymbologyOptions,
   FixedSymbologyOptions,
   InteractiveExpression,
-  InterpolationExpression,
   InterpolationExpressionRecord,
   LabeledLegendStyleRecord,
   LayerConfig,
@@ -17,7 +16,6 @@ import type {
   LegendOptions,
   LegendSymbologyField,
   MapState,
-  MatchExpression,
   MatchRecords,
   OptionallyInteractive,
   OptionallySimpleInteractive,
@@ -200,7 +198,7 @@ export function parseOption<T extends StyleValue>(
           layer,
           context,
         ),
-      ] as MatchExpression;
+      ] as ExpressionSpecification;
 
     case "case":
       { const caseRecords = symbologyRecord.style;
@@ -276,7 +274,7 @@ export function parseOption<T extends StyleValue>(
           ],
           [],
         ),
-      ] as InterpolationExpression;
+      ] as ExpressionSpecification;
 
     case "expression":
       return symbologyRecord.expression;

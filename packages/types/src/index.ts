@@ -7,6 +7,6 @@ export * from "./martin";
 export * from "./housecat";
 
 import type { VisualizationSpec } from "vega-embed";
+import type { TopLevelSpec as VegaLiteSpec } from "vega-lite";
 
-
-export { VisualizationSpec };
+export type { VisualizationSpec, VegaLiteSpec };

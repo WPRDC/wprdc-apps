@@ -12,7 +12,7 @@ import {
   type MultiSourceSectionProps,
   SectionProps,
 } from "@/components/parcel-dashboard/types";
-import { VisualizationSpec } from "@wprdc/types";
+import type { VegaLiteSpec } from "@wprdc/types";
 import { CardList } from "@/components/parcel-dashboard/components/card-list";
 import { Card } from "../components/card";
 
@@ -184,12 +184,14 @@ export function FiledAssessmentAppealsSection({
         />
         <ChartViz
           className="w-full border-t-0 pt-3.5"
-          spec={spec}
-          data={{
-            table: [
-              { category: "Last Year", value: record.prev_taxyr_mkt_value },
-              { category: "Current", value: record.cur_mkt_value },
-            ],
+          spec={{
+            ...spec,
+            data: {
+              values: [
+                { category: "Last Year", value: record.prev_taxyr_mkt_value },
+                { category: "Current", value: record.cur_mkt_value },
+              ],
+            },
           }}
         />
       </div>
@@ -197,8 +199,9 @@ export function FiledAssessmentAppealsSection({
   );
 }
 
-const spec: VisualizationSpec = {
+const spec: VegaLiteSpec = {
   $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+  // replaced with inline values at render
   data: { name: "table" },
   width: "container",
   background: "white",

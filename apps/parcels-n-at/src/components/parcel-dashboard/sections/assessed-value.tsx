@@ -1,5 +1,5 @@
 import type { PropertyAssessment } from "@wprdc/types";
-import { VisualizationSpec } from "@wprdc/types";
+import type { Value, VegaLiteSpec } from "@wprdc/types";
 import { useMemo } from "react";
 import {
   ChartViz,
@@ -21,7 +21,6 @@ import {
   TbX,
 } from "react-icons/tb";
 import { GiFarmTractor } from "react-icons/gi";
-import { Value } from "maplibre-gl";
 
 export function AssessedValuesSection({
   records,
@@ -202,7 +201,7 @@ export function AssessedValuesSection({
   );
 }
 
-const spec: VisualizationSpec = {
+const spec: VegaLiteSpec = {
   $schema: "https://vega.github.io/schema/vega-lite/v5.json",
   data: { name: "table" },
   width: "container",

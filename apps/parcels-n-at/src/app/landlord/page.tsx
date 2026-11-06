@@ -6,7 +6,7 @@ import {
 } from "@wprdc/api";
 
 import { fetchOwnerName } from "@/actions";
-import { type VisualizationSpec } from "@wprdc/types";
+import { type VegaLiteSpec } from "@wprdc/types";
 import {
   ChartViz,
   formatDollars,
@@ -141,7 +141,7 @@ export default async function Page({
   );
 }
 
-const parcelPriceSpec: VisualizationSpec = {
+const parcelPriceSpec: VegaLiteSpec = {
   data: { name: "table" },
   $schema: "https://vega.github.io/schema/vega-lite/v5.json",
   mark: "bar",
