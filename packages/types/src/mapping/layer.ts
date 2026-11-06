@@ -111,6 +111,11 @@ export interface LayerConfig<
   renderOptions?: {
     /** Filter dataset before rendering */
     filter?: FilterSpecification;
+    /**
+     * Draw this layer above the base parcel layer instead of below it.
+     * Context layers render under the parcels by default.
+     */
+    aboveParcels?: boolean;
   };
 
   /** Settings to control hover and click behavior */

@@ -85,11 +85,13 @@ export function NavMap({
     }
   }
 
-  const contextLayers = useMemo(() => {
-    if (!layerSelection.size) {
-      return [];
-    }
-    return availableLayers.filter((l) => layerSelection.has(l.slug));
+  // selected context layers, split by whether they draw under or over parcels
+  const [layersBelowParcels, layersAboveParcels] = useMemo(() => {
+    const selected = availableLayers.filter((l) => layerSelection.has(l.slug));
+    return [
+      selected.filter((l) => !l.renderOptions?.aboveParcels),
+      selected.filter((l) => !!l.renderOptions?.aboveParcels),
+    ];
   }, [availableLayers, layerSelection]);
 
   function handleOwnerClear() {
@@ -102,7 +104,12 @@ export function NavMap({
     <Map
       id={mapID}
       initialViewState={{ zoom: 15.5 }}
-      layers={[...contextLayers, parcelLayer, ...layers]}
+      layers={[
+        ...layersBelowParcels,
+        parcelLayer,
+        ...layersAboveParcels,
+        ...layers,
+      ]}
       mapTilerAPIKey={API_KEY}
       maxZoom={19}
       minZoom={11}

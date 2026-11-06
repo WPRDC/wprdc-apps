@@ -12,11 +12,13 @@ import { waterSuppliers } from "@/layers/water-suppliers";
 import { parcelLeadlineStatus } from "@/layers/parcel-leadline-status";
 import { ownerOccupiedParcels } from "@/layers/owner-occupied-parcels";
 import { ebllTract2024 } from "@/layers/ebll-tract-2024";
+import { activeDemolitions } from "@/layers/active-demolitions";
 
 export const availableLayers = [
   parcelUseClasses,
   ownerOccupiedParcels,
   vacantParcels,
+  activeDemolitions,
   municipalities,
   pittsburghNeighborhoods,
   countyMVA,
